@@ -3,6 +3,18 @@
   
     
     <entry>
+      <title><![CDATA[old blog]]></title>
+      <url>/2019/02/02/old-blog/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>终于从wordpress转到了github.io上,为了减少重复,把老博客链接放到这里</p>
+</blockquote>
+<p><a href="http://47.106.177.170:8002/wordpress/index.php/2018/11/15/boot_sector/" target="_blank" rel="noopener">WINDOWS环境下利用BOCHS写一个简单的操作系统（BOOT SECTOR)</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/11/29/pwntools/" target="_blank" rel="noopener">PWN路漫漫(一)工具篇</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/12/03/kr_wp_fd/" target="_blank" rel="noopener">PWNABLE.KR_FD</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/12/05/pwnable-kr__collision/" target="_blank" rel="noopener">PWNABLE.KR_COLLISION</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/12/05/pwnable-kr___bof/" target="_blank" rel="noopener">PWNABLE.KR_BOF</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/12/07/pwnable-able_flag/" target="_blank" rel="noopener">PWNABLE.ABLE_FLAG</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/12/08/pwnable-kr_passcode/" target="_blank" rel="noopener">PWNABLE.KR_PASSCODE</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/12/08/pwnable-kr_random/" target="_blank" rel="noopener">PWNABLE.KR_RANDOM</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/12/09/pwnable-kr_input/" target="_blank" rel="noopener">PWNABLE.KR_INPUT</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2019/01/01/ctf-wikipwn-stack1/" target="_blank" rel="noopener">CTF_WIKI(PWN)学习笔记之栈溢出原理</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2019/01/01/ctf-wikipwn-rop/" target="_blank" rel="noopener">CTF_WIKI(PWN)学习笔记之ROP(理论篇)</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2019/01/10/pwn-rop/" target="_blank" rel="noopener">PWN_ROP(持续更新)</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2019/01/12/wfuzz-study/" target="_blank" rel="noopener">WFUZZ学习手册</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2019/01/12/poc-t-study/" target="_blank" rel="noopener">POC-T学习手册</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2019/01/30/shellcode/" target="_blank" rel="noopener">SHELLCODE的布置小记</a></p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[test]]></title>
       <url>/2019/02/02/test/</url>
       <content type="html"></content>
