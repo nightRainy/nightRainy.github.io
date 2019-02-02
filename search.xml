@@ -4,8 +4,10 @@
     
     <entry>
       <title></title>
-      <url>/2019/02/02/pwn_emporium_write_up/</url>
-      <content type="html"><![CDATA[<h1 id="pwn-emporium’wp"><a href="#pwn-emporium’wp" class="headerlink" title="pwn_emporium’wp"></a>pwn_emporium’wp</h1><hr>
+      <url>/2019/02/02/pwn-emporium%E2%80%99wp/</url>
+      <content type="html"><![CDATA[<hr>
+<p>title: pwn_emporium’wp<br>date: 2019-02-02 14:32:04</p>
+<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><h1 id="pwn-emporium’wp"><a href="#pwn-emporium’wp" class="headerlink" title="pwn_emporium’wp"></a>pwn_emporium’wp</h1><hr>
 <blockquote>
 <p>最近在练习rop技巧，找到了一个很好的网站，于此主要记录了网站中题目的writeup</p>
 </blockquote>
@@ -27,7 +29,9 @@
 <p>  而诸如此类的rop也被称作roptext</p>
 </li>
 </ul>
-<p>##split<br>*split32:</p>
+<h2 id="split"><a href="#split" class="headerlink" title="split"></a>split</h2><ul>
+<li>split32:</li>
+</ul>
 ]]></content>
       
         

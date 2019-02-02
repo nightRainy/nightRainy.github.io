@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     
     
-    <title>Archives: 2019/2 | NightRainy&#39;s Blog | Stay hungry,stay foolish</title>
+    <title>No title | NightRainy&#39;s Blog | Stay hungry,stay foolish</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="keywords" content="">
@@ -15,7 +15,7 @@
     <script type="text/javascript">
         // Data Center
         var DC = {
-            reward:	false,
+            reward:	true,
             lv: JSON.parse('{"enable":false,"app_id":null,"app_key":null,"icon":true}'),
             v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
             g: JSON.parse('{"enable":false,"lazy":true,"owner":"nightRainy","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
@@ -32,7 +32,7 @@
 <body>
     <div id="loading" class="active"></div>
 
-    <aside id="menu">
+    <aside id="menu" class="hide">
   <div class="inner flex-row-vertical">
     <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
         <i class="icon icon-lg icon-close"></i>
@@ -126,7 +126,7 @@
               </a>
             </li>
         
-            <li class=" active">
+            <li class="">
               <a href="/archives">
                 <i class="icon icon-lg icon-archives"></i>
                 ARCHIVES
@@ -152,7 +152,7 @@
           <i class="icon icon-lg icon-navicon"></i>
         </a>
         <div class="flex-col header-title ellipsis">
-            <span>Archives</span>
+            <span>No title</span>
             
         </div>
         
@@ -162,18 +162,19 @@
         
     </div>
 </header>
-<header class="content-header archives-header">
+<header class="content-header post-header">
     <img src="/img/banner.jpg" class="header-bg">
     <div class="container fade-scale">
-        <h1 class="title">Archives</h1>
+        <h1 class="title">No title</h1>
         <h5 class="subtitle">
             
+                <time datetime="2019-02-02T06:32:04.583Z" itemprop="datePublished" class="page-time">
+  2019-02-02
+</time>
+
+
+            
         </h5>
-        
-        <div class="remind">
-            <p>总计文章( <span>1</span> )篇，约( <span>0.7K</span> )字</p>
-            <p>Keep moving😎!!!</p>
-        </div>
         
     </div>
     
@@ -193,37 +194,136 @@
     <div id="local-search-result"></div>
 </div>
 
-<div class="container body-wrap fade">
-    
-                <h3 class="archive-separator">February, 2019</h3>
-                <div class="waterfall">
-            
-        <div class="waterfall-item">
-  <article class="article-card archive-article">
-    <div class="post-meta">
-      <time class="post-time" title="2019-02-02 14:32:04" datetime="2019-02-02T06:32:04.583Z" itemprop="datePublished">2019-02-02</time>
 
-      
+<div class="container body-wrap">
+    <article id="post-pwn-emporium’wp" class="post-article article-type-post" itemprop="blogPost">
+      <div class="post-card">
+          <h1 class="post-card-title">No title</h1>
+          <div class="post-meta">
+              <time class="post-time" title="2019-02-02 14:32:04" datetime="2019-02-02T06:32:04.583Z" itemprop="datePublished">2019-02-02</time>
+
+              
 
 
-    </div>
-    
+              
+
+              
 
 
-  
-    <h3 class="post-title " itemprop="name">
-      <a class="post-title-link" href="/2019/02/02/pwn-emporium’wp/">No title</a>
-    </h3>
-  
+              
+          </div>
+          <div class="post-content" id="post-content" itemprop="postContent">
+              
+              <hr>
+<p>title: pwn_emporium’wp<br>date: 2019-02-02 14:32:04</p>
+<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><h1 id="pwn-emporium’wp"><a href="#pwn-emporium’wp" class="headerlink" title="pwn_emporium’wp"></a>pwn_emporium’wp</h1><hr>
+<blockquote>
+<p>最近在练习rop技巧，找到了一个很好的网站，于此主要记录了网站中题目的writeup</p>
+</blockquote>
+<h2 id="ret2win"><a href="#ret2win" class="headerlink" title="ret2win"></a>ret2win</h2><ul>
+<li><p>ret2win32：</p>
+<p>   拿到题目首先进行常规操作：用checksec工具查一下软件所开启的保护</p>
+<p>  <a rel="No" title="" href="http://47.106.177.170:8002/wordpress/wp-content/uploads/2019/01/image.png" data-fancybox="images"><img src="http://47.106.177.170:8002/wordpress/wp-content/uploads/2019/01/image.png" alt="markdown"></a></p>
+<p>  发现只开启了NX即让栈上的数据不能被当成指令执行，这个时候要绕过保护就要用到ROP技巧</p>
+<p>  因此我们拉近IDA里看一下程序的主体代码。。这里不得不说。。F5大法好啊</p>
+<p>  <a rel="No" title="" href="http://47.106.177.170:8002/wordpress/wp-content/uploads/2019/01/image-1.png" data-fancybox="images"><img src="http://47.106.177.170:8002/wordpress/wp-content/uploads/2019/01/image-1.png" alt="markdown"></a></p>
+<p>  可以看到很明显的不安全函数：fget( )函数，并且距离栈底有0x28即40个字节，因此我们需要发送44个字节的垃圾代码去填充缓冲区</p>
+<p>  （40个字节的缓冲区和4个字节返回地址的填充）</p>
+<p>  而根据我们的提示可以看到，我们需要跳转到ret2win()函数中,而ret2win()函数中因为是位于.text段中，因此我们可以控制程序跳转到函数中，下面写一下exp:</p>
+<p>  <a rel="No" title="" href="http://47.106.177.170:8002/wordpress/wp-content/uploads/2019/01/image-5.png" data-fancybox="images"><img src="http://47.106.177.170:8002/wordpress/wp-content/uploads/2019/01/image-5.png" alt="markdown"></a></p>
+</li>
+<li><p>ret2win:</p>
+<p>  这是一个64位的程序，但基本理念跟32位的一样，只是返回地址变成了8个字节而已，因此可以直接用 python 的 -c 参数来直接传值：</p>
+<p>  <code>python2 -c &quot;print &#39;A&#39;*40 + &#39;\x11\x08\x40\x00\x00\x00\x00\x00&#39;&quot; | ./ret2win</code></p>
+<p>  而诸如此类的rop也被称作roptext</p>
+</li>
+</ul>
+<h2 id="split"><a href="#split" class="headerlink" title="split"></a>split</h2><ul>
+<li>split32:</li>
+</ul>
+
+          </div>
+          
+<blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-02-02T06:33:43.310Z" itemprop="dateUpdated">2019-02-02 14:33:43</time>
+</span><br>
 
 
-
-    
-  </article>
-</div>
+        
+        转载注明出处，原文地址：<a href="/2019/02/02/pwn-emporium’wp/" target="_blank" rel="external">http://yoursite.com/2019/02/02/pwn-emporium’wp/</a>
         
     </div>
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="http://i2.bvimg.com/676173/29f83c3853b75d83.jpg" alt="nightRainy">
+            nightRainy
+        </a>
+    </footer>
+</blockquote>
+
+          
+          
+          <div class="post-footer">
+              
+              <div class="page-share-wrap">
     
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/02/02/pwn-emporium’wp/&title=《No title》 — NightRainy's Blog&pic=http://i2.bvimg.com/676173/29f83c3853b75d83.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/02/02/pwn-emporium’wp/&title=《No title》 — NightRainy's Blog&source=my blogs" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+          </div>
+          
+              
+
+
+          
+      </div>
+      
+
+      
+      
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#tags"><span class="post-toc-number">1.</span> <span class="post-toc-text">tags:</span></a></li></ol><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#pwn-emporium’wp"><span class="post-toc-number"></span> <span class="post-toc-text">pwn_emporium’wp</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ret2win"><span class="post-toc-number">1.</span> <span class="post-toc-text">ret2win</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#split"><span class="post-toc-number">2.</span> <span class="post-toc-text">split</span></a></li></ol>
+            </li></nav>
+            <div class="toc-bar"><div>
+        </div></div></aside>
+    
+  </article>
+  
+  
 </div>
 
         <footer class="footer">
@@ -272,7 +372,7 @@
     <ul class="reset share-icons">
       
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/archives/2019/02/&title=NightRainy's Blog&pic=http://i2.bvimg.com/676173/29f83c3853b75d83.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/02/02/pwn-emporium’wp/&title=《No title》 — NightRainy's Blog&pic=http://i2.bvimg.com/676173/29f83c3853b75d83.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -284,7 +384,7 @@
       </li>
       
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/archives/2019/02/&title=NightRainy's Blog&source=my blogs" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/02/02/pwn-emporium’wp/&title=《No title》 — NightRainy's Blog&source=my blogs" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -296,7 +396,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAAByUlEQVR42u3aS27DMAwFQN//0g7QVRex8Eh96gKjVZAo1lgLgiJ1XfG4f8bT979/vR9G/swFAxcXd5p7D0fy6IQ7fmYyHxcX9zx3BpEHwep24OLivp/7ND9PaPJn4uLi/hdu9bgyDlu4uLjv5yYHler341fdflbDxcVdeVq5eunOzOeN9V1cXNwi9y6OPEHJ/1VYHRcX9wh3vFi11Trm9l7myhfDxcVdxM0PJMnVilVHl2YIw8XFXcrNE5SZMFS9ivFlE3FxcQ9yqwtUGyEzMx/jLi4u7jbu7tQkCYXV8gouLu4Zbi+5WdssaW4ZLi7uBm6v0Jk3X6vc8iRcXNwN3GTqfCBb1Y7FxcU9w43KlOP2RhAEk+3AxcV9GzdHVJsuSfhLEiNcXNyT3GaZsrVYoVmS1HdxcXG3catXrKppUFJeyS974eLinuTmTZTepY1mYRQXF/dPufnoHYrycNnsxOLi4i7lVgPKzEWKvEE7c40DFxd3FTcPOvnRpfffqFyCi4t7kDtz8SJPU6YOP7i4uK/kVq9ZVAuy0Rbg4uK+njvfoC03Y3BxcQ9yC83OVtN0fCgqNGxwcXGPcKsF0zE6f9U8hcLFxT3I/QCnQkP6hloXcQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACIUlEQVR42u3aS24DIRAFQN//0o6UlaVkyOsG2zEUq1HCjCkWT3z6dovb/bs9Pj+2nz17f7/qs6xhYGB8LOM+bKv6JC2ZsksqBgbGAYwkZMf45Gt5z7wPBgYGxnhh94yoxcDAwFjFGG9Ke89vCFwMDIyPYlQ3lklE5sGaTNayvTgGBsYHMnoXA695fvr9BgYGxr9nrN12zl9qNkeCgYGxNaNXSJEf+q9iR8dwGBgYWzN6BWGrDsuSAeVXFBgYGLsyqoOrxmKvIKMc/RgYGMcwekfwvUvHfOkZ9cHAwDiAMX/23tu+VsP9j6UhBgbGMYxewcTUsX4vZDEwMA5gVM/eZo7JetOUXEJgYGCcwEiWeknZxHgxVx30spoRDAyMTRmrLjjnY3cc9BgYGOcwVoVmtIxrDbpc14aBgbERI/nJwtF8MabnJwIDA+MERq/Ya+bdPOILU4CBgXEkoxegyReqE7SgzAIDA2MLRh6LvSKM6jTl4Y6BgXECo3r0lmwyc0ZeWFaIdQwMjO0Y+aYxf85Ddr6Y9ZebWAwMjO0YvcDNS8d6RWbVhSMGBsbejHux5e/OXAOUt8cYGBhbM1aldQ7OAz1ZVmJgYJzDyKOz+t+XBi4GBsYBjPwQvzqgPHaT0L8cCQYGBsZ0OPY2vc0yCwwMjIMZ47eSoVevFpo3GxgYGJsy8m3qzHdWTd/l0hADA2NTxnwx1nhAeVlGr9QDAwNja8YXWUGEmgpXTs0AAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 
