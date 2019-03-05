@@ -55,11 +55,14 @@
 <ul>
 <li><p>格式化符:</p>
 <ul>
-<li>整数: <pre><code>%d,%i,%u,%o,%x
+<li><p>整数: </p>
+<pre><code>%d,%i,%u,%o,%x
 </code></pre></li>
-<li>浮点数:<pre><code>%e,%f,%g,%a
+<li><p>浮点数:</p>
+<pre><code>%e,%f,%g,%a
 </code></pre></li>
-<li>字符:<pre><code>%c
+<li><p>字符:</p>
+<pre><code>%c
 </code></pre></li>
 <li><p>特殊字符: </p>
 <pre><code>%s: 视为指向字符串的指针,以字符串的形式输出参数
@@ -109,7 +112,7 @@
 </li>
 </ul>
 <p>如果程序开启了NX保护,可以先利用%n类格式符,将shellcode写至内存地址;<br>也可以先写一个小的shellcode来寻找一大片可以写入的shellcode然后利用</p>
-<h2 id="辅助利用模块-pwntools"><a href="#辅助利用模块-pwntools" class="headerlink" title="辅助利用模块(pwntools)"></a>辅助利用模块(pwntools)</h2><p>pwntools的pwnlib.fmtstr模块提供了一些格式化字符串漏洞的相关利用工具:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class pwnlib.fmtstr.FmtStr(execute_fmt, offset=None, padlen=0, n umbwritten=0)</span><br></pre></td></tr></table></figure></p>
+<h2 id="辅助利用模块-pwntools"><a href="#辅助利用模块-pwntools" class="headerlink" title="辅助利用模块(pwntools)"></a>辅助利用模块(pwntools)</h2><p>pwntools的pwnlib.fmtstr模块提供了一些格式化字符串漏洞的相关利用工具:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class pwnlib.fmtstr.FmtStr(execute_fmt, offset=None, padlen=0, n umbwritten=0)</span><br></pre></td></tr></table></figure></p>
 <p>各参数意义如下:</p>
 <ul>
 <li>execute_fmt (function)：与漏洞进程进行交互的函数 </li>
@@ -118,7 +121,7 @@
 <li>numbwritten (int)：已经写入的字节数</li>
 </ul>
 <p>还有自动生成payload的fmtstr_payload</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">pwnlib.fmtstr.fmtstr_payload(offset, writes, numbwritten=0, writ e_size=&apos;byte&apos;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pwnlib.fmtstr.fmtstr_payload(offset, writes, numbwritten=0, writ e_size=&apos;byte&apos;)</span><br></pre></td></tr></table></figure>
 <p>其中各参数意义如下:</p>
 <ul>
 <li>offset (int)：所控制的第一个格式化程序的偏移量 </li>
