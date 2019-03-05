@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     
     
-    <title>old blog | NightRainy&#39;s Blog | Stay hungry,stay foolish</title>
+    <title>一些勒索病毒的特征分析及防范(持续更新) | NightRainy&#39;s Blog | Stay hungry,stay foolish</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="keywords" content="">
@@ -138,7 +138,7 @@
           <i class="icon icon-lg icon-navicon"></i>
         </a>
         <div class="flex-col header-title ellipsis">
-            <span>old blog</span>
+            <span>一些勒索病毒的特征分析及防范(持续更新)</span>
             
         </div>
         
@@ -151,11 +151,11 @@
 <header class="content-header post-header">
     <img src="/img/banner.jpg" class="header-bg">
     <div class="container fade-scale">
-        <h1 class="title">old blog</h1>
+        <h1 class="title">一些勒索病毒的特征分析及防范(持续更新)</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-02-02T07:51:46.000Z" itemprop="datePublished" class="page-time">
-  2019-02-02
+                <time datetime="2019-03-04T16:36:19.000Z" itemprop="datePublished" class="page-time">
+  2019-03-05
 </time>
 
 
@@ -182,11 +182,11 @@
 
 
 <div class="container body-wrap">
-    <article id="post-old-blog" class="post-article article-type-post" itemprop="blogPost">
+    <article id="post-一些勒索病毒的特征分析及防范" class="post-article article-type-post" itemprop="blogPost">
       <div class="post-card">
-          <h1 class="post-card-title">old blog</h1>
+          <h1 class="post-card-title">一些勒索病毒的特征分析及防范(持续更新)</h1>
           <div class="post-meta">
-              <time class="post-time" title="2019-02-02 15:51:46" datetime="2019-02-02T07:51:46.000Z" itemprop="datePublished">2019-02-02</time>
+              <time class="post-time" title="2019-03-05 00:36:19" datetime="2019-03-04T16:36:19.000Z" itemprop="datePublished">2019-03-05</time>
 
               
 
@@ -201,9 +201,34 @@
           <div class="post-content" id="post-content" itemprop="postContent">
               
               <blockquote>
-<p>终于从wordpress转到了github.io上,为了减少重复,把老博客链接放到这里</p>
+<p>最近由于需要对勒索病毒进行一些刨析,故在这随便写几句</p>
 </blockquote>
-<p><a href="http://47.106.177.170:8002/wordpress/index.php/2018/11/15/boot_sector/" target="_blank" rel="noopener">WINDOWS环境下利用BOCHS写一个简单的操作系统（BOOT SECTOR)</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/11/29/pwntools/" target="_blank" rel="noopener">PWN路漫漫(一)工具篇</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/12/03/kr_wp_fd/" target="_blank" rel="noopener">PWNABLE.KR_FD</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/12/05/pwnable-kr__collision/" target="_blank" rel="noopener">PWNABLE.KR_COLLISION</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/12/05/pwnable-kr___bof/" target="_blank" rel="noopener">PWNABLE.KR_BOF</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/12/07/pwnable-able_flag/" target="_blank" rel="noopener">PWNABLE.ABLE_FLAG</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/12/08/pwnable-kr_passcode/" target="_blank" rel="noopener">PWNABLE.KR_PASSCODE</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/12/08/pwnable-kr_random/" target="_blank" rel="noopener">PWNABLE.KR_RANDOM</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2018/12/09/pwnable-kr_input/" target="_blank" rel="noopener">PWNABLE.KR_INPUT</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2019/01/01/ctf-wikipwn-stack1/" target="_blank" rel="noopener">CTF_WIKI(PWN)学习笔记之栈溢出原理</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2019/01/01/ctf-wikipwn-rop/" target="_blank" rel="noopener">CTF_WIKI(PWN)学习笔记之ROP(理论篇)</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2019/01/10/pwn-rop/" target="_blank" rel="noopener">PWN_ROP(持续更新)</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2019/01/12/wfuzz-study/" target="_blank" rel="noopener">WFUZZ学习手册</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2019/01/12/poc-t-study/" target="_blank" rel="noopener">POC-T学习手册</a><br><a href="http://47.106.177.170:8002/wordpress/index.php/2019/01/30/shellcode/" target="_blank" rel="noopener">SHELLCODE的布置小记</a></p>
+<h1 id="wanncry"><a href="#wanncry" class="headerlink" title="wanncry"></a>wanncry</h1><h2 id="前面wanncry勒索病毒可谓风靡全球-因此-借助师傅们的分析做了首先对这大名鼎鼎的病毒做了分析-这里只列出几点"><a href="#前面wanncry勒索病毒可谓风靡全球-因此-借助师傅们的分析做了首先对这大名鼎鼎的病毒做了分析-这里只列出几点" class="headerlink" title="前面wanncry勒索病毒可谓风靡全球..因此,借助师傅们的分析做了首先对这大名鼎鼎的病毒做了分析,这里只列出几点:"></a>前面wanncry勒索病毒可谓风靡全球..因此,借助师傅们的分析做了首先对这大名鼎鼎的病毒做了分析,这里只列出几点:</h2><ul>
+<li>有一个开关,当计算机可以访问:<a href="http://www.iuqerfsodp9ifjaposdfjhgosurijfaewrwergwea.com" target="_blank" rel="noopener">http://www.iuqerfsodp9ifjaposdfjhgosurijfaewrwergwea.com</a> 时关闭进程,如今该域名已经被注册</li>
+<li>之后判断是否第一次被感染,若第一次被感染则释放恶意代码,并将自身多次备份,并将自身伪装成微软安全服务</li>
+<li>随机生成IP地址进行攻击</li>
+<li>利用漏洞进行攻击</li>
+<li>在三个比特币钱包中随机挑选一个显示在勒索界面</li>
+</ul>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法:"></a>解决方法:</h2><ol>
+<li>打补丁,通过安装微软MS17-010漏洞补丁</li>
+</ol>
+<ul>
+<li>XP、Windows Server 2003、win8等系统访问：</li>
+</ul>
+<p><a href="http://www.catalog.update.microsoft.com/Search.aspx?q=KB4012598" target="_blank" rel="noopener">http://www.catalog.update.microsoft.com/Search.aspx?q=KB4012598</a></p>
+<ul>
+<li>Win7、win8.1、Windows Server 2008、Windows 10, Windows Server 2016等系统访问：</li>
+</ul>
+<p><a href="https://technet.microsoft.com/zh-cn/library/security/ms17-010.aspx" target="_blank" rel="noopener">https://technet.microsoft.com/zh-cn/library/security/ms17-010.aspx</a></p>
+<ol start="2">
+<li><p>关闭445,139等危险端口</p>
+</li>
+<li><p>创建互斥体:</p>
+</li>
+</ol>
+<p>因为加密的特殊性,加密器会在启动时检测是否有j加密程序存在,防止互相干扰,因此创建互斥器MsWinZonesCacheCounterMutexA来让病毒自动退出,从而防止病毒加密文件</p>
+<p>#</p>
 
           </div>
           
@@ -211,12 +236,12 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-02-02T07:59:24.300Z" itemprop="dateUpdated">2019-02-02 15:59:24</time>
+    最后更新时间：<time datetime="2019-03-05T04:57:02.437Z" itemprop="dateUpdated">2019-03-05 12:57:02</time>
 </span><br>
 
 
         
-        转载注明出处，原文地址：<a href="/2019/02/02/old-blog/" target="_blank" rel="external">https://nightRainy.github.io/2019/02/02/old-blog/</a>
+        转载注明出处，原文地址：<a href="/2019/03/05/一些勒索病毒的特征分析及防范/" target="_blank" rel="external">https://nightRainy.github.io/2019/03/05/一些勒索病毒的特征分析及防范/</a>
         
     </div>
     <footer>
@@ -238,7 +263,7 @@
     <ul class="reset share-icons">
       
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/02/02/old-blog/&title=《old blog》 — NightRainy's Blog&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/03/05/一些勒索病毒的特征分析及防范/&title=《一些勒索病毒的特征分析及防范(持续更新)》 — NightRainy's Blog&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -250,7 +275,7 @@
       </li>
       
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/02/02/old-blog/&title=《old blog》 — NightRainy's Blog&source=my blogs" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/03/05/一些勒索病毒的特征分析及防范/&title=《一些勒索病毒的特征分析及防范(持续更新)》 — NightRainy's Blog&source=my blogs" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -273,22 +298,30 @@
           
       </div>
       
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="prev">
-      <a href="/2019/02/25/2019安恒杯2月月赛pwn题复现/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">2019安恒杯2月月赛pwn题复现</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
+  
+    <div class="next">
+      <a href="/2019/03/02/格式化字符串漏洞学习汇总笔记/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">格式化字符串漏洞学习汇总笔记</h4>
+      </a>
+    </div>
   
 </nav>
 
 
       
       
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#wanncry"><span class="post-toc-number">1.</span> <span class="post-toc-text">wanncry</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前面wanncry勒索病毒可谓风靡全球-因此-借助师傅们的分析做了首先对这大名鼎鼎的病毒做了分析-这里只列出几点"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">前面wanncry勒索病毒可谓风靡全球..因此,借助师傅们的分析做了首先对这大名鼎鼎的病毒做了分析,这里只列出几点:</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解决方法"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">解决方法:</span></a></li></ol></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </div></div></aside>
+    
   </article>
   
   
@@ -340,7 +373,7 @@
     <ul class="reset share-icons">
       
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/02/02/old-blog/&title=《old blog》 — NightRainy's Blog&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/03/05/一些勒索病毒的特征分析及防范/&title=《一些勒索病毒的特征分析及防范(持续更新)》 — NightRainy's Blog&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -352,7 +385,7 @@
       </li>
       
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/02/02/old-blog/&title=《old blog》 — NightRainy's Blog&source=my blogs" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/03/05/一些勒索病毒的特征分析及防范/&title=《一些勒索病毒的特征分析及防范(持续更新)》 — NightRainy's Blog&source=my blogs" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
@@ -364,7 +397,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJ0lEQVR42u3aQY7CMAwF0Ln/pZktEtPwbcNITV5XqIQmr0hWbOfnJ74eT9fzndcxr+Nff7t+/nrk6MLAwLgt47G88mmuvr3Cr+fK14aBgXEO42pZ60cn4bj6gtZh/fI+BgYGRjwmCY4JGwMDA2MecKtT5htHDAwMjEkSm6esve1gdSQGBsY5jLzq/v+fv9LfwMDAuBXjUbySclu+veut4Y9ZMDAwtmbkAa6XiOathfX9qF2KgYFxGGOeUiYLSkJ5cgQNAwPjTEZSiK+WvdbjPxCyMTAwNmV8oxw/51UTYAwMjL0Z1WJ9kr72Amg1YX6zNcTAwNiIkU+cB8TqEY1qylr+HzAwMDZi9I5fVBPgSWHu8jMGBsbWjLxMPz+EMWle5s/BwMDYj5EsvTr9fLuZp7iFfwADA+PmjM82Haulut5hi0ISi4GBsQWjV1brHdSoBvToxWFgYGzNmGzmeg2GHJyX/DAwMM5h9BqTvcNk+Yzr+xgYGKcxqkE2T3onjYScjYGBcQIjnyAPlHl6XN10FraGGBgYGzF6jYH5QvPXhIGBgZEkrpORVVgVjIGBsSvjUbx6gbJ3UKPwTAwMjK0ZvTBXDdOFklmrCYGBgXECY14g6wXo8h52/RwMDIwDGL3DXpNQO2+UYmBgYOStykmCmofUN1QMDAyMIJgmQbP3nKgIiIGBcQAjSWLz7eCnUtavlNswMDBuyMhTx8murPrtvFGKgYGxBeMXhIdgvpHhTJ4AAAAASUVORK5CYII=" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACuElEQVR42u3aQW4DIRAEQP//08nVUuLd7gFsH2pPUeSwFJYY0sPjET8/T8/zb/5+5lE+r8ZM3rjtwcPDw1uY+t/n1cuup3g9ueQt+XxefQYPDw/vNC/fsvMtvqXOFuvGgoeHh/c1vHz7zk+5Kwd6PDw8vO/n5YUhCR1m5QQPDw/vs7xdQ8+i2Lw8HMxa8PDw8GLeepvq/T8f6e/h4eHhLXfVZ0ViFkAkDbZ6tnh4eHgHeG3QMGv2Xy9BTm3niYeHh3eON2t9JX+7sgTrDTM8PDy89/BmU59NpW2qXZeoOlPBw8PDG/Haw+6MtN7WyttpN/8r4OHh4W3lrV9yaitSu3Dt14CHh4d3gnc9UD50Hvjmn2kD35svAw8PD+8Ab9eFp/Z4vWvrj8oSHh4e3iZesn0nU1lpZbVts+LteHh4eFt5K8FBu7nnkUcbi9xUOTw8PLytvDyMaLfvZHNPLhasXNLCw8PDO8HLg9H86Nze81pfjqLu4eHh4S3zZgHu7EDcloHZUX5DPo2Hh4c34rXNqlk8sRIxJMuEh4eHd4KXtLiSo3M7QltaZsEHHh4e3mnerDWVB76nW1z/jICHh4d3mJcco2fb/aytlcfExaUrPDw8vE28PESYFZL8QJxEG0VRwcPDwzvAmw3Ubvqz9tUsMr75Kzw8PLxNvGTQ5ACdX8aavaUdDQ8PD+89vGTjnl20SoLgWfm5EeHh4eEd47WH16IRFTOSOdRzw8PDw9vK+ymfhJQHDcnRfHZ9AQ8PD+8cb72qzK5D5QHxygLh4eHhnePNrgW0yFmrbENhwMPDwzvGy2OFNoyYxRP5kkWFAQ8PD++jvLwp1QYKs0Up9Hh4eHgf5eWXTfPjb7uIUQnBw8PDO8ZbaT4lzbD2WDwbcylrwcPDw4t5G/7hH7XwZ724vHmGh4eHd4D3C8Y3fYJsfGmPAAAAAElFTkSuQmCC" alt="微信分享二维码">
 </div>
 
 

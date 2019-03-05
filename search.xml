@@ -3,6 +3,43 @@
   
     
     <entry>
+      <title><![CDATA[一些勒索病毒的特征分析及防范(持续更新)]]></title>
+      <url>/2019/03/05/%E4%B8%80%E4%BA%9B%E5%8B%92%E7%B4%A2%E7%97%85%E6%AF%92%E7%9A%84%E7%89%B9%E5%BE%81%E5%88%86%E6%9E%90%E5%8F%8A%E9%98%B2%E8%8C%83/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>最近由于需要对勒索病毒进行一些刨析,故在这随便写几句</p>
+</blockquote>
+<h1 id="wanncry"><a href="#wanncry" class="headerlink" title="wanncry"></a>wanncry</h1><h2 id="前面wanncry勒索病毒可谓风靡全球-因此-借助师傅们的分析做了首先对这大名鼎鼎的病毒做了分析-这里只列出几点"><a href="#前面wanncry勒索病毒可谓风靡全球-因此-借助师傅们的分析做了首先对这大名鼎鼎的病毒做了分析-这里只列出几点" class="headerlink" title="前面wanncry勒索病毒可谓风靡全球..因此,借助师傅们的分析做了首先对这大名鼎鼎的病毒做了分析,这里只列出几点:"></a>前面wanncry勒索病毒可谓风靡全球..因此,借助师傅们的分析做了首先对这大名鼎鼎的病毒做了分析,这里只列出几点:</h2><ul>
+<li>有一个开关,当计算机可以访问:<a href="http://www.iuqerfsodp9ifjaposdfjhgosurijfaewrwergwea.com" target="_blank" rel="noopener">http://www.iuqerfsodp9ifjaposdfjhgosurijfaewrwergwea.com</a> 时关闭进程,如今该域名已经被注册</li>
+<li>之后判断是否第一次被感染,若第一次被感染则释放恶意代码,并将自身多次备份,并将自身伪装成微软安全服务</li>
+<li>随机生成IP地址进行攻击</li>
+<li>利用漏洞进行攻击</li>
+<li>在三个比特币钱包中随机挑选一个显示在勒索界面</li>
+</ul>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法:"></a>解决方法:</h2><ol>
+<li>打补丁,通过安装微软MS17-010漏洞补丁</li>
+</ol>
+<ul>
+<li>XP、Windows Server 2003、win8等系统访问：</li>
+</ul>
+<p><a href="http://www.catalog.update.microsoft.com/Search.aspx?q=KB4012598" target="_blank" rel="noopener">http://www.catalog.update.microsoft.com/Search.aspx?q=KB4012598</a></p>
+<ul>
+<li>Win7、win8.1、Windows Server 2008、Windows 10, Windows Server 2016等系统访问：</li>
+</ul>
+<p><a href="https://technet.microsoft.com/zh-cn/library/security/ms17-010.aspx" target="_blank" rel="noopener">https://technet.microsoft.com/zh-cn/library/security/ms17-010.aspx</a></p>
+<ol start="2">
+<li><p>关闭445,139等危险端口</p>
+</li>
+<li><p>创建互斥体:</p>
+</li>
+</ol>
+<p>因为加密的特殊性,加密器会在启动时检测是否有j加密程序存在,防止互相干扰,因此创建互斥器MsWinZonesCacheCounterMutexA来让病毒自动退出,从而防止病毒加密文件</p>
+<p>#</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[格式化字符串漏洞学习汇总笔记]]></title>
       <url>/2019/03/02/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E6%B1%87%E6%80%BB%E7%AC%94%E8%AE%B0/</url>
       <content type="html"><![CDATA[<blockquote>
@@ -98,7 +135,7 @@
       <title><![CDATA[2019安恒杯2月月赛pwn题复现]]></title>
       <url>/2019/02/25/2019%E5%AE%89%E6%81%92%E6%9D%AF2%E6%9C%88%E6%9C%88%E8%B5%9Bpwn%E9%A2%98%E5%A4%8D%E7%8E%B0/</url>
       <content type="html"><![CDATA[<h1 id="2019安恒杯2月月赛pwn题复现"><a href="#2019安恒杯2月月赛pwn题复现" class="headerlink" title="2019安恒杯2月月赛pwn题复现"></a>2019安恒杯2月月赛pwn题复现</h1><blockquote>
-<p>上线把题目搞下来然后就跑路去学校了,腾出时间来进行其复现,由于没有靶机,因此我在/home/pwn下建了一个flah文件</p>
+<p>上线把题目搞下来然后就跑路去学校了,腾出时间来进行其复现,由于没有靶机,因此我在/home/pwn下建了一个flag文件</p>
 </blockquote>
 <h2 id="hackmoon"><a href="#hackmoon" class="headerlink" title="hackmoon"></a>hackmoon</h2><p>听师傅们说这道题比较简单,就先从这道题开始吧,先看一下程序开启的保护:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[*] &apos;/home/nightrain/pwn/another/hackmoon&apos;</span><br><span class="line">    Arch:     i386-32-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    Canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (0x8048000)</span><br></pre></td></tr></table></figure>
