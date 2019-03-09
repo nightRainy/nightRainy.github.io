@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    
+    <title>pwn_learning&amp;&amp;FUZZ | NightRainy&#39;s Blog | Stay hungry,stay foolish</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="">
+    <link rel="shortcut icon" href="/img/favicon.jpg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.4.1">
+    
+    <script type="text/javascript">
+        // Data Center
+        var DC = {
+            reward:	true,
+            lv: JSON.parse('{"enable":false,"app_id":null,"app_key":null,"icon":true}'),
+            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
+            g: JSON.parse('{"enable":false,"lazy":true,"owner":"nightRainy","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
+            d: JSON.parse('{"app_id":null}')
+        };
+    </script>
+    <script type="text/javascript">
+        window.lazyScripts=[];
+    </script>
+    
+</head>
+
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      
+      <img src="/img/brand.jpg" class="brand-bg">
+      
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/favicon.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">nightRainy</h5>
+          <a href="mailto:jianaiyuheng@qq.com" title="jianaiyuheng@qq.com" class="mail">
+            
+              <span>j</span>
+            
+              <span>i</span>
+            
+              <span>a</span>
+            
+              <span>n</span>
+            
+              <span>a</span>
+            
+              <span>i</span>
+            
+              <span>y</span>
+            
+              <span>u</span>
+            
+              <span>h</span>
+            
+              <span>e</span>
+            
+              <span>n</span>
+            
+              <span>g</span>
+            
+              <span>@</span>
+            
+              <span>q</span>
+            
+              <span>q</span>
+            
+              <span>.</span>
+            
+              <span>c</span>
+            
+              <span>o</span>
+            
+              <span>m</span>
+            
+          </a>
+        </hgroup>
+        
+        <ul class="menu-link">
+          
+              <li>
+                <a href="https://github.com/nightRainy" target="_blank">
+                  <i class="icon icon-lg icon-github"></i>
+                </a>
+              </li>
+            
+        </ul>
+        
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                HOME
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                ARCHIVES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="https://github.com/nightRainy" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row clearfix">
+        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">
+            <span>pwn_learning&amp;&amp;FUZZ</span>
+            
+        </div>
+        
+        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
+            <i class="icon icon-lg icon-search"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+    <img src="/img/banner.jpg" class="header-bg">
+    <div class="container fade-scale">
+        <h1 class="title">pwn_learning&amp;&amp;FUZZ</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-03-09T05:16:14.000Z" itemprop="datePublished" class="page-time">
+  2019-03-09
+</time>
+
+
+            
+        </h5>
+        
+    </div>
+    
+
+</header>
+
+<div id="site_search">
+    <div class="search-title clearfix">
+        <span class="pull-left">
+          <i class="icon icon-lg icon-search"></i>
+        </span>
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left">
+        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
+          <i class="icon icon-lg icon-close"></i>
+        </a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<div class="container body-wrap">
+    <article id="post-pwn-learning-FUZZ" class="post-article article-type-post" itemprop="blogPost">
+      <div class="post-card">
+          <h1 class="post-card-title">pwn_learning&&FUZZ</h1>
+          <div class="post-meta">
+              <time class="post-time" title="2019-03-09 13:16:14" datetime="2019-03-09T05:16:14.000Z" itemprop="datePublished">2019-03-09</time>
+
+              
+
+
+              
+
+              
+
+
+              
+          </div>
+          <div class="post-content" id="post-content" itemprop="postContent">
+              
+              <h1 id="pwn-learning-amp-amp-FUZZ"><a href="#pwn-learning-amp-amp-FUZZ" class="headerlink" title="pwn_learning&amp;&amp;FUZZ"></a>pwn_learning&amp;&amp;FUZZ</h1><blockquote>
+<p>This project is used to collect learning materials!And I will synchronous update it on my github!</p>
+</blockquote>
+<hr>
+<h2 id="tools-be-used-in-the-pwn"><a href="#tools-be-used-in-the-pwn" class="headerlink" title="tools be used in the pwn"></a>tools be used in the pwn</h2><ul>
+<li><a href="https://www.hex-rays.com/products/ida/" target="_blank" rel="noopener">IDA pro反编译神器 推荐书籍：《IDA PRO 权威指南》</a> </li>
+<li><p><a href="https://www.gnu.org/software/gdb/" target="_blank" rel="noopener">gdb : Linux/Unix下的动态调试利器 
+</a>    </p>
+<p>  推荐插件：</p>
+<pre><code>1. [pead](https://github.com/longld/peda) ;   2. [gef](https://github.com/hugsy/gef)
+</code></pre></li>
+<li><a href="http://docs.pwntools.com/en/stable/" target="_blank" rel="noopener">pwntools:一个强大的pwn辅助库</a></li>
+<li><a href="https://github.com/niklasb/libc-database" target="_blank" rel="noopener">ibc_database:收录了很多的libc库</a></li>
+<li><a href="htts://github.com/david942j/one_gadget" target="_blank" rel="noopener">one_gadget:用以寻找调用系统函数的gadget并输出满足条件</a></li>
+<li><a href="https://github.com/lieanu/LibcSearcher" target="_blank" rel="noopener">libcSearch : 用以搜索libc的版本</a></li>
+<li><a href="https://github.com/JonathanSalwan/ROPgadget" target="_blank" rel="noopener">ROPgadget : 用于在程序中寻找我们所需要的东西</a></li>
+<li><a href="https://github.com/angr/angr.git" target="_blank" rel="noopener">angr:具有动静态分析的二进制分析工具</a></li>
+<li><a href="http://www.ollydbg.de/version2.html" target="_blank" rel="noopener">ollyDbg : 逆向破解利器</a></li>
+<li><a href="https://github.com/radare/radare2.git" target="_blank" rel="noopener">radare2: 强大的逆向工程和二进制分析框架</a></li>
+</ul>
+<hr>
+<h2 id="NEWS"><a href="#NEWS" class="headerlink" title="NEWS"></a>NEWS</h2><ul>
+<li><a href="https://thehackernews.com/" target="_blank" rel="noopener">Thehackernews</a></li>
+<li><a href="https://www.freebuf.com/" target="_blank" rel="noopener">Freebuf</a></li>
+<li><a href="https://www.anquanke.com/" target="_blank" rel="noopener">安全客</a></li>
+<li><a href="https://www.secfree.com/" target="_blank" rel="noopener">指尖安全</a></li>
+</ul>
+<hr>
+<h2 id="BBS"><a href="#BBS" class="headerlink" title="BBS"></a>BBS</h2><ul>
+<li><a href="http://offensivecommunity.net/" target="_blank" rel="noopener">Offensive Community</a></li>
+<li><a href="https://cracking.org/forums/cracking-tools.16/" target="_blank" rel="noopener">Cracking</a></li>
+</ul>
+<hr>
+<h2 id="Online-course"><a href="#Online-course" class="headerlink" title="Online course"></a>Online course</h2><ul>
+<li><a href="https://www.youtube.com/playlist?list=PLhixgUqwRTjxglIswKp9mpkfPNfHkzyeN" target="_blank" rel="noopener">二进制入门</a></li>
+<li><a href="https://www.youtube.com/results?sp=EgIQAw%253D%253D&amp;search_query=reverse+engineering" target="_blank" rel="noopener"> 逆向工程</a></li>
+<li><a href="http://security.cs.rpi.edu/courses/binexp-spring2015/" target="_blank" rel="noopener">Modern Binary Exploitation</a></li>
+<li><a href="https://sploitfun.wordpress.com/2015/06/26/linux-x86-exploit-development-tutorial-series/" target="_blank" rel="noopener">inux (x86) Exploit Development Series</a></li>
+<li><a href="http://liveoverflow.com/binary_hacking/index.html" target="_blank" rel="noopener">liveoverflow: Binary Hacking Course</a></li>
+<li><a href="https://www.fuzzysecurity.com/tutorials.html" target="_blank" rel="noopener">Lots of Tutorials</a></li>
+</ul>
+<hr>
+<h2 id="Learning-materials"><a href="#Learning-materials" class="headerlink" title="Learning materials"></a>Learning materials</h2><ul>
+<li><a href="https://ctf-wiki.github.io" target="_blank" rel="noopener">ctf-wiki</a></li>
+<li><a href="https://blog.csdn.net/aemperor/article/details/47310593" target="_blank" rel="noopener">堆溢出攻击原理</a></li>
+<li><a href="https://www.freebuf.com/articles/rookie/182894.html" target="_blank" rel="noopener">溢出之retlibc2详解</a></li>
+<li><a href="https://github.com/firmianay/CTF-All-In-One" target="_blank" rel="noopener">ctf all in one</a></li>
+<li><a href="https://github.com/jmpews/pwn2exploit" target="_blank" rel="noopener">pwn &amp; exploit</a></li>
+</ul>
+<hr>
+<h2 id="stackoverflow"><a href="#stackoverflow" class="headerlink" title="stackoverflow"></a>stackoverflow</h2><ul>
+<li><a href="http://bobao.360.cn/learning/detail/3717.html" target="_blank" rel="noopener">手把手教你栈溢出从入门到放弃（上）</a></li>
+<li><a href="http://bobao.360.cn/learning/detail/3718.html" target="_blank" rel="noopener">手把手教你栈溢出从入门到放弃（下）</a></li>
+<li><a href="http://bestwing.me/2017/03/18/stack-overflow-one/" target="_blank" rel="noopener">Swing: 基础栈溢出复习 之基础</a></li>
+<li><a href="https://bbs.ichunqiu.com/thread-45542-1-1.html" target="_blank" rel="noopener">pwn入门之栈溢出练习</a></li>
+<li><a href="http://0x48.pw/2016/11/03/0x26/" target="_blank" rel="noopener">Hcamael: PWN学习总结之基础栈溢出</a></li>
+<li><p><a href="http://0x48.pw/2016/11/21/0x27/" target="_blank" rel="noopener">Hcamael: PWN学习总结之基础栈溢出2</a></p>
+<h3 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h3></li>
+<li>.<a href="http://drops.xmd5.com/static/drops/tips-6597.html" target="_blank" rel="noopener">一步一步学ROP之linux_x86篇</a></li>
+<li><a href="http://cb.drops.wiki/drops/binary-10638.html" target="_blank" rel="noopener">一步一步学ROP之gadgets和2free篇</a></li>
+<li>.<a href="http://cb.drops.wiki/drops/papers-11390.html" target="_blank" rel="noopener">一步一步学ROP之Android ARM 32位篇</a></li>
+<li>.<a href="http://www.freebuf.com/articles/network/87447.html" target="_blank" rel="noopener">Sigreturn Oriented Programming (SROP) Attack攻击原理</a></li>
+<li>.<a href="http://bestwing.me/2017/03/20/stack-overflow-three-SROP/" target="_blank" rel="noopener">Swing: 基础栈溢出复习 三 之 SROP</a></li>
+<li><a href="http://www.freebuf.com/articles/system/149214.html" target="_blank" rel="noopener">如何在32位系统中使用ROP+Return-to-dl来绕过ASLR+DEP</a></li>
+<li><a href="http://www.evil0x.com/posts/19226.html" target="_blank" rel="noopener">通过ELF动态装载构造ROP链 （ Return-to-dl-resolve）</a></li>
+</ul>
+<hr>
+<h2 id="堆漏洞"><a href="#堆漏洞" class="headerlink" title="堆漏洞"></a>堆漏洞</h2><ul>
+<li><a href="https://heap-exploitation.dhavalkapil.com/introduction.html" target="_blank" rel="noopener">Heap Exploitation</a></li>
+<li><a href="https://github.com/shellphish/" target="_blank" rel="noopener">how2heap</a></li>
+<li><a href="https://sploitfun.wordpress.com/2015/02/26/heap-overflow-using-unlink/?spm=a313e.7916648.0.0.x4nzYZ" target="_blank" rel="noopener">Heap overflow using unlink</a></li>
+<li><a href="https://www.tuicool.com/articles/E3Ezu2u" target="_blank" rel="noopener">堆溢出的unlink利用方法</a></li>
+<li><a href="http://www.freebuf.com/articles/system/151372.html" target="_blank" rel="noopener">Dance In Heap</a></li>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/introduction/" target="_blank" rel="noopener">堆利用简介</a></li>
+</ul>
+<hr>
+<h2 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="格式化字符串漏洞"></a>格式化字符串漏洞</h2><ul>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/fmtstr/fmtstr_intro/" target="_blank" rel="noopener">原理简介</a></li>
+<li><a href="http://cb.drops.wiki/drops/binary-6259.html" target="_blank" rel="noopener">二进制漏洞之——邪恶的printf</a></li>
+<li><a href="http://bobao.360.cn/learning/detail/3654.html" target="_blank" rel="noopener">格式化字符串漏洞利用小结</a></li>
+<li><a href="http://www.cnblogs.com/Ox9A82/p/5429099.html" target="_blank" rel="noopener">Linux下的格式化字符串漏洞利用姿势</a></li>
+</ul>
+<hr>
+<h2 id="IO-FILE利用"><a href="#IO-FILE利用" class="headerlink" title="IO_FILE利用"></a>IO_FILE利用</h2><ul>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/introduction/" target="_blank" rel="noopener">FILE 文件结构介绍</a></li>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/fake-vtable-exploit/" target="_blank" rel="noopener">伪造 vtable 劫持程序流程</a></li>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/fsop/" target="_blank" rel="noopener">FSOP</a></li>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/exploit-in-libc2.24/" target="_blank" rel="noopener">新版本 libc 下 IO_FILE 的利用</a></li>
+</ul>
+<hr>
+<h2 id="条件竞争"><a href="#条件竞争" class="headerlink" title="条件竞争"></a>条件竞争</h2><p>*<a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/race-condition/introduction/" target="_blank" rel="noopener">条件竞争介绍</a></p>
+<hr>
+<h2 id="整数溢出"><a href="#整数溢出" class="headerlink" title="整数溢出"></a>整数溢出</h2><ul>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/integeroverflow/intof/" target="_blank" rel="noopener">整数溢出原理介绍</a></li>
+</ul>
+<hr>
+<h2 id="沙箱逃逸"><a href="#沙箱逃逸" class="headerlink" title="沙箱逃逸"></a>沙箱逃逸</h2><ul>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/sandbox/python-sandbox-escape/" target="_blank" rel="noopener">Python 沙箱逃逸</a></li>
+</ul>
+<hr>
+<h2 id="TIPS"><a href="#TIPS" class="headerlink" title="TIPS"></a>TIPS</h2><ul>
+<li><a href="http://bobao.360.cn/learning/detail/3298.html?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="noopener">借助DynELF实现无libc的漏洞利用小结</a></li>
+<li><a href="http://uaf.io/exploitation/misc/2016/04/02/Finding-Functions.html" target="_blank" rel="noopener">Finding Function’s Load Address</a></li>
+<li><a href="http://skysider.com/?p=223" target="_blank" rel="noopener">pwn tips</a></li>
+<li><a href="https://github.com/Naetw/CTF-pwn-tips" target="_blank" rel="noopener">CTF-pwn-tips</a></li>
+<li><a href="http://www.angelwhu.com/blog/?p=460" target="_blank" rel="noopener">pwn 学习总结</a></li>
+<li><a href="http://www.cnblogs.com/Ox9A82/p/5559167.html" target="_blank" rel="noopener">CTF中做Linux下漏洞利用的一些心得</a></li>
+<li><a href="http://drops.xmd5.com/static/drops/binary-6521.html" target="_blank" rel="noopener">linux常见漏洞利用技术实践</a></li>
+</ul>
+<hr>
+<h1 id="FUZZ"><a href="#FUZZ" class="headerlink" title="FUZZ"></a>FUZZ</h1><h2 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h2><ul>
+<li><a href="https://www.freebuf.com/sectool/89001.html" target="_blank" rel="noopener">从零开始学Fuzzing系列：浏览器挖掘框架Morph诞生记</a></li>
+<li><a href="http://blog.nsfocus.net/peach-fuzz/" target="_blank" rel="noopener">浅析Peach Fuzz</a></li>
+<li><a href="https://blog.techorganic.com/2014/05/14/from-fuzzing-to-0-day/" target="_blank" rel="noopener">From fuzzing to 0-day</a></li>
+<li><a href="http://www.fuzzing.org/" target="_blank" rel="noopener">Fuzzing: Brute Force Vulnerability Discovery</a></li>
+<li><a href="https://foxglovesecurity.com/2016/03/15/fuzzing-workflows-a-fuzz-job-from-start-to-finish/" target="_blank" rel="noopener">Fuzzing workflows; a fuzz job from start to finish</a></li>
+<li><a href="http://j00ru.vexillium.org/slides/2016/blackhat.pdf" target="_blank" rel="noopener">有效的文件格式Fuzzing</a></li>
+<li><a href="https://googleprojectzero.blogspot.in/2016/06/a-year-of-windows-kernel-font-fuzzing-1_27.html" target="_blank" rel="noopener">过去一年的Windows内核字体fuzzing第一部分成果</a></li>
+<li><a href="https://googleprojectzero.blogspot.in/2016/07/a-year-of-windows-kernel-font-fuzzing-2.html" target="_blank" rel="noopener">过去一年的Windows内核字体fuzzing第二部分技术</a></li>
+<li><a href="https://blog.fuzzing-project.org/" target="_blank" rel="noopener">fuzzing项目中有趣的bug和资源</a></li>
+<li><a href="https://foxglovesecurity.com/2016/03/15/fuzzing-workflows-a-fuzz-job-from-start-to-finish/" target="_blank" rel="noopener">Fuzzing工作流程； fuzz工作从开始到结束</a></li>
+<li><a href="http://jefftrull.github.io/c++/clang/llvm/fuzzing/sanitizer/2015/11/27/fuzzing-with-sanitizers.html" target="_blank" rel="noopener">用AFL和libFuzzer轻松介绍C++代码fuzzing </a></li>
+<li><p><a href="https://www.mwrinfosecurity.com/our-thinking/15-minute-guide-to-fuzzing/" target="_blank" rel="noopener">15分钟fuzzing介绍 </a></p>
+<hr>
+<h2 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h2></li>
+<li><a href="https://www.amazon.com/Fuzzing-Brute-Force-Vulnerability-Discovery/dp/0321446119" target="_blank" rel="noopener">《模糊测试-强制性安全漏洞发掘》</a></li>
+</ul>
+<hr>
+<h2 id="课程"><a href="#课程" class="headerlink" title="课程"></a>课程</h2><ul>
+<li><a href="https://vimeo.com/5236104" target="_blank" rel="noopener">Fuzzing 101 </a></li>
+<li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+</ul>
+<hr>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
+<li><a href="http://lcamtuf.coredump.cx/afl/" target="_blank" rel="noopener">AFL Fuzzer</a></li>
+<li><a href="https://llvm.org/docs/LibFuzzer.html" target="_blank" rel="noopener">libFuzzer Fuzzer</a></li>
+<li><a href="https://resources.infosecinstitute.com/intro-to-fuzzing/#gref" target="_blank" rel="noopener">Spike Fuzzer</a></li>
+<li><a href="http://www.asm64.com/" target="_blank" rel="noopener">EasyFuzzer</a></li>
+</ul>
+<hr>
+
+          </div>
+          
+<blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-03-09T05:18:30.047Z" itemprop="dateUpdated">2019-03-09 13:18:30</time>
+</span><br>
+
+
+        
+        转载注明出处，原文地址：<a href="/2019/03/09/pwn-learning-FUZZ/" target="_blank" rel="external">https://nightRainy.github.io/2019/03/09/pwn-learning-FUZZ/</a>
+        
+    </div>
+    <footer>
+        <a href="https://nightRainy.github.io">
+            <img src="/img/favicon.jpg" alt="nightRainy">
+            nightRainy
+        </a>
+    </footer>
+</blockquote>
+
+          
+          
+          <div class="post-footer">
+              
+              <div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/03/09/pwn-learning-FUZZ/&title=《pwn_learning&&FUZZ》 — NightRainy's Blog&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/03/09/pwn-learning-FUZZ/&title=《pwn_learning&&FUZZ》 — NightRainy's Blog&source=my blogs" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+          </div>
+          
+              
+
+
+          
+      </div>
+      
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="next">
+      <a href="/2019/03/09/攻防世界pwn-writeup/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">攻防世界pwn_writeup(持续更新)</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+      
+      
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#pwn-learning-amp-amp-FUZZ"><span class="post-toc-number">1.</span> <span class="post-toc-text">pwn_learning&amp;&amp;FUZZ</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#tools-be-used-in-the-pwn"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">tools be used in the pwn</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#NEWS"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">NEWS</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#BBS"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">BBS</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Online-course"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">Online course</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Learning-materials"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">Learning materials</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#stackoverflow"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">stackoverflow</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ROP"><span class="post-toc-number">1.6.1.</span> <span class="post-toc-text">ROP</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#堆漏洞"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">堆漏洞</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#格式化字符串漏洞"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">格式化字符串漏洞</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#IO-FILE利用"><span class="post-toc-number">1.9.</span> <span class="post-toc-text">IO_FILE利用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#条件竞争"><span class="post-toc-number">1.10.</span> <span class="post-toc-text">条件竞争</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#整数溢出"><span class="post-toc-number">1.11.</span> <span class="post-toc-text">整数溢出</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#沙箱逃逸"><span class="post-toc-number">1.12.</span> <span class="post-toc-text">沙箱逃逸</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TIPS"><span class="post-toc-number">1.13.</span> <span class="post-toc-text">TIPS</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#FUZZ"><span class="post-toc-number">2.</span> <span class="post-toc-text">FUZZ</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#文章"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">文章</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#书籍"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">书籍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#课程"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">课程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#工具"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">工具</span></a></li></ol></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </div></div></aside>
+    
+  </article>
+  
+  
+</div>
+
+        <footer class="footer">
+    
+    <div class="bottom">
+        <p>
+            <span>
+                nightRainy &copy; 2017 - 2019
+            </span>
+        		
+           	
+            
+            
+            <span>
+	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
+            </span>
+            
+            
+            
+
+            
+                
+<span class="site-uv" title="总访客量">
+    <i class="icon icon-user"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>
+
+
+<span class="site-pv" title="总访问量">
+    <i class="icon icon-eye"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+            
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/03/09/pwn-learning-FUZZ/&title=《pwn_learning&&FUZZ》 — NightRainy's Blog&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/03/09/pwn-learning-FUZZ/&title=《pwn_learning&&FUZZ》 — NightRainy's Blog&source=my blogs" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLElEQVR42u3aUW6lMAwF0O5/028W0IG5N6bVkJx8PQGFnFSynNhfX/H4fBvf7149f/9M8v7HBgYGxmsZn9txNa376/kSXJHyuWFgYJzDWHt1fjdZoCRMX17HwMDACNK4NVjytxgYGBhrjPsUMEko21COgYGB8VSKdr/RbTeoP7IXx8DAeCEjP3X//d8/Ut/AwMB4FeNTjvzgflI2qGeFgYGxNSMPcBNkAs7Zl09iYGBsymiLkXnjV77hbI/n/nIFAwPjYEb+yWTSyd32dxRwMTAwXs5oz7Lmn08WqN0AY2BgnMOYVxhGh2VByTPiYWBgHMBIDvfX2h3m7RrREmNgYGzNaNO7JCA+tSh10omBgbERo03O2vaLNtFsixAYGBgnMCancWtLMD8RLBJTDAyMLRhrr2tTvba0kGxr638QBgbGaxn5cfza0Vi7rZ03kGFgYOzHaDeo+UTbKa6VTjEwME5g5If+SShM2lvz9+eFBwwMjBMYbdDMG7aS5yeFgcWeEQwMjBcyJkdjbThuA2iRpGJgYBzAeKok2aaJeWCNAi4GBsbWjMmVJH18tnUMAwPjHManHG2AXqup5iUKDAyMExhtsXAeRtsmsPxbGBgYezPWErskXE6odVjHwMA4gDEvAzzbbFGXGTAwMDDikkBeDJgUCf6xM8bAwMAYN35NGsh+NeBiYGD8Z4y2YSKf6FqRoN0MY2Bg7M3It45JJrZWyEySwgeKmhgYGO9j/AFIEUHP1qIMygAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+    
+    <!-- main-js -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/js/plugins/fastclick.js?v=1.4.1"></script>
+<script type="text/javascript" src="/js/plugins/ios-orientationchange-fix.js?v=1.4.1"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script type="text/javascript" src="/js/method.js?v=1.4.1"></script>
+<script type="text/javascript" src="/js/blog.js?v=1.4.1"></script>
+
+<!-- third-party -->
+
+
+
+
+
+
+<script type="text/javascript" src="/js/plugins/local_search.js?v=1.4.1"></script>
+<script type="text/javascript">
+	var search_path = "search.xml";
+	if (search_path.length === 0) {
+		search_path = "search.xml";
+	}
+	var path = "/" + search_path;
+	searchFunc(path, "local-search-input", "local-search-result");
+</script>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+
+
+
+
+
+    <!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+    <script>
+    (function() {
+        var OriginTitile = document.title, titleTime;
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                document.title = '/(ㄒoㄒ)/~~嘤嘤嘤，不要我了';
+                clearTimeout(titleTime);
+            } else {
+                document.title = '(つェ⊂)来啦官人';
+                titleTime = setTimeout(function() {
+                    document.title = OriginTitile;
+                },2000);
+            }
+        });
+    })();
+</script>
+
+
+
+
+
+    
+</body>
+</html>
