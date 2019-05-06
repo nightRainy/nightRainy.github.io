@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    
+    <title>glic内存管理学习笔记 | NightRainy&#39;s Blog | Stay hungry,stay foolish</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="">
+    <link rel="shortcut icon" href="/img/favicon.jpg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.4.1">
+    
+    <script type="text/javascript">
+        // Data Center
+        var DC = {
+            reward:	true,
+            lv: JSON.parse('{"enable":false,"app_id":null,"app_key":null,"icon":true}'),
+            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
+            g: JSON.parse('{"enable":false,"lazy":true,"owner":"nightRainy","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
+            d: JSON.parse('{"app_id":null}')
+        };
+    </script>
+    <script type="text/javascript">
+        window.lazyScripts=[];
+    </script>
+    
+</head>
+
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      
+      <img src="/img/brand.jpg" class="brand-bg">
+      
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/favicon.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">nightRainy</h5>
+          <a href="mailto:jianaiyuheng@qq.com" title="jianaiyuheng@qq.com" class="mail">
+            
+              <span>j</span>
+            
+              <span>i</span>
+            
+              <span>a</span>
+            
+              <span>n</span>
+            
+              <span>a</span>
+            
+              <span>i</span>
+            
+              <span>y</span>
+            
+              <span>u</span>
+            
+              <span>h</span>
+            
+              <span>e</span>
+            
+              <span>n</span>
+            
+              <span>g</span>
+            
+              <span>@</span>
+            
+              <span>q</span>
+            
+              <span>q</span>
+            
+              <span>.</span>
+            
+              <span>c</span>
+            
+              <span>o</span>
+            
+              <span>m</span>
+            
+          </a>
+        </hgroup>
+        
+        <ul class="menu-link">
+          
+              <li>
+                <a href="https://github.com/nightRainy" target="_blank">
+                  <i class="icon icon-lg icon-github"></i>
+                </a>
+              </li>
+            
+        </ul>
+        
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                HOME
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                ARCHIVES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="https://github.com/nightRainy" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row clearfix">
+        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">
+            <span>glic内存管理学习笔记</span>
+            
+        </div>
+        
+        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
+            <i class="icon icon-lg icon-search"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+    <img src="/img/banner.jpg" class="header-bg">
+    <div class="container fade-scale">
+        <h1 class="title">glic内存管理学习笔记</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-06T15:17:25.000Z" itemprop="datePublished" class="page-time">
+  2019-05-06
+</time>
+
+
+            
+        </h5>
+        
+    </div>
+    
+
+</header>
+
+<div id="site_search">
+    <div class="search-title clearfix">
+        <span class="pull-left">
+          <i class="icon icon-lg icon-search"></i>
+        </span>
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left">
+        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
+          <i class="icon icon-lg icon-close"></i>
+        </a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<div class="container body-wrap">
+    <article id="post-glic内存管理学习笔记" class="post-article article-type-post" itemprop="blogPost">
+      <div class="post-card">
+          <h1 class="post-card-title">glic内存管理学习笔记</h1>
+          <div class="post-meta">
+              <time class="post-time" title="2019-05-06 23:17:25" datetime="2019-05-06T15:17:25.000Z" itemprop="datePublished">2019-05-06</time>
+
+              
+
+
+              
+
+              
+
+
+              
+          </div>
+          <div class="post-content" id="post-content" itemprop="postContent">
+              
+              <blockquote>
+<p>华庭师傅的glibc内存管理简直逆天,这里写一下笔记,更新中</p>
+</blockquote>
+<h1 id="内存经典布局"><a href="#内存经典布局" class="headerlink" title="内存经典布局"></a>内存经典布局</h1><p>这里随便画一下QAQ</p>
+<h2 id="32位"><a href="#32位" class="headerlink" title="32位"></a>32位</h2><table>
+<thead>
+<tr>
+<th>Kernel</th>
+<th>&lt;- 0xc00000000==TASK_SIZE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>&lt;- Random stack offset</td>
+</tr>
+<tr>
+<td>——-</td>
+</tr>
+<tr>
+<td>stack</td>
+</tr>
+<tr>
+<td>——-</td>
+</tr>
+<tr>
+<td></td>
+<td>&lt;-Random mmap offset</td>
+</tr>
+<tr>
+<td>——-</td>
+</tr>
+<tr>
+<td>Memory Mapping region</td>
+<td>&lt;- 0x40000000</td>
+</tr>
+<tr>
+<td></td>
+<td>&lt;- program break</td>
+</tr>
+<tr>
+<td>——-</td>
+<td>&lt;- brk</td>
+</tr>
+<tr>
+<td>heap</td>
+</tr>
+<tr>
+<td>——-</td>
+<td>&lt;- start brk</td>
+</tr>
+<tr>
+<td>BSS segment</td>
+</tr>
+<tr>
+<td>——-</td>
+<td>&lt;- end data</td>
+</tr>
+<tr>
+<td>Data segment</td>
+<td>&lt;- start data</td>
+</tr>
+<tr>
+<td>——-</td>
+<td>&lt;- end code</td>
+</tr>
+<tr>
+<td>Text segment</td>
+<td>&lt;- 0x08048000</td>
+</tr>
+<tr>
+<td>——-</td>
+</tr>
+<tr>
+<td></td>
+<td>&lt;- 0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="64位"><a href="#64位" class="headerlink" title="64位"></a>64位</h2><table>
+<thead>
+<tr>
+<th>Kernel</th>
+<th>&lt;- 0xFFFF800000000000</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>undefine region</td>
+<td>&lt;- 0X00007FFFFFFFF000=TASK_SIZE</td>
+</tr>
+<tr>
+<td>——-</td>
+</tr>
+<tr>
+<td>stack</td>
+</tr>
+<tr>
+<td>——-</td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td>——-</td>
+</tr>
+<tr>
+<td>Memory Mapping region</td>
+<td>&lt;- 0x00002AAAAAAAA000</td>
+</tr>
+<tr>
+<td></td>
+</tr>
+<tr>
+<td>——-</td>
+</tr>
+<tr>
+<td>heap</td>
+</tr>
+<tr>
+<td>——-</td>
+</tr>
+<tr>
+<td>BSS segment</td>
+</tr>
+<tr>
+<td>——-</td>
+</tr>
+<tr>
+<td>Data segment</td>
+</tr>
+<tr>
+<td>——-</td>
+</tr>
+<tr>
+<td>Text segment</td>
+<td>&lt;- 0x00000000040000</td>
+</tr>
+<tr>
+<td>——-</td>
+</tr>
+<tr>
+<td></td>
+<td>&lt;- 0</td>
+</tr>
+</tbody>
+</table>
+<h1 id="内容设计假设"><a href="#内容设计假设" class="headerlink" title="内容设计假设"></a>内容设计假设</h1><h2 id="6个假设"><a href="#6个假设" class="headerlink" title="6个假设"></a>6个假设</h2><ul>
+<li>对长生命周期的大内存分配使用mmap</li>
+<li>特别大的内存分配总使用mmap</li>
+<li>具有短生命周期的内存分配使用brk</li>
+<li>尽量只缓存临时使用的空闲小内存块</li>
+<li>空闲小内存块只会在malloc和free时合并,free时空闲内存块可能放入pool中,不一定归还给操作系统</li>
+<li>收缩堆的条件<ul>
+<li>当前free块大小加上前后可合并chunk大于64kb</li>
+<li>堆顶大小达到阈值</li>
+<li>这样会把堆最顶端空闲内存返回给操作系统</li>
+</ul>
+</li>
+</ul>
+<h2 id="记忆问题"><a href="#记忆问题" class="headerlink" title="记忆问题"></a>记忆问题</h2><ul>
+<li>收缩堆的条件有?</li>
+<li>结果是?</li>
+<li>都有哪些假设?</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>大内存,长周期 -&gt; mmap</li>
+<li>短周期 -&gt; brk</li>
+<li>缓存的内存块尽可能时大小较小的</li>
+<li>空闲块只有在分配和free的时候会合并</li>
+<li>free的时候不一定归还给操作系统(会成为cache)</li>
+<li>空闲chunk大小 &gt; 64KB 时合并chunk -&gt;收缩堆</li>
+<li>堆顶大小达到阈值 -&gt; 收缩堆</li>
+<li>收缩堆会将堆最顶端空间内存返回给操作系统</li>
+</ul>
+<h1 id="数据结构概述"><a href="#数据结构概述" class="headerlink" title="数据结构概述"></a>数据结构概述</h1><h2 id="Main-arena-与-non-main-arena"><a href="#Main-arena-与-non-main-arena" class="headerlink" title="Main_arena 与 non_main_arena"></a>Main_arena 与 non_main_arena</h2><h3 id="原文概述"><a href="#原文概述" class="headerlink" title="原文概述"></a>原文概述</h3><ul>
+<li>在 Doug Lea 实现的内存分配器中只有一个主分配区（main arena）</li>
+<li>每次分配内存都必须对主分配区加锁，分配完成后释放锁</li>
+<li>在 SMP 多线程环境下，对主分配区的锁的争用很激烈，严重影响了malloc 的分配效率。于是Wolfram Gloger 在 Doug Lea 的基础上改进使得 Glibc 的malloc 可以支持多线程，增加了非主分配区（non main arena）支持</li>
+<li>主分配区与非主分配区用环形链表进行管理。每一个分配区利用互斥锁（mutex）使线程对于该分配区的访问互斥。 </li>
+<li>每个进程只有一个主分配区，但可能存在多个非主分配区</li>
+<li>ptmalloc 根据系统对分配区的争用情况动态增加非主分配区的数量，分配区的数量一旦增加，就不会再减少了。</li>
+<li>主分配 区可以访问进程的heap区域和mmap映射区域</li>
+<li>主分配区可以使用 sbrk 和mmap 向操作系统申请虚拟内存。而非主分配区只能访问进程的 mmap 映射区域</li>
+<li>非主分配区每次使用mmap()向操作系统“批发”HEAP_MAX_SIZE（32 位系统上默认为 1MB，64 位系统默 认为 64MB）大小的虚拟内存</li>
+<li>当用户向非主分配区请求分配内存时再切割成小块“零售” 出去</li>
+<li>ptmalloc 在必要的情况下才会调用mmap()函数向操作系统申请虚拟内存。 </li>
+<li>主分配区可以访问 heap 区域，如果用户不调用 brk()或是 sbrk()函数，分配程序就可以保证分配到连续的虚拟地址空间，因为每个进程只有一个主分配区使用 sbrk()分配 heap 区域的虚拟内存。</li>
+<li>内核对 brk 的实现可以看着是mmap 的一个精简版，相对高效一些。</li>
+<li>如果主 分配区的内存是通过mmap()向系统分配的，当free该内存时，主分配区会直接调用munmap() 将该内存归还给系统。 </li>
+<li>当某一线程需要调用malloc()分配内存空间时，该线程先查看线程私有变量中是否已经存在一个分配区，如果存在，尝试对该分配区加锁，如果加锁成功，使用该分配区分配内存， 如果失败，该线程搜索循环链表试图获得一个没有加锁的分配区。如果所有的分配区都已经 加锁那么malloc()会开辟一个新的分配区，把该分配区加入到全局分配区循环链表并加锁， 然后使用该分配区进行分配内存操作。在释放操作中，线程同样试图获得待释放内存块所在 分配区的锁，如果该分配区正在被别的线程使用，则需要等待直到其他线程释放该分配区的 互斥锁之后才可以进行释放操作。 </li>
+<li>申请小块内存时会产生很多内存碎片，ptmalloc 在整理时也需要对分配区做加锁操作。</li>
+<li>每个加锁操作大概需要 5～10 个 cpu 指令，而且程序线程很多的情况下，锁等待的时间就会 延长，导致malloc性能下降。一次加锁操作需要消耗100ns左右，正是锁的缘故，导致ptmalloc 在多线程竞争情况下性能远远落后于 tcmalloc。最新版的 ptmalloc 对锁进行了优化，加入了 PER_THREAD和 ATOMIC_FASTBINS 优化，但默认编译不会启用该优化，这两个对锁的优化应 该能够提升多线程内存的分配的效率。</li>
+</ul>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ul>
+<li>该结构有什么特点?</li>
+<li>主分配区和非主分配区的区别是什么?</li>
+<li>两者不同的分配方式分别时如何分配的?</li>
+</ul>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>main_arena(MA)为主分配区;non_main_arena(N_MA)为非主分配区</li>
+<li>两者通过环形链表进行管理,每个分区采用互斥锁使线程的访问互斥</li>
+<li>每个分配区有一个MA,可能有多个N_MA;</li>
+<li>N_MA数里只加不减</li>
+<li>MA可访问进程的heap和mmap映射区域<ul>
+<li>MA可以使用Sbrk和mmap来向系统申请内存</li>
+<li>N_MA只能访问进程的MMAP映射区域</li>
+</ul>
+</li>
+<li>主分配区可访问heap区域,若用户不调用brk()/sbrk(),将可分配到连续的虚拟内存地址</li>
+<li>malloc时先看线程是否有分配区,存在则先加锁,成功则分配内存,否则开辟新分配区,加入环形链表并加锁</li>
+</ul>
+<h2 id="chunk的组织"><a href="#chunk的组织" class="headerlink" title="chunk的组织"></a>chunk的组织</h2><blockquote>
+<p>不管内存是在哪里被分配的，用什么方法分配，用户请求分配的空间在 ptmalloc 中都使用一个 chunk 来表示。用户调用 free()函数释放掉的内存也并不是立即就归还给操作系统， 相反，它们也会被表示为一个chunk，ptmalloc使用特定的数据结构来管理这些空闲的chunk</p>
+</blockquote>
+<h3 id="chunk格式"><a href="#chunk格式" class="headerlink" title="chunk格式"></a>chunk格式</h3><h4 id="使用中的chunk"><a href="#使用中的chunk" class="headerlink" title="使用中的chunk"></a>使用中的chunk</h4><table>
+<thead>
+<tr>
+<th>Size of pre chunk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Size of chunk,in bytes A/M/P</td>
+</tr>
+<tr>
+<td>——-</td>
+</tr>
+<tr>
+<td>user data</td>
+</tr>
+<tr>
+<td>——-</td>
+</tr>
+<tr>
+<td>Size of chunk,in bytes</td>
+</tr>
+</tbody>
+</table>
+
+          </div>
+          
+<blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-05-06T16:04:40.273Z" itemprop="dateUpdated">2019-05-07 00:04:40</time>
+</span><br>
+
+
+        
+        转载注明出处，原文地址：<a href="/2019/05/06/glic内存管理学习笔记/" target="_blank" rel="external">https://nightRainy.github.io/2019/05/06/glic内存管理学习笔记/</a>
+        
+    </div>
+    <footer>
+        <a href="https://nightRainy.github.io">
+            <img src="/img/favicon.jpg" alt="nightRainy">
+            nightRainy
+        </a>
+    </footer>
+</blockquote>
+
+          
+          
+          <div class="post-footer">
+              
+              <div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/05/06/glic内存管理学习笔记/&title=《glic内存管理学习笔记》 — NightRainy's Blog&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/05/06/glic内存管理学习笔记/&title=《glic内存管理学习笔记》 — NightRainy's Blog&source=my blogs" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+          </div>
+          
+              
+
+
+          
+      </div>
+      
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="next">
+      <a href="/2019/05/04/一些乱七八糟的东西/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">一些乱七八糟的东西</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+      
+      
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#内存经典布局"><span class="post-toc-number">1.</span> <span class="post-toc-text">内存经典布局</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#32位"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">32位</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#64位"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">64位</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#内容设计假设"><span class="post-toc-number">2.</span> <span class="post-toc-text">内容设计假设</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6个假设"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">6个假设</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#记忆问题"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">记忆问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">总结</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#数据结构概述"><span class="post-toc-number">3.</span> <span class="post-toc-text">数据结构概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Main-arena-与-non-main-arena"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">Main_arena 与 non_main_arena</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#原文概述"><span class="post-toc-number">3.1.1.</span> <span class="post-toc-text">原文概述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#问题"><span class="post-toc-number">3.1.2.</span> <span class="post-toc-text">问题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#总结-1"><span class="post-toc-number">3.1.3.</span> <span class="post-toc-text">总结</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#chunk的组织"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">chunk的组织</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#chunk格式"><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">chunk格式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用中的chunk"><span class="post-toc-number">3.2.1.1.</span> <span class="post-toc-text">使用中的chunk</span></a></li></ol></li></ol></li></ol></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </div></div></aside>
+    
+  </article>
+  
+  
+</div>
+
+        <footer class="footer">
+    
+    <div class="bottom">
+        <p>
+            <span>
+                nightRainy &copy; 2017 - 2019
+            </span>
+        		
+           	
+            
+            
+            <span>
+	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
+            </span>
+            
+            
+            
+
+            
+                
+<span class="site-uv" title="总访客量">
+    <i class="icon icon-user"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>
+
+
+<span class="site-pv" title="总访问量">
+    <i class="icon icon-eye"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+            
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/05/06/glic内存管理学习笔记/&title=《glic内存管理学习笔记》 — NightRainy's Blog&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/05/06/glic内存管理学习笔记/&title=《glic内存管理学习笔记》 — NightRainy's Blog&source=my blogs" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACuElEQVR42u3ay4ojMQwF0Pz/T/fArHoIVbmSrCQDx6sinYePGyxz5ccjHj9/x+/n51ee//r79edvu/9r/v4DAw8PD6819atxP+mr52RRrj5VXeIXC4qHh4e3xusVg7xgVKd+XxjyooKHh4f3WV7y89Uyk5cNPDw8vP+dNxm9QoKHh4f3bbxkKskxt/rZ6nIsZi14eHh4MW8SFnzqeb2/h4eHh9fqqt9vuL1WVr59HygneHh4eAu86lH47O2m/Gg+Wjg8PDy8o7zqzySrlTe38gKTxxP/POPh4eGt8apTrzarJgUgKQ+XS4mHh4e3wMsbS9Vmf7XM9A73UeCLh4eH9xZefukqIUVXo1oXAqLAAg8PD+8oL590vhx5qaheFCgfvvHw8PCWeRsxRBK8TgLfF+/Bw8PDW+BVt/ukkV+9FNUrM+Wlx8PDw1vm9S5a9XKA/LNJ2IGHh4f3Hl5vPSYt/7wIJSWn2QDDw8PDa/GqB995FJtHtNVQ+DLGxcPDwzvKm4QRebBbDV6rvx4tKx4eHt4C73577TW95g22SWSMh4eHt8fL2/m91n4edlSvGkQzxMPDwzvKq154mse1k8ijWirw8PDwtnmTln/16JxfqJosIh4eHt4ebxLOTqKHpCQkr7woDHh4eHhHedWItncFKv+e/CBeiI/x8PDwjvImV6km080D4mqRwMPDw3snL9/Qc95GkFEoUXh4eHgLvN6k51e1JqWi2hLDw8PDO8v7KY6kYMwPxNXIOKp7eHh4eId4+ehFD9UgIy8zeHh4eJ/lJcUg347zb6uGxfn/Bw8PD+89vF5kkDf4q3Fts4Lh4eHhfRkvn1A1yJiEyy/eiYeHh/c1vF4M0UtH8uJxGUbg4eHhLfB6x+J7xjwIrhanY1kLHh4eXjqHx2RrTjb6XkA8aafh4eHhHeX9AaPLX/Qd9BGtAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+    
+    <!-- main-js -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/js/plugins/fastclick.js?v=1.4.1"></script>
+<script type="text/javascript" src="/js/plugins/ios-orientationchange-fix.js?v=1.4.1"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script type="text/javascript" src="/js/method.js?v=1.4.1"></script>
+<script type="text/javascript" src="/js/blog.js?v=1.4.1"></script>
+
+<!-- third-party -->
+
+
+
+
+
+
+<script type="text/javascript" src="/js/plugins/local_search.js?v=1.4.1"></script>
+<script type="text/javascript">
+	var search_path = "search.xml";
+	if (search_path.length === 0) {
+		search_path = "search.xml";
+	}
+	var path = "/" + search_path;
+	searchFunc(path, "local-search-input", "local-search-result");
+</script>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+
+
+
+
+
+    <!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+    <script>
+    (function() {
+        var OriginTitile = document.title, titleTime;
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                document.title = '/(ㄒoㄒ)/~~嘤嘤嘤，不要我了';
+                clearTimeout(titleTime);
+            } else {
+                document.title = '(つェ⊂)来啦官人';
+                titleTime = setTimeout(function() {
+                    document.title = OriginTitile;
+                },2000);
+            }
+        });
+    })();
+</script>
+
+
+
+
+
+    
+</body>
+</html>
