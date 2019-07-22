@@ -201,16 +201,39 @@
           <div class="post-content" id="post-content" itemprop="postContent">
               
               <h1 id="Unsorted-Bin-Attack-study"><a href="#Unsorted-Bin-Attack-study" class="headerlink" title="Unsorted Bin Attack study"></a>Unsorted Bin Attack study</h1><blockquote>
-<p>做一下unsorted bin 的攻击总结好了</p>
+<p>做一下unsorted bin 的攻击总结好了,日常简单堆的题目靠unsorted bin泄露libc地址Hhh</p>
 </blockquote>
-<h1 id="unsorted-bin"><a href="#unsorted-bin" class="headerlink" title="unsorted bin"></a>unsorted bin</h1>
+<h1 id="借鉴学习师傅们的文章"><a href="#借鉴学习师傅们的文章" class="headerlink" title="借鉴学习师傅们的文章"></a>借鉴学习师傅们的文章</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/unsorted_bin_attack-zh/</span><br><span class="line">https://www.anquanke.com/post/id/85127</span><br><span class="line">https://veritas501.space/2017/07/25/%E5%9B%BE%E5%BD%A2%E5%8C%96%E5%B1%95%E7%A4%BA%E5%A0%86%E5%88%A9%E7%94%A8%E8%BF%87%E7%A8%8B/</span><br><span class="line">https://blog.csdn.net/qq_29343201/article/details/74187621</span><br></pre></td></tr></table></figure>
+<p>在此日常膜大师傅们</p>
+<h1 id="unsorted-bin相关"><a href="#unsorted-bin相关" class="headerlink" title="unsorted bin相关"></a>unsorted bin相关</h1><h2 id="零碎知识"><a href="#零碎知识" class="headerlink" title="零碎知识:"></a>零碎知识:</h2><p>  我们知道Ptmalloc一共维护了128个bin，并使用一个数组来存储这些bin,而这些数组的第一个就是Unsorted bin</p>
+<ul>
+<li>如果被用户释放的chunk大于max_fast，或者fast bins中的空闲chunk合并后，这些chunk首先会被放到unsorted bin队列中</li>
+<li>在进行malloc操作的时候，如果在fast bins中没有找到合适的chunk，则ptmalloc会先在unsorted bin中查找合适的空闲chunk，然后才查找bins。</li>
+<li>如果unsorted bin不能满足分配要求。malloc便会将unsorted bin中的chunk加入bins中。然后再从bins中继续进行查找和分配过程。</li>
+<li>unsorted bin可以看做是bins的一个缓冲区，增加它只是为了加快分配的速度。</li>
+<li>在size&gt;FASTBIM_CONNSOLIDATION_THRESHOLD,时(需要大chunk时)，ptmalloc会遍历fast bins中的chunk，将相邻的空闲chunk进行合并，并将合并后的chunk加入unsorted bin中，然后再将usorted bin里的chunk加入bins中。<br>Unsorted Bin</li>
+<li>空闲的chunk连入bin时,会将 P 设为 0 , 并检查前后chunk是否空闲,若空闲则合并后加入unsorted bins中</li>
+<li>当一个较大的 chunk 被分割成两半后，如果剩下的部分大于 MINSIZE，就会被放到 unsorted bin 中。</li>
+<li>释放一个不属于 fast bin 的 chunk，并且该 chunk 不和 top chunk 紧邻时，该 chunk 会被首先放到 unsorted bin 中。</li>
+<li>当进行 malloc_consolidate 时，可能会把合并后的 chunk 放到 unsorted bin 中，如果不是和 top chunk 近邻的话</li>
+</ul>
+<p>对libc知识不太清楚的可以看看我之前的文章 :  <a href="https://nightrainy.github.io/2019/05/06/glic%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">glibc内存学习笔记</a></p>
+<h2 id="这里也做一个补充"><a href="#这里也做一个补充" class="headerlink" title="这里也做一个补充:"></a><em>这里也做一个补充</em>:</h2><ul>
+<li>fastbin 是 LIFO (后入先出)</li>
+<li>unsorted bin是 FIFO (先进先出)</li>
+<li>small bin 是 FIFO</li>
+<li>large bin 是 FIFO</li>
+<li>tcache 是 LIFO</li>
+</ul>
+<p>也就是除了fastbin和tcache,其余的都是先进先出原则</p>
+
           </div>
           
 <blockquote class="post-copyright">
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-07-21T12:35:09.096Z" itemprop="dateUpdated">2019-07-21 20:35:09</time>
+    Last updated: <time datetime="2019-07-22T04:52:49.739Z" itemprop="dateUpdated">2019-07-22 12:52:49</time>
 </span><br>
 
 
@@ -291,7 +314,7 @@
         <aside class="post-widget">
             <nav class="post-toc-wrap" id="post-toc">
                 <strong>目录</strong>
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Unsorted-Bin-Attack-study"><span class="post-toc-number">1.</span> <span class="post-toc-text">Unsorted Bin Attack study</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#unsorted-bin"><span class="post-toc-number">2.</span> <span class="post-toc-text">unsorted bin</span></a></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Unsorted-Bin-Attack-study"><span class="post-toc-number">1.</span> <span class="post-toc-text">Unsorted Bin Attack study</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#借鉴学习师傅们的文章"><span class="post-toc-number">2.</span> <span class="post-toc-text">借鉴学习师傅们的文章</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#unsorted-bin相关"><span class="post-toc-number">3.</span> <span class="post-toc-text">unsorted bin相关</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#零碎知识"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">零碎知识:</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#这里也做一个补充"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">这里也做一个补充:</span></a></li></ol></li></ol>
             </nav>
             <div class="toc-bar"><div>
         </div></div></aside>
