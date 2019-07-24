@@ -3,6 +3,17 @@
   
     
     <entry>
+      <title><![CDATA[off-by-one]]></title>
+      <url>/2019/07/24/off-by-one/</url>
+      <content type="html"><![CDATA[<h1 id="off-by-one-漏洞利用学习"><a href="#off-by-one-漏洞利用学习" class="headerlink" title="off-by-one 漏洞利用学习"></a>off-by-one 漏洞利用学习</h1><blockquote>
+<p>一直没能学会off-by-one这一个神奇的漏洞利用方式,这一次终于有机会默默学习一下了</p>
+</blockquote>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Unsorted Bin Attack]]></title>
       <url>/2019/07/21/Unsorted-Bin-Attack/</url>
       <content type="html"><![CDATA[<h1 id="Unsorted-Bin-Attack-study"><a href="#Unsorted-Bin-Attack-study" class="headerlink" title="Unsorted Bin Attack study"></a>Unsorted Bin Attack study</h1><blockquote>
