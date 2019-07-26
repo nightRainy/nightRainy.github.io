@@ -315,6 +315,55 @@
 <li>如果中间overlap部分有function pointer或者是其他有用的struct可简介控制程序流程</li>
 <li>也可以配合fastbin freed chunk更改fd</li>
 </ul>
+<h1 id="extend-the-chunk"><a href="#extend-the-chunk" class="headerlink" title="extend the chunk"></a>extend the chunk</h1><h2 id="前提-1"><a href="#前提-1" class="headerlink" title="前提"></a>前提</h2><p>假设存在一个off-by-one的漏洞</p>
+<h2 id="目的-1"><a href="#目的-1" class="headerlink" title="目的"></a>目的</h2><p>造出overlap chunk,进而更改其他chunk中的内容</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>跟shrink很像,但主要是加大size直接覆盖后面的chunk,只要前面的 chunk header有对上的就行</p>
+<h2 id="过程-配合图食用最佳"><a href="#过程-配合图食用最佳" class="headerlink" title="过程(配合图食用最佳)"></a>过程(配合图食用最佳)</h2><ol>
+<li>一开始先malloc 3 块chunk 到heap段<figure class="image-box">
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/1.png" title="p1" data-fancybox="images"><img src="/img/extend/1.png" alt="p1" title="" class=""></a>
+                <p>p1</p>
+            </figure></li>
+<li>free(A)<figure class="image-box">
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/2.png" title="p1" data-fancybox="images"><img src="/img/extend/2.png" alt="p1" title="" class=""></a>
+                <p>p1</p>
+            </figure></li>
+<li>malloc(0x38)<figure class="image-box">
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/3.png" title="p1" data-fancybox="images"><img src="/img/extend/3.png" alt="p1" title="" class=""></a>
+                <p>p1</p>
+            </figure></li>
+<li>往A中写数据以构造off-by-one<figure class="image-box">
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/4.png" title="p1" data-fancybox="images"><img src="/img/extend/4.png" alt="p1" title="" class=""></a>
+                <p>p1</p>
+            </figure></li>
+<li>free(B)<br>0x1b1=0x171+0x40<br>为了之后可以覆盖c(把c吃进去)<figure class="image-box">
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/5.png" title="p1" data-fancybox="images"><img src="/img/extend/5.png" alt="p1" title="" class=""></a>
+                <p>p1</p>
+            </figure></li>
+<li>此时会根据B的size去找下一块chunk的hader<figure class="image-box">
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/6.png" title="p1" data-fancybox="images"><img src="/img/extend/6.png" alt="p1" title="" class=""></a>
+                <p>p1</p>
+            </figure></li>
+<li>此时这块chunk会被合并到top(如果c后面是top)或者加入到unsortbin中<figure class="image-box">
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/7.png" title="p1" data-fancybox="images"><img src="/img/extend/7.png" alt="p1" title="" class=""></a>
+                <p>p1</p>
+            </figure></li>
+<li>malloc(0x1a0)<figure class="image-box">
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/8.png" title="p1" data-fancybox="images"><img src="/img/extend/8.png" alt="p1" title="" class=""></a>
+                <p>p1</p>
+            </figure></li>
+<li>此时可以任意更改c<figure class="image-box">
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/9.png" title="p1" data-fancybox="images"><img src="/img/extend/9.png" alt="p1" title="" class=""></a>
+                <p>p1</p>
+            </figure>
+</li>
+</ol>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>和shrink比起来extend the chunk的限制多了一些,必须要可控off-by-one的那个byte,Shrink只要是null byte即可,相对比较常见但是也不太好发现</p>
+<h1 id="大总结"><a href="#大总结" class="headerlink" title="大总结"></a>大总结</h1><ul>
+<li><p>堆的漏洞利用起来虽然会难一点,但是常常在Full mitigation的情况下都可以利用,毕竟针对heap来说相对应的保护比较少,也较难实现</p>
+</li>
+<li><p>Heap是门艺术(真的是门艺术…爆肝调试就完了</p>
+</li>
+</ul>
 
           </div>
           
@@ -322,7 +371,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-07-26T07:01:46.265Z" itemprop="dateUpdated">2019-07-26 15:01:46</time>
+    Last updated: <time datetime="2019-07-26T09:28:53.457Z" itemprop="dateUpdated">2019-07-26 17:28:53</time>
 </span><br>
 
 
@@ -403,7 +452,7 @@
         <aside class="post-widget">
             <nav class="post-toc-wrap" id="post-toc">
                 <strong>目录</strong>
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#搬运自https-www-slideshare-net-AngelBoy1-advanced-heap-exploitaion"><span class="post-toc-number">1.</span> <span class="post-toc-text">搬运自https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#advancede-heap-exploiator"><span class="post-toc-number">2.</span> <span class="post-toc-text">advancede heap exploiator</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#环境"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">目录</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Fastbin-corruption"><span class="post-toc-number">3.</span> <span class="post-toc-text">Fastbin corruption</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#假设程序有double-free的漏洞"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">假设程序有double free的漏洞</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#fastbin的检查"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">fastbin的检查</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#in-free-p"><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">in free(p):</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#in-malloc-bytes"><span class="post-toc-number">3.2.2.</span> <span class="post-toc-text">in malloc(bytes):</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fast-bin"><span class="post-toc-number">3.2.3.</span> <span class="post-toc-text">fast bin</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LIFO"><span class="post-toc-number">3.2.4.</span> <span class="post-toc-text">LIFO</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fastbin-layout"><span class="post-toc-number">3.2.5.</span> <span class="post-toc-text">fastbin layout</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#利用"><span class="post-toc-number">3.2.6.</span> <span class="post-toc-text">利用</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Shrink-the-chunk"><span class="post-toc-number">4.</span> <span class="post-toc-text">Shrink the chunk</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前提"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">前提</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目的"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">目的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#方法"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#过程-看图食用最佳"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">过程(看图食用最佳)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">总结</span></a></li></ol></li></ol>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#搬运自https-www-slideshare-net-AngelBoy1-advanced-heap-exploitaion"><span class="post-toc-number">1.</span> <span class="post-toc-text">搬运自https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#advancede-heap-exploiator"><span class="post-toc-number">2.</span> <span class="post-toc-text">advancede heap exploiator</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#环境"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">目录</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Fastbin-corruption"><span class="post-toc-number">3.</span> <span class="post-toc-text">Fastbin corruption</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#假设程序有double-free的漏洞"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">假设程序有double free的漏洞</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#fastbin的检查"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">fastbin的检查</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#in-free-p"><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">in free(p):</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#in-malloc-bytes"><span class="post-toc-number">3.2.2.</span> <span class="post-toc-text">in malloc(bytes):</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fast-bin"><span class="post-toc-number">3.2.3.</span> <span class="post-toc-text">fast bin</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LIFO"><span class="post-toc-number">3.2.4.</span> <span class="post-toc-text">LIFO</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fastbin-layout"><span class="post-toc-number">3.2.5.</span> <span class="post-toc-text">fastbin layout</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#利用"><span class="post-toc-number">3.2.6.</span> <span class="post-toc-text">利用</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Shrink-the-chunk"><span class="post-toc-number">4.</span> <span class="post-toc-text">Shrink the chunk</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前提"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">前提</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目的"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">目的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#方法"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#过程-看图食用最佳"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">过程(看图食用最佳)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">总结</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#extend-the-chunk"><span class="post-toc-number">5.</span> <span class="post-toc-text">extend the chunk</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前提-1"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">前提</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目的-1"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">目的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原理"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#过程-配合图食用最佳"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">过程(配合图食用最佳)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结-1"><span class="post-toc-number">5.5.</span> <span class="post-toc-text">总结</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#大总结"><span class="post-toc-number">6.</span> <span class="post-toc-text">大总结</span></a></li></ol>
             </nav>
             <div class="toc-bar"><div>
         </div></div></aside>
