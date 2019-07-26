@@ -58,16 +58,63 @@
 <h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>创造出overlap chunk,进而更改其他chunk中的内容</p>
 <h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>主要利用Unsortedbin ,small bin会Unlink做合并的特性来达到我们的目的</p>
 <h2 id="过程-看图食用最佳"><a href="#过程-看图食用最佳" class="headerlink" title="过程(看图食用最佳)"></a>过程(看图食用最佳)</h2><ol>
-<li>一开始先malloc 3 块chunk(A,B,C)到heap段,且fastbin是空的<br>![avator][/img/shrink/p1.png]</li>
-<li>free(B)<br>![avator][/img/shrink/p2.png]</li>
-<li>free(A)<br>![avator][/img/shrink/p3.png]</li>
-<li>malloc(0x38)<br>![avator][/img/shrink/p4.png]</li>
-<li>往A中写数据触发off-by-one来覆盖size<br>![avator][[/img/shrink/p5.png]</li>
-<li>malloc(0x80)<br>![avator][/img/shrink/p6.png]</li>
-<li>malloc(0x30)<br>![avator][/img/shrink/p7.png]</li>
-<li>free(B)<br>![avator][/img/shrink/p8.png]</li>
-<li>free(C)<br>![avator][/img/shrink/p9.png]<br>此时会因为C是SMALL BIN的大小的缘故,所以会检测上一块是否inused<br>![avator][/img/shrink/p10.png]<br>如果上一块是freed就会根据prev_size去找上一块chunk的header做合并及unlink<br>![avator][/img/shrink/p11.png]<br>此时unsortbin村这块大的chunk,所以下次malloc会用这一块先分配给user<br>![avator][/img/shrink/p12.png]</li>
-<li>malloc(0x260)<br>![avator][/img/shrink/p13.png]<br>此时即可任意修改D<br>![avator][/img/shrink/p14.png]</li>
+<li>一开始先malloc 3 块chunk(A,B,C)到heap段,且fastbin是空的<figure class="image-box">
+                <img src="/img/shrink/p1.png" alt="avator" title="" class="">
+                <p>avator</p>
+            </figure></li>
+<li>free(B)<figure class="image-box">
+                <img src="/img/shrink/p2.png" alt="avator" title="" class="">
+                <p>avator</p>
+            </figure></li>
+<li>free(A)<figure class="image-box">
+                <img src="/img/shrink/p3.png" alt="avator" title="" class="">
+                <p>avator</p>
+            </figure></li>
+<li>malloc(0x38)<figure class="image-box">
+                <img src="/img/shrink/p4.png" alt="avator" title="" class="">
+                <p>avator</p>
+            </figure></li>
+<li>往A中写数据触发off-by-one来覆盖size<figure class="image-box">
+                <img src="/img/shrink/p5.png" alt="avator" title="" class="">
+                <p>avator</p>
+            </figure></li>
+<li>malloc(0x80)<figure class="image-box">
+                <img src="/img/shrink/p6.png" alt="avator" title="" class="">
+                <p>avator</p>
+            </figure></li>
+<li>malloc(0x30)<figure class="image-box">
+                <img src="/img/shrink/p7.png" alt="avator" title="" class="">
+                <p>avator</p>
+            </figure></li>
+<li>free(B)<figure class="image-box">
+                <img src="/img/shrink/p8.png" alt="avator" title="" class="">
+                <p>avator</p>
+            </figure></li>
+<li>free(C)<figure class="image-box">
+                <img src="/img/shrink/p9.png" alt="avator" title="" class="">
+                <p>avator</p>
+            </figure>
+此时会因为C是SMALL BIN的大小的缘故,所以会检测上一块是否inused<figure class="image-box">
+                <img src="/img/shrink/p10.png" alt="avator" title="" class="">
+                <p>avator</p>
+            </figure>
+如果上一块是freed就会根据prev_size去找上一块chunk的header做合并及unlink<figure class="image-box">
+                <img src="/img/shrink/p11.png" alt="avator" title="" class="">
+                <p>avator</p>
+            </figure>
+此时unsortbin村这块大的chunk,所以下次malloc会用这一块先分配给user<figure class="image-box">
+                <img src="/img/shrink/p12.png" alt="avator" title="" class="">
+                <p>avator</p>
+            </figure></li>
+<li>malloc(0x260)<figure class="image-box">
+                <img src="/img/shrink/p13.png" alt="avator" title="" class="">
+                <p>avator</p>
+            </figure>
+此时即可任意修改D<figure class="image-box">
+                <img src="/img/shrink/p14.png" alt="avator" title="" class="">
+                <p>avator</p>
+            </figure>
+</li>
 </ol>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
 <li>如果中间overlap部分有function pointer或者是其他有用的struct可简介控制程序流程</li>
