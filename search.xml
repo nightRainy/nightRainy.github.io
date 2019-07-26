@@ -3,6 +3,82 @@
   
     
     <entry>
+      <title><![CDATA[advanced heap exploiatior(搬运)]]></title>
+      <url>/2019/07/26/advanced-heap-exploiatior-%E6%90%AC%E8%BF%90/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>在学习chunk extended的是时候google到的,就果断搬运过来了</p>
+</blockquote>
+<h1 id="搬运自https-www-slideshare-net-AngelBoy1-advanced-heap-exploitaion"><a href="#搬运自https-www-slideshare-net-AngelBoy1-advanced-heap-exploitaion" class="headerlink" title="搬运自https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion"></a>搬运自<a href="https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion" target="_blank" rel="noopener">https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion</a></h1><h1 id="advancede-heap-exploiator"><a href="#advancede-heap-exploiator" class="headerlink" title="advancede heap exploiator"></a>advancede heap exploiator</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>glibc-2.19</li>
+<li>kernel-4.2</li>
+<li>64bit</li>
+</ul>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>Fastbin corruption</li>
+<li>Shrink the chunk</li>
+<li>Extend the chunk</li>
+</ul>
+<h1 id="Fastbin-corruption"><a href="#Fastbin-corruption" class="headerlink" title="Fastbin corruption"></a>Fastbin corruption</h1><h2 id="假设程序有double-free的漏洞"><a href="#假设程序有double-free的漏洞" class="headerlink" title="假设程序有double free的漏洞"></a>假设程序有double free的漏洞</h2><ul>
+<li>目的<ul>
+<li>我们可以利用fastin chunk改掉fd使得下下次malloc该chunk时可以取得自己想要的位置</li>
+</ul>
+</li>
+<li>为了利用double free的楼哦对那个来改比那fee chunk中的fd,我们可以利用一些fastbin的特性达到我们的目的,但我们也必须通过一些chunk的检查<h2 id="fastbin的检查"><a href="#fastbin的检查" class="headerlink" title="fastbin的检查"></a>fastbin的检查</h2><h3 id="in-free-p"><a href="#in-free-p" class="headerlink" title="in free(p):"></a>in free(p):</h3></li>
+<li>chunk address &lt;-size 且alignment</li>
+<li>chunk size &gt; =MINSIZE(0X20)且为0x10的倍数</li>
+<li>nextchunk-&gt; size<ul>
+<li>大于MINSIZE(0X20)</li>
+<li>小于system_mem(0x21000)<br><strong>检查属于该size的fastbin中的第一块chunk与p是否不同</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="in-malloc-bytes"><a href="#in-malloc-bytes" class="headerlink" title="in malloc(bytes):"></a>in malloc(bytes):</h3><ul>
+<li>根据size大小取得index之后,到对应的fastbin中找,取出后检查该chunk的(unsigned lond)size事发后属于该fastbin</li>
+<li>但实际比较的时候是先以fastbin中第一块size取得fastbin的index,再去用这个index跟刚刚算的Index是否想用,不过这取index的方式是用unsigned in(4 byte)</li>
+</ul>
+<h3 id="fast-bin"><a href="#fast-bin" class="headerlink" title="fast bin"></a>fast bin</h3><ul>
+<li>一个单链表</li>
+<li>chunk size&lt;=0x80 byte</li>
+<li>不取消inuse flag</li>
+<li>依据bin中所存的chunk大小.再分为10个fastbin 分别为0x20,0x30…</li>
+</ul>
+<h3 id="LIFO"><a href="#LIFO" class="headerlink" title="LIFO"></a>LIFO</h3><p>当下次malloc大小与这次free大小相同时,会从相同的bin取出,也就是会取到相同位置的chunk</p>
+<h3 id="fastbin-layout"><a href="#fastbin-layout" class="headerlink" title="fastbin layout"></a>fastbin layout</h3><p>布局我就不多阐述了,之前的文章有写过很多次</p>
+<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><ul>
+<li>我们可以利用fastbin的chunk再free的时候只检查属于该size的fastbin中的第一块chunk与p是否不同的特性来创造overlaps chunk</li>
+<li>创造一个circle的singly linked list,这样就可以达到类似UAF的效果</li>
+<li>fd只要符和size是或否属于该chunk就可以通过Malloc检测,因此只要想写入的位置附近有属于该bin的size就可以让malloc分配到该位置<ul>
+<li>根据bytes大小取得index后,到对应的fastbin找,取出后检查该chunk的size事发后属于该fastbin</li>
+<li>但实际比较的时候先是以fatbin中第一块size取得fastbin的index,再去比index和刚刚算的index是否相同,不过这取index的方式是哟个unsigned int(4byte),所以伪造是不用满足8byte</li>
+</ul>
+</li>
+<li>因此没有检查alognment所以不一定要以8的倍数作为chunk的address</li>
+</ul>
+<h1 id="Shrink-the-chunk"><a href="#Shrink-the-chunk" class="headerlink" title="Shrink the chunk"></a>Shrink the chunk</h1><h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>假设存在一个和off-by-one的漏洞</p>
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>创造出overlap chunk,进而更改其他chunk中的内容</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>主要利用Unsortedbin ,small bin会Unlink做合并的特性来达到我们的目的</p>
+<h2 id="过程-看图食用最佳"><a href="#过程-看图食用最佳" class="headerlink" title="过程(看图食用最佳)"></a>过程(看图食用最佳)</h2><ol>
+<li>一开始先malloc 3 块chunk(A,B,C)到heap段,且fastbin是空的<br>![avator][/img/shrink/p1.png]</li>
+<li>free(B)<br>![avator][/img/shrink/p2.png]</li>
+<li>free(A)<br>![avator][/img/shrink/p3.png]</li>
+<li>malloc(0x38)<br>![avator][/img/shrink/p4.png]</li>
+<li>往A中写数据触发off-by-one来覆盖size<br>![avator][[/img/shrink/p5.png]</li>
+<li>malloc(0x80)<br>![avator][/img/shrink/p6.png]</li>
+<li>malloc(0x30)<br>![avator][/img/shrink/p7.png]</li>
+<li>free(B)<br>![avator][/img/shrink/p8.png]</li>
+<li>free(C)<br>![avator][/img/shrink/p9.png]<br>此时会因为C是SMALL BIN的大小的缘故,所以会检测上一块是否inused<br>![avator][/img/shrink/p10.png]<br>如果上一块是freed就会根据prev_size去找上一块chunk的header做合并及unlink<br>![avator][/img/shrink/p11.png]<br>此时unsortbin村这块大的chunk,所以下次malloc会用这一块先分配给user<br>![avator][/img/shrink/p12.png]</li>
+<li>malloc(0x260)<br>![avator][/img/shrink/p13.png]<br>此时即可任意修改D<br>![avator][/img/shrink/p14.png]</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>如果中间overlap部分有function pointer或者是其他有用的struct可简介控制程序流程</li>
+<li>也可以配合fastbin freed chunk更改fd</li>
+</ul>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[chunk extend and overlapping]]></title>
       <url>/2019/07/25/chunk-extend-and-overlapping/</url>
       <content type="html"><![CDATA[<blockquote>

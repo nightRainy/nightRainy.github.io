@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    
+    <title>advanced heap exploiatior(搬运) | 知世の小屋 | 何不仗剑随风去,扶摇直上九万里</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="">
+    <link rel="shortcut icon" href="/img/favicon.jpg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.4.1">
+    
+    <script type="text/javascript">
+        // Data Center
+        var DC = {
+            reward:	true,
+            lv: JSON.parse('{"enable":false,"app_id":null,"app_key":null,"icon":true}'),
+            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
+            g: JSON.parse('{"enable":false,"lazy":true,"owner":"nightRainy","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
+            d: JSON.parse('{"app_id":null}')
+        };
+    </script>
+    <script type="text/javascript">
+        window.lazyScripts=[];
+    </script>
+    
+</head>
+
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      
+      <img src="/img/brand.jpg" class="brand-bg">
+      
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/favicon.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">知世</h5>
+          <a href="mailto:jianaiyuheng@qq.com" title="jianaiyuheng@qq.com" class="mail">
+            
+              <span>j</span>
+            
+              <span>i</span>
+            
+              <span>a</span>
+            
+              <span>n</span>
+            
+              <span>a</span>
+            
+              <span>i</span>
+            
+              <span>y</span>
+            
+              <span>u</span>
+            
+              <span>h</span>
+            
+              <span>e</span>
+            
+              <span>n</span>
+            
+              <span>g</span>
+            
+              <span>@</span>
+            
+              <span>q</span>
+            
+              <span>q</span>
+            
+              <span>.</span>
+            
+              <span>c</span>
+            
+              <span>o</span>
+            
+              <span>m</span>
+            
+          </a>
+        </hgroup>
+        
+        <ul class="menu-link">
+          
+              <li>
+                <a href="https://github.com/nightRainy" target="_blank">
+                  <i class="icon icon-lg icon-github"></i>
+                </a>
+              </li>
+            
+        </ul>
+        
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                HOME
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                ARCHIVES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="https://github.com/nightRainy" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row clearfix">
+        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">
+            <span>advanced heap exploiatior(搬运)</span>
+            
+        </div>
+        
+        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
+            <i class="icon icon-lg icon-search"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+    <img src="/img/banner.jpg" class="header-bg">
+    <div class="container fade-scale">
+        <h1 class="title">advanced heap exploiatior(搬运)</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-07-26T03:56:36.000Z" itemprop="datePublished" class="page-time">
+  2019-07-26
+</time>
+
+
+            
+        </h5>
+        
+    </div>
+    
+
+</header>
+
+<div id="site_search">
+    <div class="search-title clearfix">
+        <span class="pull-left">
+          <i class="icon icon-lg icon-search"></i>
+        </span>
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left">
+        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
+          <i class="icon icon-lg icon-close"></i>
+        </a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<div class="container body-wrap">
+    <article id="post-advanced-heap-exploiatior-搬运" class="post-article article-type-post" itemprop="blogPost">
+      <div class="post-card">
+          <h1 class="post-card-title">advanced heap exploiatior(搬运)</h1>
+          <div class="post-meta">
+              <time class="post-time" title="2019-07-26 11:56:36" datetime="2019-07-26T03:56:36.000Z" itemprop="datePublished">2019-07-26</time>
+
+              
+
+
+              
+
+              
+
+
+              
+          </div>
+          <div class="post-content" id="post-content" itemprop="postContent">
+              
+              <blockquote>
+<p>在学习chunk extended的是时候google到的,就果断搬运过来了</p>
+</blockquote>
+<h1 id="搬运自https-www-slideshare-net-AngelBoy1-advanced-heap-exploitaion"><a href="#搬运自https-www-slideshare-net-AngelBoy1-advanced-heap-exploitaion" class="headerlink" title="搬运自https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion"></a>搬运自<a href="https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion" target="_blank" rel="noopener">https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion</a></h1><h1 id="advancede-heap-exploiator"><a href="#advancede-heap-exploiator" class="headerlink" title="advancede heap exploiator"></a>advancede heap exploiator</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>glibc-2.19</li>
+<li>kernel-4.2</li>
+<li>64bit</li>
+</ul>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>Fastbin corruption</li>
+<li>Shrink the chunk</li>
+<li>Extend the chunk</li>
+</ul>
+<h1 id="Fastbin-corruption"><a href="#Fastbin-corruption" class="headerlink" title="Fastbin corruption"></a>Fastbin corruption</h1><h2 id="假设程序有double-free的漏洞"><a href="#假设程序有double-free的漏洞" class="headerlink" title="假设程序有double free的漏洞"></a>假设程序有double free的漏洞</h2><ul>
+<li>目的<ul>
+<li>我们可以利用fastin chunk改掉fd使得下下次malloc该chunk时可以取得自己想要的位置</li>
+</ul>
+</li>
+<li>为了利用double free的楼哦对那个来改比那fee chunk中的fd,我们可以利用一些fastbin的特性达到我们的目的,但我们也必须通过一些chunk的检查<h2 id="fastbin的检查"><a href="#fastbin的检查" class="headerlink" title="fastbin的检查"></a>fastbin的检查</h2><h3 id="in-free-p"><a href="#in-free-p" class="headerlink" title="in free(p):"></a>in free(p):</h3></li>
+<li>chunk address &lt;-size 且alignment</li>
+<li>chunk size &gt; =MINSIZE(0X20)且为0x10的倍数</li>
+<li>nextchunk-&gt; size<ul>
+<li>大于MINSIZE(0X20)</li>
+<li>小于system_mem(0x21000)<br><strong>检查属于该size的fastbin中的第一块chunk与p是否不同</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="in-malloc-bytes"><a href="#in-malloc-bytes" class="headerlink" title="in malloc(bytes):"></a>in malloc(bytes):</h3><ul>
+<li>根据size大小取得index之后,到对应的fastbin中找,取出后检查该chunk的(unsigned lond)size事发后属于该fastbin</li>
+<li>但实际比较的时候是先以fastbin中第一块size取得fastbin的index,再去用这个index跟刚刚算的Index是否想用,不过这取index的方式是用unsigned in(4 byte)</li>
+</ul>
+<h3 id="fast-bin"><a href="#fast-bin" class="headerlink" title="fast bin"></a>fast bin</h3><ul>
+<li>一个单链表</li>
+<li>chunk size&lt;=0x80 byte</li>
+<li>不取消inuse flag</li>
+<li>依据bin中所存的chunk大小.再分为10个fastbin 分别为0x20,0x30…</li>
+</ul>
+<h3 id="LIFO"><a href="#LIFO" class="headerlink" title="LIFO"></a>LIFO</h3><p>当下次malloc大小与这次free大小相同时,会从相同的bin取出,也就是会取到相同位置的chunk</p>
+<h3 id="fastbin-layout"><a href="#fastbin-layout" class="headerlink" title="fastbin layout"></a>fastbin layout</h3><p>布局我就不多阐述了,之前的文章有写过很多次</p>
+<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><ul>
+<li>我们可以利用fastbin的chunk再free的时候只检查属于该size的fastbin中的第一块chunk与p是否不同的特性来创造overlaps chunk</li>
+<li>创造一个circle的singly linked list,这样就可以达到类似UAF的效果</li>
+<li>fd只要符和size是或否属于该chunk就可以通过Malloc检测,因此只要想写入的位置附近有属于该bin的size就可以让malloc分配到该位置<ul>
+<li>根据bytes大小取得index后,到对应的fastbin找,取出后检查该chunk的size事发后属于该fastbin</li>
+<li>但实际比较的时候先是以fatbin中第一块size取得fastbin的index,再去比index和刚刚算的index是否相同,不过这取index的方式是哟个unsigned int(4byte),所以伪造是不用满足8byte</li>
+</ul>
+</li>
+<li>因此没有检查alognment所以不一定要以8的倍数作为chunk的address</li>
+</ul>
+<h1 id="Shrink-the-chunk"><a href="#Shrink-the-chunk" class="headerlink" title="Shrink the chunk"></a>Shrink the chunk</h1><h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>假设存在一个和off-by-one的漏洞</p>
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>创造出overlap chunk,进而更改其他chunk中的内容</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>主要利用Unsortedbin ,small bin会Unlink做合并的特性来达到我们的目的</p>
+<h2 id="过程-看图食用最佳"><a href="#过程-看图食用最佳" class="headerlink" title="过程(看图食用最佳)"></a>过程(看图食用最佳)</h2><ol>
+<li>一开始先malloc 3 块chunk(A,B,C)到heap段,且fastbin是空的<br>![avator][/img/shrink/p1.png]</li>
+<li>free(B)<br>![avator][/img/shrink/p2.png]</li>
+<li>free(A)<br>![avator][/img/shrink/p3.png]</li>
+<li>malloc(0x38)<br>![avator][/img/shrink/p4.png]</li>
+<li>往A中写数据触发off-by-one来覆盖size<br>![avator][[/img/shrink/p5.png]</li>
+<li>malloc(0x80)<br>![avator][/img/shrink/p6.png]</li>
+<li>malloc(0x30)<br>![avator][/img/shrink/p7.png]</li>
+<li>free(B)<br>![avator][/img/shrink/p8.png]</li>
+<li>free(C)<br>![avator][/img/shrink/p9.png]<br>此时会因为C是SMALL BIN的大小的缘故,所以会检测上一块是否inused<br>![avator][/img/shrink/p10.png]<br>如果上一块是freed就会根据prev_size去找上一块chunk的header做合并及unlink<br>![avator][/img/shrink/p11.png]<br>此时unsortbin村这块大的chunk,所以下次malloc会用这一块先分配给user<br>![avator][/img/shrink/p12.png]</li>
+<li>malloc(0x260)<br>![avator][/img/shrink/p13.png]<br>此时即可任意修改D<br>![avator][/img/shrink/p14.png]</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>如果中间overlap部分有function pointer或者是其他有用的struct可简介控制程序流程</li>
+<li>也可以配合fastbin freed chunk更改fd</li>
+</ul>
+
+          </div>
+          
+<blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-07-26T06:45:37.095Z" itemprop="dateUpdated">2019-07-26 14:45:37</time>
+</span><br>
+
+
+        
+        转载注明出处，原文地址：<a href="/2019/07/26/advanced-heap-exploiatior-搬运/" target="_blank" rel="external">https://nightRainy.github.io/2019/07/26/advanced-heap-exploiatior-搬运/</a>
+        
+    </div>
+    <footer>
+        <a href="https://nightRainy.github.io">
+            <img src="/img/favicon.jpg" alt="知世">
+            知世
+        </a>
+    </footer>
+</blockquote>
+
+          
+          
+          <div class="post-footer">
+              
+              <div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/07/26/advanced-heap-exploiatior-搬运/&title=《advanced heap exploiatior(搬运)》 — 知世の小屋&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/07/26/advanced-heap-exploiatior-搬运/&title=《advanced heap exploiatior(搬运)》 — 知世の小屋&source=my blogs" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+          </div>
+          
+              
+
+
+          
+      </div>
+      
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="next">
+      <a href="/2019/07/25/chunk-extend-and-overlapping/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">chunk extend and overlapping</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+      
+      
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#搬运自https-www-slideshare-net-AngelBoy1-advanced-heap-exploitaion"><span class="post-toc-number">1.</span> <span class="post-toc-text">搬运自https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#advancede-heap-exploiator"><span class="post-toc-number">2.</span> <span class="post-toc-text">advancede heap exploiator</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#环境"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">目录</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Fastbin-corruption"><span class="post-toc-number">3.</span> <span class="post-toc-text">Fastbin corruption</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#假设程序有double-free的漏洞"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">假设程序有double free的漏洞</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#fastbin的检查"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">fastbin的检查</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#in-free-p"><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">in free(p):</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#in-malloc-bytes"><span class="post-toc-number">3.2.2.</span> <span class="post-toc-text">in malloc(bytes):</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fast-bin"><span class="post-toc-number">3.2.3.</span> <span class="post-toc-text">fast bin</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LIFO"><span class="post-toc-number">3.2.4.</span> <span class="post-toc-text">LIFO</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fastbin-layout"><span class="post-toc-number">3.2.5.</span> <span class="post-toc-text">fastbin layout</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#利用"><span class="post-toc-number">3.2.6.</span> <span class="post-toc-text">利用</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Shrink-the-chunk"><span class="post-toc-number">4.</span> <span class="post-toc-text">Shrink the chunk</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前提"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">前提</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目的"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">目的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#方法"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#过程-看图食用最佳"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">过程(看图食用最佳)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">总结</span></a></li></ol></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </div></div></aside>
+    
+  </article>
+  
+  
+</div>
+
+        <footer class="footer">
+    
+    <div class="bottom">
+        <p>
+            <span>
+                知世 &copy; 2017 - 2019
+            </span>
+        		
+           	
+            
+            
+            <span>
+	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
+            </span>
+            
+            
+            
+
+            
+                
+<span class="site-uv" title="总访客量">
+    <i class="icon icon-user"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>
+
+
+<span class="site-pv" title="总访问量">
+    <i class="icon icon-eye"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+            
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/07/26/advanced-heap-exploiatior-搬运/&title=《advanced heap exploiatior(搬运)》 — 知世の小屋&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/07/26/advanced-heap-exploiatior-搬运/&title=《advanced heap exploiatior(搬运)》 — 知世の小屋&source=my blogs" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsUlEQVR42u3a2WrDQAwF0P7/T6fQp0Jj92qZpIXjp+B1zgQ8sqSPj3h7fG33R7+fc/W7d/Tn/Zc3PDw8vNbQr7atR16dn0/c/Rgux4OHh4d3jHe/GCTDutqTT8f9SO7Hc7kfDw8P7628BNwLf6vTh4eHh/dfeHl4nYfO95OSJzjw8PDwXs9LkhHzJEUvTH9RrgUPDw8v5lVD3r/w+2B9Dw8PD29QVc+XiiTlWg2pH+MNDw8P7wQvefxuYWy+AOTFMDw8PLxzvLzoVS2PnWgd6KU58PDw8LZ4ebp2K4zOA/RqgvjJBOHh4eG9hJcPuhcc59NXbSYofyvg4eHhDXj5J331RZ9fVYVFHwB4eHh4h3nJZZM8R/6ir4bjl0fx8PDwjvGSQefLwwl2swELDw8P7wAveTVXG6GqU1MtvCV3w8PDwzvHy4tJOTtfhObNW788Fw8PD+8Ar5paTa6aLww5pjDReHh4eEu8rYfl+EISYVyEw8PDwzvHywPrPCHbaw7Iy12F1gE8PDy8Y7xqWNx70VcD5WpK97J1AA8PD2+Jt1v+n5SykuRC8jfg4eHhneb1XrvVULsaoFeD+NEXAx4eHl6RV/1m74W51eTCZGl5Mh14eHh4q7xJUSop4W+VspoFNjw8PLwDvCTdkDPuHzNPxTaP4uHh4R3g9ZICVUwyoOrdCgsbHh4e3ipvwqiWr/L9+VI0+t/w8PDwlnh5AqIK6zUETBIleHh4eLu8R3HLF5Je20Ev3RA1XeHh4eEt8bbKXXniIGfnwXQ574KHh4c35s0D3F5QvlUew8PDw3sXr5d6mAfBk8mKwmg8PDy8P8CrDrF6ZnJtobULDw8P7628SXNVdcp6MDw8PLxX8pJkxHwxqDanLjQZ4OHh4R3g9QpgyXDnpa/qQrJW38PDw8N7fs9PEmz33TrI4g8AAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+    
+    <!-- main-js -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/js/plugins/fastclick.js?v=1.4.1"></script>
+<script type="text/javascript" src="/js/plugins/ios-orientationchange-fix.js?v=1.4.1"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script type="text/javascript" src="/js/method.js?v=1.4.1"></script>
+<script type="text/javascript" src="/js/blog.js?v=1.4.1"></script>
+
+<!-- third-party -->
+
+
+
+
+
+
+<script type="text/javascript" src="/js/plugins/local_search.js?v=1.4.1"></script>
+<script type="text/javascript">
+	var search_path = "search.xml";
+	if (search_path.length === 0) {
+		search_path = "search.xml";
+	}
+	var path = "/" + search_path;
+	searchFunc(path, "local-search-input", "local-search-result");
+</script>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+
+
+
+
+
+    <!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+    <script>
+    (function() {
+        var OriginTitile = document.title, titleTime;
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                document.title = '/(ㄒoㄒ)/~~嘤嘤嘤，不要我了';
+                clearTimeout(titleTime);
+            } else {
+                document.title = '(つェ⊂)来啦官人';
+                titleTime = setTimeout(function() {
+                    document.title = OriginTitile;
+                },2000);
+            }
+        });
+    })();
+</script>
+
+
+
+
+
+    
+</body>
+</html>
