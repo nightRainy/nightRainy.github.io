@@ -320,39 +320,39 @@
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>跟shrink很像,但主要是加大size直接覆盖后面的chunk,只要前面的 chunk header有对上的就行</p>
 <h2 id="过程-配合图食用最佳"><a href="#过程-配合图食用最佳" class="headerlink" title="过程(配合图食用最佳)"></a>过程(配合图食用最佳)</h2><ol>
 <li>一开始先malloc 3 块chunk 到heap段<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/1.png" title="p1" data-fancybox="images"><img src="/img/extend/1.png" alt="p1" title="" class=""></a>
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p1.png" title="p1" data-fancybox="images"><img src="/img/extend/p1.png" alt="p1" title="" class=""></a>
                 <p>p1</p>
             </figure></li>
 <li>free(A)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/2.png" title="p1" data-fancybox="images"><img src="/img/extend/2.png" alt="p1" title="" class=""></a>
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p2.png" title="p1" data-fancybox="images"><img src="/img/extend/p2.png" alt="p1" title="" class=""></a>
                 <p>p1</p>
             </figure></li>
 <li>malloc(0x38)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/3.png" title="p1" data-fancybox="images"><img src="/img/extend/3.png" alt="p1" title="" class=""></a>
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p3.png" title="p1" data-fancybox="images"><img src="/img/extend/p3.png" alt="p1" title="" class=""></a>
                 <p>p1</p>
             </figure></li>
 <li>往A中写数据以构造off-by-one<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/4.png" title="p1" data-fancybox="images"><img src="/img/extend/4.png" alt="p1" title="" class=""></a>
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p4.png" title="p1" data-fancybox="images"><img src="/img/extend/p4.png" alt="p1" title="" class=""></a>
                 <p>p1</p>
             </figure></li>
 <li>free(B)<br>0x1b1=0x171+0x40<br>为了之后可以覆盖c(把c吃进去)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/5.png" title="p1" data-fancybox="images"><img src="/img/extend/5.png" alt="p1" title="" class=""></a>
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p5.png" title="p1" data-fancybox="images"><img src="/img/extend/p5.png" alt="p1" title="" class=""></a>
                 <p>p1</p>
             </figure></li>
 <li>此时会根据B的size去找下一块chunk的hader<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/6.png" title="p1" data-fancybox="images"><img src="/img/extend/6.png" alt="p1" title="" class=""></a>
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p6.png" title="p1" data-fancybox="images"><img src="/img/extend/p6.png" alt="p1" title="" class=""></a>
                 <p>p1</p>
             </figure></li>
 <li>此时这块chunk会被合并到top(如果c后面是top)或者加入到unsortbin中<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/7.png" title="p1" data-fancybox="images"><img src="/img/extend/7.png" alt="p1" title="" class=""></a>
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p7.png" title="p1" data-fancybox="images"><img src="/img/extend/p7.png" alt="p1" title="" class=""></a>
                 <p>p1</p>
             </figure></li>
 <li>malloc(0x1a0)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/8.png" title="p1" data-fancybox="images"><img src="/img/extend/8.png" alt="p1" title="" class=""></a>
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p8.png" title="p1" data-fancybox="images"><img src="/img/extend/p8.png" alt="p1" title="" class=""></a>
                 <p>p1</p>
             </figure></li>
 <li>此时可以任意更改c<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/9.png" title="p1" data-fancybox="images"><img src="/img/extend/9.png" alt="p1" title="" class=""></a>
+                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p9.png" title="p1" data-fancybox="images"><img src="/img/extend/p9.png" alt="p1" title="" class=""></a>
                 <p>p1</p>
             </figure>
 </li>
@@ -371,7 +371,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-07-26T09:28:53.457Z" itemprop="dateUpdated">2019-07-26 17:28:53</time>
+    Last updated: <time datetime="2019-07-26T09:33:26.352Z" itemprop="dateUpdated">2019-07-26 17:33:26</time>
 </span><br>
 
 
