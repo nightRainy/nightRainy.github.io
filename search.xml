@@ -3,6 +3,26 @@
   
     
     <entry>
+      <title><![CDATA[堆泄露]]></title>
+      <url>/2019/08/01/%E5%A0%86%E6%B3%84%E9%9C%B2/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>记录一些日常堆可泄露的东西</p>
+</blockquote>
+<h1 id="unsorted-bin"><a href="#unsorted-bin" class="headerlink" title="unsorted bin"></a>unsorted bin</h1><ul>
+<li>main_arena地址        </li>
+<li>heap 基地址</li>
+</ul>
+<h1 id="fast-bin"><a href="#fast-bin" class="headerlink" title="fast bin"></a>fast bin</h1><p>heap基地址</p>
+<h1 id="small-bin"><a href="#small-bin" class="headerlink" title="small bin"></a>small bin</h1><ul>
+<li>main_arena地址</li>
+<li>heap基地址</li>
+</ul>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[友链]]></title>
       <url>/2019/07/27/%E5%8F%8B%E9%93%BE/</url>
       <content type="html"><![CDATA[<p>Hhh,开一篇文章加友链</p>
