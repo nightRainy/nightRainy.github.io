@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    
+    <title>_IO_FILE结构体利用 | 知世の小屋 | 何不仗剑随风去,扶摇直上九万里</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="">
+    <link rel="shortcut icon" href="/img/favicon.jpg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.4.1">
+    
+    <script type="text/javascript">
+        // Data Center
+        var DC = {
+            reward:	true,
+            lv: JSON.parse('{"enable":false,"app_id":null,"app_key":null,"icon":true}'),
+            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
+            g: JSON.parse('{"enable":false,"lazy":true,"owner":"nightRainy","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
+            d: JSON.parse('{"app_id":null}')
+        };
+    </script>
+    <script type="text/javascript">
+        window.lazyScripts=[];
+    </script>
+    
+</head>
+
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      
+      <img src="/img/brand.jpg" class="brand-bg">
+      
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/favicon.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">知世</h5>
+          <a href="mailto:jianaiyuheng@qq.com" title="jianaiyuheng@qq.com" class="mail">
+            
+              <span>j</span>
+            
+              <span>i</span>
+            
+              <span>a</span>
+            
+              <span>n</span>
+            
+              <span>a</span>
+            
+              <span>i</span>
+            
+              <span>y</span>
+            
+              <span>u</span>
+            
+              <span>h</span>
+            
+              <span>e</span>
+            
+              <span>n</span>
+            
+              <span>g</span>
+            
+              <span>@</span>
+            
+              <span>q</span>
+            
+              <span>q</span>
+            
+              <span>.</span>
+            
+              <span>c</span>
+            
+              <span>o</span>
+            
+              <span>m</span>
+            
+          </a>
+        </hgroup>
+        
+        <ul class="menu-link">
+          
+              <li>
+                <a href="https://github.com/nightRainy" target="_blank">
+                  <i class="icon icon-lg icon-github"></i>
+                </a>
+              </li>
+            
+        </ul>
+        
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                HOME
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                ARCHIVES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="https://github.com/nightRainy" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row clearfix">
+        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">
+            <span>_IO_FILE结构体利用</span>
+            
+        </div>
+        
+        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
+            <i class="icon icon-lg icon-search"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+    <img src="/img/banner.jpg" class="header-bg">
+    <div class="container fade-scale">
+        <h1 class="title">_IO_FILE结构体利用</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-08-03T04:02:10.000Z" itemprop="datePublished" class="page-time">
+  2019-08-03
+</time>
+
+
+            
+        </h5>
+        
+    </div>
+    
+
+</header>
+
+<div id="site_search">
+    <div class="search-title clearfix">
+        <span class="pull-left">
+          <i class="icon icon-lg icon-search"></i>
+        </span>
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left">
+        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
+          <i class="icon icon-lg icon-close"></i>
+        </a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<div class="container body-wrap">
+    <article id="post-IO-FILE结构体利用" class="post-article article-type-post" itemprop="blogPost">
+      <div class="post-card">
+          <h1 class="post-card-title">_IO_FILE结构体利用</h1>
+          <div class="post-meta">
+              <time class="post-time" title="2019-08-03 12:02:10" datetime="2019-08-03T04:02:10.000Z" itemprop="datePublished">2019-08-03</time>
+
+              
+
+
+              
+
+              
+
+
+              
+          </div>
+          <div class="post-content" id="post-content" itemprop="postContent">
+              
+              <blockquote>
+<p>good good study,day day up~</p>
+</blockquote>
+<h1 id="File结构"><a href="#File结构" class="headerlink" title="File结构"></a>File结构</h1><p>日常使用中setvbuf，stdin、stdout、stderr四个结构体一般位于libc数据段,其他的保存在栈上</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">struct _IO_FILE &#123;</span><br><span class="line">  int _flags;       /* High-order word is _IO_MAGIC; rest is flags. */</span><br><span class="line">#define _IO_file_flags _flags</span><br><span class="line"></span><br><span class="line">  /* The following pointers correspond to the C++ streambuf protocol. */</span><br><span class="line">  /* Note:  Tk uses the _IO_read_ptr and _IO_read_end fields directly. */</span><br><span class="line">  char* _IO_read_ptr;   /* Current read pointer */</span><br><span class="line">  char* _IO_read_end;   /* End of get area. */</span><br><span class="line">  char* _IO_read_base;  /* Start of putback+get area. */</span><br><span class="line">  char* _IO_write_base; /* Start of put area. */</span><br><span class="line">  char* _IO_write_ptr;  /* Current put pointer. */</span><br><span class="line">  char* _IO_write_end;  /* End of put area. */</span><br><span class="line">  char* _IO_buf_base;   /* Start of reserve area. */</span><br><span class="line">  char* _IO_buf_end;    /* End of reserve area. */</span><br><span class="line">  /* The following fields are used to support backing up and undo. */</span><br><span class="line">  char *_IO_save_base; /* Pointer to start of non-current get area. */</span><br><span class="line">  char *_IO_backup_base;  /* Pointer to first valid character of backup area */</span><br><span class="line">  char *_IO_save_end; /* Pointer to end of non-current get area. */</span><br><span class="line"></span><br><span class="line">  struct _IO_marker *_markers;</span><br><span class="line"></span><br><span class="line">  struct _IO_FILE *_chain;</span><br><span class="line"></span><br><span class="line">  int _fileno;</span><br><span class="line">#if 0</span><br><span class="line">  int _blksize;</span><br><span class="line">#else</span><br><span class="line">  int _flags2;</span><br><span class="line">#endif</span><br><span class="line">  _IO_off_t _old_offset; /* This used to be _offset but it&apos;s too small.  */</span><br><span class="line"></span><br><span class="line">#define __HAVE_COLUMN /* temporary */</span><br><span class="line">  /* 1+column number of pbase(); 0 is unknown. */</span><br><span class="line">  unsigned short _cur_column;</span><br><span class="line">  signed char _vtable_offset;</span><br><span class="line">  char _shortbuf[1];</span><br><span class="line"></span><br><span class="line">  /*  char* _save_gptr;  char* _save_egptr; */</span><br><span class="line"></span><br><span class="line">  _IO_lock_t *_lock;</span><br><span class="line">#ifdef _IO_USE_OLD_IO_FILE</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>而FILE结构体会通过struct _IO_FILE *_chain链接成一个链表，64位程序下其偏移为0x60<br>链表头部用_IO_list_all指针表示。</p>
+<p>_IO_list_all-&gt;stderr-&gt;stdout-&gt;stdin构成链表</p>
+<p>在正常情况下,程序启动会伴随着:stdin,stdout,stderr三个文件流一起开启,这三个流位于libc.so的数据段</p>
+<p>但是我们使用fopen等文件输入输出函数时所创建的文件流位于堆上</p>
+<p><em>但是其实_IO_File结构体外面还有一层</em><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct _IO_FILE_plus</span><br><span class="line">&#123;</span><br><span class="line">    _IO_FILE    file;</span><br><span class="line">    IO_jump_t   *vtable;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>而IO_jump_t *vtable保存了很多的函数指针,偏移为0xd8<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">void * funcs[] = &#123;</span><br><span class="line">   1 NULL, // &quot;extra word&quot;</span><br><span class="line">   2 NULL, // DUMMY</span><br><span class="line">   3 exit, // finish</span><br><span class="line">   4 NULL, // overflow</span><br><span class="line">   5 NULL, // underflow</span><br><span class="line">   6 NULL, // uflow</span><br><span class="line">   7 NULL, // pbackfail</span><br><span class="line">   </span><br><span class="line">   8 NULL, // xsputn  #printf</span><br><span class="line">   9 NULL, // xsgetn</span><br><span class="line">   10 NULL, // seekoff</span><br><span class="line">   11 NULL, // seekpos</span><br><span class="line">   12 NULL, // setbuf</span><br><span class="line">   13 NULL, // sync</span><br><span class="line">   14 NULL, // doallocate</span><br><span class="line">   15 NULL, // read</span><br><span class="line">   16 NULL, // write</span><br><span class="line">   17 NULL, // seek</span><br><span class="line">   18 pwn,  // close</span><br><span class="line">   19 NULL, // stat</span><br><span class="line">   20 NULL, // showmanyc</span><br><span class="line">   21 NULL, // imbue</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h1 id="利用手法"><a href="#利用手法" class="headerlink" title="利用手法"></a>利用手法</h1><h2 id="vtable-hijacker"><a href="#vtable-hijacker" class="headerlink" title="vtable hijacker"></a>vtable hijacker</h2><p>未完待续~</p>
+
+          </div>
+          
+<blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-08-03T15:34:03.562Z" itemprop="dateUpdated">2019-08-03 23:34:03</time>
+</span><br>
+
+
+        
+        转载注明出处，原文地址：<a href="/2019/08/03/IO-FILE结构体利用/" target="_blank" rel="external">https://nightRainy.github.io/2019/08/03/IO-FILE结构体利用/</a>
+        
+    </div>
+    <footer>
+        <a href="https://nightRainy.github.io">
+            <img src="/img/favicon.jpg" alt="知世">
+            知世
+        </a>
+    </footer>
+</blockquote>
+
+          
+          
+          <div class="post-footer">
+              
+              <div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/08/03/IO-FILE结构体利用/&title=《_IO_FILE结构体利用》 — 知世の小屋&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/08/03/IO-FILE结构体利用/&title=《_IO_FILE结构体利用》 — 知世の小屋&source=my blogs" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+          </div>
+          
+              
+
+
+          
+      </div>
+      
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="next">
+      <a href="/2019/08/01/堆泄露/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">堆泄露</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+      
+      
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>目录</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#File结构"><span class="post-toc-number">1.</span> <span class="post-toc-text">File结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#定义"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">定义</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#利用手法"><span class="post-toc-number">2.</span> <span class="post-toc-text">利用手法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#vtable-hijacker"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">vtable hijacker</span></a></li></ol></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </div></div></aside>
+    
+  </article>
+  
+  
+</div>
+
+        <footer class="footer">
+    
+    <div class="bottom">
+        <p>
+            <span>
+                知世 &copy; 2017 - 2019
+            </span>
+        		
+           	
+            
+            
+            <span>
+	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
+            </span>
+            
+            
+            
+
+            
+                
+<span class="site-uv" title="总访客量">
+    <i class="icon icon-user"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>
+
+
+<span class="site-pv" title="总访问量">
+    <i class="icon icon-eye"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+            
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/08/03/IO-FILE结构体利用/&title=《_IO_FILE结构体利用》 — 知世の小屋&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/08/03/IO-FILE结构体利用/&title=《_IO_FILE结构体利用》 — 知世の小屋&source=my blogs" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACxElEQVR42u3aQW4bMRAEQP//084lhwDyOt0zpCEDpZMhragtGuBwe/jxEb8+/3m9vv96zeuVr9d///7nw+vjxgsPDw9vcetPw7U/9jRC8oub+/nirvDw8PCu8b5frJOFuy0qyUTk1zy+j4eHh/cGvGS5T0bOt+B4eHh4v53XxhbJhridLDw8PLx34CUP/23xyG8xKRXXsxY8PDy8mJcv9+/z95X+Hh4eHt66qz5bpvftrv19/h0HDw8P7wIvX3BzZN76SgKR2Th4eHh4t3ltMJoHr5vCkExcMVl4eHh4h3jt12btq024kB/Aiv5jeHh4eId4bXAw+/lZbDG7Wzw8PLzbvPyBfxbXtuFFu62PnhLw8PDwrvE2AW7SxGrjjOTTojDg4eHhrXkzZLvc5yFve+QrilHw8PDwjvKSFlRbANqoop3WvMGGh4eHd5s3azLNNtyztlkywrAW4eHh4R3itS2x5IfbYwSzzXRUGPDw8PAW/aN8o9wGBzlyNn1F1oKHh4d3iJd8oW44ldPRtsSSScHDw8P7Gd7mgFS7Ud4cwEoC4seUGg8PD2/Nm2152yKR38qw0fV9EcLDw8O7wNv3jNrtctIGy4tEfg0eHh7eKV671Ob4PKhtm2dF5IGHh4d3lNcOPbvyQPs/nsrHkxF4eHh4h3izwLQFt+UhP14QxSJ4eHh4l3ntNnoW0Z5NUKInBjw8PLxrvE1IsT+q1V4Tbcfx8PDwfpyXl4FNI23T+vpPLcDDw8M7ypu1ppKtbX44IAkgkrLxxad4eHh4F3jtUttur9sRzk4QHh4e3j3efuh8S90e22oLw+MTAx4eHt4FXhJGnNrs5kcN6mQFDw8P7y15CTIJatvpG8bBeHh4eG/AawPf2dTkMXEURuDh4eFd4CVfyw9CtSFvXhLq9/Hw8PAu8DYP/JuG/Qx/rKeHh4eHN+H9AXh0kpe4D0FnAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+    
+    <!-- main-js -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/js/plugins/fastclick.js?v=1.4.1"></script>
+<script type="text/javascript" src="/js/plugins/ios-orientationchange-fix.js?v=1.4.1"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script type="text/javascript" src="/js/method.js?v=1.4.1"></script>
+<script type="text/javascript" src="/js/blog.js?v=1.4.1"></script>
+
+<!-- third-party -->
+
+
+
+
+
+
+<script type="text/javascript" src="/js/plugins/local_search.js?v=1.4.1"></script>
+<script type="text/javascript">
+	var search_path = "search.xml";
+	if (search_path.length === 0) {
+		search_path = "search.xml";
+	}
+	var path = "/" + search_path;
+	searchFunc(path, "local-search-input", "local-search-result");
+</script>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+
+
+
+
+
+    <!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+    <script>
+    (function() {
+        var OriginTitile = document.title, titleTime;
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                document.title = '/(ㄒoㄒ)/~~嘤嘤嘤，不要我了';
+                clearTimeout(titleTime);
+            } else {
+                document.title = '(つェ⊂)来啦官人';
+                titleTime = setTimeout(function() {
+                    document.title = OriginTitile;
+                },2000);
+            }
+        });
+    })();
+</script>
+
+
+
+
+
+    
+</body>
+</html>
