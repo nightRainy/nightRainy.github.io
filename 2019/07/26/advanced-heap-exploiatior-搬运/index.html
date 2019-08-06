@@ -1,206 +1,69 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="" class="loading">
 <head><meta name="generator" content="Hexo 3.8.0">
-    <meta charset="utf-8">
-    
-    
-    <title>advanced heap exploiatior(搬运) | 知世の小屋 | 何不仗剑随风去,扶摇直上九万里</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-    <meta name="keywords" content="">
-    <link rel="shortcut icon" href="/img/favicon.jpg">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
-    <link rel="stylesheet" href="/css/style.css?v=1.4.1">
-    
-    <script type="text/javascript">
-        // Data Center
-        var DC = {
-            reward:	true,
-            lv: JSON.parse('{"enable":false,"app_id":null,"app_key":null,"icon":true}'),
-            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
-            g: JSON.parse('{"enable":false,"lazy":true,"owner":"nightRainy","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
-            d: JSON.parse('{"app_id":null}')
-        };
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>advanced heap exploiatior(搬运) - 知世の小屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="my blogs,
+在学习chunk extended的是时候google到的,就果断搬运过来了
+
+搬运自https://www.slideshare.net/AngelBoy1/advanced-heap-expl,"> 
+    <meta name="author" content="知世"> 
+    <link rel="alternative" href="atom.xml" title="知世の小屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
     </script>
-    <script type="text/javascript">
-        window.lazyScripts=[];
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
     </script>
-    
 </head>
-
-
-<body>
-    <div id="loading" class="active"></div>
-
-    <aside id="menu" class="hide">
-  <div class="inner flex-row-vertical">
-    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
-        <i class="icon icon-lg icon-close"></i>
-    </a>
-    <div class="brand-wrap">
-      
-      <img src="/img/brand.jpg" class="brand-bg">
-      
-      <div class="brand">
-        <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="/img/favicon.jpg">
-        </a>
-        <hgroup class="introduce">
-          <h5 class="nickname">知世</h5>
-          <a href="mailto:jianaiyuheng@qq.com" title="jianaiyuheng@qq.com" class="mail">
-            
-              <span>j</span>
-            
-              <span>i</span>
-            
-              <span>a</span>
-            
-              <span>n</span>
-            
-              <span>a</span>
-            
-              <span>i</span>
-            
-              <span>y</span>
-            
-              <span>u</span>
-            
-              <span>h</span>
-            
-              <span>e</span>
-            
-              <span>n</span>
-            
-              <span>g</span>
-            
-              <span>@</span>
-            
-              <span>q</span>
-            
-              <span>q</span>
-            
-              <span>.</span>
-            
-              <span>c</span>
-            
-              <span>o</span>
-            
-              <span>m</span>
-            
-          </a>
-        </hgroup>
-        
-        <ul class="menu-link">
-          
-              <li>
-                <a href="https://github.com/nightRainy" target="_blank">
-                  <i class="icon icon-lg icon-github"></i>
-                </a>
-              </li>
-            
-        </ul>
-        
-      </div>
-    </div>
-    <div class="scroll-wrap flex-col">
-      <ul class="nav">
-        
-            <li class="">
-              <a href="/">
-                <i class="icon icon-lg icon-home"></i>
-                HOME
-              </a>
-            </li>
-        
-            <li class="">
-              <a href="/archives">
-                <i class="icon icon-lg icon-archives"></i>
-                ARCHIVES
-              </a>
-            </li>
-        
-            <li class="">
-              <a href="https://github.com/nightRainy" target="_blank">
-                <i class="icon icon-lg icon-github"></i>
-                Github
-              </a>
-            </li>
-        
-      </ul>
-    </div>
-  </div>
-</aside>
-
-    <main id="main">
-        <header class="top-header" id="header">
-    <div class="flex-row clearfix">
-        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
-          <i class="icon icon-lg icon-navicon"></i>
-        </a>
-        <div class="flex-col header-title ellipsis">
-            <span>advanced heap exploiatior(搬运)</span>
-            
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">知世の小屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://nightRainy.github.io"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">advanced heap exploiatior(搬运)</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
         </div>
-        
-        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
-            <i class="icon icon-lg icon-search"></i>
-        </a>
-        
     </div>
-</header>
-<header class="content-header post-header">
-    <img src="/img/banner.jpg" class="header-bg">
-    <div class="container fade-scale">
-        <h1 class="title">advanced heap exploiatior(搬运)</h1>
-        <h5 class="subtitle">
-            
-                <time datetime="2019-07-26T03:56:36.000Z" itemprop="datePublished" class="page-time">
-  2019-07-26
-</time>
-
-
-            
-        </h5>
-        
-    </div>
-    
-
-</header>
-
-<div id="site_search">
-    <div class="search-title clearfix">
-        <span class="pull-left">
-          <i class="icon icon-lg icon-search"></i>
-        </span>
-        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left">
-        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
-          <i class="icon icon-lg icon-close"></i>
-        </a>
-    </div>
-    <div id="local-search-result"></div>
+    <div class="scrollbar"></div>
 </div>
 
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">advanced heap exploiatior(搬运)</h1>
+        <div class="stuff">
+            <span>七月 26, 2019</span>
+            
 
-<div class="container body-wrap">
-    <article id="post-advanced-heap-exploiatior-搬运" class="post-article article-type-post" itemprop="blogPost">
-      <div class="post-card">
-          <h1 class="post-card-title">advanced heap exploiatior(搬运)</h1>
-          <div class="post-meta">
-              <time class="post-time" title="2019-07-26 11:56:36" datetime="2019-07-26T03:56:36.000Z" itemprop="datePublished">2019-07-26</time>
-
-              
-
-
-              
-
-              
-
-
-              
-          </div>
-          <div class="post-content" id="post-content" itemprop="postContent">
-              
-              <blockquote>
+        </div>
+        <div class="content markdown">
+            <blockquote>
 <p>在学习chunk extended的是时候google到的,就果断搬运过来了</p>
 </blockquote>
 <h1 id="搬运自https-www-slideshare-net-AngelBoy1-advanced-heap-exploitaion"><a href="#搬运自https-www-slideshare-net-AngelBoy1-advanced-heap-exploitaion" class="headerlink" title="搬运自https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion"></a>搬运自<a href="https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion" target="_blank" rel="noopener">https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion</a></h1><h1 id="advancede-heap-exploiator"><a href="#advancede-heap-exploiator" class="headerlink" title="advancede heap exploiator"></a>advancede heap exploiator</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
@@ -253,63 +116,16 @@
 <h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>创造出overlap chunk,进而更改其他chunk中的内容</p>
 <h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>主要利用Unsortedbin ,small bin会Unlink做合并的特性来达到我们的目的</p>
 <h2 id="过程-看图食用最佳"><a href="#过程-看图食用最佳" class="headerlink" title="过程(看图食用最佳)"></a>过程(看图食用最佳)</h2><ol>
-<li>一开始先malloc 3 块chunk(A,B,C)到heap段,且fastbin是空的<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/shrink/p1.png" title="p1" data-fancybox="images"><img src="/img/shrink/p1.png" alt="p1" title="" class=""></a>
-                <p>p1</p>
-            </figure></li>
-<li>free(B)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/shrink/p2.png" title="p2" data-fancybox="images"><img src="/img/shrink/p2.png" alt="p2" title="" class=""></a>
-                <p>p2</p>
-            </figure></li>
-<li>free(A)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/shrink/p3.png" title="p3" data-fancybox="images"><img src="/img/shrink/p3.png" alt="p3" title="" class=""></a>
-                <p>p3</p>
-            </figure></li>
-<li>malloc(0x38)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/shrink/p4.png" title="p4" data-fancybox="images"><img src="/img/shrink/p4.png" alt="p4" title="" class=""></a>
-                <p>p4</p>
-            </figure></li>
-<li>往A中写数据触发off-by-one来覆盖size<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/shrink/p5.png" title="p5" data-fancybox="images"><img src="/img/shrink/p5.png" alt="p5" title="" class=""></a>
-                <p>p5</p>
-            </figure></li>
-<li>malloc(0x80)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/shrink/p6.png" title="p6" data-fancybox="images"><img src="/img/shrink/p6.png" alt="p6" title="" class=""></a>
-                <p>p6</p>
-            </figure></li>
-<li>malloc(0x30)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/shrink/p7.png" title="p7" data-fancybox="images"><img src="/img/shrink/p7.png" alt="p7" title="" class=""></a>
-                <p>p7</p>
-            </figure></li>
-<li>free(B)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/shrink/p8.png" title="p8" data-fancybox="images"><img src="/img/shrink/p8.png" alt="p8" title="" class=""></a>
-                <p>p8</p>
-            </figure></li>
-<li>free(C)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/shrink/p9.png" title="p9" data-fancybox="images"><img src="/img/shrink/p9.png" alt="p9" title="" class=""></a>
-                <p>p9</p>
-            </figure>
-此时会因为C是SMALL BIN的大小的缘故,所以会检测上一块是否inused<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/shrink/p10.png" title="p10" data-fancybox="images"><img src="/img/shrink/p10.png" alt="p10" title="" class=""></a>
-                <p>p10</p>
-            </figure>
-如果上一块是freed就会根据prev_size去找上一块chunk的header做合并及unlink<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/shrink/p11.png" title="p11" data-fancybox="images"><img src="/img/shrink/p11.png" alt="p11" title="" class=""></a>
-                <p>p11</p>
-            </figure>
-此时unsortbin村这块大的chunk,所以下次malloc会用这一块先分配给user<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/shrink/p12.png" title="p12" data-fancybox="images"><img src="/img/shrink/p12.png" alt="p12" title="" class=""></a>
-                <p>p12</p>
-            </figure></li>
-<li>malloc(0x260)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/shrink/p13.png" title="p13" data-fancybox="images"><img src="/img/shrink/p13.png" alt="p13" title="" class=""></a>
-                <p>p13</p>
-            </figure>
-此时即可任意修改D<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/shrink/p14.png" title="p14" data-fancybox="images"><img src="/img/shrink/p14.png" alt="p14" title="" class=""></a>
-                <p>p14</p>
-            </figure>
-</li>
+<li>一开始先malloc 3 块chunk(A,B,C)到heap段,且fastbin是空的<br><img src="/img/shrink/p1.png" alt="p1"></li>
+<li>free(B)<br><img src="/img/shrink/p2.png" alt="p2"></li>
+<li>free(A)<br><img src="/img/shrink/p3.png" alt="p3"></li>
+<li>malloc(0x38)<br><img src="/img/shrink/p4.png" alt="p4"></li>
+<li>往A中写数据触发off-by-one来覆盖size<br><img src="/img/shrink/p5.png" alt="p5"></li>
+<li>malloc(0x80)<br><img src="/img/shrink/p6.png" alt="p6"></li>
+<li>malloc(0x30)<br><img src="/img/shrink/p7.png" alt="p7"></li>
+<li>free(B)<br><img src="/img/shrink/p8.png" alt="p8"></li>
+<li>free(C)<br><img src="/img/shrink/p9.png" alt="p9"><br>此时会因为C是SMALL BIN的大小的缘故,所以会检测上一块是否inused<br><img src="/img/shrink/p10.png" alt="p10"><br>如果上一块是freed就会根据prev_size去找上一块chunk的header做合并及unlink<br><img src="/img/shrink/p11.png" alt="p11"><br>此时unsortbin村这块大的chunk,所以下次malloc会用这一块先分配给user<br><img src="/img/shrink/p12.png" alt="p12"></li>
+<li>malloc(0x260)<br><img src="/img/shrink/p13.png" alt="p13"><br>此时即可任意修改D<br><img src="/img/shrink/p14.png" alt="p14"></li>
 </ol>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
 <li>如果中间overlap部分有function pointer或者是其他有用的struct可简介控制程序流程</li>
@@ -319,43 +135,15 @@
 <h2 id="目的-1"><a href="#目的-1" class="headerlink" title="目的"></a>目的</h2><p>造出overlap chunk,进而更改其他chunk中的内容</p>
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>跟shrink很像,但主要是加大size直接覆盖后面的chunk,只要前面的 chunk header有对上的就行</p>
 <h2 id="过程-配合图食用最佳"><a href="#过程-配合图食用最佳" class="headerlink" title="过程(配合图食用最佳)"></a>过程(配合图食用最佳)</h2><ol>
-<li>一开始先malloc 3 块chunk 到heap段<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p1.png" title="p1" data-fancybox="images"><img src="/img/extend/p1.png" alt="p1" title="" class=""></a>
-                <p>p1</p>
-            </figure></li>
-<li>free(A)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p2.png" title="p1" data-fancybox="images"><img src="/img/extend/p2.png" alt="p1" title="" class=""></a>
-                <p>p1</p>
-            </figure></li>
-<li>malloc(0x38)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p3.png" title="p1" data-fancybox="images"><img src="/img/extend/p3.png" alt="p1" title="" class=""></a>
-                <p>p1</p>
-            </figure></li>
-<li>往A中写数据以构造off-by-one<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p4.png" title="p1" data-fancybox="images"><img src="/img/extend/p4.png" alt="p1" title="" class=""></a>
-                <p>p1</p>
-            </figure></li>
-<li>free(B)<br>0x1b1=0x171+0x40<br>为了之后可以覆盖c(把c吃进去)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p5.png" title="p1" data-fancybox="images"><img src="/img/extend/p5.png" alt="p1" title="" class=""></a>
-                <p>p1</p>
-            </figure></li>
-<li>此时会根据B的size去找下一块chunk的hader<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p6.png" title="p1" data-fancybox="images"><img src="/img/extend/p6.png" alt="p1" title="" class=""></a>
-                <p>p1</p>
-            </figure></li>
-<li>此时这块chunk会被合并到top(如果c后面是top)或者加入到unsortbin中<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p7.png" title="p1" data-fancybox="images"><img src="/img/extend/p7.png" alt="p1" title="" class=""></a>
-                <p>p1</p>
-            </figure></li>
-<li>malloc(0x1a0)<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p8.png" title="p1" data-fancybox="images"><img src="/img/extend/p8.png" alt="p1" title="" class=""></a>
-                <p>p1</p>
-            </figure></li>
-<li>此时可以任意更改c<figure class="image-box">
-                <a rel="advanced" heap="" exploiatior(搬运)="" href="/img/extend/p9.png" title="p1" data-fancybox="images"><img src="/img/extend/p9.png" alt="p1" title="" class=""></a>
-                <p>p1</p>
-            </figure>
-</li>
+<li>一开始先malloc 3 块chunk 到heap段<br><img src="/img/extend/p1.png" alt="p1"></li>
+<li>free(A)<br><img src="/img/extend/p2.png" alt="p1"></li>
+<li>malloc(0x38)<br><img src="/img/extend/p3.png" alt="p1"></li>
+<li>往A中写数据以构造off-by-one<br><img src="/img/extend/p4.png" alt="p1"></li>
+<li>free(B)<br>0x1b1=0x171+0x40<br>为了之后可以覆盖c(把c吃进去)<br><img src="/img/extend/p5.png" alt="p1"></li>
+<li>此时会根据B的size去找下一块chunk的hader<br><img src="/img/extend/p6.png" alt="p1"></li>
+<li>此时这块chunk会被合并到top(如果c后面是top)或者加入到unsortbin中<br><img src="/img/extend/p7.png" alt="p1"></li>
+<li>malloc(0x1a0)<br><img src="/img/extend/p8.png" alt="p1"></li>
+<li>此时可以任意更改c<br><img src="/img/extend/p9.png" alt="p1"></li>
 </ol>
 <h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>和shrink比起来extend the chunk的限制多了一些,必须要可控off-by-one的那个byte,Shrink只要是null byte即可,相对比较常见但是也不太好发现</p>
 <h1 id="大总结"><a href="#大总结" class="headerlink" title="大总结"></a>大总结</h1><ul>
@@ -365,272 +153,90 @@
 </li>
 </ul>
 
-          </div>
-          
-<blockquote class="post-copyright">
-    <div class="content">
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
         
-<span class="post-time">
-    Last updated: <time datetime="2019-07-26T09:36:07.599Z" itemprop="dateUpdated">2019-07-26 17:36:07</time>
-</span><br>
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="" data-cs="" data-r="" data-o="" data-a="" data-d="false">查看评论</div>
 
 
-        
-        转载注明出处，原文地址：<a href="/2019/07/26/advanced-heap-exploiatior-搬运/" target="_blank" rel="external">https://nightRainy.github.io/2019/07/26/advanced-heap-exploiatior-搬运/</a>
-        
     </div>
-    <footer>
-        <a href="https://nightRainy.github.io">
-            <img src="/img/favicon.jpg" alt="知世">
-            知世
-        </a>
-    </footer>
-</blockquote>
-
-          
-          
-          <div class="post-footer">
-              
-              <div class="page-share-wrap">
     
-
-<div class="page-share" id="pageShare">
-    <ul class="reset share-icons">
-      
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/07/26/advanced-heap-exploiatior-搬运/&title=《advanced heap exploiatior(搬运)》 — 知世の小屋&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/07/26/advanced-heap-exploiatior-搬运/&title=《advanced heap exploiatior(搬运)》 — 知世の小屋&source=my blogs" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      
-    </ul>
- </div>
-
-
-
-    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
-        <i class="icon icon-share-alt icon-lg"></i>
-    </a>
-</div>
-
-          </div>
-          
-              
-
-
-          
-      </div>
-      
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="prev">
-      <a href="/2019/07/27/友链/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">友链</h4>
-      </a>
-    </div>
-  
-
-  
-    <div class="next">
-      <a href="/2019/07/25/chunk-extend-and-overlapping/" id="post-next" class="post-nav-link">
-        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">chunk extend and overlapping</h4>
-      </a>
-    </div>
-  
-</nav>
-
-
-      
-      
-        <aside class="post-widget">
-            <nav class="post-toc-wrap" id="post-toc">
-                <strong>目录</strong>
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#搬运自https-www-slideshare-net-AngelBoy1-advanced-heap-exploitaion"><span class="post-toc-number">1.</span> <span class="post-toc-text">搬运自https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#advancede-heap-exploiator"><span class="post-toc-number">2.</span> <span class="post-toc-text">advancede heap exploiator</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#环境"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目录"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">目录</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Fastbin-corruption"><span class="post-toc-number">3.</span> <span class="post-toc-text">Fastbin corruption</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#假设程序有double-free的漏洞"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">假设程序有double free的漏洞</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#fastbin的检查"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">fastbin的检查</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#in-free-p"><span class="post-toc-number">3.2.1.</span> <span class="post-toc-text">in free(p):</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#in-malloc-bytes"><span class="post-toc-number">3.2.2.</span> <span class="post-toc-text">in malloc(bytes):</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fast-bin"><span class="post-toc-number">3.2.3.</span> <span class="post-toc-text">fast bin</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LIFO"><span class="post-toc-number">3.2.4.</span> <span class="post-toc-text">LIFO</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fastbin-layout"><span class="post-toc-number">3.2.5.</span> <span class="post-toc-text">fastbin layout</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#利用"><span class="post-toc-number">3.2.6.</span> <span class="post-toc-text">利用</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Shrink-the-chunk"><span class="post-toc-number">4.</span> <span class="post-toc-text">Shrink the chunk</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前提"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">前提</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目的"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">目的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#方法"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#过程-看图食用最佳"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">过程(看图食用最佳)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">总结</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#extend-the-chunk"><span class="post-toc-number">5.</span> <span class="post-toc-text">extend the chunk</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#前提-1"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">前提</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目的-1"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">目的</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原理"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#过程-配合图食用最佳"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">过程(配合图食用最佳)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结-1"><span class="post-toc-number">5.5.</span> <span class="post-toc-text">总结</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#大总结"><span class="post-toc-number">6.</span> <span class="post-toc-text">大总结</span></a></li></ol>
-            </nav>
-            <div class="toc-bar"><div>
-        </div></div></aside>
-    
-  </article>
-  
-  
-</div>
-
-        <footer class="footer">
-    
-    <div class="bottom">
-        <p>
-            <span>
-                知世 &copy; 2017 - 2019
-            </span>
-        		
-           	
-            
-            
-            <span>
-	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
-            </span>
-            
-            
-            
-
-            
-                
-<span class="site-uv" title="总访客量">
-    <i class="icon icon-user"></i>
-    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
-</span>
-
-
-<span class="site-pv" title="总访问量">
-    <i class="icon icon-eye"></i>
-    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
-</span>
-
-            
-        </p>
-    </div>
-</footer>
-
-    </main>
-    <div class="mask" id="mask"></div>
-<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
-
-
-
-<div class="global-share" id="globalShare">
-    <ul class="reset share-icons">
-      
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/07/26/advanced-heap-exploiatior-搬运/&title=《advanced heap exploiatior(搬运)》 — 知世の小屋&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/07/26/advanced-heap-exploiatior-搬运/&title=《advanced heap exploiatior(搬运)》 — 知世の小屋&source=my blogs" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      
-    </ul>
- </div>
-
-
-<div class="page-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsUlEQVR42u3a2WrDQAwF0P7/T6fQp0Jj92qZpIXjp+B1zgQ8sqSPj3h7fG33R7+fc/W7d/Tn/Zc3PDw8vNbQr7atR16dn0/c/Rgux4OHh4d3jHe/GCTDutqTT8f9SO7Hc7kfDw8P7628BNwLf6vTh4eHh/dfeHl4nYfO95OSJzjw8PDwXs9LkhHzJEUvTH9RrgUPDw8v5lVD3r/w+2B9Dw8PD29QVc+XiiTlWg2pH+MNDw8P7wQvefxuYWy+AOTFMDw8PLxzvLzoVS2PnWgd6KU58PDw8LZ4ebp2K4zOA/RqgvjJBOHh4eG9hJcPuhcc59NXbSYofyvg4eHhDXj5J331RZ9fVYVFHwB4eHh4h3nJZZM8R/6ir4bjl0fx8PDwjvGSQefLwwl2swELDw8P7wAveTVXG6GqU1MtvCV3w8PDwzvHy4tJOTtfhObNW788Fw8PD+8Ar5paTa6aLww5pjDReHh4eEu8rYfl+EISYVyEw8PDwzvHywPrPCHbaw7Iy12F1gE8PDy8Y7xqWNx70VcD5WpK97J1AA8PD2+Jt1v+n5SykuRC8jfg4eHhneb1XrvVULsaoFeD+NEXAx4eHl6RV/1m74W51eTCZGl5Mh14eHh4q7xJUSop4W+VspoFNjw8PLwDvCTdkDPuHzNPxTaP4uHh4R3g9ZICVUwyoOrdCgsbHh4e3ipvwqiWr/L9+VI0+t/w8PDwlnh5AqIK6zUETBIleHh4eLu8R3HLF5Je20Ev3RA1XeHh4eEt8bbKXXniIGfnwXQ574KHh4c35s0D3F5QvlUew8PDw3sXr5d6mAfBk8mKwmg8PDy8P8CrDrF6ZnJtobULDw8P7628SXNVdcp6MDw8PLxX8pJkxHwxqDanLjQZ4OHh4R3g9QpgyXDnpa/qQrJW38PDw8N7fs9PEmz33TrI4g8AAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 
-    
-    <!-- main-js -->
-<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
-<script type="text/javascript" src="/js/plugins/fastclick.js?v=1.4.1"></script>
-<script type="text/javascript" src="/js/plugins/ios-orientationchange-fix.js?v=1.4.1"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
-
-<script type="text/javascript" src="/js/method.js?v=1.4.1"></script>
-<script type="text/javascript" src="/js/blog.js?v=1.4.1"></script>
-
-<!-- third-party -->
-
-
-
-
-
-
-<script type="text/javascript" src="/js/plugins/local_search.js?v=1.4.1"></script>
-<script type="text/javascript">
-	var search_path = "search.xml";
-	if (search_path.length === 0) {
-		search_path = "search.xml";
-	}
-	var path = "/" + search_path;
-	searchFunc(path, "local-search-input", "local-search-result");
-</script>
-
-
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-    
-    
-
-
-
-
-
-    <!-- mathjax config similar to math.stackexchange -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-            processEscapes: true,
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
-
-
-    <script>
-    (function() {
-        var OriginTitile = document.title, titleTime;
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                document.title = '/(ㄒoㄒ)/~~嘤嘤嘤，不要我了';
-                clearTimeout(titleTime);
-            } else {
-                document.title = '(つェ⊂)来啦官人';
-                titleTime = setTimeout(function() {
-                    document.title = OriginTitile;
-                },2000);
-            }
-        });
-    })();
-</script>
-
-
-
-
-
-    
+    </div>
+</div>
 </body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 </html>

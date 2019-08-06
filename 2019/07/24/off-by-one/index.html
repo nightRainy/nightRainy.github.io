@@ -1,206 +1,66 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="" class="loading">
 <head><meta name="generator" content="Hexo 3.8.0">
-    <meta charset="utf-8">
-    
-    
-    <title>off-by-one | 知世の小屋 | 何不仗剑随风去,扶摇直上九万里</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-    <meta name="keywords" content="">
-    <link rel="shortcut icon" href="/img/favicon.jpg">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
-    <link rel="stylesheet" href="/css/style.css?v=1.4.1">
-    
-    <script type="text/javascript">
-        // Data Center
-        var DC = {
-            reward:	true,
-            lv: JSON.parse('{"enable":false,"app_id":null,"app_key":null,"icon":true}'),
-            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
-            g: JSON.parse('{"enable":false,"lazy":true,"owner":"nightRainy","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
-            d: JSON.parse('{"app_id":null}')
-        };
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>off-by-one - 知世の小屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="my blogs,参考学习师傅们的文章123456https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/off_by_one-zh/http://d0m02,"> 
+    <meta name="author" content="知世"> 
+    <link rel="alternative" href="atom.xml" title="知世の小屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
     </script>
-    <script type="text/javascript">
-        window.lazyScripts=[];
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
     </script>
-    
 </head>
-
-
-<body>
-    <div id="loading" class="active"></div>
-
-    <aside id="menu" class="hide">
-  <div class="inner flex-row-vertical">
-    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
-        <i class="icon icon-lg icon-close"></i>
-    </a>
-    <div class="brand-wrap">
-      
-      <img src="/img/brand.jpg" class="brand-bg">
-      
-      <div class="brand">
-        <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="/img/favicon.jpg">
-        </a>
-        <hgroup class="introduce">
-          <h5 class="nickname">知世</h5>
-          <a href="mailto:jianaiyuheng@qq.com" title="jianaiyuheng@qq.com" class="mail">
-            
-              <span>j</span>
-            
-              <span>i</span>
-            
-              <span>a</span>
-            
-              <span>n</span>
-            
-              <span>a</span>
-            
-              <span>i</span>
-            
-              <span>y</span>
-            
-              <span>u</span>
-            
-              <span>h</span>
-            
-              <span>e</span>
-            
-              <span>n</span>
-            
-              <span>g</span>
-            
-              <span>@</span>
-            
-              <span>q</span>
-            
-              <span>q</span>
-            
-              <span>.</span>
-            
-              <span>c</span>
-            
-              <span>o</span>
-            
-              <span>m</span>
-            
-          </a>
-        </hgroup>
-        
-        <ul class="menu-link">
-          
-              <li>
-                <a href="https://github.com/nightRainy" target="_blank">
-                  <i class="icon icon-lg icon-github"></i>
-                </a>
-              </li>
-            
-        </ul>
-        
-      </div>
-    </div>
-    <div class="scroll-wrap flex-col">
-      <ul class="nav">
-        
-            <li class="">
-              <a href="/">
-                <i class="icon icon-lg icon-home"></i>
-                HOME
-              </a>
-            </li>
-        
-            <li class="">
-              <a href="/archives">
-                <i class="icon icon-lg icon-archives"></i>
-                ARCHIVES
-              </a>
-            </li>
-        
-            <li class="">
-              <a href="https://github.com/nightRainy" target="_blank">
-                <i class="icon icon-lg icon-github"></i>
-                Github
-              </a>
-            </li>
-        
-      </ul>
-    </div>
-  </div>
-</aside>
-
-    <main id="main">
-        <header class="top-header" id="header">
-    <div class="flex-row clearfix">
-        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
-          <i class="icon icon-lg icon-navicon"></i>
-        </a>
-        <div class="flex-col header-title ellipsis">
-            <span>off-by-one</span>
-            
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">知世の小屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://nightRainy.github.io"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">off-by-one</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
         </div>
-        
-        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
-            <i class="icon icon-lg icon-search"></i>
-        </a>
-        
     </div>
-</header>
-<header class="content-header post-header">
-    <img src="/img/banner.jpg" class="header-bg">
-    <div class="container fade-scale">
-        <h1 class="title">off-by-one</h1>
-        <h5 class="subtitle">
-            
-                <time datetime="2019-07-24T15:45:02.000Z" itemprop="datePublished" class="page-time">
-  2019-07-24
-</time>
-
-
-            
-        </h5>
-        
-    </div>
-    
-
-</header>
-
-<div id="site_search">
-    <div class="search-title clearfix">
-        <span class="pull-left">
-          <i class="icon icon-lg icon-search"></i>
-        </span>
-        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left">
-        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
-          <i class="icon icon-lg icon-close"></i>
-        </a>
-    </div>
-    <div id="local-search-result"></div>
+    <div class="scrollbar"></div>
 </div>
 
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">off-by-one</h1>
+        <div class="stuff">
+            <span>七月 24, 2019</span>
+            
 
-<div class="container body-wrap">
-    <article id="post-off-by-one" class="post-article article-type-post" itemprop="blogPost">
-      <div class="post-card">
-          <h1 class="post-card-title">off-by-one</h1>
-          <div class="post-meta">
-              <time class="post-time" title="2019-07-24 23:45:02" datetime="2019-07-24T15:45:02.000Z" itemprop="datePublished">2019-07-24</time>
-
-              
-
-
-              
-
-              
-
-
-              
-          </div>
-          <div class="post-content" id="post-content" itemprop="postContent">
-              
-              <h1 id="参考学习师傅们的文章"><a href="#参考学习师傅们的文章" class="headerlink" title="参考学习师傅们的文章"></a>参考学习师傅们的文章</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/off_by_one-zh/</span><br><span class="line">http://d0m021ng.github.io/2017/03/01/PWN/Linux%E5%A0%86%E6%BC%8F%E6%B4%9E%E4%B9%8Boff-by-one/</span><br><span class="line">https://www.anquanke.com/post/id/88961#h2-5</span><br><span class="line">https://blog.csdn.net/nibiru_holmes/article/details/62040763</span><br><span class="line">https://www.w0lfzhang.com/2016/10/21/off-by-one/</span><br><span class="line">https://github.com/JnuSimba/LinuxSecNotes/blob/master/Linux%20X86%20%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E7%B3%BB%E5%88%97/%E5%A0%86%E5%86%85off-by-one%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8.md</span><br></pre></td></tr></table></figure>
+        </div>
+        <div class="content markdown">
+            <h1 id="参考学习师傅们的文章"><a href="#参考学习师傅们的文章" class="headerlink" title="参考学习师傅们的文章"></a>参考学习师傅们的文章</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/off_by_one-zh/</span><br><span class="line">http://d0m021ng.github.io/2017/03/01/PWN/Linux%E5%A0%86%E6%BC%8F%E6%B4%9E%E4%B9%8Boff-by-one/</span><br><span class="line">https://www.anquanke.com/post/id/88961#h2-5</span><br><span class="line">https://blog.csdn.net/nibiru_holmes/article/details/62040763</span><br><span class="line">https://www.w0lfzhang.com/2016/10/21/off-by-one/</span><br><span class="line">https://github.com/JnuSimba/LinuxSecNotes/blob/master/Linux%20X86%20%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E7%B3%BB%E5%88%97/%E5%A0%86%E5%86%85off-by-one%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8.md</span><br></pre></td></tr></table></figure>
 <h1 id="off-by-one-漏洞利用学习"><a href="#off-by-one-漏洞利用学习" class="headerlink" title="off-by-one 漏洞利用学习"></a>off-by-one 漏洞利用学习</h1><blockquote>
 <p>一直没能学会off-by-one这一个神奇的漏洞利用方式,这一次终于有机会默默学习一下了</p>
 </blockquote>
@@ -253,272 +113,90 @@
 <li>unsorted bin 利用大概就是更改global_max的大小</li>
 </ul>
 
-          </div>
-          
-<blockquote class="post-copyright">
-    <div class="content">
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
         
-<span class="post-time">
-    Last updated: <time datetime="2019-07-31T15:31:42.548Z" itemprop="dateUpdated">2019-07-31 23:31:42</time>
-</span><br>
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="" data-cs="" data-r="" data-o="" data-a="" data-d="false">查看评论</div>
 
 
-        
-        转载注明出处，原文地址：<a href="/2019/07/24/off-by-one/" target="_blank" rel="external">https://nightRainy.github.io/2019/07/24/off-by-one/</a>
-        
     </div>
-    <footer>
-        <a href="https://nightRainy.github.io">
-            <img src="/img/favicon.jpg" alt="知世">
-            知世
-        </a>
-    </footer>
-</blockquote>
-
-          
-          
-          <div class="post-footer">
-              
-              <div class="page-share-wrap">
     
-
-<div class="page-share" id="pageShare">
-    <ul class="reset share-icons">
-      
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/07/24/off-by-one/&title=《off-by-one》 — 知世の小屋&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/07/24/off-by-one/&title=《off-by-one》 — 知世の小屋&source=my blogs" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      
-    </ul>
- </div>
-
-
-
-    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
-        <i class="icon icon-share-alt icon-lg"></i>
-    </a>
-</div>
-
-          </div>
-          
-              
-
-
-          
-      </div>
-      
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="prev">
-      <a href="/2019/07/25/chunk-extend-and-overlapping/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">chunk extend and overlapping</h4>
-      </a>
-    </div>
-  
-
-  
-    <div class="next">
-      <a href="/2019/07/21/Unsorted-Bin-Attack/" id="post-next" class="post-nav-link">
-        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">Unsorted Bin Attack</h4>
-      </a>
-    </div>
-  
-</nav>
-
-
-      
-      
-        <aside class="post-widget">
-            <nav class="post-toc-wrap" id="post-toc">
-                <strong>目录</strong>
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考学习师傅们的文章"><span class="post-toc-number">1.</span> <span class="post-toc-text">参考学习师傅们的文章</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#off-by-one-漏洞利用学习"><span class="post-toc-number">2.</span> <span class="post-toc-text">off-by-one 漏洞利用学习</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分类"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">分类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#overlapping"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">overlapping</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#unlink-相关内容我也在之前的博客中有所提及"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">unlink(相关内容我也在之前的博客中有所提及)</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#利用思路"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">利用思路</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#效果"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">效果</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#注意事项"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">注意事项</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#相关操作"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">相关操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#overwrite-allocate"><span class="post-toc-number">2.5.1.</span> <span class="post-toc-text">overwrite allocate</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#overwrite-freed"><span class="post-toc-number">2.5.2.</span> <span class="post-toc-text">overwrite freed</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#off-by-one-NULL-byte"><span class="post-toc-number">2.5.3.</span> <span class="post-toc-text">off-by-one NULL byte</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#small-bin"><span class="post-toc-number">2.5.4.</span> <span class="post-toc-text">small bin</span></a></li></ol></li></ol></li></ol>
-            </nav>
-            <div class="toc-bar"><div>
-        </div></div></aside>
-    
-  </article>
-  
-  
-</div>
-
-        <footer class="footer">
-    
-    <div class="bottom">
-        <p>
-            <span>
-                知世 &copy; 2017 - 2019
-            </span>
-        		
-           	
-            
-            
-            <span>
-	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
-            </span>
-            
-            
-            
-
-            
-                
-<span class="site-uv" title="总访客量">
-    <i class="icon icon-user"></i>
-    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
-</span>
-
-
-<span class="site-pv" title="总访问量">
-    <i class="icon icon-eye"></i>
-    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
-</span>
-
-            
-        </p>
-    </div>
-</footer>
-
-    </main>
-    <div class="mask" id="mask"></div>
-<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
-
-
-
-<div class="global-share" id="globalShare">
-    <ul class="reset share-icons">
-      
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/07/24/off-by-one/&title=《off-by-one》 — 知世の小屋&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/07/24/off-by-one/&title=《off-by-one》 — 知世の小屋&source=my blogs" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      
-    </ul>
- </div>
-
-
-<div class="page-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKElEQVR42u3aQW7DMAwEwPz/0ynQU4sg8pJMikYanwLDrjg+sCKp2y2+7t/Xz9+PV/7ks7ce77/4wsDA+FhGb5n1Ys9ga2r1Q2BgYJzGqCbZdbjPFpt/gqf3MTAwMOKkuQYkHwUDAwNjzkjCTYLL38XAwMDIi9h18l3f7z3zllocAwPjAxm9wcDf/H77fAMDA+PfM+7FKy9B803eC6LCwMDYmpE3/fOF81FlVJrGa2FgYOzKqDa28oMRebnba+r9eh4DA+MARu9QRS85Vo9ZRBFiYGBszUjCqrbpq638/N2Lj4KBgbEpIz/KkNypDjh7YwAMDAyMXmla6O0VeYUdLgYGxtaM+XGravusOhi4GDxgYGBszcjT63rD944Q86MYGBgYezPynlwymMy3dL2UfVHEYmBgbMrIx4p54ZqkyPlhi4v/GxgYGBsxqgkxf6aaiKtFMgYGxjmMV40eq2FNRggXa2FgYBzJWG/v8iNi+RGNXtsOAwPjBMYk7fYacNUiNj+ahoGBsROjN4bswXrJNGrPYWBgHMbohZVsEyeBRoUrBgbGpoy8BVZNzW8pTTEwMI5kTJpovYDyhFtIxBgYGFszqoPGXnE7OX6xZmNgYJzDqA4j52VtUqaWY8DAwDiAUS1Bq2XnZGDQnL5iYGAcyeiVoNVGf97IayZcDAyMwxjJX5iPOaN4MDAwDmD0itg5dT5MxcDAOIHRKx17Lblk+V6axsDA2JTxBeklHfMDbzhSAAAAAElFTkSuQmCC" alt="微信分享二维码">
 </div>
 
 
-    
-    <!-- main-js -->
-<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
-<script type="text/javascript" src="/js/plugins/fastclick.js?v=1.4.1"></script>
-<script type="text/javascript" src="/js/plugins/ios-orientationchange-fix.js?v=1.4.1"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
-
-<script type="text/javascript" src="/js/method.js?v=1.4.1"></script>
-<script type="text/javascript" src="/js/blog.js?v=1.4.1"></script>
-
-<!-- third-party -->
-
-
-
-
-
-
-<script type="text/javascript" src="/js/plugins/local_search.js?v=1.4.1"></script>
-<script type="text/javascript">
-	var search_path = "search.xml";
-	if (search_path.length === 0) {
-		search_path = "search.xml";
-	}
-	var path = "/" + search_path;
-	searchFunc(path, "local-search-input", "local-search-result");
-</script>
-
-
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-    
-    
-
-
-
-
-
-    <!-- mathjax config similar to math.stackexchange -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-            processEscapes: true,
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
-
-
-    <script>
-    (function() {
-        var OriginTitile = document.title, titleTime;
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                document.title = '/(ㄒoㄒ)/~~嘤嘤嘤，不要我了';
-                clearTimeout(titleTime);
-            } else {
-                document.title = '(つェ⊂)来啦官人';
-                titleTime = setTimeout(function() {
-                    document.title = OriginTitile;
-                },2000);
-            }
-        });
-    })();
-</script>
-
-
-
-
-
-    
+    </div>
+</div>
 </body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 </html>

