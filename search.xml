@@ -3,6 +3,133 @@
   
     
     <entry>
+      <title><![CDATA[play withe file structure(搬运)]]></title>
+      <url>/2019/08/07/play-withe-file-structure-%E6%90%AC%E8%BF%90/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>搬运自<a href="https://www.slideshare.net/AngelBoy1/play-with-file-structure-yet-another-binary-exploit-technique" target="_blank" rel="noopener">Angel Boy师傅的分享</a></p>
+</blockquote>
+<h1 id="content"><a href="#content" class="headerlink" title="content"></a>content</h1><ul>
+<li>introduction<ul>
+<li>file stream</li>
+<li>overwrite the file struction</li>
+</ul>
+</li>
+<li>Exploiation of FILE struction<ul>
+<li>FSOP</li>
+<li>Vtable verfication in FILE  struction</li>
+<li>Make file struction great again</li>
+</ul>
+</li>
+<li>conclusion</li>
+</ul>
+<h1 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h1><h2 id="what-happen-when-we-use-a-raw-io-function"><a href="#what-happen-when-we-use-a-raw-io-function" class="headerlink" title="what happen when we use a raw io function"></a>what happen when we use a raw io function</h2><p><img src="https://i.loli.net/2019/08/07/Wgu1PQtryD5Lhp7.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/E6IPFGurM1w98aD.png" alt="image.png"></p>
+<h2 id="what-is-file-stream"><a href="#what-is-file-stream" class="headerlink" title="what is file stream?"></a>what is file stream?</h2><ul>
+<li>A higher-level interface on the primitive file descriptor facilites</li>
+<li>Stream buffering</li>
+<li>Portable and High performance</li>
+</ul>
+<h2 id="what-is-FILE-structure"><a href="#what-is-FILE-structure" class="headerlink" title="what is FILE structure"></a>what is FILE structure</h2><ul>
+<li>A file stream descripor</li>
+<li>Created by fopen</li>
+</ul>
+<h2 id="what-happen-when-we-use-stdio-function"><a href="#what-happen-when-we-use-stdio-function" class="headerlink" title="what happen when we use stdio function"></a>what happen when we use stdio function</h2><p><img src="https://i.loli.net/2019/08/07/xjKJEV9PaF84Qui.png" alt="image.png"><br><img src="https://i.loli.net/2019/08/07/4sy1F2oGAUxW6ZD.png" alt="image.png"></p>
+<h2 id="overwrite-the-file-struction"><a href="#overwrite-the-file-struction" class="headerlink" title="overwrite the file struction"></a>overwrite the file struction</h2><ul>
+<li>File struction<ul>
+<li>A complex struction<ul>
+<li>Flags</li>
+<li>Stream buffer</li>
+<li>File descriptor</li>
+</ul>
+</li>
+<li>FILE_PUTS<ul>
+<li>virtul function table</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>结构体在我之前的文章有写,师傅们可以看之前的文章即可</p>
+<h3 id="flags"><a href="#flags" class="headerlink" title="flags"></a>flags</h3><pre><code>* Record the attribute of the File stream
+* Read only
+* Append
+...
+</code></pre><p><img src="https://i.loli.net/2019/08/07/O75gzbIBTGLK8Yl.png" alt="image.png"></p>
+<h3 id="Stream-buffer"><a href="#Stream-buffer" class="headerlink" title="Stream buffer"></a>Stream buffer</h3><ul>
+<li>Read buffer</li>
+<li>Write buffer</li>
+<li>Reserve buffer</li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/07/32ZeYbLCdlJzjax.png" alt="image.png"></p>
+<h3 id="fileno"><a href="#fileno" class="headerlink" title="_fileno"></a>_fileno</h3><ul>
+<li>File descriptor</li>
+<li>Return by sys_open<br><img src="https://i.loli.net/2019/08/07/bk1qERm2nGzaFNI.png" alt="image.png"></li>
+</ul>
+<h3 id="file-plus"><a href="#file-plus" class="headerlink" title="file_plus"></a>file_plus</h3><ul>
+<li>stdin/stdout/stderr</li>
+<li>fopen also use it</li>
+<li>Extra Virtul function table<ul>
+<li>Any operation on file is via vtable</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/07/tU6yW5QRbPdKsNn.png" alt="image.png"><br><img src="https://i.loli.net/2019/08/07/t1KYJGDBiyMOQhf.png" alt="image.png"></p>
+<h3 id="chain"><a href="#chain" class="headerlink" title="chain"></a>chain</h3><p>Every FILE associate with a _chain (linked  list)<br><img src="https://i.loli.net/2019/08/07/UyCLlYm2tPbQjpg.png" alt="image.png"></p>
+<h2 id="fopen-workflow"><a href="#fopen-workflow" class="headerlink" title="fopen workflow"></a>fopen workflow</h2><ul>
+<li>Allocate FILE Structure</li>
+<li>initial the FILE structure<ul>
+<li>Link the FILE structure</li>
+</ul>
+</li>
+<li>open file</li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/07/yxjl74P2MNkhSVD.png" alt="image.png"></p>
+<h3 id="allocate-file-structure"><a href="#allocate-file-structure" class="headerlink" title="allocate file structure"></a>allocate file structure</h3><p><img src="https://i.loli.net/2019/08/07/u5Iy7XortxjRhYK.png" alt="image.png"></p>
+<h3 id="initial-the-file-structure"><a href="#initial-the-file-structure" class="headerlink" title="initial the file structure"></a>initial the file structure</h3><p><img src="https://i.loli.net/2019/08/07/AvKskPraWXNJ3Cw.png" alt="image.png"></p>
+<h3 id="Link-the-file-structure"><a href="#Link-the-file-structure" class="headerlink" title="Link the file structure"></a>Link the file structure</h3><p><img src="https://i.loli.net/2019/08/07/RBt8D1ZYbwxeJCE.png" alt="image.png"></p>
+<h3 id="open-file"><a href="#open-file" class="headerlink" title="open file"></a>open file</h3><p><img src="https://i.loli.net/2019/08/07/53khYwPgHvEsZWx.png" alt="image.png"></p>
+<h2 id="fread-workflow"><a href="#fread-workflow" class="headerlink" title="fread workflow"></a>fread workflow</h2><ul>
+<li>IF stream buffer is NULL<ul>
+<li>Allocate buffer</li>
+</ul>
+</li>
+<li>Read data to the stream buffer</li>
+<li>copy data from stream buffer to destination</li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/07/1D9xyrliMAhOSj8.png" alt="image.png"></p>
+<h3 id="If-stream-buffer-is-NULL"><a href="#If-stream-buffer-is-NULL" class="headerlink" title="If stream buffer is NULL"></a>If stream buffer is NULL</h3><p>allocate buffer</p>
+<p><img src="https://i.loli.net/2019/08/07/kMBhoFKVpRijl92.png" alt="image.png"></p>
+<h3 id="read-data-to-the-stream-buffer"><a href="#read-data-to-the-stream-buffer" class="headerlink" title="read data to the stream buffer"></a>read data to the stream buffer</h3><p><img src="https://i.loli.net/2019/08/07/UiAoXSF6rMnHfuN.png" alt="image.png"></p>
+<h3 id="copy-data-from-stream-buffer-to-destination"><a href="#copy-data-from-stream-buffer-to-destination" class="headerlink" title="copy data from stream buffer to destination"></a>copy data from stream buffer to destination</h3><p><img src="https://i.loli.net/2019/08/07/9uls5ZRUtEHnVAX.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/7oUra8bXzAjHLOi.png" alt="image.png"></p>
+<h3 id="if-the-stream-is-filled-or-flush-the-stream"><a href="#if-the-stream-is-filled-or-flush-the-stream" class="headerlink" title="if the stream is filled or flush the stream"></a>if the stream is filled or flush the stream</h3><ul>
+<li>write data from stream buffer to the file</li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/07/ujZDyNGsdBk6PIn.png" alt="image.png"></p>
+<h2 id="fclose-workflow"><a href="#fclose-workflow" class="headerlink" title="fclose workflow"></a>fclose workflow</h2><ul>
+<li>If stream buffer is NULL<ul>
+<li>allocte buffer</li>
+</ul>
+</li>
+<li>copy user data to the stream buffer </li>
+<li>if the steram buffer if filled or flush the stream<ul>
+<li>write data from stream buffer to the file</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/07/pEnGT8V2ifCBzON.png" alt="image.png"></p>
+<ul>
+<li>unlink the file structure</li>
+<li>flush &amp; realease the strean buffer</li>
+<li>close the file</li>
+<li>release the file structure<br>未完待续~</li>
+</ul>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[_IO_FILE结构体利用]]></title>
       <url>/2019/08/03/IO-FILE%E7%BB%93%E6%9E%84%E4%BD%93%E5%88%A9%E7%94%A8/</url>
       <content type="html"><![CDATA[<blockquote>
