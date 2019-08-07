@@ -80,7 +80,7 @@
 <li>更改连接超时时间如<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gitlab_rails[&apos;webhook_timeout&apos;] = 90 </span><br><span class="line">gitlab_rails[&apos;git_timeout&apos;]=90</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>但这些对我来说都没用..疯狂刷新无果后..最后找到了解决办法<br>…我内存爆了..QAQ<br>下面开启swap即可</p>
+<p>但这些对我来说都没用..疯狂刷新无果后..最后找到了解决办法<br>确实是我内存爆了..QAQ<br>下面开启swap即可</p>
 <ul>
 <li><p>创建大小为4GB</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=/dev/zero of=/mnt/swap bs=1M count=4096</span><br></pre></td></tr></table></figure>
