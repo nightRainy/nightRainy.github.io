@@ -114,11 +114,12 @@ Exploiation of ,">
 </li>
 </ul>
 <p>结构体在我之前的文章有写,师傅们可以看之前的文章即可</p>
-<h3 id="flags"><a href="#flags" class="headerlink" title="flags"></a>flags</h3><pre><code>* Record the attribute of the File stream
-* Read only
-* Append
-...
-</code></pre><p><img src="https://i.loli.net/2019/08/07/O75gzbIBTGLK8Yl.png" alt="image.png"></p>
+<h3 id="flags"><a href="#flags" class="headerlink" title="flags"></a>flags</h3><ul>
+<li>Record the attribute of the File stream</li>
+<li>Read only</li>
+<li>Append</li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/07/O75gzbIBTGLK8Yl.png" alt="image.png"></p>
 <h3 id="Stream-buffer"><a href="#Stream-buffer" class="headerlink" title="Stream buffer"></a>Stream buffer</h3><ul>
 <li>Read buffer</li>
 <li>Write buffer</li>
@@ -189,7 +190,7 @@ Exploiation of ,">
 <li>release the file structure</li>
 </ul>
 <p><img src="https://i.loli.net/2019/08/07/ZtecGMz2EKBkLQa.png" alt="image.png"></p>
-<h2 id="Exploitation-of-File-structure"><a href="#Exploitation-of-File-structure" class="headerlink" title="Exploitation of File structure"></a>Exploitation of File structure</h2><h1 id="Exploitation-of-FILE-structure"><a href="#Exploitation-of-FILE-structure" class="headerlink" title="Exploitation of FILE structure"></a>Exploitation of FILE structure</h1><p>There are a good target in FILE structure</p>
+<h1 id="Exploitation-of-FILE-structure"><a href="#Exploitation-of-FILE-structure" class="headerlink" title="Exploitation of FILE structure"></a>Exploitation of FILE structure</h1><p>There are a good target in FILE structure</p>
 <p>Virtual function table</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct _IO_FILE_plus</span><br><span class="line">&#123;</span><br><span class="line">    _IO_FILE file;</span><br><span class="line">    const struct _IO_jump_t *vtable;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="let’s-overwrite-with-buffer-address"><a href="#let’s-overwrite-with-buffer-address" class="headerlink" title="let’s overwrite with buffer address"></a>let’s overwrite with buffer address</h2><p><img src="https://i.loli.net/2019/08/07/lGe673jmzYFWO8w.png" alt="image.png"></p>
