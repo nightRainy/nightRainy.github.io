@@ -213,6 +213,122 @@ Exploiatio,">
 <li>Usually need to construct it for Exploitaion</li>
 </ul>
 <p><img src="https://i.loli.net/2019/08/07/9c6X5mUiuENepBD.png" alt="image.png"></p>
+<h2 id="Let’s-fix-the-lock"><a href="#Let’s-fix-the-lock" class="headerlink" title="Let’s fix the lock"></a>Let’s fix the lock</h2><p><img src="https://i.loli.net/2019/08/09/8ok7EwOfJN245lg.png" alt="image.png"></p>
+<h2 id="we-control-PC"><a href="#we-control-PC" class="headerlink" title="we control PC"></a>we control PC</h2><p><img src="https://i.loli.net/2019/08/09/nXIPZNF4MzR6uGl.png" alt="image.png"></p>
+<h2 id="Another-interesting"><a href="#Another-interesting" class="headerlink" title="Another interesting"></a>Another interesting</h2><ul>
+<li>stdin/stdout/stderr is also a FILE struct in glibc</li>
+<li>We can overwrite the global variable in glibc varible in glibc to control the flow</li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/09/kdny7QpgD4P6xXI.png" alt="image.png"></p>
+<h1 id="FSOP"><a href="#FSOP" class="headerlink" title="FSOP"></a>FSOP</h1><ul>
+<li>File-Stream Oriented Programing <ul>
+<li>Control the linked list of File stream <ul>
+<li>_chain </li>
+<li>_IO_list_all </li>
+</ul>
+</li>
+<li>Powerful function <ul>
+<li>_IO_ﬂush_all_lockp </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="IO-ﬂush-all-lockp"><a href="#IO-ﬂush-all-lockp" class="headerlink" title="_IO_ﬂush_all_lockp"></a>_IO_ﬂush_all_lockp</h2><ul>
+<li>flush all file stream</li>
+</ul>
+<h3 id="We-can-call-it"><a href="#We-can-call-it" class="headerlink" title="We can call it"></a>We can call it</h3><ul>
+<li>glibc abort routine</li>
+<li>exit function</li>
+<li>Main return</li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/09/93OQdt7aJiBPIjp.png" alt="image.png"></p>
+<ul>
+<li>It will process all FILE in FILE linked list </li>
+<li>We can construct the linked list to do oriented programing </li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/09/sUuC5cmb4ISfGwy.png" alt="image.png"></p>
+<h2 id="FILE-stream-oriented-programing"><a href="#FILE-stream-oriented-programing" class="headerlink" title="FILE-stream oriented programing"></a>FILE-stream oriented programing</h2><p><img src="https://i.loli.net/2019/08/09/kGxe5zBsM1WrtZD.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/YbSMlH3whjtdUfn.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/VjUcAIbMvC7rhi1.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/YRzkZwgjHDcNnGq.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/2DnsHeMBrxUyK8i.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/aqiNzluRvOKrIfg.png" alt="image.png"></p>
+<p>The we will ge shell!</p>
+<h1 id="Vtable-verfication-in-FILE-structure"><a href="#Vtable-verfication-in-FILE-structure" class="headerlink" title="Vtable verfication in FILE structure"></a>Vtable verfication in FILE structure</h1><ul>
+<li>Unfortunately, there are a virtual function table in latest libc </li>
+<li>Check the address of vtable before all virtual function call </li>
+<li>If vtable is invalid, it would abort </li>
+</ul>
+<h2 id="Vtable-veriﬁcation"><a href="#Vtable-veriﬁcation" class="headerlink" title="Vtable veriﬁcation"></a>Vtable veriﬁcation</h2><ul>
+<li>Vtable veriﬁcation in File</li>
+<li>The vtable must be in libc _IO_vtable section</li>
+<li>If it’s not in _IO_vtable section, it will check if the vtable are permitted</li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/09/wbptVNGjaOqIQxY.png" alt="image.png"></p>
+<h2 id="IO-vtable-check"><a href="#IO-vtable-check" class="headerlink" title="_IO_vtable_check"></a>_IO_vtable_check</h2><ul>
+<li>Check the foreign vtables Vtable veriﬁcation<br><img src="https://i.loli.net/2019/08/09/82D6kyg7JljaYHV.png" alt="image.png"></li>
+</ul>
+<h2 id="BPASS"><a href="#BPASS" class="headerlink" title="BPASS"></a>BPASS</h2><ul>
+<li>Overwrite IO_accept_foreign_vtables ?</li>
+<li>It’s very diﬃcult because of the pointer guard </li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/09/84nHBUZ63qbIwO2.png" alt="image.png"></p>
+<ul>
+<li>Overwrite _dl_open_hook ?</li>
+<li>Sounds good, but if you can control the value, you can also control other good target</li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/09/pcnE3VIjNQTJP6b.png" alt="image.png"></p>
+<h2 id="Summary-of-the-vtable-veriﬁcation"><a href="#Summary-of-the-vtable-veriﬁcation" class="headerlink" title="Summary of the vtable veriﬁcation"></a>Summary of the vtable veriﬁcation</h2><ul>
+<li>It very hard to bypass it</li>
+<li>Exploitation of FILE structure is died ?  </li>
+</ul>
+<h1 id="Make-file-structure-greate-again"><a href="#Make-file-structure-greate-again" class="headerlink" title="Make file structure greate again"></a>Make file structure greate again</h1><h2 id="how-about-change-the-target-from-vtable-to-other-element"><a href="#how-about-change-the-target-from-vtable-to-other-element" class="headerlink" title="how about change  the target from vtable to other element"></a>how about change  the target from vtable to other element</h2><ul>
+<li>stream buffer &amp; File Descripor</li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/09/EDWH5YKoTS81jXy.png" alt="image.png"></p>
+<ul>
+<li>If we can overwrite the FILE structure and use fread and fwrite with the FILE structure</li>
+<li>We can <ul>
+<li>Arbitrary memory reading </li>
+<li>Arbitrary memory writing</li>
+</ul>
+</li>
+</ul>
+<h3 id="Arbitrary-memory-reading"><a href="#Arbitrary-memory-reading" class="headerlink" title="Arbitrary memory reading"></a>Arbitrary memory reading</h3><ul>
+<li>fwrite<ul>
+<li>Set the _ﬁleno to the ﬁle descriptor of stdout</li>
+<li>Set _ﬂag &amp; ~_IO_NO_WRITES</li>
+<li>Set _ﬂag |= _IO_CURRENTLY_PUTTING </li>
+<li>Set the write_base &amp; write_ptr to memory address which you want to read</li>
+<li>_IO_read_end equal to _IO_write_base<br>其中:</li>
+</ul>
+</li>
+<li>Set _ﬂag &amp;~ _IO_NO_WRITES</li>
+<li>Set _ﬂag |= _IO_CURRENTLY_PUTTING</li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/09/YbDm4TfQgrLP7Be.png" alt="image.png"></p>
+<ul>
+<li>Let _IO_read_end equal to _IO_write_base</li>
+<li>If it’s not, it would adjust to the current oﬀset</li>
+</ul>
+<p><img src="https://i.loli.net/2019/08/09/jJownXfGrQuUYI2.png" alt="image.png"></p>
+<h4 id="sample-code"><a href="#sample-code" class="headerlink" title="sample code"></a>sample code</h4><p><img src="https://i.loli.net/2019/08/09/zwK1u2Q6VGosIl7.png" alt="image.png"></p>
+<ul>
+<li>fread<ul>
+<li>Set the _ﬁleno to ﬁle descriptor of stdin</li>
+<li>Set _ﬂag &amp;~ _IO_NO_READS</li>
+<li>Set read_base &amp; read_ptr to NULL</li>
+<li>Set the buf_base &amp; buf_end to memory address which you want to wirte</li>
+<li>buf_end - buf_base &lt; size of fread </li>
+</ul>
+</li>
+</ul>
+<p>其中:</p>
+<ul>
+<li>Set read_base &amp; read_ptr to NULL<br><img src="https://i.loli.net/2019/08/09/PhzIgQN6ERDcoGq.png" alt="image.png"></li>
+<li>Set _ﬂag &amp;~ _IO_NO_READS</li>
+</ul>
 <p>鉴于某些奇妙的原因…未完待续~</p>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
