@@ -313,7 +313,8 @@ Exploiatio,">
 <li>If it’s not, it would adjust to the current oﬀset</li>
 </ul>
 <p><img src="https://i.loli.net/2019/08/09/jJownXfGrQuUYI2.png" alt="image.png"></p>
-<h4 id="sample-code"><a href="#sample-code" class="headerlink" title="sample code"></a>sample code</h4><p><img src="https://i.loli.net/2019/08/09/zwK1u2Q6VGosIl7.png" alt="image.png"></p>
+<p><strong>sample code</strong> </p>
+<p><img src="https://i.loli.net/2019/08/09/zwK1u2Q6VGosIl7.png" alt="image.png"></p>
 <ul>
 <li>fread<ul>
 <li>Set the _ﬁleno to ﬁle descriptor of stdin</li>
@@ -327,9 +328,94 @@ Exploiatio,">
 <p>其中:</p>
 <ul>
 <li>Set read_base &amp; read_ptr to NULL<br><img src="https://i.loli.net/2019/08/09/PhzIgQN6ERDcoGq.png" alt="image.png"></li>
-<li>Set _ﬂag &amp;~ _IO_NO_READS</li>
+<li>Set _ﬂag &amp;~ _IO_NO_READS<br><img src="https://puui.qpic.cn/fans_admin/0/3_155518641_1565412684323/0" alt="image.png"></li>
 </ul>
-<p>鉴于某些奇妙的原因…未完待续~</p>
+<p><strong>sample code</strong><br><img src="https://puui.qpic.cn/fans_admin/0/3_1565779192_1565412774359/0" alt="ima.png"></p>
+<ul>
+<li>If you have arbitrary memory address read and write, you can control the ﬂow very easy<ul>
+<li>GOT hijack</li>
+<li><strong>malloc_hook_/</strong>free_hook_/__realloc_hook_</li>
+<li>…</li>
+</ul>
+</li>
+<li><p>By the way, you can not only use fread and fwrite but also use any stdio related function</p>
+</li>
+<li><p>If we don’t have any ﬁle operation in the program,We can use:</p>
+<ul>
+<li>stdin/stdout/stderr</li>
+<li>put/printf/scanf</li>
+<li>…</li>
+</ul>
+</li>
+<li><p>Scenario</p>
+<ul>
+<li>use any stdin related  function <ul>
+<li>scanf/fgets/gets</li>
+</ul>
+</li>
+<li>Stdin in unbuffer<ul>
+<li>very  common in normal stdio program</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://puui.qpic.cn/fans_admin/0/3_1757851795_1565413454773/0" alt="i.png"></p>
+<ul>
+<li>Overwrite buf_end with a pointer behind the stdin<ul>
+<li>Unsorted bin attack</li>
+<li>Very common in heap exploitation</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://puui.qpic.cn/fans_admin/0/3_1757851795_1565413538597/0" alt="i.png"></p>
+<p><img src="https://puui.qpic.cn/fans_admin/0/3_1565779192_1565413567143/0" alt="q.png"></p>
+<ul>
+<li>stdin relatedd function<ul>
+<li>scanf(“%d”,&amp;var)<ul>
+<li>It will call<ul>
+<li>read(0,buf_base,sizeof(stdin buffer))</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://puui.qpic.cn/fans_admin/0/3_155518641_1565413709350/0" alt="r.png">  </p>
+<ul>
+<li>It can overwrite many global variable in glibc </li>
+<li>Input :aaa…</li>
+</ul>
+<p><img src="https://puui.qpic.cn/fans_admin/0/3_1757851795_1565413798496/0" alt="q.png"></p>
+<p><strong>Control The PC</strong></p>
+<ul>
+<li>How about Windows ?<ul>
+<li>No vtable in FILE</li>
+<li>It also has stream buﬀer pointer <ul>
+<li>You can corrupt it to achieve arbitrary memory read and write </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><ul>
+<li><p>FILE structure is a good target for binary exploit </p>
+<ul>
+<li>It can be used to <ul>
+<li>Arbitrary memory read and write </li>
+<li>Control the PC and do oriented programing </li>
+<li>Other exploit technology </li>
+<li>Arbitrary free/unmmap</li>
+</ul>
+</li>
+<li>It’s very powerful in some unexploitable case</li>
+<li><p>Let’s try to ﬁnd more and more exploit technology in FILE structure!</p>
+<p>over~</p>
+</li>
+</ul>
+</li>
+</ul>
 
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
