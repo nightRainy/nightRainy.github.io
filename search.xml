@@ -568,7 +568,7 @@
       <title><![CDATA[advanced heap exploiatior(搬运)]]></title>
       <url>/2019/07/26/advanced-heap-exploiatior-%E6%90%AC%E8%BF%90/</url>
       <content type="html"><![CDATA[<blockquote>
-<p>在学习chunk extended的是时候google到的,就果断搬运过来了</p>
+<p>在学习chunk extended的是时候google到的,就果断搬运过来了<br>多图预警</p>
 </blockquote>
 <h1 id="搬运自https-www-slideshare-net-AngelBoy1-advanced-heap-exploitaion"><a href="#搬运自https-www-slideshare-net-AngelBoy1-advanced-heap-exploitaion" class="headerlink" title="搬运自https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion"></a>搬运自<a href="https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion" target="_blank" rel="noopener">https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion</a></h1><h1 id="advancede-heap-exploiator"><a href="#advancede-heap-exploiator" class="headerlink" title="advancede heap exploiator"></a>advancede heap exploiator</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
 <li>glibc-2.19</li>
