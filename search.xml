@@ -43,71 +43,12 @@
 <p>迷惑行为2333</p>
 <p>其实这里我们直接看汇编部分会更加清楚</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">text:0000000000000020                 call    __fentry__</span><br><span class="line">.text:0000000000000025                 push    rbp</span><br><span class="line">.text:0000000000000026                 mov     rdi, offset lock</span><br><span class="line">.text:000000000000002D                 mov     rbp, rsp</span><br><span class="line">.text:0000000000000030                 push    r14</span><br><span class="line">.text:0000000000000032                 push    r13</span><br><span class="line">.text:0000000000000034                 push    r12</span><br><span class="line">.text:0000000000000036                 push    rbx</span><br><span class="line">.text:0000000000000037                 mov     rbx, rsi</span><br><span class="line">.text:000000000000003A                 mov     r12, rdx</span><br><span class="line">.text:000000000000003D                 sub     rsp, 18h</span><br><span class="line">.text:0000000000000041                 mov     rax, gs:28h</span><br><span class="line">.text:000000000000004A                 mov     [rbp-28h], rax</span><br><span class="line">.text:000000000000004E                 xor     eax, eax</span><br><span class="line">.text:0000000000000050                 call    mutex_lock</span><br><span class="line">.text:0000000000000055                 movzx   esi, byte ptr [rbx]</span><br><span class="line">.text:0000000000000058                 mov     rdi, offset aOrderD ; &quot;order:%d&quot;</span><br><span class="line">.text:000000000000005F                 call    printk</span><br><span class="line">.text:0000000000000064                 movzx   eax, byte ptr [rbx]</span><br><span class="line">.text:0000000000000067                 test    al, al</span><br><span class="line">.text:0000000000000069                 jz      loc_1D6</span><br><span class="line">.text:000000000000006F                 cmp     al, 0FFh</span><br><span class="line">.text:0000000000000071                 jz      loc_191</span><br><span class="line">.text:0000000000000077                 cmp     al, 0FEh</span><br><span class="line">.text:0000000000000079                 jz      loc_155</span><br><span class="line">.text:000000000000007F                 cmp     al, 0FDh</span><br><span class="line">.text:0000000000000081                 jnz     short loc_90</span><br><span class="line">.text:0000000000000083                 mov     rax, cs:hack</span><br><span class="line">.text:000000000000008A                 cmp     byte ptr [rax+8], 0</span><br><span class="line">.text:000000000000008E                 jz      short loc_10E</span><br><span class="line">.text:0000000000000090</span><br></pre></td></tr></table></figure>
-<p>只需要调用write函数写入<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">exp如下:</span><br></pre></td></tr></table></figure></p>
-<p>#include &lt;stdio.h&gt;</p>
-<p>void main(){<br>   int fd = open(“/proc/de”, 2);<br>   write(fd, “\xfd”, 1);<br>    }</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">编译运行即可弹出计算器</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这里记录一个脚本可以实时查看内核的输出:</span><br></pre></td></tr></table></figure>
-<p>#include &lt;stdio.h&gt;</p>
-<p>#include &lt;stdlib.h&gt;</p>
-<p>int compareFile(FILE <em>old, FILE </em>new);</p>
-<p>int main()<br>{<br>    FILE <em>new;<br>    FILE </em>old;<br>    int lRet;<br>    static first = 0;</p>
-<pre><code>system(&quot;touch file_new&quot;);
-system(&quot;touch file_old&quot;);
-
-new = fopen(&quot;file_new&quot;, &quot;rw&quot;);
-old = fopen(&quot;file_old&quot;, &quot;rw&quot;);
-
-while(1)
-{   
-    sleep(1);
-    system(&quot;dmesg &gt; file_new&quot;);
-
-    if (first == 0)
-    {   
-        system(&quot;cp file_new file_old&quot;);
-        first++;
-        continue;
-    }   
-
-    new = fopen(&quot;file_new&quot;, &quot;rw&quot;);
-    old = fopen(&quot;file_old&quot;, &quot;rw&quot;);
-
-    if (compareFile(new, old) == 0)
-    {   
-        fclose(new);
-        fclose(old);
-        continue;
-    }   
-    else
-    {   
-        fclose(new);
-        fclose(old);
-
-        system(&quot;diff file_new file_old&quot;);
-        system(&quot;cp file_new file_old&quot;);
-    }  
-}
-return 0;
-</code></pre><p>}</p>
-<p>int compareFile(FILE <em>old, FILE </em>new)<br>{<br>    char c1;<br>    char c2;</p>
-<pre><code>while(!feof(old) &amp;&amp; !feof(new))
-{
-    c1 = fgetc(old);
-    c2 = fgetc(new);
-
-    if (c1 != c2)
-    {
-        return -1;
-    }
-}
-
-if ((c1 == EOF)&amp;&amp;(c2 == EOF))
-{
-    return 0;
-}
-return -1;
-</code></pre><p>}</p>
-<p><code>`</code></p>
+<p>只需要调用write函数写入”\xfd”即可(我可真是个菜鸡</p>
+<p>exp如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">void main()&#123;</span><br><span class="line">   int fd = open(&quot;/proc/de&quot;, 2);</span><br><span class="line">   write(fd, &quot;\xfd&quot;, 1);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>编译运行即可弹出计算器</p>
+<p>这里记录一个脚本可以实时查看内核的输出:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">int compareFile(FILE *old, FILE *new);</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    FILE *new;</span><br><span class="line">    FILE *old;</span><br><span class="line">    int lRet;</span><br><span class="line">    static first = 0;</span><br><span class="line">    </span><br><span class="line">    system(&quot;touch file_new&quot;);</span><br><span class="line">    system(&quot;touch file_old&quot;);</span><br><span class="line"></span><br><span class="line">    new = fopen(&quot;file_new&quot;, &quot;rw&quot;);</span><br><span class="line">    old = fopen(&quot;file_old&quot;, &quot;rw&quot;);</span><br><span class="line"></span><br><span class="line">    while(1)</span><br><span class="line">    &#123;   </span><br><span class="line">        sleep(1);</span><br><span class="line">        system(&quot;dmesg &gt; file_new&quot;);</span><br><span class="line">    </span><br><span class="line">        if (first == 0)</span><br><span class="line">        &#123;   </span><br><span class="line">            system(&quot;cp file_new file_old&quot;);</span><br><span class="line">            first++;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;   </span><br><span class="line"></span><br><span class="line">        new = fopen(&quot;file_new&quot;, &quot;rw&quot;);</span><br><span class="line">        old = fopen(&quot;file_old&quot;, &quot;rw&quot;);</span><br><span class="line">    </span><br><span class="line">        if (compareFile(new, old) == 0)</span><br><span class="line">        &#123;   </span><br><span class="line">            fclose(new);</span><br><span class="line">            fclose(old);</span><br><span class="line">            continue;</span><br><span class="line">        &#125;   </span><br><span class="line">        else</span><br><span class="line">        &#123;   </span><br><span class="line">            fclose(new);</span><br><span class="line">            fclose(old);</span><br><span class="line">    </span><br><span class="line">            system(&quot;diff file_new file_old&quot;);</span><br><span class="line">            system(&quot;cp file_new file_old&quot;);</span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int compareFile(FILE *old, FILE *new)</span><br><span class="line">&#123;</span><br><span class="line">    char c1;</span><br><span class="line">    char c2;</span><br><span class="line"></span><br><span class="line">    while(!feof(old) &amp;&amp; !feof(new))</span><br><span class="line">    &#123;</span><br><span class="line">        c1 = fgetc(old);</span><br><span class="line">        c2 = fgetc(new);</span><br><span class="line"></span><br><span class="line">        if (c1 != c2)</span><br><span class="line">        &#123;</span><br><span class="line">            return -1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if ((c1 == EOF)&amp;&amp;(c2 == EOF))</span><br><span class="line">    &#123;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>编译运行并跑起来即可</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>遇到之前没遇到的东西一定不能能慌,说不定非常简单(我真是个菜鸡hhh</p>
 <p>F5大法得到的东西诡异不如直接阅读反汇编代码</p>
