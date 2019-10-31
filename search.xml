@@ -6,7 +6,7 @@
       <title><![CDATA[play_with_docker]]></title>
       <url>/2019/10/31/play-with-docker/</url>
       <content type="html"><![CDATA[<blockquote>
-<p>数字云是第一次线下打real world模式,题目质量很高,深感自己所学知识的匮乏,因此特地学习了一波docker相关的知识</p>
+<p>数字云是第一次线下打real world模式,题目质量很高,深感自己所学知识的匮乏,因此特地学习了一波docker相关的知识,其实题目很简单,都怪自己太菜了走入了死胡同</p>
 </blockquote>
 <h1 id="docker在特权模式下启动的逃逸"><a href="#docker在特权模式下启动的逃逸" class="headerlink" title="docker在特权模式下启动的逃逸"></a>docker在特权模式下启动的逃逸</h1><h2 id="开启–privileged-的情况下-或者使用—cap-add-SYSADMIN参数启动时"><a href="#开启–privileged-的情况下-或者使用—cap-add-SYSADMIN参数启动时" class="headerlink" title="开启–privileged 的情况下(或者使用—cap-add=SYSADMIN参数启动时)"></a>开启–privileged 的情况下(或者使用—cap-add=SYSADMIN参数启动时)</h2><p>我们知道在版本6.0以后docker引入了特权模式</p>
 <p>特权模式下允许容器内的root几乎拥有外部物理机的root级别权限，而在此之前容器内root用户仅拥有外部物理机普通用户权限。</p>
@@ -22,7 +22,12 @@
 <h1 id="数字云线下docker解法"><a href="#数字云线下docker解法" class="headerlink" title="数字云线下docker解法"></a>数字云线下docker解法</h1><p>线下的时候里一血和做不出来差了一个字符,导致这篇文章咕咕咕了很久</p>
 <p>题目要求是ssh上宿主机起的docker,然后在宿主机弹出计算器即可,给了宿主机启动docker前的的两行命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo insmod /home/b/de.ko</span><br><span class="line">sudo docker run -itd --privileged -p 0.0.0.0:23:22 d77241e92fe6 /bin/bash -c &quot;/etc/init.d/ssh start;/bin/bash&quot;</span><br></pre></td></tr></table></figure>
-<p>一种取巧的做法就是上面描述的使用特权方法,也是我线下时采用的(当时成功了,但是环境崩了一度让我以为是我没做对</p>
+<p>一种取巧的做法就是上面描述的使用特权方法,也是我线下时采用的(当时其实应该是成功了,但是环境崩了一度让我以为是我没做对</p>
+<p>尝试过的做法,</p>
+<ol>
+<li>直接弹计算器</li>
+<li>bash反弹shell<br>这两种当时都未成功,第一种是忘了环境变量display(弹GUI程序需要)<br>第二种为什么失败就很迷了,但是有师傅用python反弹shell成功了,可能是运气不好吧2333</li>
+</ol>
 <p>这里就使用这道题的正规解法来做吧</p>
 <p>题目首先挂载了de.ko文件,然后启动了docker,那么肯定是ko文件的问题,我们拉进IDA中对文件进行分析</p>
 <h2 id="init-moudle"><a href="#init-moudle" class="headerlink" title="init_moudle"></a>init_moudle</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">__int64 init_module()</span><br><span class="line">&#123;</span><br><span class="line">  __int64 v0; // rdi</span><br><span class="line">  __int64 v1; // rax</span><br><span class="line"></span><br><span class="line">  _fentry__();</span><br><span class="line">  v0 = kmalloc_caches[4];</span><br><span class="line">  *(&amp;note + 0x100000000LL) = 0;</span><br><span class="line">  v1 = kmem_cache_alloc_trace(v0, 20971712LL, 10LL);</span><br><span class="line">  *(_BYTE *)(v1 + 8) = 1;</span><br><span class="line">  hack = v1;</span><br><span class="line">  proc_create_data(&quot;de&quot;, 438LL, 0LL, &amp;de_proc, 0LL);</span><br><span class="line">  printk(&quot;/proc/de created\n&quot;, 438LL);</span><br><span class="line">  printk(&quot;size of cred : %ld \n&quot;, 168LL);</span><br><span class="line">  return 0LL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
