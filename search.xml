@@ -3,59 +3,6 @@
   
     
     <entry>
-      <title><![CDATA[midnight_avr系列题解]]></title>
-      <url>/2020/04/14/midnight-avr%E7%B3%BB%E5%88%97%E9%A2%98%E8%A7%A3/</url>
-      <content type="html"><![CDATA[<blockquote>
-<p>上个月midnightctf出了3道avr系列的题目,之前虽然用过arduino开发程序,但也只是拿arduino套装用传感器弄些小玩意(雾,没研究过底层的东西,比赛时因为有别的事,尝试了一会也很遗憾没能做出,最近稍微空闲了一些,就做了一下相关的复现</p>
-</blockquote>
-<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.harrisongreen.me/2020/midnightsunctf/avr/</span><br><span class="line">http://ww1.microchip.com/downloads/en/devicedoc/atmel-0856-avr-instruction-set-manual.pdf</span><br></pre></td></tr></table></figure>
-<h1 id="调试环境搭建"><a href="#调试环境搭建" class="headerlink" title="调试环境搭建"></a>调试环境搭建</h1><p>遇到这类题目最麻烦的就是如何搭建调试环境了,这里简单记录一下</p>
-<p>模拟程序运行的软件-&gt; <code>simavr</code></p>
-<p>这个工具可以完美模拟我们的arduino板子</p>
-<p>在安装的时候,readme上说可以直接apt-get install simavr,我在安装的时候没有这个软件包,于是就直接编译了一下,下面是我的编译过程(因为没有直接用安装包来安装,因此直接安装会不会有出入这里我也不好说</p>
-<p>首先安装一系列依赖和小工具</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install libelf-dev -y</span><br><span class="line">sudo apt-get install freeglut3-dev -y</span><br><span class="line">sudo apt-get install libncurses5-dev libncursesw5-dev -y</span><br><span class="line">sudo apt-get install avr-libc gcc-avr -y</span><br><span class="line">sudo apt-get install picocom -y</span><br><span class="line">sudo apt-get install gdb-avr -y</span><br></pre></td></tr></table></figure>
-<p>然后我这里先在主目录中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo make -j8</span><br><span class="line">sudo make install RELEASE=1</span><br></pre></td></tr></table></figure>
-<p>然后在 <code>simavr/examples/board_simduino/</code> 目录下又做了一次编译</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo make -j8</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
-<p>本质上应该只用编译这个即可</p>
-<p>之后就可以开启快乐的调试啦,方法如下:</p>
-<ol>
-<li>挂起调试</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./simavr/examples/board_simduino/obj-x86_64-linux-gnu/simduino.elf -d challenge.hex</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>连接到模拟的UART调试串口</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">picocom /tmp/simavr-uart0</span><br></pre></td></tr></table></figure>
-<ol start="3">
-<li>连接调试</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">avr-gdb</span><br><span class="line"></span><br><span class="line">target remote 0.0.0.0:1234</span><br></pre></td></tr></table></figure>
-<h1 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h1><h2 id="avr-rev"><a href="#avr-rev" class="headerlink" title="avr-rev"></a>avr-rev</h2><p>首先先将我们的chellenge.hex转化成我们的bin文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objcopy -I ihex challenge.hex -O binary challenge.bin</span><br></pre></td></tr></table></figure>
-<p>首先根据题目描述和名字可以知道这个是一个avr的程序,那么用IDA加载时就选择我们的avr架构即可(注:Atmel AVR[AVR])</p>
-<p>载入之后该选择片型了,这里就很懵,我之前用来玩的板子是arduino uno,这里猜测使用的是atmega,因此载入在设备处后选择了ATmega32_L</p>
-<p>但是IDA表示出来的地址居然每次+1???(黑人问号脸)后来发现真实地址会显示在下面..</p>
-<p>这里给出wp的师傅用的是binary ninja,但是我手里没有这个反编译软件,因此就先用IDA凑合了hh,毕竟即使有教育特惠学校也不会因为啥奇奇怪怪的原因就批量买一批这东西</p>
-<p>那么下面就来简要分析下程序</p>
-]]></content>
-      
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[从VulDeePecker学习Bilstm在漏洞检测中的利用]]></title>
-      <url>/2020/04/10/%E4%BB%8EVulDeePecker%E5%AD%A6%E4%B9%A0Bilstm%E5%9C%A8%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84%E5%88%A9%E7%94%A8/</url>
-      <content type="html"><![CDATA[<blockquote>
-</blockquote>
-]]></content>
-      
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[从比特币WIFC私钥到地址]]></title>
       <url>/2020/04/10/%E4%BB%8E%E6%AF%94%E7%89%B9%E5%B8%81WIFC%E7%A7%81%E9%92%A5%E5%88%B0%E5%9C%B0%E5%9D%80/</url>
       <content type="html"><![CDATA[<blockquote>
