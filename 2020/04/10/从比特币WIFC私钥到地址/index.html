@@ -1,98 +1,67 @@
 <!DOCTYPE html>
-<html lang="">
-    <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-  
-  <title>从比特币WIFC私钥到地址 - 知世の小屋</title>
-  
-    <link rel="shortcut icon" href="/favicon.png">
   
   
-    <link rel="manifest" href="/manifest.json">
   
-
-  <link rel="stylesheet" href="/css/var.css">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/typography.css">
-  <link rel="stylesheet" href="/css/code-highlighting.css">
-  <link rel="stylesheet" href="/css/components.css">
-  <link rel="stylesheet" href="/css/nav.css">
-  <link rel="stylesheet" href="/css/paginator.css">
-  <link rel="stylesheet" href="/css/footer.css">
-  <link rel="stylesheet" href="/css/post-list.css">
-  <link rel="stylesheet" href="/css/waline.css">
+  <meta name="description" content="my blogs">
   
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    从比特币WIFC私钥到地址 |
+    
+    知世の小屋</title>
   
-  <link rel="stylesheet" href="/css/post.css">
+  <link rel="shortcut icon" href="/favicon.ico">
   
-
+  <link rel="stylesheet" href="/css/style.css">
   
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
 </head></html>
-    <body>
-        <nav id="theme-nav">
-    <div class="inner">
-        <a class="title" href="/">Blog</a>
-        <div class="nav-arrow"></div>
-        <div class="nav-items">
-            <a class="nav-item nav-item-home" href="/">Home</a>
-            
-            
-            <a class="nav-item" href="/archives">Archives</a>
-            
-            
-            
-            <a class="nav-item" href="/friends">Friends</a>
-            
-            
-            
-            <a class="nav-item" href="/projects">Projects</a>
-            
-            
-            
-            <a class="nav-item" href="/about">About</a>
-            
-            
-            
-            <a class="nav-item nav-item-github nav-item-icon" href="https://github.com/nightRainy" target="_blank">&nbsp;</a>
-            
-            
-        </div>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-从比特币WIFC私钥到地址" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  从比特币WIFC私钥到地址
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/04/10/从比特币WIFC私钥到地址/" class="article-date">
+  <time datetime="2020-04-10T05:43:39.000Z" itemprop="datePublished">2020-04-10</time>
+</a>
+      
     </div>
-</nav>
-        <article class="post">
-    <div class="meta">
-        
-        <div class="date" id="date">
-            
-            
-            
-            
-            <span>April</span>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            <span>10,</span>
-            <span>2020</span>
-        </div>
-        
+    
 
-        <h2 class="title">从比特币WIFC私钥到地址</h2>
-    </div>
+    
+    
+<div class="tocbot"></div>
 
-    <div class="divider"></div>
+    
 
-    <div class="content">
-        <blockquote>
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <blockquote>
 <p>最近学校课程作业遇到了该问题,即如何将WIFC私钥转化为地址,因此就做了一番学习,在这做一下记录,因为也是初次接触相关内容,如果文中有错误的地方敬请斧正</p>
 </blockquote>
 <h1 id="借鉴的网站"><a href="#借鉴的网站" class="headerlink" title="借鉴的网站"></a>借鉴的网站</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https://aaron67.cc/2019/01/04/bitcoin-address/</span><br><span class="line">https://steemit.com/cn/@oflyhigh/bitcoin-base58-and-base58check-private-key-public-key-address</span><br><span class="line">https://zhuanlan.zhihu.com/p/82093348</span><br><span class="line">https://zhuanlan.zhihu.com/p/30290735</span><br></pre></td></tr></table></figure>
@@ -158,71 +127,155 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">from secp256k1 import PrivateKey </span><br><span class="line">from binascii import hexlify, unhexlify</span><br><span class="line">from pwn import *</span><br><span class="line">import hashlib</span><br><span class="line">import base58</span><br><span class="line"></span><br><span class="line">compressedWIF=&apos;Kwa6hgpEfzwcsvcTCetNjfkPtcCgVt9suVo4zjtBp7At17GAQZUi&apos;</span><br><span class="line"></span><br><span class="line">private_salt=hexlify(base58.b58decode(compressedWIF))</span><br><span class="line">log.success(&apos;private_salt:&apos;+(private_salt))</span><br><span class="line"></span><br><span class="line">private_key=private_salt[2:len(private_salt)-10]</span><br><span class="line">log.success(&apos;private_key:&apos;+(private_key))</span><br><span class="line"></span><br><span class="line">privkey=PrivateKey(unhexlify(private_key))</span><br><span class="line">uncompressed_public_key = hexlify(privkey.pubkey.serialize(compressed=False)).decode(&apos;ascii&apos;)</span><br><span class="line">log.success(&apos;uncompressed public_key:&apos;+(uncompressed_public_key))</span><br><span class="line"></span><br><span class="line">compressed_public_key=hexlify(privkey.pubkey.serialize()).decode(&apos;ascii&apos;)</span><br><span class="line">log.success(&apos;compressed public_key:&apos;+(compressed_public_key))</span><br><span class="line"></span><br><span class="line">#first hash256</span><br><span class="line">hash256=hashlib.sha256()</span><br><span class="line">hash256.update(unhexlify(compressed_public_key))</span><br><span class="line">Cpublic_hash256=hash256.hexdigest()</span><br><span class="line">log.success(&apos;compressed public_key hash256 :&apos;+(Cpublic_hash256))</span><br><span class="line"></span><br><span class="line">#ripemd160(hash256())</span><br><span class="line">ripemd=hashlib.new(&apos;ripemd160&apos;)</span><br><span class="line">ripemd.update(unhexlify(Cpublic_hash256))</span><br><span class="line">Cpublic_ripemd=ripemd.hexdigest()</span><br><span class="line">log.success(&apos;compressed public_key hash &amp; ripmed :&apos;+(Cpublic_ripemd))</span><br><span class="line"></span><br><span class="line">#hash256</span><br><span class="line">Cpublic_ripemd=b&apos;\x00&apos;+unhexlify(Cpublic_ripemd)</span><br><span class="line">log.success(&apos;add &quot;\x00&quot;: &apos;+hexlify(Cpublic_ripemd))</span><br><span class="line">hash256=hashlib.sha256()</span><br><span class="line">hash256.update(Cpublic_ripemd)</span><br><span class="line">has1=hash256.hexdigest()</span><br><span class="line">log.success(&apos;hash256 1st :&apos;+(has1))</span><br><span class="line"></span><br><span class="line">#hash256</span><br><span class="line">hash256=hashlib.sha256()</span><br><span class="line">hash256.update(unhexlify(has1))</span><br><span class="line">has2=hash256.hexdigest()</span><br><span class="line">log.success(&apos;hash256 2nd :&apos;+has2)</span><br><span class="line"></span><br><span class="line">Cpublic_ripemd=Cpublic_ripemd+unhexlify(has2[:8])</span><br><span class="line">log.success(&apos;modified value : &apos;+hexlify(Cpublic_ripemd))</span><br><span class="line"></span><br><span class="line">address=base58.b58encode(Cpublic_ripemd)</span><br><span class="line">log.success(&apos;Address : &apos;+(address))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">运行结果:</span><br><span class="line">[+] private_salt:800a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d601325f50cf</span><br><span class="line">[+] private_key:0a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d6</span><br><span class="line">[+] uncompressed public_key:041decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef13160cfafec08b79973f519843ec8f724302f454dba89224389c42e8fb3b4444148b</span><br><span class="line">[+] compressed public_key:031decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef1316</span><br><span class="line">[+] compressed public_key hash256 :08fdc7cea4b50c4280e33bfe7ba7a0d19d8235cbc94a78e1e977bdd13ffbc5db</span><br><span class="line">[+] compressed public_key hash &amp; ripmed :ff452ce82e7b9e157e0f7abd188d75ab698c74cf</span><br><span class="line">[+] add &quot;\x00&quot;: 00ff452ce82e7b9e157e0f7abd188d75ab698c74cf</span><br><span class="line">[+] hash256 1st :ecfc308eb6cb6f444711fe9d16d35713e46a2dda0c2185e550c6fee0a9587e96</span><br><span class="line">[+] hash256 2nd :597599af8a17b0e24787ba83210b8636a7abe91814eb6b24568d09f3c324fa19</span><br><span class="line">[+] modified value : 00ff452ce82e7b9e157e0f7abd188d75ab698c74cf597599af</span><br><span class="line">[+] Address : 1QGkBJve12oY6CQTKfvoTZv26YvUi6ZL4e</span><br></pre></td></tr></table></figure>
 <p>至此我们的计算就结束啦,:)</p>
 
+      
     </div>
+    <footer class="article-footer">
+      <a data-url="https://nightRainy.github.io/2020/04/10/从比特币WIFC私钥到地址/" data-id="ckmk2rln6000k3ojdurassutz" class="article-share-link">
+        Share
+      </a>
+      
+    </footer>
 
-    <div class="about">
-        <h1>About this Post</h1>
-        <p>This post is written by 知世, licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0">CC BY-NC 4.0</a>.</p>
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/01/16/随记/" class="article-nav-link">
+    <strong class="article-nav-caption">Newer</strong>
+    <div class="article-nav-title">
+      
+      随记
+      
     </div>
+  </a>
+  
+  
+  <a href="/2020/02/25/DIR-859-RCE分析-CVE-2019–17621/" class="article-nav-link">
+    <strong class="article-nav-caption">Older</strong>
+    <div class="article-nav-title">DIR_859_RCE分析(CVE-2019–17621复现)</div>
+  </a>
+  
+</nav>
 
-    
-        
-    
+  
+
+  
+  
+  
+  
+
 </article>
-        <footer>
-    <div class="inner">
-        <div class="links">
-            
-            <div class="group">
-                <h4 class="title">Blog</h4>
-                
-                <a href="/" class="item" target="_blank">Blog</a>
-                
-                <a href="/archives" class="item" target="_blank">Archives</a>
-                
-                <a href="/friends" class="item" target="_blank">Friends</a>
-                
-                <a href="/projects" class="item" target="_blank">Projects</a>
-                
-                <a href="/resume" class="item" target="_blank">Resume</a>
-                
-                <a href="/about" class="item" target="_blank">About</a>
-                
-                <a href="/atom.xml" class="item" target="_blank">RSS</a>
-                
-            </div>
-            
-            <div class="group">
-                <h4 class="title">Projects</h4>
-                
-                <a href="https://github.com/transmister" class="item" target="_blank">Transmister</a>
-                
-                <a href="https://github.com/MrWillCom/css-and-js-windows-uwp-xaml-controls" class="item" target="_blank">CSS&amp;JS Windows UWP XAML Controls</a>
-                
-                <a href="https://github.com/MrWillCom/hexo-theme-cupertino" class="item" target="_blank">Theme Cupertino</a>
-                
-                <a href="https://github.com/MrWillCom/github-dark-mode" class="item" target="_blank">GitHub Dark Mode</a>
-                
-            </div>
-            
-            <div class="group">
-                <h4 class="title">Me</h4>
-                
-                <a href="https://github.com/nightRainy" class="item" target="_blank">GitHub</a>
-                
-                <a href="https://github.com/nightRainy" class="item" target="_blank">CodePen</a>
-                
-                <a href="foxfoxfox940@foxmail.com" class="item" target="_blank">Email</a>
-                
-            </div>
-            
-        </div>
-        &copy; 2021 知世<br>
-        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
     </div>
+    <ul class="list-inline">
+      <li>知世の小屋 &copy; 2021</li>
+      
+        <li></li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+  </div>
 </footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="知世の小屋"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">Home</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">About</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="fe fe-feed"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
 
-        <script src="/js/main.js"></script>
-        
-    </body>
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+<script src="/js/ocean.js"></script>
+</body>
+
 </html>

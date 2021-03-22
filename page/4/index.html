@@ -1,195 +1,491 @@
 <!DOCTYPE html>
-<html lang="">
-    <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-  
-  <title>知世の小屋</title>
-  
-    <link rel="shortcut icon" href="/favicon.png">
   
   
-    <link rel="manifest" href="/manifest.json">
   
-
-  <link rel="stylesheet" href="/css/var.css">
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/typography.css">
-  <link rel="stylesheet" href="/css/code-highlighting.css">
-  <link rel="stylesheet" href="/css/components.css">
-  <link rel="stylesheet" href="/css/nav.css">
-  <link rel="stylesheet" href="/css/paginator.css">
-  <link rel="stylesheet" href="/css/footer.css">
-  <link rel="stylesheet" href="/css/post-list.css">
-  <link rel="stylesheet" href="/css/waline.css">
+  <meta name="description" content="my blogs">
   
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    
+    知世の小屋</title>
   
-  <link rel="stylesheet" href="/css/post.css">
+  <link rel="shortcut icon" href="/favicon.ico">
   
-
+  <link rel="stylesheet" href="/css/style.css">
   
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
 </head></html>
-    <body>
-        <nav id="theme-nav">
-    <div class="inner">
-        <a class="title" href="/">Blog</a>
-        <div class="nav-arrow"></div>
-        <div class="nav-items">
-            <a class="nav-item nav-item-home" href="/">Home</a>
-            
-            
-            <a class="nav-item" href="/archives">Archives</a>
-            
-            
-            
-            <a class="nav-item" href="/friends">Friends</a>
-            
-            
-            
-            <a class="nav-item" href="/projects">Projects</a>
-            
-            
-            
-            <a class="nav-item" href="/about">About</a>
-            
-            
-            
-            <a class="nav-item nav-item-github nav-item-icon" href="https://github.com/nightRainy" target="_blank">&nbsp;</a>
-            
-            
-        </div>
+
+<body>
+  <main class="content">
+    <section class="jumbotron">
+  <div class="video">
+    
+    <div class="video-frame">
+      <img src="/images/ocean/overlay-hero.png" alt="Decorative image frame">
     </div>
-</nav>
-        <div class="container">
+    
+    <div class="video-media">
+      <video playsinline="" autoplay loop muted data-autoplay="" poster="/images/ocean/ocean.png" x5-video-player-type="h5">
+        <source src="/images/ocean/ocean.mp4" type="video/mp4">
+        <source src="/images/ocean/ocean.ogv" type="video/ogg">
+        <source src="/images/ocean/ocean.webm" type="video/webm">
+        <p>Your user agent does not support the HTML5 Video element.</p>
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+    <div class="video-inner text-center text-white">
+      <h1><a href="/">知世の小屋</a></h1>
+      <p>何不仗剑随风去,扶摇直上九万里</p>
+      <div><img src="/images/hexo-inverted.svg" class="brand" alt="知世の小屋"></div>
+    </div>
+    <div class="video-learn-more">
+      <a class="anchor" href="#landingpage"><i class="fe fe-mouse"></i></a>
+    </div>
+  </div>
+</section>
+<div id="landingpage">
+  <section class="outer">
+  <article class="articles">
+    
+    <h1 class="page-type-title"></h1>
+    
+    
+    <article id="post-pwn-learning-FUZZ" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/03/09/pwn-learning-FUZZ/">pwn_learning&amp;&amp;FUZZ</a>
+</h2>
+
+
+
+    </header>
     
 
-    <div class="post-list">
-        
-        <article class="post-list-item">
-            <a href="/2019/03/09/pwn-learning-FUZZ/">
-                
-                <div class="content">
-                    <div class="title">
-                        pwn_learning&amp;&amp;FUZZ
-                    </div>
-                    
-                    <div class="time">
-                        
-                        
-                        
-                        <span>March</span>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        <span>&nbsp;9,&nbsp;</span>
-                        <span>2019</span>
-                    </div>
-                </div>
-            </a>
-        </article>
-        
-        <article class="post-list-item">
-            <a href="/2019/03/02/格式化字符串漏洞学习汇总笔记/">
-                
-                <div class="content">
-                    <div class="title">
-                        格式化字符串漏洞学习汇总笔记
-                    </div>
-                    
-                    <div class="time">
-                        
-                        
-                        
-                        <span>March</span>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        <span>&nbsp;2,&nbsp;</span>
-                        <span>2019</span>
-                    </div>
-                </div>
-            </a>
-        </article>
-        
+    
+    <div class="article-meta">
+      <a href="/2019/03/09/pwn-learning-FUZZ/" class="article-date">
+  <time datetime="2019-03-09T05:16:14.000Z" itemprop="datePublished">2019-03-09</time>
+</a>
+      
     </div>
+    
 
     
-<div class="paginator">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <h1 id="pwn-learning-amp-amp-FUZZ"><a href="#pwn-learning-amp-amp-FUZZ" class="headerlink" title="pwn_learning&amp;&amp;FUZZ"></a>pwn_learning&amp;&amp;FUZZ</h1><blockquote>
+<p>This project is used to collect learning materials!And I will synchronous update it on my github!</p>
+</blockquote>
+<hr>
+<h2 id="tools-be-used-in-the-pwn"><a href="#tools-be-used-in-the-pwn" class="headerlink" title="tools be used in the pwn"></a>tools be used in the pwn</h2><ul>
+<li><a href="https://www.hex-rays.com/products/ida/" target="_blank" rel="noopener">IDA pro反编译神器 推荐书籍：《IDA PRO 权威指南》</a> </li>
+<li><p><a href="https://www.gnu.org/software/gdb/" target="_blank" rel="noopener">gdb : Linux/Unix下的动态调试利器 
+</a>    </p>
+<p>  推荐插件：</p>
+<pre><code>1. [pead](https://github.com/longld/peda) ;   2. [gef](https://github.com/hugsy/gef)
+</code></pre></li>
+<li><a href="http://docs.pwntools.com/en/stable/" target="_blank" rel="noopener">pwntools:一个强大的pwn辅助库</a></li>
+<li><a href="https://github.com/niklasb/libc-database" target="_blank" rel="noopener">ibc_database:收录了很多的libc库</a></li>
+<li><a href="htts://github.com/david942j/one_gadget" target="_blank" rel="noopener">one_gadget:用以寻找调用系统函数的gadget并输出满足条件</a></li>
+<li><a href="https://github.com/lieanu/LibcSearcher" target="_blank" rel="noopener">libcSearch : 用以搜索libc的版本</a></li>
+<li><a href="https://github.com/JonathanSalwan/ROPgadget" target="_blank" rel="noopener">ROPgadget : 用于在程序中寻找我们所需要的东西</a></li>
+<li><a href="https://github.com/angr/angr.git" target="_blank" rel="noopener">angr:具有动静态分析的二进制分析工具</a></li>
+<li><a href="http://www.ollydbg.de/version2.html" target="_blank" rel="noopener">ollyDbg : 逆向破解利器</a></li>
+<li><a href="https://github.com/radare/radare2.git" target="_blank" rel="noopener">radare2: 强大的逆向工程和二进制分析框架</a></li>
+</ul>
+<hr>
+<h2 id="NEWS"><a href="#NEWS" class="headerlink" title="NEWS"></a>NEWS</h2><ul>
+<li><a href="https://thehackernews.com/" target="_blank" rel="noopener">Thehackernews</a></li>
+<li><a href="https://www.freebuf.com/" target="_blank" rel="noopener">Freebuf</a></li>
+<li><a href="https://www.anquanke.com/" target="_blank" rel="noopener">安全客</a></li>
+<li><a href="https://www.secfree.com/" target="_blank" rel="noopener">指尖安全</a></li>
+</ul>
+<hr>
+<h2 id="BBS"><a href="#BBS" class="headerlink" title="BBS"></a>BBS</h2><ul>
+<li><a href="http://offensivecommunity.net/" target="_blank" rel="noopener">Offensive Community</a></li>
+<li><a href="https://cracking.org/forums/cracking-tools.16/" target="_blank" rel="noopener">Cracking</a></li>
+</ul>
+<hr>
+<h2 id="Online-course"><a href="#Online-course" class="headerlink" title="Online course"></a>Online course</h2><ul>
+<li><a href="https://www.youtube.com/playlist?list=PLhixgUqwRTjxglIswKp9mpkfPNfHkzyeN" target="_blank" rel="noopener">二进制入门</a></li>
+<li><a href="https://www.youtube.com/results?sp=EgIQAw%253D%253D&amp;search_query=reverse+engineering" target="_blank" rel="noopener"> 逆向工程</a></li>
+<li><a href="http://security.cs.rpi.edu/courses/binexp-spring2015/" target="_blank" rel="noopener">Modern Binary Exploitation</a></li>
+<li><a href="https://sploitfun.wordpress.com/2015/06/26/linux-x86-exploit-development-tutorial-series/" target="_blank" rel="noopener">inux (x86) Exploit Development Series</a></li>
+<li><a href="http://liveoverflow.com/binary_hacking/index.html" target="_blank" rel="noopener">liveoverflow: Binary Hacking Course</a></li>
+<li><a href="https://www.fuzzysecurity.com/tutorials.html" target="_blank" rel="noopener">Lots of Tutorials</a></li>
+</ul>
+<hr>
+<h2 id="Learning-materials"><a href="#Learning-materials" class="headerlink" title="Learning materials"></a>Learning materials</h2><ul>
+<li><a href="https://ctf-wiki.github.io" target="_blank" rel="noopener">ctf-wiki</a></li>
+<li><a href="https://blog.csdn.net/aemperor/article/details/47310593" target="_blank" rel="noopener">堆溢出攻击原理</a></li>
+<li><a href="https://www.freebuf.com/articles/rookie/182894.html" target="_blank" rel="noopener">溢出之retlibc2详解</a></li>
+<li><a href="https://github.com/firmianay/CTF-All-In-One" target="_blank" rel="noopener">ctf all in one</a></li>
+<li><a href="https://github.com/jmpews/pwn2exploit" target="_blank" rel="noopener">pwn &amp; exploit</a></li>
+</ul>
+<hr>
+<h2 id="stackoverflow"><a href="#stackoverflow" class="headerlink" title="stackoverflow"></a>stackoverflow</h2><ul>
+<li><a href="http://bobao.360.cn/learning/detail/3717.html" target="_blank" rel="noopener">手把手教你栈溢出从入门到放弃（上）</a></li>
+<li><a href="http://bobao.360.cn/learning/detail/3718.html" target="_blank" rel="noopener">手把手教你栈溢出从入门到放弃（下）</a></li>
+<li><a href="http://bestwing.me/2017/03/18/stack-overflow-one/" target="_blank" rel="noopener">Swing: 基础栈溢出复习 之基础</a></li>
+<li><a href="https://bbs.ichunqiu.com/thread-45542-1-1.html" target="_blank" rel="noopener">pwn入门之栈溢出练习</a></li>
+<li><a href="http://0x48.pw/2016/11/03/0x26/" target="_blank" rel="noopener">Hcamael: PWN学习总结之基础栈溢出</a></li>
+<li><p><a href="http://0x48.pw/2016/11/21/0x27/" target="_blank" rel="noopener">Hcamael: PWN学习总结之基础栈溢出2</a></p>
+<h3 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h3></li>
+<li>.<a href="http://drops.xmd5.com/static/drops/tips-6597.html" target="_blank" rel="noopener">一步一步学ROP之linux_x86篇</a></li>
+<li><a href="http://cb.drops.wiki/drops/binary-10638.html" target="_blank" rel="noopener">一步一步学ROP之gadgets和2free篇</a></li>
+<li>.<a href="http://cb.drops.wiki/drops/papers-11390.html" target="_blank" rel="noopener">一步一步学ROP之Android ARM 32位篇</a></li>
+<li>.<a href="http://www.freebuf.com/articles/network/87447.html" target="_blank" rel="noopener">Sigreturn Oriented Programming (SROP) Attack攻击原理</a></li>
+<li>.<a href="http://bestwing.me/2017/03/20/stack-overflow-three-SROP/" target="_blank" rel="noopener">Swing: 基础栈溢出复习 三 之 SROP</a></li>
+<li><a href="http://www.freebuf.com/articles/system/149214.html" target="_blank" rel="noopener">如何在32位系统中使用ROP+Return-to-dl来绕过ASLR+DEP</a></li>
+<li><a href="http://www.evil0x.com/posts/19226.html" target="_blank" rel="noopener">通过ELF动态装载构造ROP链 （ Return-to-dl-resolve）</a></li>
+</ul>
+<hr>
+<h2 id="堆漏洞"><a href="#堆漏洞" class="headerlink" title="堆漏洞"></a>堆漏洞</h2><ul>
+<li><a href="https://heap-exploitation.dhavalkapil.com/introduction.html" target="_blank" rel="noopener">Heap Exploitation</a></li>
+<li><a href="https://github.com/shellphish/" target="_blank" rel="noopener">how2heap</a></li>
+<li><a href="https://sploitfun.wordpress.com/2015/02/26/heap-overflow-using-unlink/?spm=a313e.7916648.0.0.x4nzYZ" target="_blank" rel="noopener">Heap overflow using unlink</a></li>
+<li><a href="https://www.tuicool.com/articles/E3Ezu2u" target="_blank" rel="noopener">堆溢出的unlink利用方法</a></li>
+<li><a href="http://www.freebuf.com/articles/system/151372.html" target="_blank" rel="noopener">Dance In Heap</a></li>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/introduction/" target="_blank" rel="noopener">堆利用简介</a></li>
+</ul>
+<hr>
+<h2 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="格式化字符串漏洞"></a>格式化字符串漏洞</h2><ul>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/fmtstr/fmtstr_intro/" target="_blank" rel="noopener">原理简介</a></li>
+<li><a href="http://cb.drops.wiki/drops/binary-6259.html" target="_blank" rel="noopener">二进制漏洞之——邪恶的printf</a></li>
+<li><a href="http://bobao.360.cn/learning/detail/3654.html" target="_blank" rel="noopener">格式化字符串漏洞利用小结</a></li>
+<li><a href="http://www.cnblogs.com/Ox9A82/p/5429099.html" target="_blank" rel="noopener">Linux下的格式化字符串漏洞利用姿势</a></li>
+</ul>
+<hr>
+<h2 id="IO-FILE利用"><a href="#IO-FILE利用" class="headerlink" title="IO_FILE利用"></a>IO_FILE利用</h2><ul>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/introduction/" target="_blank" rel="noopener">FILE 文件结构介绍</a></li>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/fake-vtable-exploit/" target="_blank" rel="noopener">伪造 vtable 劫持程序流程</a></li>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/fsop/" target="_blank" rel="noopener">FSOP</a></li>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/exploit-in-libc2.24/" target="_blank" rel="noopener">新版本 libc 下 IO_FILE 的利用</a></li>
+</ul>
+<hr>
+<h2 id="条件竞争"><a href="#条件竞争" class="headerlink" title="条件竞争"></a>条件竞争</h2><p>*<a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/race-condition/introduction/" target="_blank" rel="noopener">条件竞争介绍</a></p>
+<hr>
+<h2 id="整数溢出"><a href="#整数溢出" class="headerlink" title="整数溢出"></a>整数溢出</h2><ul>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/integeroverflow/intof/" target="_blank" rel="noopener">整数溢出原理介绍</a></li>
+</ul>
+<hr>
+<h2 id="沙箱逃逸"><a href="#沙箱逃逸" class="headerlink" title="沙箱逃逸"></a>沙箱逃逸</h2><ul>
+<li><a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/sandbox/python-sandbox-escape/" target="_blank" rel="noopener">Python 沙箱逃逸</a></li>
+</ul>
+<hr>
+<h2 id="TIPS"><a href="#TIPS" class="headerlink" title="TIPS"></a>TIPS</h2><ul>
+<li><a href="http://bobao.360.cn/learning/detail/3298.html?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="noopener">借助DynELF实现无libc的漏洞利用小结</a></li>
+<li><a href="http://uaf.io/exploitation/misc/2016/04/02/Finding-Functions.html" target="_blank" rel="noopener">Finding Function’s Load Address</a></li>
+<li><a href="http://skysider.com/?p=223" target="_blank" rel="noopener">pwn tips</a></li>
+<li><a href="https://github.com/Naetw/CTF-pwn-tips" target="_blank" rel="noopener">CTF-pwn-tips</a></li>
+<li><a href="http://www.angelwhu.com/blog/?p=460" target="_blank" rel="noopener">pwn 学习总结</a></li>
+<li><a href="http://www.cnblogs.com/Ox9A82/p/5559167.html" target="_blank" rel="noopener">CTF中做Linux下漏洞利用的一些心得</a></li>
+<li><a href="http://drops.xmd5.com/static/drops/binary-6521.html" target="_blank" rel="noopener">linux常见漏洞利用技术实践</a></li>
+</ul>
+<hr>
+<h1 id="FUZZ"><a href="#FUZZ" class="headerlink" title="FUZZ"></a>FUZZ</h1><h2 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h2><ul>
+<li><a href="https://www.freebuf.com/sectool/89001.html" target="_blank" rel="noopener">从零开始学Fuzzing系列：浏览器挖掘框架Morph诞生记</a></li>
+<li><a href="http://blog.nsfocus.net/peach-fuzz/" target="_blank" rel="noopener">浅析Peach Fuzz</a></li>
+<li><a href="https://blog.techorganic.com/2014/05/14/from-fuzzing-to-0-day/" target="_blank" rel="noopener">From fuzzing to 0-day</a></li>
+<li><a href="http://www.fuzzing.org/" target="_blank" rel="noopener">Fuzzing: Brute Force Vulnerability Discovery</a></li>
+<li><a href="https://foxglovesecurity.com/2016/03/15/fuzzing-workflows-a-fuzz-job-from-start-to-finish/" target="_blank" rel="noopener">Fuzzing workflows; a fuzz job from start to finish</a></li>
+<li><a href="http://j00ru.vexillium.org/slides/2016/blackhat.pdf" target="_blank" rel="noopener">有效的文件格式Fuzzing</a></li>
+<li><a href="https://googleprojectzero.blogspot.in/2016/06/a-year-of-windows-kernel-font-fuzzing-1_27.html" target="_blank" rel="noopener">过去一年的Windows内核字体fuzzing第一部分成果</a></li>
+<li><a href="https://googleprojectzero.blogspot.in/2016/07/a-year-of-windows-kernel-font-fuzzing-2.html" target="_blank" rel="noopener">过去一年的Windows内核字体fuzzing第二部分技术</a></li>
+<li><a href="https://blog.fuzzing-project.org/" target="_blank" rel="noopener">fuzzing项目中有趣的bug和资源</a></li>
+<li><a href="https://foxglovesecurity.com/2016/03/15/fuzzing-workflows-a-fuzz-job-from-start-to-finish/" target="_blank" rel="noopener">Fuzzing工作流程； fuzz工作从开始到结束</a></li>
+<li><a href="http://jefftrull.github.io/c++/clang/llvm/fuzzing/sanitizer/2015/11/27/fuzzing-with-sanitizers.html" target="_blank" rel="noopener">用AFL和libFuzzer轻松介绍C++代码fuzzing </a></li>
+<li><p><a href="https://www.mwrinfosecurity.com/our-thinking/15-minute-guide-to-fuzzing/" target="_blank" rel="noopener">15分钟fuzzing介绍 </a></p>
+<hr>
+<h2 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h2></li>
+<li><a href="https://www.amazon.com/Fuzzing-Brute-Force-Vulnerability-Discovery/dp/0321446119" target="_blank" rel="noopener">《模糊测试-强制性安全漏洞发掘》</a></li>
+</ul>
+<hr>
+<h2 id="课程"><a href="#课程" class="headerlink" title="课程"></a>课程</h2><ul>
+<li><a href="https://vimeo.com/5236104" target="_blank" rel="noopener">Fuzzing 101 </a></li>
+<li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+</ul>
+<hr>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
+<li><a href="http://lcamtuf.coredump.cx/afl/" target="_blank" rel="noopener">AFL Fuzzer</a></li>
+<li><a href="https://llvm.org/docs/LibFuzzer.html" target="_blank" rel="noopener">libFuzzer Fuzzer</a></li>
+<li><a href="https://resources.infosecinstitute.com/intro-to-fuzzing/#gref" target="_blank" rel="noopener">Spike Fuzzer</a></li>
+<li><a href="http://www.asm64.com/" target="_blank" rel="noopener">EasyFuzzer</a></li>
+</ul>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://nightRainy.github.io/2019/03/09/pwn-learning-FUZZ/" data-id="ckmk2rllp00053ojdum30ksyh" class="article-share-link">
+        Share
+      </a>
+      
+    </footer>
+
+  </div>
+
+  
+
+  
+
+</article>
+    
+    <article id="post-格式化字符串漏洞学习汇总笔记" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/03/02/格式化字符串漏洞学习汇总笔记/">格式化字符串漏洞学习汇总笔记</a>
+</h2>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/03/02/格式化字符串漏洞学习汇总笔记/" class="article-date">
+  <time datetime="2019-03-02T06:52:05.000Z" itemprop="datePublished">2019-03-02</time>
+</a>
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <blockquote>
+<p>久仰”系统实战篇”,最近终于拜读了这本神作,在格式化串漏洞部分令我受益良多</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>格式化字符串的格式如下:</p>
+<p>%[parameter][flags][field width][.precision][length]type</p>
+<p>知道漏洞怎么利用的第一步当然是知道漏洞是怎么发生的:</p>
+<ul>
+<li>使用格式化字符串的函数有:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int printf(const char *format, ...);                       </span><br><span class="line">int fprintf(FILE *stream, const char *format, ...);        </span><br><span class="line">int dprintf(int fd, const char *format, ...);              </span><br><span class="line">int sprintf(char *str, const char *format, ...); </span><br><span class="line">int snprintf(char *str, size_t size, const char *format, ...);</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>格式化符:</p>
+<ul>
+<li><p>整数: </p>
+<pre><code>%d,%i,%u,%o,%x
+</code></pre></li>
+<li><p>浮点数:</p>
+<pre><code>%e,%f,%g,%a
+</code></pre></li>
+<li><p>字符:</p>
+<pre><code>%c
+</code></pre></li>
+<li><p>特殊字符: </p>
+<pre><code>%s: 视为指向字符串的指针,以字符串的形式输出参数
+%n: 视为指向整数的指针,于参数前输出的字符数量将存于所指向的地址
+</code></pre></li>
+<li><p>小技巧:</p>
+<pre><code>1. 使用%p获取对应栈内存  
+2. 使用%s获取变量所对应的地址内容(有00截断)
+3. %order$x(s)来直接读取对应参数
+</code></pre></li>
+</ul>
+</li>
+</ul>
+<h2 id="利用所需满足的条件"><a href="#利用所需满足的条件" class="headerlink" title="利用所需满足的条件:"></a>利用所需满足的条件:</h2><ul>
+<li>可控制参数,并可以将输出字符写入任意区域</li>
+<li>宽度格式字符允许用任意长度填充输出,因此可以修改单字节</li>
+</ul>
+<h2 id="一些有意思的地址"><a href="#一些有意思的地址" class="headerlink" title="一些有意思的地址:"></a>一些有意思的地址:</h2><ul>
+<li>保存的返回地址</li>
+<li>全局偏移表GOT</li>
+<li>析构函数表</li>
+<li>C函数库钩子(malloc_hook,realloc_hook,free_hook)</li>
+<li>atexit结构</li>
+<li>函数指针 : c++ vtables,回调函数</li>
+</ul>
+<h2 id="利用姿势"><a href="#利用姿势" class="headerlink" title="利用姿势"></a>利用姿势</h2><ul>
+<li>改写保存的返回地址</li>
+<li>改写其他函数指针</li>
+<li>改写指向异常处理的指针,然后引起异常</li>
+<li>改写GOT条目</li>
+<li>改写atexit处理程序</li>
+<li>改写DTORS区段的条目</li>
+<li>用非i空数据改写空值终止符,将其转化为堆/栈溢出</li>
+<li>改写特殊数据,如(uid或gid)</li>
+<li>修改字符串中包含的命令反映所选命令</li>
+<li>泄露内存<ul>
+<li>栈内存:<ul>
+<li>某变量对应内存</li>
+<li>某个变量对应地址的内存</li>
+</ul>
+</li>
+<li>泄露任意地址内存:<ul>
+<li>利用GOT表得到libc基地址</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>如果程序开启了NX保护,可以先利用%n类格式符,将shellcode写至内存地址;<br>也可以先写一个小的shellcode来寻找一大片可以写入的shellcode然后利用</p>
+<h2 id="辅助利用模块-pwntools"><a href="#辅助利用模块-pwntools" class="headerlink" title="辅助利用模块(pwntools)"></a>辅助利用模块(pwntools)</h2><p>pwntools的pwnlib.fmtstr模块提供了一些格式化字符串漏洞的相关利用工具:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class pwnlib.fmtstr.FmtStr(execute_fmt, offset=None, padlen=0, n umbwritten=0)</span><br></pre></td></tr></table></figure></p>
+<p>各参数意义如下:</p>
+<ul>
+<li>execute_fmt (function)：与漏洞进程进行交互的函数 </li>
+<li>offset (int)：所控制的第一个格式化程序的偏移量 </li>
+<li>padlen (int)：在 paylod 之前添加的 pad 的大小 </li>
+<li>numbwritten (int)：已经写入的字节数</li>
+</ul>
+<p>还有自动生成payload的fmtstr_payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pwnlib.fmtstr.fmtstr_payload(offset, writes, numbwritten=0, writ e_size=&apos;byte&apos;)</span><br></pre></td></tr></table></figure>
+<p>其中各参数意义如下:</p>
+<ul>
+<li>offset (int)：所控制的第一个格式化程序的偏移量 </li>
+<li>writes (dict)：格式为 {addr: value, addr2: value2}，用于往 addr 里写入 value的值</li>
+<li>numbwritten(int): 已经由 printf 函数写入的字节数 </li>
+<li>write_size (str)：必须是 byte，short 或 int。告诉你是要逐 byte 写，逐 short 写还是逐 int 写（hhn，hn或n）</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://nightRainy.github.io/2019/03/02/格式化字符串漏洞学习汇总笔记/" data-id="ckmk2rlly00093ojd3pbthx9z" class="article-share-link">
+        Share
+      </a>
+      
+    </footer>
+
+  </div>
+
+  
+
+  
+
+</article>
+    
+  </article>
+  
+
+  
+  <nav class="page-nav">
     <a class="extend prev" rel="prev" href="/page/3/">Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
+  
+</section>
 </div>
 
-</div>
-        <footer>
-    <div class="inner">
-        <div class="links">
-            
-            <div class="group">
-                <h4 class="title">Blog</h4>
-                
-                <a href="/" class="item" target="_blank">Blog</a>
-                
-                <a href="/archives" class="item" target="_blank">Archives</a>
-                
-                <a href="/friends" class="item" target="_blank">Friends</a>
-                
-                <a href="/projects" class="item" target="_blank">Projects</a>
-                
-                <a href="/resume" class="item" target="_blank">Resume</a>
-                
-                <a href="/about" class="item" target="_blank">About</a>
-                
-                <a href="/atom.xml" class="item" target="_blank">RSS</a>
-                
-            </div>
-            
-            <div class="group">
-                <h4 class="title">Projects</h4>
-                
-                <a href="https://github.com/transmister" class="item" target="_blank">Transmister</a>
-                
-                <a href="https://github.com/MrWillCom/css-and-js-windows-uwp-xaml-controls" class="item" target="_blank">CSS&amp;JS Windows UWP XAML Controls</a>
-                
-                <a href="https://github.com/MrWillCom/hexo-theme-cupertino" class="item" target="_blank">Theme Cupertino</a>
-                
-                <a href="https://github.com/MrWillCom/github-dark-mode" class="item" target="_blank">GitHub Dark Mode</a>
-                
-            </div>
-            
-            <div class="group">
-                <h4 class="title">Me</h4>
-                
-                <a href="https://github.com/nightRainy" class="item" target="_blank">GitHub</a>
-                
-                <a href="https://github.com/nightRainy" class="item" target="_blank">CodePen</a>
-                
-                <a href="foxfoxfox940@foxmail.com" class="item" target="_blank">Email</a>
-                
-            </div>
-            
-        </div>
-        &copy; 2021 知世<br>
-        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+  <li><i class="fe fe-bar-chart"></i> <span id="busuanzi_value_site_pv"></span></li>
+  
+  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+</ul>
     </div>
+    <ul class="list-inline">
+      <li>知世の小屋 &copy; 2021</li>
+      
+        <li></li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+  </div>
 </footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="知世の小屋"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">Home</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">Gallery</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">About</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="fe fe-feed"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
 
-        <script src="/js/main.js"></script>
-        
-    </body>
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+<script src="/js/ocean.js"></script>
+</body>
+
 </html>
