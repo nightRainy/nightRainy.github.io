@@ -1,0 +1,517 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.jpg">
+  <link rel="icon" href="/img/favicon.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="my blogs">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
+  
+  <title>linux内核安全随记 - 知世の小屋</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/hint/hint.min.css">
+
+  
+    
+    
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css">
+    
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>知世</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="linux内核安全随记">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-01-21 14:43" pubdate="">
+        2021年1月21日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">linux内核安全随记</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
+<p>以3.14-rc4内核版本为主,代码在线阅读地址:<a href="https://elixir.bootlin.com/linux/v3.14-rc4/source" target="_blank" rel="noopener">https://elixir.bootlin.com/linux/v3.14-rc4/source</a></p>
+</blockquote>
+<h1 id="主体标记与进程凭证"><a href="#主体标记与进程凭证" class="headerlink" title="主体标记与进程凭证"></a>主体标记与进程凭证</h1><h2 id="进程凭证"><a href="#进程凭证" class="headerlink" title="进程凭证"></a>进程凭证</h2><p>主要以uid与gid为主,进程的控制结构中有两个凭证,一个为real_cred,另一个叫cred</p>
+<p>其中read_cred被称为客体凭证,而cred被称为主体凭证</p>
+<p>比如A-&gt;B发信息,A就是主体,而B是客体</p>
+<p>凭证的数据结构如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">//include/linux/cred.h</span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">cred</span> &#123;</span><br>	<span class="hljs-keyword">atomic_t</span>	usage;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> CONFIG_DEBUG_CREDENTIALS</span><br>	<span class="hljs-keyword">atomic_t</span>	subscribers;	<span class="hljs-comment">/* number of processes subscribed */</span><br>	<span class="hljs-keyword">void</span>		*put_addr;<br>	<span class="hljs-keyword">unsigned</span>	magic;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> CRED_MAGIC	0x43736564</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> CRED_MAGIC_DEAD	0x44656144</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br>	<span class="hljs-keyword">kuid_t</span>		uid;		<span class="hljs-comment">/* real UID of the task */</span><br>	<span class="hljs-keyword">kgid_t</span>		gid;		<span class="hljs-comment">/* real GID of the task */</span><br>	<span class="hljs-keyword">kuid_t</span>		suid;		<span class="hljs-comment">/* saved UID of the task */</span><br>	<span class="hljs-keyword">kgid_t</span>		sgid;		<span class="hljs-comment">/* saved GID of the task */</span><br>	<span class="hljs-keyword">kuid_t</span>		euid;		<span class="hljs-comment">/* effective UID of the task */</span><br>	<span class="hljs-keyword">kgid_t</span>		egid;		<span class="hljs-comment">/* effective GID of the task */</span><br>	<span class="hljs-keyword">kuid_t</span>		fsuid;		<span class="hljs-comment">/* UID for VFS ops */</span><br>	<span class="hljs-keyword">kgid_t</span>		fsgid;		<span class="hljs-comment">/* GID for VFS ops */</span><br>	<span class="hljs-keyword">unsigned</span>	securebits;	<span class="hljs-comment">/* SUID-less security management */</span><br>	<span class="hljs-keyword">kernel_cap_t</span>	cap_inheritable; <span class="hljs-comment">/* caps our children can inherit */</span><br>	<span class="hljs-keyword">kernel_cap_t</span>	cap_permitted;	<span class="hljs-comment">/* caps we're permitted */</span><br>	<span class="hljs-keyword">kernel_cap_t</span>	cap_effective;	<span class="hljs-comment">/* caps we can actually use */</span><br>	<span class="hljs-keyword">kernel_cap_t</span>	cap_bset;	<span class="hljs-comment">/* capability bounding set */</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> CONFIG_KEYS</span><br>	<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span>	jit_keyring;	<span class="hljs-comment">/* default keyring to attach requested<br>					 * keys to */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">key</span> __<span class="hljs-title">rcu</span> *<span class="hljs-title">session_keyring</span>;</span> <span class="hljs-comment">/* keyring inherited over fork */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">key</span>	*<span class="hljs-title">process_keyring</span>;</span> <span class="hljs-comment">/* keyring private to this process */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">key</span>	*<span class="hljs-title">thread_keyring</span>;</span> <span class="hljs-comment">/* keyring private to this thread */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">key</span>	*<span class="hljs-title">request_key_auth</span>;</span> <span class="hljs-comment">/* assumed request_key authority */</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">ifdef</span> CONFIG_SECURITY</span><br>	<span class="hljs-keyword">void</span>		*security;	<span class="hljs-comment">/* subjective LSM security */</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">user_struct</span> *<span class="hljs-title">user</span>;</span>	<span class="hljs-comment">/* real user ID subscription */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">user_namespace</span> *<span class="hljs-title">user_ns</span>;</span> <span class="hljs-comment">/* user_ns the caps and keyrings are relative to. */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">group_info</span> *<span class="hljs-title">group_info</span>;</span>	<span class="hljs-comment">/* supplementary groups for euid/fsgid */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">rcu_head</span>	<span class="hljs-title">rcu</span>;</span>		<span class="hljs-comment">/* RCU deletion hook */</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>下面对uid和gid做一个简单的解释:</p>
+<h2 id="uid和gid"><a href="#uid和gid" class="headerlink" title="uid和gid"></a>uid和gid</h2><h3 id="uid"><a href="#uid" class="headerlink" title="uid"></a>uid</h3><ol>
+<li><p>uid<br>是最早的user id,有时被称为Real id,简写为(r)uid</p>
+<ul>
+<li>在资源统计和资源分配中使用(比如限制某用户拥有的进程数量时使用)</li>
+</ul>
+</li>
+<li><p>euid<br>euid即有效uid</p>
+<ul>
+<li>在内核做特权判断时使用</li>
+<li>与提升权限有关</li>
+<li>内核在做ipc(进程间通信)和key(密钥)的访问控制时也使用uid</li>
+</ul>
+</li>
+<li><p>suid<br>saved set user id</p>
+<ul>
+<li>用于存储euid的值</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>euid与特权有关,当euid为0时获得所有权限,因此为了让进程不要总有所有权限,引入了suid,在进程执行完euid=0的操作后,将euid恢复至其他值,将0赋给suid,直到下一次需要特权时才将suid的值传给euid</p>
+</blockquote>
+<ol start="4">
+<li>fsuid<br>file system user id,是linux系统独有的<ul>
+<li>用于在文件系统相关的访问控制中判断操作许可</li>
+</ul>
+</li>
+</ol>
+<h3 id="gid"><a href="#gid" class="headerlink" title="gid"></a>gid</h3><p>gid与uid类似,除了(r)gid,egid,sgid和fgid以外,多了一个补充组id:Supplementray Group IDs,他是一个数组,也有一组group id,因为一个用户可以属于多个组</p>
+<p>在涉及权限检查中,要判断每一个egid和补充组中的每一个gid,涉及文件还需要fsgid,只要有一个允许访问就可以访问</p>
+<p><code>但也有区别</code></p>
+<p>group id与特权无关,euid==0时进程具有所有权限,而egid或者别的gid为0时,进程不会因此而具备特权</p>
+<h2 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h2><h3 id="与设置uid-泛指-有关的系统调用"><a href="#与设置uid-泛指-有关的系统调用" class="headerlink" title="与设置uid(泛指)有关的系统调用"></a>与设置uid(泛指)有关的系统调用</h3><ul>
+<li>setuid(uid_t uid):用于设置euid,如果调用进程具有setuid特权,此调用会同时修改(r)uid和suid,调用后三个值相同</li>
+<li>seteuid(uid_t euid):用于设置euid,但不会设置(r)uid和suid</li>
+<li>setreuid(uid_t ruid,uid_t euid):可以同时修改(r)uid和euid,若”-1”为参数,则表示维持原有值不变,如果以下两个条件成立则会修改suid<ul>
+<li>修改了(r)uid</li>
+<li>修改了euid且其新值不等于系统调用前的(r)uid</li>
+</ul>
+</li>
+<li>setresuid(uid_t ruid,uid_t euid,uid_t suid)同时修改ruid,euid和suid</li>
+<li>setfsuid(uid_t fsuid),其修改进程的fsuid<ul>
+<li>设置euid的系统调用中,其也会设置euid的同时设施fsuid,让其值相同</li>
+</ul>
+</li>
+</ul>
+<p>在上述的系统调用中,都会遵循以下几个原则</p>
+<ol>
+<li>具备setuid特权的进程可以将(r)uid,euid,suid,fsuid设置为任意值</li>
+<li>不具setuid特权的进程只能将上述值设为现有的值(除fsuid)</li>
+<li>不具备setuid特权的进程只能将fsuid设置为现有的值之一</li>
+</ol>
+<p>而组的相关set调用与uid的类似,只需要简单替换即可,除了下属的例子:</p>
+<ul>
+<li>setgroups(size_t size,const gid_t *list)<ul>
+<li>此调用用于一次性赋值进程凭证中的补充组id,该调用需要特权setgid</li>
+</ul>
+</li>
+</ul>
+<h3 id="与get-uid-泛指-值相关的函数调用"><a href="#与get-uid-泛指-值相关的函数调用" class="headerlink" title="与get uid(泛指)值相关的函数调用"></a>与get uid(泛指)值相关的函数调用</h3><ul>
+<li>getuid(void):取出调用进程的(r)uid</li>
+<li>geteuid(void):取出调用进程的euid</li>
+<li>getresuid(uid_t <em>ruid,uid_t </em>euid,uid_t *suid):取出进程的(r)uid,euid和suid</li>
+</ul>
+<h2 id="proc文件接口"><a href="#proc文件接口" class="headerlink" title="proc文件接口"></a>proc文件接口</h2><p>可以通过/proc/[pid]/status来反映进程凭证,如<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs bash">root@zhishi:~<span class="hljs-comment"># cat /proc/8/status</span><br>Name:   init<br>State:  S (sleeping)<br>Tgid:   8<br>Pid:    8<br>PPid:   1<br>TracerPid:      0<br>Uid:    0       0       0       0<br>Gid:    0       0       0       0<br>FDSize: 11<br>Groups:<br>VmPeak: 0 kB<br>VmSize: 8944 kB<br>VmLck:  0 kB<br>VmHWM:  0 kB<br>VmRSS:  228 kB<br>VmData: 0 kB<br>VmStk:  0 kB<br>VmExe:  444 kB<br>VmLib:  0 kB<br>VmPTE:  0 kB<br></code></pre></td></tr></table></figure></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/linux-kernel/">linux kernel</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/03/22/HEVD通关之路-环境搭建/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HEVD通关之路_环境搭建</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/16/随记/">
+                        <span class="hidden-mobile">随记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css">
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<script src="/js/debouncer.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
+
+<!-- Plugins -->
+
+
+  
+    <script src="/js/img-lazyload.js"></script>
+  
+
+
+
+  
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js"></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script src="/js/boot.js"></script>
+
+
+</body>
+</html>
