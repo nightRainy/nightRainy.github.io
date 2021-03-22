@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="">
+    <!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  
+  <title>&#39;gitlab踩坑&#39; - 知世の小屋</title>
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    <link rel="manifest" href="/manifest.json">
+  
+
+  <link rel="stylesheet" href="/css/var.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/typography.css">
+  <link rel="stylesheet" href="/css/code-highlighting.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/nav.css">
+  <link rel="stylesheet" href="/css/paginator.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/post-list.css">
+  <link rel="stylesheet" href="/css/waline.css">
+  
+  
+  <link rel="stylesheet" href="/css/post.css">
+  
+
+  
+</head></html>
+    <body>
+        <nav id="theme-nav">
+    <div class="inner">
+        <a class="title" href="/">Blog</a>
+        <div class="nav-arrow"></div>
+        <div class="nav-items">
+            <a class="nav-item nav-item-home" href="/">Home</a>
+            
+            
+            <a class="nav-item" href="/archives">Archives</a>
+            
+            
+            
+            <a class="nav-item" href="/friends">Friends</a>
+            
+            
+            
+            <a class="nav-item" href="/projects">Projects</a>
+            
+            
+            
+            <a class="nav-item" href="/about">About</a>
+            
+            
+            
+            <a class="nav-item nav-item-github nav-item-icon" href="https://github.com/nightRainy" target="_blank">&nbsp;</a>
+            
+            
+        </div>
+    </div>
+</nav>
+        <article class="post">
+    <div class="meta">
+        
+        <div class="date" id="date">
+            
+            
+            
+            
+            
+            
+            
+            
+            <span>August</span>
+            
+            
+            
+            
+            
+            <span>6,</span>
+            <span>2019</span>
+        </div>
+        
+
+        <h2 class="title">&#39;gitlab踩坑&#39;</h2>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="content">
+        <blockquote>
+<p>因为某些需要抛弃了github…好吧是因为私人项目人数 &lt; 3 ,于是拥抱了gitlab,安装过程中踩坑良久,这里做以记录</p>
+</blockquote>
+<h1 id="0x00-环境"><a href="#0x00-环境" class="headerlink" title="0x00 环境"></a>0x00 环境</h1><p>阿里云服务器学生机<br>centos7</p>
+<h1 id="0x01-添加依赖"><a href="#0x01-添加依赖" class="headerlink" title="0x01 添加依赖"></a>0x01 添加依赖</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install curl policycoreutils openssh-server openssh-clients</span><br><span class="line">sudo systemctl enable sshd</span><br><span class="line">sudo systemctl start sshd</span><br><span class="line">sudo yum install postfix</span><br><span class="line">sudo systemctl enable postfix</span><br><span class="line">sudo systemctl start postfix</span><br><span class="line">systemctl start firewalld.service</span><br><span class="line">sudo firewall-cmd --permanent --add-service=http</span><br></pre></td></tr></table></figure>
+<h1 id="0x02-下载gitlab包"><a href="#0x02-下载gitlab包" class="headerlink" title="0x02 下载gitlab包"></a>0x02 下载gitlab包</h1><p>可以在<a href="https://packages.gitlab.com/gitlab/gitlab-ce" target="_blank" rel="noopener">这里</a>选择想要的版本<br>然后我这里直接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --content-disposition https://packages.gitlab.com/gitlab/gitlab-ce/packages/el/7/gitlab-ce-12.1.3-ce.0.el7.x86_64.rpm/download.rpm</span><br></pre></td></tr></table></figure></p>
+<p>下下来之后解包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -i gitlab-ce-12.1.3-ce.0.el7.x86_64.rpm</span><br></pre></td></tr></table></figure></p>
+<h1 id="0x03-配置"><a href="#0x03-配置" class="headerlink" title="0x03 配置"></a>0x03 配置</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">打开配置文件</span><br><span class="line">vim /etc/gitlab/gitlab.rb</span><br><span class="line">然后把external_url &apos;http://xxxxxx&apos;改成自己的</span><br><span class="line">如果需要更改端口请顺便更改</span><br><span class="line">unicorn[&apos;port&apos;] 为你想要使用的且未被占用的端口</span><br></pre></td></tr></table></figure>
+<h1 id="0x4-启动"><a href="#0x4-启动" class="headerlink" title="0x4 启动"></a>0x4 启动</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo gitlab-ctl reconfigure</span><br><span class="line">sudo gitlab-ctl start</span><br></pre></td></tr></table></figure>
+<h1 id="0x05-填坑"><a href="#0x05-填坑" class="headerlink" title="0x05 填坑"></a>0x05 填坑</h1><p>访问之后发现一直502,网上的解决办法基本是:</p>
+<ol>
+<li>更改端口(端口被占用)</li>
+<li>关一些不必要的服务(内存不足)</li>
+<li>更改连接超时时间如<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gitlab_rails[&apos;webhook_timeout&apos;] = 90 </span><br><span class="line">gitlab_rails[&apos;git_timeout&apos;]=90</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>但这些对我来说都没用..疯狂刷新无果后..最后找到了解决办法<br>确实是我内存爆了..QAQ<br>下面开启swap即可</p>
+<ul>
+<li><p>创建大小为4GB</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=/dev/zero of=/mnt/swap bs=1M count=4096</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置交换分区文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkswap /mnt/swap</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>立即启用交换分区文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swapon /mnt/swap</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 0600 /mnt/swap</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开机自启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &apos;/mnt/swap swap swap defaults 0 0&apos; &gt;&gt; /etc/fstab</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>永久修改 swpapiness 参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo 10 &gt;/proc/sys/vm/swappiness</span><br><span class="line">sed -i &apos;s|vm.swappiness=0|vm.swappiness=10|&apos; /etc/sysctl.conf</span><br></pre></td></tr></table></figure>
+<p>ok</p>
+</li>
+</ul>
+
+    </div>
+
+    <div class="about">
+        <h1>About this Post</h1>
+        <p>This post is written by 知世, licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0">CC BY-NC 4.0</a>.</p>
+    </div>
+
+    
+        
+    
+</article>
+        <footer>
+    <div class="inner">
+        <div class="links">
+            
+            <div class="group">
+                <h4 class="title">Blog</h4>
+                
+                <a href="/" class="item" target="_blank">Blog</a>
+                
+                <a href="/archives" class="item" target="_blank">Archives</a>
+                
+                <a href="/friends" class="item" target="_blank">Friends</a>
+                
+                <a href="/projects" class="item" target="_blank">Projects</a>
+                
+                <a href="/resume" class="item" target="_blank">Resume</a>
+                
+                <a href="/about" class="item" target="_blank">About</a>
+                
+                <a href="/atom.xml" class="item" target="_blank">RSS</a>
+                
+            </div>
+            
+            <div class="group">
+                <h4 class="title">Projects</h4>
+                
+                <a href="https://github.com/transmister" class="item" target="_blank">Transmister</a>
+                
+                <a href="https://github.com/MrWillCom/css-and-js-windows-uwp-xaml-controls" class="item" target="_blank">CSS&amp;JS Windows UWP XAML Controls</a>
+                
+                <a href="https://github.com/MrWillCom/hexo-theme-cupertino" class="item" target="_blank">Theme Cupertino</a>
+                
+                <a href="https://github.com/MrWillCom/github-dark-mode" class="item" target="_blank">GitHub Dark Mode</a>
+                
+            </div>
+            
+            <div class="group">
+                <h4 class="title">Me</h4>
+                
+                <a href="https://github.com/nightRainy" class="item" target="_blank">GitHub</a>
+                
+                <a href="https://github.com/nightRainy" class="item" target="_blank">CodePen</a>
+                
+                <a href="foxfoxfox940@foxmail.com" class="item" target="_blank">Email</a>
+                
+            </div>
+            
+        </div>
+        &copy; 2021 知世<br>
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+</footer>
+
+        <script src="/js/main.js"></script>
+        
+    </body>
+</html>
