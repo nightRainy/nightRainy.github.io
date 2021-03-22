@@ -1,124 +1,285 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="" data-default-color-scheme=&#34;auto&#34;>
+
+
 
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  
-  
+  <meta name="theme-color" content="#2f4154">
   <meta name="description" content="my blogs">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>
-    路由器破解初探之环境搭建 |
+  <title>路由器破解初探之环境搭建 - 知世の小屋</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/hint/hint.min.css">
+
+  
     
-    知世の小屋</title>
+    
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css">
+    
   
-  <link rel="shortcut icon" href="/favicon.ico">
+
   
-  <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
   
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-  
-  <script src="/js/pace.min.js"></script>
-</head></html>
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
+</head>
+
 
 <body>
-  <main class="content">
-    <section class="outer">
-  <article id="post-路由器破解初探之环境搭建" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
 
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-<h1 class="article-title" itemprop="name">
-  路由器破解初探之环境搭建
-</h1>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/11/04/路由器破解初探之环境搭建/" class="article-date">
-  <time datetime="2019-11-04T15:44:30.000Z" itemprop="datePublished">2019-11-04</time>
-</a>
-      
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Startseite
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archiv
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Kategorie
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Etiketten
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Über mich
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    
+  </div>
+</nav>
 
-    
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="路由器破解初探之环境搭建">
+              
+            </span>
 
-    <div class="article-entry" itemprop="articleBody">
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-11-04 23:44" pubdate="">
+        November 4, 2019 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
       
       
+      22
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-      <blockquote>
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">路由器破解初探之环境搭建</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
 <p>最近在学习iot安全,路由器的破解应该是入门点,而在路由器的漏洞挖掘过程中,环境搭建是一个坑点巨多的点,毕竟,贫穷使我选择仿真,本文记录一些我踩过的坑,希望能对想入坑的人提供一些帮助</p>
 </blockquote>
 <h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p><strong>注:我的安装环境是ubuntu 16.04(本来选择18.04的,结果18.04会有玄学问题2333</strong></p>
 <h3 id="在linux下安装IDA"><a href="#在linux下安装IDA" class="headerlink" title="在linux下安装IDA"></a>在linux下安装IDA</h3><p>如何在ubuntu下安装IDA呢?<br>其实也不是很难,我这里直接采用wine模拟器来安装运行IDA</p>
 <p>建议运行环境(ubuntu16.04,可支持IDA7.0,但是最好使用IDA6.8,可以使用更多的插件)</p>
-<p>安装命令如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install wine</span><br></pre></td></tr></table></figure></p>
-<p>安装wine后可以直接按安装IDA或者将物理机的IDA拉近虚拟机中即可<br>然后为了方便可以写一个启动脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#!bin/sh</span><br><span class="line">wine pwd/idag.exe</span><br></pre></td></tr></table></figure></p>
+<p>安装命令如下:<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">sudo apt-<span class="hljs-builtin-name">get</span> install wine<br></code></pre></td></tr></table></figure></p>
+<p>安装wine后可以直接按安装IDA或者将物理机的IDA拉近虚拟机中即可<br>然后为了方便可以写一个启动脚本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-meta">#!bin/sh</span><br>wine <span class="hljs-built_in">pwd</span>/idag.exe<br></code></pre></td></tr></table></figure></p>
 <p>当然,由于某些DLL文件的缺失可能会导致无法成功安装或启动,我们可以通过将本机的DLL文件放入IDA的根目录下来解决该问题,还有一些运行的报错可以通过错误信息来依次解决,因为原因可能有很多,这里就不再阐述</p>
 <h3 id="安装IDA的MIPS插件和脚本"><a href="#安装IDA的MIPS插件和脚本" class="headerlink" title="安装IDA的MIPS插件和脚本"></a>安装IDA的MIPS插件和脚本</h3><ol>
 <li><p>下载插件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/devttys0/ida.git</span><br></pre></td></tr></table></figure>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">git <span class="hljs-keyword">clone</span> <span class="hljs-title">https</span>://github.com/devttys0/ida.git<br></code></pre></td></tr></table></figure>
 </li>
 <li><p>复制脚本<br>我们需要将plugins下的所有的python文件都复制到IDA的相同目录中,还需要把scripts也复制过去<br>第一步的命令大概如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -r `find pwd/plugins -iname *.py` pwd/plugins/</span><br></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">cp</span> -r `<span class="hljs-keyword">find</span> <span class="hljs-keyword">pwd</span>/plugins -iname *.<span class="hljs-keyword">py</span>` <span class="hljs-keyword">pwd</span>/plugins/<br></code></pre></td></tr></table></figure>
 </li>
 </ol>
-<h3 id="ghidra"><a href="#ghidra" class="headerlink" title="ghidra"></a>ghidra</h3><p>在反编译过程中,有时候IDA会有一些玄学问题,这里使用ghidra就可能会舒服很多,虽然爆出了很多后门,但是插件的数量以及在一些方面的优势还是不可小视的<br>下载地址<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://ghidra-sre.org/</span><br></pre></td></tr></table></figure></p>
+<h3 id="ghidra"><a href="#ghidra" class="headerlink" title="ghidra"></a>ghidra</h3><p>在反编译过程中,有时候IDA会有一些玄学问题,这里使用ghidra就可能会舒服很多,虽然爆出了很多后门,但是插件的数量以及在一些方面的优势还是不可小视的<br>下载地址<br><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-symbol">https:</span>//ghidra-sre<span class="hljs-meta">.org</span>/<br></code></pre></td></tr></table></figure></p>
 <p>这里也提供一个9.1版本的<a href="https://pan.baidu.com/s/1zHWilk5NiTuzDItQhI8nnQ" target="_blank" rel="noopener">百度云链接</a>吧,提取码：8upz </p>
-<p>启动环境需要<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">4 GB RAM</span><br><span class="line">1 GB storage (for installed Ghidra binaries)</span><br><span class="line">Dual monitors strongly suggested</span><br></pre></td></tr></table></figure></p>
-<p>以及<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Java 11 64-bit</span><br></pre></td></tr></table></figure></p>
+<p>启动环境需要<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-number">4</span> GB RAM<br><span class="hljs-number">1</span> GB storage (for installed Ghidra <span class="hljs-keyword">binaries)<br></span><span class="hljs-symbol">Dual</span> monitors <span class="hljs-keyword">strongly </span>suggested<br></code></pre></td></tr></table></figure></p>
+<p>以及<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">Java <span class="hljs-number">11</span> <span class="hljs-number">64</span>-bit<br></code></pre></td></tr></table></figure></p>
 <h3 id="binwalk"><a href="#binwalk" class="headerlink" title="binwalk"></a>binwalk</h3><p>我们可以选择直接安装binwalk,但是这样安装的binwalk功能上可能会有些缺陷,有些固件会无法提取,因此这里采取下载源代码自己编译的方法来安装</p>
 <ol>
 <li><p>直接安装方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install binwalk</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">sudo apt-<span class="hljs-builtin-name">get</span> install binwalk<br></code></pre></td></tr></table></figure>
 </li>
 <li><p>下载源代码自己编译</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git build-essential autoconf</span><br><span class="line">sudo git clone https://github.com/devttys0/binwalk.git</span><br><span class="line">sudo apt-get install libqt4-opengl python-qt4 python-qt4-gl python-numpy python-scipy python-pip</span><br><span class="line">sudo pip install pyqtgraph</span><br><span class="line">sudo apt-get install zlib1g-dev liblzma-dev liblzo2-dev </span><br><span class="line">git clone https://github.com/devttys0/sasquatch</span><br><span class="line">cd sasquatch &amp;&amp; sudo make &amp;&amp; sudo make install</span><br><span class="line">sudo python setup.py install</span><br></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs undefined">sudo apt-<span class="hljs-built_in">get</span> install git build-essential autoconf<br>sudo git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-keyword">com</span>/devttys0/binwalk.git<br>sudo apt-<span class="hljs-built_in">get</span> install libqt4-opengl <span class="hljs-keyword">python</span>-qt4 <span class="hljs-keyword">python</span>-qt4-gl <span class="hljs-keyword">python</span>-numpy <span class="hljs-keyword">python</span>-scipy <span class="hljs-keyword">python</span>-pip<br>sudo pip install pyqtgraph<br>sudo apt-<span class="hljs-built_in">get</span> install zlib1g-dev liblzma-dev liblzo2-dev <br>git clone http<span class="hljs-variable">s:</span>//github.<span class="hljs-keyword">com</span>/devttys0/sasquatch<br><span class="hljs-keyword">cd</span> sasquatch &amp;&amp; sudo <span class="hljs-keyword">make</span> &amp;&amp; sudo <span class="hljs-keyword">make</span> install<br>sudo <span class="hljs-keyword">python</span> setup.<span class="hljs-keyword">py</span> install<br></code></pre></td></tr></table></figure>
 </li>
 </ol>
-<h3 id="sasquatch-SquashFSt提取工具"><a href="#sasquatch-SquashFSt提取工具" class="headerlink" title="sasquatch SquashFSt提取工具"></a>sasquatch SquashFSt提取工具</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install zlib1g-dev liblzma-dev liblzo2-dev</span><br></pre></td></tr></table></figure>
+<h3 id="sasquatch-SquashFSt提取工具"><a href="#sasquatch-SquashFSt提取工具" class="headerlink" title="sasquatch SquashFSt提取工具"></a>sasquatch SquashFSt提取工具</h3><figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">sudo apt-<span class="hljs-built_in">get</span> install zlib1g-<span class="hljs-built_in">dev</span> liblzma-<span class="hljs-built_in">dev</span> liblzo2-<span class="hljs-built_in">dev</span><br></code></pre></td></tr></table></figure>
 <h3 id="qemu"><a href="#qemu" class="headerlink" title="qemu"></a>qemu</h3><p>和Binwalk相同,也有两种方法</p>
 <ol>
 <li><p>直接安装一步到位</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install libglib2.0-dev libgcrypt20-dev autoconf automake libtool </span><br><span class="line">sudo apt-get install libglib2.0 libglib2.0-dev</span><br><span class="line">sudo apt install -y pkg-config</span><br><span class="line">sudo apt install -y libpixman-1-dev</span><br><span class="line">sudo apt install -y libfdt-dev</span><br><span class="line">sudo apt install libsdl2-dev  </span><br><span class="line">sudo apt install libsnappy-dev</span><br><span class="line">sudo apt install libgtk-3-dev</span><br><span class="line">sudo apt install libjpeg-turbo8-dev</span><br><span class="line">sudo apt install libcurl4-openssl-dev</span><br><span class="line">sudo apt install libspice-server-dev</span><br><span class="line">sudo apt-get install qemu</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs undefined">sudo apt <span class="hljs-keyword">install</span> libglib2<span class="hljs-number">.0</span>-dev libgcrypt20-dev autoconf automake libtool <br>sudo apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">install</span> libglib2<span class="hljs-number">.0</span> libglib2<span class="hljs-number">.0</span>-dev<br>sudo apt <span class="hljs-keyword">install</span> -y pkg-config<br>sudo apt <span class="hljs-keyword">install</span> -y libpixman<span class="hljs-number">-1</span>-dev<br>sudo apt <span class="hljs-keyword">install</span> -y libfdt-dev<br>sudo apt <span class="hljs-keyword">install</span> libsdl2-dev  <br>sudo apt <span class="hljs-keyword">install</span> libsnappy-dev<br>sudo apt <span class="hljs-keyword">install</span> libgtk<span class="hljs-number">-3</span>-dev<br>sudo apt <span class="hljs-keyword">install</span> libjpeg-turbo8-dev<br>sudo apt <span class="hljs-keyword">install</span> libcurl4-openssl-dev<br>sudo apt <span class="hljs-keyword">install</span> libspice-<span class="hljs-keyword">server</span>-dev<br>sudo apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">install</span> qemu<br></code></pre></td></tr></table></figure>
 </li>
 <li><p>自己编译</p>
 <ol>
 <li><p>git</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">git clone git://git.qqmu-project.org/qemu.git/qemu.git</span><br><span class="line">git submodule update --init pixman</span><br><span class="line">git submodule update --init dtc</span><br><span class="line">sudo apt install libglib2.0-dev libgcrypt20-dev autoconf automake libtool </span><br><span class="line">sudo apt-get install libglib2.0 libglib2.0-dev</span><br><span class="line">sudo apt install -y pkg-config</span><br><span class="line">sudo apt install -y libpixman-1-dev</span><br><span class="line">sudo apt install -y libfdt-dev</span><br><span class="line">sudo apt install libsdl2-dev  </span><br><span class="line">sudo apt install libsnappy-dev</span><br><span class="line">sudo apt install libgtk-3-dev</span><br><span class="line">sudo apt install libjpeg-turbo8-dev</span><br><span class="line">sudo apt install libcurl4-openssl-dev</span><br><span class="line">sudo apt install libspice-server-dev</span><br><span class="line">sudo ./configure --static &amp;&amp; sudo make -j8 &amp;&amp; sudo make install</span><br><span class="line"></span><br><span class="line">注: 使用configure 使用static参数的时候,依赖可能会根据不同环境导致依赖缺失,可以根据报错来解决依赖问题</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs undefined">git clone git://git.qqmu-project.org/qemu.git/qemu.git<br>git submodule <span class="hljs-keyword">update</span> <span class="hljs-comment">--init pixman</span><br>git submodule <span class="hljs-keyword">update</span> <span class="hljs-comment">--init dtc</span><br>sudo apt <span class="hljs-keyword">install</span> libglib2<span class="hljs-number">.0</span>-dev libgcrypt20-dev autoconf automake libtool <br>sudo apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">install</span> libglib2<span class="hljs-number">.0</span> libglib2<span class="hljs-number">.0</span>-dev<br>sudo apt <span class="hljs-keyword">install</span> -y pkg-config<br>sudo apt <span class="hljs-keyword">install</span> -y libpixman<span class="hljs-number">-1</span>-dev<br>sudo apt <span class="hljs-keyword">install</span> -y libfdt-dev<br>sudo apt <span class="hljs-keyword">install</span> libsdl2-dev  <br>sudo apt <span class="hljs-keyword">install</span> libsnappy-dev<br>sudo apt <span class="hljs-keyword">install</span> libgtk<span class="hljs-number">-3</span>-dev<br>sudo apt <span class="hljs-keyword">install</span> libjpeg-turbo8-dev<br>sudo apt <span class="hljs-keyword">install</span> libcurl4-openssl-dev<br>sudo apt <span class="hljs-keyword">install</span> libspice-<span class="hljs-keyword">server</span>-dev<br>sudo ./configure <span class="hljs-comment">--static &amp;&amp; sudo make -j8 &amp;&amp; sudo make install</span><br><br>注: 使用configure 使用<span class="hljs-keyword">static</span>参数的时候,依赖可能会根据不同环境导致依赖缺失,可以根据报错来解决依赖问题<br></code></pre></td></tr></table></figure>
 </li>
 <li><p>wget<br>可根据需求不同来选择不同的版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install libglib2.0-dev libgcrypt20-dev autoconf automake libtool </span><br><span class="line">sudo apt-get install libglib2.0 libglib2.0-dev</span><br><span class="line">sudo apt install -y pkg-config</span><br><span class="line">sudo apt install -y libpixman-1-dev</span><br><span class="line">sudo apt install -y libfdt-dev</span><br><span class="line">sudo apt install libsdl2-dev  </span><br><span class="line">sudo apt install libsnappy-dev</span><br><span class="line">sudo apt install libgtk-3-dev</span><br><span class="line">sudo apt install libjpeg-turbo8-dev</span><br><span class="line">sudo apt install libcurl4-openssl-dev</span><br><span class="line">sudo apt install libspice-server-dev</span><br><span class="line">sudo arm-softmmu</span><br><span class="line">wget https://download.qemu.org/qemu-4.1.0.tar.xz</span><br><span class="line">tar xvJf qemu-4.1.0.tar.xz</span><br><span class="line">cd qemu-4.1.0</span><br><span class="line">sudo ./configure --target-list=arm-softmmu,mips-softmmu,mipsel-softmmu --audio-drv-list=alsa,pa</span><br><span class="line">sudo make -j8</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs undefined">sudo apt <span class="hljs-keyword">install</span> libglib2.<span class="hljs-number">0</span>-dev libgcrypt20-dev autoconf automake libtool <br>sudo apt-get <span class="hljs-keyword">install</span> libglib2.<span class="hljs-number">0</span> libglib2.<span class="hljs-number">0</span>-dev<br>sudo apt <span class="hljs-keyword">install</span> -y pkg-config<br>sudo apt <span class="hljs-keyword">install</span> -y libpixman-<span class="hljs-number">1</span>-dev<br>sudo apt <span class="hljs-keyword">install</span> -y libfdt-dev<br>sudo apt <span class="hljs-keyword">install</span> libsdl2-dev  <br>sudo apt <span class="hljs-keyword">install</span> libsnappy-dev<br>sudo apt <span class="hljs-keyword">install</span> libgtk-<span class="hljs-number">3</span>-dev<br>sudo apt <span class="hljs-keyword">install</span> libjpeg-turbo8-dev<br>sudo apt <span class="hljs-keyword">install</span> libcurl4-openssl-dev<br>sudo apt <span class="hljs-keyword">install</span> libspice-server-dev<br>sudo arm-softmmu<br>wget https://download.qemu.org/qemu-<span class="hljs-number">4.1</span>.<span class="hljs-number">0</span>.tar.xz<br>tar xvJf qemu-<span class="hljs-number">4.1</span>.<span class="hljs-number">0</span>.tar.xz<br>cd qemu-<span class="hljs-number">4.1</span>.<span class="hljs-number">0</span><br>sudo ./configure --<span class="hljs-keyword">target</span>-<span class="hljs-keyword">list</span>=arm-softmmu,mips-softmmu,mipsel-softmmu --audio-drv-<span class="hljs-keyword">list</span>=alsa,pa<br>sudo make -j8<br>sudo make <span class="hljs-keyword">install</span><br></code></pre></td></tr></table></figure>
 </li>
 </ol>
 </li>
 <li><p>这里也贴出官方的安装教程</p>
 <ol>
 <li><p>To download and build QEMU 4.1.0:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.qemu.org/qemu-4.1.0.tar.xz</span><br><span class="line">tar xvJf qemu-4.1.0.tar.xz</span><br><span class="line">cd qemu-4.1.0</span><br><span class="line">./configure</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs undefined">wget https:<span class="hljs-comment">//download.qemu.org/qemu-4.1.0.tar.xz</span><br>tar xvJf qemu-<span class="hljs-number">4.1</span>.<span class="hljs-number">0</span><span class="hljs-selector-class">.tar</span><span class="hljs-selector-class">.xz</span><br>cd qemu-<span class="hljs-number">4.1</span>.<span class="hljs-number">0</span><br>./configure<br>make<br></code></pre></td></tr></table></figure>
 </li>
 <li><p>To download and build QEMU from git:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git clone https://git.qemu.org/git/qemu.git</span><br><span class="line">cd qemu</span><br><span class="line">git submodule init</span><br><span class="line">git submodule update --recursive</span><br><span class="line">./configure</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs undefined">git clone https:<span class="hljs-string">//git.qemu.org/git/qemu.git</span><br><span class="hljs-keyword">cd</span> qemu<br>git submodule init<br>git submodule update <span class="hljs-params">--recursive</span><br><span class="hljs-string">./configure</span><br>make<br></code></pre></td></tr></table></figure>
 </li>
 <li><p>Debian/Ubuntu: </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install qemu</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">apt-<span class="hljs-builtin-name">get</span> install qemu<br></code></pre></td></tr></table></figure>
 </li>
 </ol>
 </li>
 </ol>
 <h2 id="MIPS交叉编译环境"><a href="#MIPS交叉编译环境" class="headerlink" title="MIPS交叉编译环境"></a>MIPS交叉编译环境</h2><p>在x86平台上编译MIPS架构的应用程序,需要我们在Ubuntu下建立交叉编译环境,编译过程中,会下载一些依赖包,需要网络畅通,这里有一个点很难受,就是如果你的内核版本在选项中没有出现的时候,可能需要我们选择更高版本的内核版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libncurses5-dev patch</span><br><span class="line">sudo apt-get install libncurses-dev ncurses-devel</span><br><span class="line">sudo apt-get install libncurs*</span><br><span class="line">wget http://buildroot.uclibc.org/downloads/snapshots/buildroot-snapshot.tar.bz2</span><br><span class="line">tar -jxvf buildroot-snapshots.tar.bz2</span><br><span class="line">cd buildroot/</span><br><span class="line">make clean</span><br><span class="line">make menuconfig</span><br><span class="line">sudo make -j8</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs undefined">sudo apt-get <span class="hljs-keyword">install</span> libncurses5-dev <span class="hljs-keyword">patch</span><br>sudo apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">install</span> libncurses-dev ncurses-devel<br>sudo apt-<span class="hljs-keyword">get</span> <span class="hljs-keyword">install</span> libncurs*<br>wget <span class="hljs-keyword">http</span>://buildroot.uclibc.org/downloads/snapshots/buildroot-snapshot.tar.bz2<br>tar -jxvf buildroot-snapshots.tar.bz2<br>cd buildroot/<br>make clean<br>make menuconfig<br>sudo make -j8<br></code></pre></td></tr></table></figure>
 <p>在make menuconfig那一步的时候,我们需要更改几个地方</p>
 <ol>
 <li>“Target Architecture”改为”MIPS(littke endian)</li>
@@ -128,142 +289,217 @@
 <p><strong><em>笔者本机的内核版本是4.15,但是选项中没有4.15,因此我开始时选择了4.14,但是在编译过程中,4.14会在下载时报404,因此推荐选择4.4.x</em></strong></p>
 <p>然后<em>sudo make -j8</em>即可</p>
 <p><strong><em>注:这里需要保持网络联通,编译时间可能需要很久</em></strong></p>
-<h3 id="firmadyne"><a href="#firmadyne" class="headerlink" title="firmadyne"></a>firmadyne</h3><p>一个非常简单的路由器运行环境,此环境下无法调试<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install busybox-static fakeroot git dmsetup kpartx netcat-openbsd nmap python-psycopg2 python3-psycopg2 snmp uml-utilities util-linux vlan</span><br><span class="line">git clone --recursive https://github.com/firmadyne/firmadyne.git</span><br><span class="line"></span><br><span class="line">之后要进入到文件夹内,修改firmadyne.config,将其中的</span><br><span class="line"></span><br><span class="line">FIRMWARE_DIR=/home/vagrant/firmadyne/</span><br><span class="line">修改为完整路径</span><br><span class="line">然后可以执行安装</span><br><span class="line">sudo ./download.sh</span><br><span class="line">sudo -H pip install git+https://github.com/ahupp/python-magic</span><br><span class="line">sudo -H pip install git+https://github.com/sviehb/jefferson</span><br><span class="line">sudo apt-get install qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils</span><br><span class="line">sudo apt-get install postgresql</span><br><span class="line">sudo -u postgres createuser -P firmadyne</span><br><span class="line">sudo -u postgres createdb -O firmadyne firmware</span><br><span class="line">sudo -u postgres psql -d firmware &lt; ./firmadyne/database/schema</span><br></pre></td></tr></table></figure></p>
+<h3 id="firmadyne"><a href="#firmadyne" class="headerlink" title="firmadyne"></a>firmadyne</h3><p>一个非常简单的路由器运行环境,此环境下无法调试<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs undefined">sudo apt-<span class="hljs-built_in">get</span> install busybox-static fakeroot git dmsetup kpartx netcat-openbsd <span class="hljs-keyword">nmap</span> <span class="hljs-keyword">python</span>-psycopg2 <span class="hljs-keyword">python3</span>-psycopg2 snmp uml-utilities util-linux vlan<br>git clone --recursive http<span class="hljs-variable">s:</span>//github.<span class="hljs-keyword">com</span>/firmadyne/firmadyne.git<br><br>之后要进入到文件夹内,修改firmadyne.config,将其中的<br><br>FIRMWARE_DIR=/home/vagrant/firmadyne/<br>修改为完整路径<br>然后可以执行安装<br>sudo ./download.<span class="hljs-keyword">sh</span><br>sudo -H pip install git+http<span class="hljs-variable">s:</span>//github.<span class="hljs-keyword">com</span>/ahupp/<span class="hljs-keyword">python</span>-magic<br>sudo -H pip install git+http<span class="hljs-variable">s:</span>//github.<span class="hljs-keyword">com</span>/sviehb/jefferson<br>sudo apt-<span class="hljs-built_in">get</span> install qemu-<span class="hljs-built_in">system</span>-arm qemu-<span class="hljs-built_in">system</span>-mips qemu-<span class="hljs-built_in">system</span>-x86 qemu-utils<br>sudo apt-<span class="hljs-built_in">get</span> install postgresql<br>sudo -<span class="hljs-keyword">u</span> postgres createuser -<span class="hljs-keyword">P</span> firmadyne<br>sudo -<span class="hljs-keyword">u</span> postgres createdb -O firmadyne firmware<br>sudo -<span class="hljs-keyword">u</span> postgres psql -d firmware &lt; ./firmadyne/database/schema<br></code></pre></td></tr></table></figure></p>
 <p>之后就可以利用这个模拟固件了</p>
 <p>到此基本的环境就基本搭建完毕了,enjoy:)</p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/iot/">iot</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/11/26/路由器漏洞利用之栈溢出/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">路由器漏洞利用之栈溢出</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/11/02/教练-我还想用IO/">
+                        <span class="hidden-mobile">教练,我还想用IO</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
     </div>
-    <footer class="article-footer">
-      <a data-url="https://nightRainy.github.io/2019/11/04/路由器破解初探之环境搭建/" data-id="ckmk3304t000a7gjd2l1tq1hs" class="article-share-link">
-        Share
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-      
-<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iot/">iot</a></li></ul>
+    
 
-    </footer>
-
-  </div>
-
-  
-  
-<nav class="article-nav">
-  
-  <a href="/2019/11/26/路由器漏洞利用之栈溢出/" class="article-nav-link">
-    <strong class="article-nav-caption">Newer</strong>
-    <div class="article-nav-title">
-      
-      路由器漏洞利用之栈溢出
-      
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </a>
-  
-  
-  <a href="/2019/11/02/教练-我还想用IO/" class="article-nav-link">
-    <strong class="article-nav-caption">Older</strong>
-    <div class="article-nav-title">教练,我还想用IO</div>
-  </a>
-  
-</nav>
-
-  
-
-  
-  
-  
-  
-
-</article>
-</section>
-    <footer class="footer">
-  <div class="outer">
-    <div class="float-right">
-      <ul class="list-inline">
-  
-  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
-  
-  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
-  
-</ul>
-    </div>
-    <ul class="list-inline">
-      <li>知世の小屋 &copy; 2021</li>
-      
-      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
-    </ul>
   </div>
-</footer>
+</div>
+    
+
+    
   </main>
-  <aside class="sidebar">
-    <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-  <div class="logo">
-    <a href="/"><img src="/images/hexo.svg" alt="知世の小屋"></a>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
   
-  <ul class="nav nav-main">
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/">主页</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">归档</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/gallery">相册</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/about">关于</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link nav-item-search" title="Search">
-        <i class="fe fe-search"></i>
-        Search
-      </a>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      <div class="totop" id="totop">
-  <i class="fe fe-rocket"></i>
-</div>
-    </li>
-    <li class="nav-item">
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css">
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<script src="/js/debouncer.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
+
+<!-- Plugins -->
+
+
+  
+    <script src="/js/img-lazyload.js"></script>
+  
+
+
+
+  
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js"></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
       
-      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
-        <i class="fe fe-feed"></i>
-      </a>
+      typing(title)
       
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
-</div>
-</div>
-  </aside>
-  <script src="/js/jquery-2.0.3.min.js"></script>
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-<script src="/js/lazyload.min.js"></script>
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    })(window, document);
+  </script>
 
 
 
+  <script src="/js/local-search.js"></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
 
 
-<script src="/js/ocean.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script src="/js/boot.js"></script>
+
+
 </body>
-
 </html>

@@ -1,63 +1,224 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="" data-default-color-scheme=&#34;auto&#34;>
+
+
 
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  
-  
+  <meta name="theme-color" content="#2f4154">
   <meta name="description" content="my blogs">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>
-    play withe file structure(搬运) |
+  <title>play withe file structure(搬运) - 知世の小屋</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/hint/hint.min.css">
+
+  
     
-    知世の小屋</title>
+    
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css">
+    
   
-  <link rel="shortcut icon" href="/favicon.ico">
+
   
-  <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
   
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-  
-  <script src="/js/pace.min.js"></script>
-</head></html>
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
+</head>
+
 
 <body>
-  <main class="content">
-    <section class="outer">
-  <article id="post-play-withe-file-structure-搬运" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
 
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-<h1 class="article-title" itemprop="name">
-  play withe file structure(搬运)
-</h1>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/08/07/play-withe-file-structure-搬运/" class="article-date">
-  <time datetime="2019-08-07T06:01:32.000Z" itemprop="datePublished">2019-08-07</time>
-</a>
-      
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Startseite
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archiv
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Kategorie
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Etiketten
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Über mich
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    
+  </div>
+</nav>
 
-    
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="play withe file structure(搬运)">
+              
+            </span>
 
-    <div class="article-entry" itemprop="articleBody">
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-08-07 14:01" pubdate="">
+        August 7, 2019 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      989 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
       
       
+      19
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-      <blockquote>
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">play withe file structure(搬运)</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
 <p>搬运自<a href="https://www.slideshare.net/AngelBoy1/play-with-file-structure-yet-another-binary-exploit-technique" target="_blank" rel="noopener">Angel Boy师傅的分享</a></p>
 </blockquote>
 <p><strong>多图预警</strong></p>
@@ -75,8 +236,8 @@
 </li>
 <li>conclusion</li>
 </ul>
-<h1 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h1><h2 id="what-happen-when-we-use-a-raw-io-function"><a href="#what-happen-when-we-use-a-raw-io-function" class="headerlink" title="what happen when we use a raw io function"></a>what happen when we use a raw io function</h2><p><img src="https://i.loli.net/2019/08/07/Wgu1PQtryD5Lhp7.png" alt="image.png"></p>
-<p><img src="https://i.loli.net/2019/08/07/E6IPFGurM1w98aD.png" alt="image.png"></p>
+<h1 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h1><h2 id="what-happen-when-we-use-a-raw-io-function"><a href="#what-happen-when-we-use-a-raw-io-function" class="headerlink" title="what happen when we use a raw io function"></a>what happen when we use a raw io function</h2><p><img src="https://i.loli.net/2019/08/07/Wgu1PQtryD5Lhp7.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/E6IPFGurM1w98aD.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h2 id="what-is-file-stream"><a href="#what-is-file-stream" class="headerlink" title="what is file stream?"></a>what is file stream?</h2><ul>
 <li>A higher-level interface on the primitive file descriptor facilites</li>
 <li>Stream buffering</li>
@@ -86,7 +247,7 @@
 <li>A file stream descripor</li>
 <li>Created by fopen</li>
 </ul>
-<h2 id="what-happen-when-we-use-stdio-function"><a href="#what-happen-when-we-use-stdio-function" class="headerlink" title="what happen when we use stdio function"></a>what happen when we use stdio function</h2><p><img src="https://i.loli.net/2019/08/07/xjKJEV9PaF84Qui.png" alt="image.png"><br><img src="https://i.loli.net/2019/08/07/4sy1F2oGAUxW6ZD.png" alt="image.png"></p>
+<h2 id="what-happen-when-we-use-stdio-function"><a href="#what-happen-when-we-use-stdio-function" class="headerlink" title="what happen when we use stdio function"></a>what happen when we use stdio function</h2><p><img src="https://i.loli.net/2019/08/07/xjKJEV9PaF84Qui.png" srcset="/img/loading.gif" lazyload="" alt="image.png"><br><img src="https://i.loli.net/2019/08/07/4sy1F2oGAUxW6ZD.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h2 id="overwrite-the-file-struction"><a href="#overwrite-the-file-struction" class="headerlink" title="overwrite the file struction"></a>overwrite the file struction</h2><ul>
 <li>File struction<ul>
 <li>A complex struction<ul>
@@ -108,16 +269,16 @@
 <li>Read only</li>
 <li>Append</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/07/O75gzbIBTGLK8Yl.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/O75gzbIBTGLK8Yl.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h3 id="Stream-buffer"><a href="#Stream-buffer" class="headerlink" title="Stream buffer"></a>Stream buffer</h3><ul>
 <li>Read buffer</li>
 <li>Write buffer</li>
 <li>Reserve buffer</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/07/32ZeYbLCdlJzjax.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/32ZeYbLCdlJzjax.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h3 id="fileno"><a href="#fileno" class="headerlink" title="_fileno"></a>_fileno</h3><ul>
 <li>File descriptor</li>
-<li>Return by sys_open<br><img src="https://i.loli.net/2019/08/07/bk1qERm2nGzaFNI.png" alt="image.png"></li>
+<li>Return by sys_open<br><img src="https://i.loli.net/2019/08/07/bk1qERm2nGzaFNI.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></li>
 </ul>
 <h3 id="file-plus"><a href="#file-plus" class="headerlink" title="file_plus"></a>file_plus</h3><ul>
 <li>stdin/stdout/stderr</li>
@@ -127,8 +288,8 @@
 </ul>
 </li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/07/tU6yW5QRbPdKsNn.png" alt="image.png"><br><img src="https://i.loli.net/2019/08/07/t1KYJGDBiyMOQhf.png" alt="image.png"></p>
-<h3 id="chain"><a href="#chain" class="headerlink" title="chain"></a>chain</h3><p>Every FILE associate with a _chain (linked  list)<br><img src="https://i.loli.net/2019/08/07/UyCLlYm2tPbQjpg.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/tU6yW5QRbPdKsNn.png" srcset="/img/loading.gif" lazyload="" alt="image.png"><br><img src="https://i.loli.net/2019/08/07/t1KYJGDBiyMOQhf.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<h3 id="chain"><a href="#chain" class="headerlink" title="chain"></a>chain</h3><p>Every FILE associate with a _chain (linked  list)<br><img src="https://i.loli.net/2019/08/07/UyCLlYm2tPbQjpg.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h2 id="fopen-workflow"><a href="#fopen-workflow" class="headerlink" title="fopen workflow"></a>fopen workflow</h2><ul>
 <li>Allocate FILE Structure</li>
 <li>initial the FILE structure<ul>
@@ -137,11 +298,11 @@
 </li>
 <li>open file</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/07/yxjl74P2MNkhSVD.png" alt="image.png"></p>
-<h3 id="allocate-file-structure"><a href="#allocate-file-structure" class="headerlink" title="allocate file structure"></a>allocate file structure</h3><p><img src="https://i.loli.net/2019/08/07/u5Iy7XortxjRhYK.png" alt="image.png"></p>
-<h3 id="initial-the-file-structure"><a href="#initial-the-file-structure" class="headerlink" title="initial the file structure"></a>initial the file structure</h3><p><img src="https://i.loli.net/2019/08/07/AvKskPraWXNJ3Cw.png" alt="image.png"></p>
-<h3 id="Link-the-file-structure"><a href="#Link-the-file-structure" class="headerlink" title="Link the file structure"></a>Link the file structure</h3><p><img src="https://i.loli.net/2019/08/07/RBt8D1ZYbwxeJCE.png" alt="image.png"></p>
-<h3 id="open-file"><a href="#open-file" class="headerlink" title="open file"></a>open file</h3><p><img src="https://i.loli.net/2019/08/07/53khYwPgHvEsZWx.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/yxjl74P2MNkhSVD.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<h3 id="allocate-file-structure"><a href="#allocate-file-structure" class="headerlink" title="allocate file structure"></a>allocate file structure</h3><p><img src="https://i.loli.net/2019/08/07/u5Iy7XortxjRhYK.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<h3 id="initial-the-file-structure"><a href="#initial-the-file-structure" class="headerlink" title="initial the file structure"></a>initial the file structure</h3><p><img src="https://i.loli.net/2019/08/07/AvKskPraWXNJ3Cw.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<h3 id="Link-the-file-structure"><a href="#Link-the-file-structure" class="headerlink" title="Link the file structure"></a>Link the file structure</h3><p><img src="https://i.loli.net/2019/08/07/RBt8D1ZYbwxeJCE.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<h3 id="open-file"><a href="#open-file" class="headerlink" title="open file"></a>open file</h3><p><img src="https://i.loli.net/2019/08/07/53khYwPgHvEsZWx.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h2 id="fread-workflow"><a href="#fread-workflow" class="headerlink" title="fread workflow"></a>fread workflow</h2><ul>
 <li>IF stream buffer is NULL<ul>
 <li>Allocate buffer</li>
@@ -150,16 +311,16 @@
 <li>Read data to the stream buffer</li>
 <li>copy data from stream buffer to destination</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/07/1D9xyrliMAhOSj8.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/1D9xyrliMAhOSj8.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h3 id="If-stream-buffer-is-NULL"><a href="#If-stream-buffer-is-NULL" class="headerlink" title="If stream buffer is NULL"></a>If stream buffer is NULL</h3><p>allocate buffer</p>
-<p><img src="https://i.loli.net/2019/08/07/kMBhoFKVpRijl92.png" alt="image.png"></p>
-<h3 id="read-data-to-the-stream-buffer"><a href="#read-data-to-the-stream-buffer" class="headerlink" title="read data to the stream buffer"></a>read data to the stream buffer</h3><p><img src="https://i.loli.net/2019/08/07/UiAoXSF6rMnHfuN.png" alt="image.png"></p>
-<h3 id="copy-data-from-stream-buffer-to-destination"><a href="#copy-data-from-stream-buffer-to-destination" class="headerlink" title="copy data from stream buffer to destination"></a>copy data from stream buffer to destination</h3><p><img src="https://i.loli.net/2019/08/07/9uls5ZRUtEHnVAX.png" alt="image.png"></p>
-<p><img src="https://i.loli.net/2019/08/07/7oUra8bXzAjHLOi.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/kMBhoFKVpRijl92.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<h3 id="read-data-to-the-stream-buffer"><a href="#read-data-to-the-stream-buffer" class="headerlink" title="read data to the stream buffer"></a>read data to the stream buffer</h3><p><img src="https://i.loli.net/2019/08/07/UiAoXSF6rMnHfuN.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<h3 id="copy-data-from-stream-buffer-to-destination"><a href="#copy-data-from-stream-buffer-to-destination" class="headerlink" title="copy data from stream buffer to destination"></a>copy data from stream buffer to destination</h3><p><img src="https://i.loli.net/2019/08/07/9uls5ZRUtEHnVAX.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/7oUra8bXzAjHLOi.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h3 id="if-the-stream-is-filled-or-flush-the-stream"><a href="#if-the-stream-is-filled-or-flush-the-stream" class="headerlink" title="if the stream is filled or flush the stream"></a>if the stream is filled or flush the stream</h3><ul>
 <li>write data from stream buffer to the file</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/07/ujZDyNGsdBk6PIn.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/ujZDyNGsdBk6PIn.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h2 id="fclose-workflow"><a href="#fclose-workflow" class="headerlink" title="fclose workflow"></a>fclose workflow</h2><ul>
 <li>If stream buffer is NULL<ul>
 <li>allocte buffer</li>
@@ -171,42 +332,42 @@
 </ul>
 </li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/07/pEnGT8V2ifCBzON.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/pEnGT8V2ifCBzON.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <ul>
 <li>unlink the file structure</li>
 <li>flush &amp; realease the strean buffer</li>
 <li>close the file</li>
 <li>release the file structure</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/07/ZtecGMz2EKBkLQa.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/ZtecGMz2EKBkLQa.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h1 id="Exploitation-of-FILE-structure"><a href="#Exploitation-of-FILE-structure" class="headerlink" title="Exploitation of FILE structure"></a>Exploitation of FILE structure</h1><p>There are a good target in FILE structure</p>
 <p>Virtual function table</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct _IO_FILE_plus</span><br><span class="line">&#123;</span><br><span class="line">    _IO_FILE file;</span><br><span class="line">    const struct _IO_jump_t *vtable;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="let’s-overwrite-with-buffer-address"><a href="#let’s-overwrite-with-buffer-address" class="headerlink" title="let’s overwrite with buffer address"></a>let’s overwrite with buffer address</h2><p><img src="https://i.loli.net/2019/08/07/lGe673jmzYFWO8w.png" alt="image.png"></p>
-<p><img src="https://i.loli.net/2019/08/07/kKSwbXWsZFyI165.png" alt="image.png"></p>
-<p><img src="https://i.loli.net/2019/08/07/JVNY5PLUwKTjHRZ.png" alt="image.png"></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-class"><span class="hljs-keyword">struct</span> _<span class="hljs-title">IO_FILE_plus</span><br>&#123;</span><br>    _IO_FILE file;<br>    <span class="hljs-keyword">const</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> _<span class="hljs-title">IO_jump_t</span> *<span class="hljs-title">vtable</span>;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="let’s-overwrite-with-buffer-address"><a href="#let’s-overwrite-with-buffer-address" class="headerlink" title="let’s overwrite with buffer address"></a>let’s overwrite with buffer address</h2><p><img src="https://i.loli.net/2019/08/07/lGe673jmzYFWO8w.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/kKSwbXWsZFyI165.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/JVNY5PLUwKTjHRZ.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h3 id="Not-call-vtable-directly"><a href="#Not-call-vtable-directly" class="headerlink" title="Not call vtable directly"></a>Not call vtable directly</h3><ul>
 <li>RDX is our input but not call instruction</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/07/FV1G5i4pWrcIPk8.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/FV1G5i4pWrcIPk8.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h3 id="Let’s-see-what-happened-in-fclose"><a href="#Let’s-see-what-happened-in-fclose" class="headerlink" title="Let’s see what happened in fclose"></a>Let’s see what happened in fclose</h3><ul>
 <li>we can get information of segfault in gdb and located it in source code</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/07/lUTnZMRCksQ8VGh.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/lUTnZMRCksQ8VGh.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h2 id="File-structure"><a href="#File-structure" class="headerlink" title="File structure"></a>File structure</h2><ul>
 <li>_lock</li>
 <li>prevent race condition in multithread</li>
 <li>Very common in stdio related function</li>
 <li>Usually need to construct it for Exploitaion</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/07/9c6X5mUiuENepBD.png" alt="image.png"></p>
-<h2 id="Let’s-fix-the-lock"><a href="#Let’s-fix-the-lock" class="headerlink" title="Let’s fix the lock"></a>Let’s fix the lock</h2><p><img src="https://i.loli.net/2019/08/09/8ok7EwOfJN245lg.png" alt="image.png"></p>
-<h2 id="we-control-PC"><a href="#we-control-PC" class="headerlink" title="we control PC"></a>we control PC</h2><p><img src="https://i.loli.net/2019/08/09/nXIPZNF4MzR6uGl.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/07/9c6X5mUiuENepBD.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<h2 id="Let’s-fix-the-lock"><a href="#Let’s-fix-the-lock" class="headerlink" title="Let’s fix the lock"></a>Let’s fix the lock</h2><p><img src="https://i.loli.net/2019/08/09/8ok7EwOfJN245lg.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<h2 id="we-control-PC"><a href="#we-control-PC" class="headerlink" title="we control PC"></a>we control PC</h2><p><img src="https://i.loli.net/2019/08/09/nXIPZNF4MzR6uGl.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h2 id="Another-interesting"><a href="#Another-interesting" class="headerlink" title="Another interesting"></a>Another interesting</h2><ul>
 <li>stdin/stdout/stderr is also a FILE struct in glibc</li>
 <li>We can overwrite the global variable in glibc varible in glibc to control the flow</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/09/kdny7QpgD4P6xXI.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/kdny7QpgD4P6xXI.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h1 id="FSOP"><a href="#FSOP" class="headerlink" title="FSOP"></a>FSOP</h1><ul>
 <li>File-Stream Oriented Programing <ul>
 <li>Control the linked list of File stream <ul>
@@ -229,18 +390,18 @@
 <li>exit function</li>
 <li>Main return</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/09/93OQdt7aJiBPIjp.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/93OQdt7aJiBPIjp.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <ul>
 <li>It will process all FILE in FILE linked list </li>
 <li>We can construct the linked list to do oriented programing </li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/09/sUuC5cmb4ISfGwy.png" alt="image.png"></p>
-<h2 id="FILE-stream-oriented-programing"><a href="#FILE-stream-oriented-programing" class="headerlink" title="FILE-stream oriented programing"></a>FILE-stream oriented programing</h2><p><img src="https://i.loli.net/2019/08/09/kGxe5zBsM1WrtZD.png" alt="image.png"></p>
-<p><img src="https://i.loli.net/2019/08/09/YbSMlH3whjtdUfn.png" alt="image.png"></p>
-<p><img src="https://i.loli.net/2019/08/09/VjUcAIbMvC7rhi1.png" alt="image.png"></p>
-<p><img src="https://i.loli.net/2019/08/09/YRzkZwgjHDcNnGq.png" alt="image.png"></p>
-<p><img src="https://i.loli.net/2019/08/09/2DnsHeMBrxUyK8i.png" alt="image.png"></p>
-<p><img src="https://i.loli.net/2019/08/09/aqiNzluRvOKrIfg.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/sUuC5cmb4ISfGwy.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<h2 id="FILE-stream-oriented-programing"><a href="#FILE-stream-oriented-programing" class="headerlink" title="FILE-stream oriented programing"></a>FILE-stream oriented programing</h2><p><img src="https://i.loli.net/2019/08/09/kGxe5zBsM1WrtZD.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/YbSMlH3whjtdUfn.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/VjUcAIbMvC7rhi1.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/YRzkZwgjHDcNnGq.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/2DnsHeMBrxUyK8i.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/aqiNzluRvOKrIfg.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <p>The we will ge shell!</p>
 <h1 id="Vtable-verfication-in-FILE-structure"><a href="#Vtable-verfication-in-FILE-structure" class="headerlink" title="Vtable verfication in FILE structure"></a>Vtable verfication in FILE structure</h1><ul>
 <li>Unfortunately, there are a virtual function table in latest libc </li>
@@ -252,20 +413,20 @@
 <li>The vtable must be in libc _IO_vtable section</li>
 <li>If it’s not in _IO_vtable section, it will check if the vtable are permitted</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/09/wbptVNGjaOqIQxY.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/wbptVNGjaOqIQxY.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h2 id="IO-vtable-check"><a href="#IO-vtable-check" class="headerlink" title="_IO_vtable_check"></a>_IO_vtable_check</h2><ul>
-<li>Check the foreign vtables Vtable veriﬁcation<br><img src="https://i.loli.net/2019/08/09/82D6kyg7JljaYHV.png" alt="image.png"></li>
+<li>Check the foreign vtables Vtable veriﬁcation<br><img src="https://i.loli.net/2019/08/09/82D6kyg7JljaYHV.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></li>
 </ul>
 <h2 id="BPASS"><a href="#BPASS" class="headerlink" title="BPASS"></a>BPASS</h2><ul>
 <li>Overwrite IO_accept_foreign_vtables ?</li>
 <li>It’s very diﬃcult because of the pointer guard </li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/09/84nHBUZ63qbIwO2.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/84nHBUZ63qbIwO2.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <ul>
 <li>Overwrite _dl_open_hook ?</li>
 <li>Sounds good, but if you can control the value, you can also control other good target</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/09/pcnE3VIjNQTJP6b.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/pcnE3VIjNQTJP6b.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <h2 id="Summary-of-the-vtable-veriﬁcation"><a href="#Summary-of-the-vtable-veriﬁcation" class="headerlink" title="Summary of the vtable veriﬁcation"></a>Summary of the vtable veriﬁcation</h2><ul>
 <li>It very hard to bypass it</li>
 <li>Exploitation of FILE structure is died ?  </li>
@@ -273,7 +434,7 @@
 <h1 id="Make-file-structure-greate-again"><a href="#Make-file-structure-greate-again" class="headerlink" title="Make file structure greate again"></a>Make file structure greate again</h1><h2 id="how-about-change-the-target-from-vtable-to-other-element"><a href="#how-about-change-the-target-from-vtable-to-other-element" class="headerlink" title="how about change  the target from vtable to other element"></a>how about change  the target from vtable to other element</h2><ul>
 <li>stream buffer &amp; File Descripor</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/09/EDWH5YKoTS81jXy.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/EDWH5YKoTS81jXy.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <ul>
 <li>If we can overwrite the FILE structure and use fread and fwrite with the FILE structure</li>
 <li>We can <ul>
@@ -294,14 +455,14 @@
 <li>Set _ﬂag &amp;~ _IO_NO_WRITES</li>
 <li>Set _ﬂag |= _IO_CURRENTLY_PUTTING</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/09/YbDm4TfQgrLP7Be.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/YbDm4TfQgrLP7Be.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <ul>
 <li>Let _IO_read_end equal to _IO_write_base</li>
 <li>If it’s not, it would adjust to the current oﬀset</li>
 </ul>
-<p><img src="https://i.loli.net/2019/08/09/jJownXfGrQuUYI2.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/jJownXfGrQuUYI2.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <p><strong>sample code</strong> </p>
-<p><img src="https://i.loli.net/2019/08/09/zwK1u2Q6VGosIl7.png" alt="image.png"></p>
+<p><img src="https://i.loli.net/2019/08/09/zwK1u2Q6VGosIl7.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></p>
 <ul>
 <li>fread<ul>
 <li>Set the _ﬁleno to ﬁle descriptor of stdin</li>
@@ -314,10 +475,10 @@
 </ul>
 <p>其中:</p>
 <ul>
-<li>Set read_base &amp; read_ptr to NULL<br><img src="https://i.loli.net/2019/08/09/PhzIgQN6ERDcoGq.png" alt="image.png"></li>
-<li>Set _ﬂag &amp;~ _IO_NO_READS<br><img src="https://puui.qpic.cn/fans_admin/0/3_155518641_1565412684323/0" alt="image.png"></li>
+<li>Set read_base &amp; read_ptr to NULL<br><img src="https://i.loli.net/2019/08/09/PhzIgQN6ERDcoGq.png" srcset="/img/loading.gif" lazyload="" alt="image.png"></li>
+<li>Set _ﬂag &amp;~ _IO_NO_READS<br><img src="https://puui.qpic.cn/fans_admin/0/3_155518641_1565412684323/0" srcset="/img/loading.gif" lazyload="" alt="image.png"></li>
 </ul>
-<p><strong>sample code</strong><br><img src="https://puui.qpic.cn/fans_admin/0/3_1565779192_1565412774359/0" alt="ima.png"></p>
+<p><strong>sample code</strong><br><img src="https://puui.qpic.cn/fans_admin/0/3_1565779192_1565412774359/0" srcset="/img/loading.gif" lazyload="" alt="ima.png"></p>
 <ul>
 <li>If you have arbitrary memory address read and write, you can control the ﬂow very easy<ul>
 <li>GOT hijack</li>
@@ -347,7 +508,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="https://puui.qpic.cn/fans_admin/0/3_1757851795_1565413454773/0" alt="i.png"></p>
+<p><img src="https://puui.qpic.cn/fans_admin/0/3_1757851795_1565413454773/0" srcset="/img/loading.gif" lazyload="" alt="i.png"></p>
 <ul>
 <li>Overwrite buf_end with a pointer behind the stdin<ul>
 <li>Unsorted bin attack</li>
@@ -355,8 +516,8 @@
 </ul>
 </li>
 </ul>
-<p><img src="https://puui.qpic.cn/fans_admin/0/3_1757851795_1565413538597/0" alt="i.png"></p>
-<p><img src="https://puui.qpic.cn/fans_admin/0/3_1565779192_1565413567143/0" alt="q.png"></p>
+<p><img src="https://puui.qpic.cn/fans_admin/0/3_1757851795_1565413538597/0" srcset="/img/loading.gif" lazyload="" alt="i.png"></p>
+<p><img src="https://puui.qpic.cn/fans_admin/0/3_1565779192_1565413567143/0" srcset="/img/loading.gif" lazyload="" alt="q.png"></p>
 <ul>
 <li>stdin relatedd function<ul>
 <li>scanf(“%d”,&amp;var)<ul>
@@ -369,12 +530,12 @@
 </ul>
 </li>
 </ul>
-<p><img src="https://puui.qpic.cn/fans_admin/0/3_155518641_1565413709350/0" alt="r.png">  </p>
+<p><img src="https://puui.qpic.cn/fans_admin/0/3_155518641_1565413709350/0" srcset="/img/loading.gif" lazyload="" alt="r.png">  </p>
 <ul>
 <li>It can overwrite many global variable in glibc </li>
 <li>Input :aaa…</li>
 </ul>
-<p><img src="https://puui.qpic.cn/fans_admin/0/3_1757851795_1565413798496/0" alt="q.png"></p>
+<p><img src="https://puui.qpic.cn/fans_admin/0/3_1757851795_1565413798496/0" srcset="/img/loading.gif" lazyload="" alt="q.png"></p>
 <p><strong>Control The PC</strong></p>
 <ul>
 <li>How about Windows ?<ul>
@@ -404,136 +565,206 @@
 </li>
 </ul>
 
-      
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/10/31/play-with-docker/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">play_with_docker</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/08/06/gitlab踩坑/">
+                        <span class="hidden-mobile">'gitlab踩坑'</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
     </div>
-    <footer class="article-footer">
-      <a data-url="https://nightRainy.github.io/2019/08/07/play-withe-file-structure-搬运/" data-id="ckmk33061000h7gjd9bh36abg" class="article-share-link">
-        Share
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-      
-    </footer>
+    
 
-  </div>
-
-  
-  
-<nav class="article-nav">
-  
-  <a href="/2019/10/31/play-with-docker/" class="article-nav-link">
-    <strong class="article-nav-caption">Newer</strong>
-    <div class="article-nav-title">
-      
-      play_with_docker
-      
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </a>
-  
-  
-  <a href="/2019/08/06/gitlab踩坑/" class="article-nav-link">
-    <strong class="article-nav-caption">Older</strong>
-    <div class="article-nav-title">&#39;gitlab踩坑&#39;</div>
-  </a>
-  
-</nav>
-
-  
-
-  
-  
-  
-  
-
-</article>
-</section>
-    <footer class="footer">
-  <div class="outer">
-    <div class="float-right">
-      <ul class="list-inline">
-  
-  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
-  
-  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
-  
-</ul>
-    </div>
-    <ul class="list-inline">
-      <li>知世の小屋 &copy; 2021</li>
-      
-      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
-    </ul>
   </div>
-</footer>
+</div>
+    
+
+    
   </main>
-  <aside class="sidebar">
-    <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-  <div class="logo">
-    <a href="/"><img src="/images/hexo.svg" alt="知世の小屋"></a>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
   
-  <ul class="nav nav-main">
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/">主页</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">归档</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/gallery">相册</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/about">关于</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link nav-item-search" title="Search">
-        <i class="fe fe-search"></i>
-        Search
-      </a>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      <div class="totop" id="totop">
-  <i class="fe fe-rocket"></i>
-</div>
-    </li>
-    <li class="nav-item">
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css">
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<script src="/js/debouncer.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
+
+<!-- Plugins -->
+
+
+  
+    <script src="/js/img-lazyload.js"></script>
+  
+
+
+
+  
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js"></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
       
-      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
-        <i class="fe fe-feed"></i>
-      </a>
+      typing(title)
       
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
-</div>
-</div>
-  </aside>
-  <script src="/js/jquery-2.0.3.min.js"></script>
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-<script src="/js/lazyload.min.js"></script>
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    })(window, document);
+  </script>
 
 
 
+  <script src="/js/local-search.js"></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
 
 
-<script src="/js/ocean.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script src="/js/boot.js"></script>
+
+
 </body>
-
 </html>

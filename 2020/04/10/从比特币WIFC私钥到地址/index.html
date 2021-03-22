@@ -1,66 +1,227 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="" data-default-color-scheme=&#34;auto&#34;>
+
+
 
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  
-  
+  <meta name="theme-color" content="#2f4154">
   <meta name="description" content="my blogs">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>
-    从比特币WIFC私钥到地址 |
+  <title>从比特币WIFC私钥到地址 - 知世の小屋</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/hint/hint.min.css">
+
+  
     
-    知世の小屋</title>
+    
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css">
+    
   
-  <link rel="shortcut icon" href="/favicon.ico">
+
   
-  <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
   
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-  
-  <script src="/js/pace.min.js"></script>
-</head></html>
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
+</head>
+
 
 <body>
-  <main class="content">
-    <section class="outer">
-  <article id="post-从比特币WIFC私钥到地址" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
 
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-<h1 class="article-title" itemprop="name">
-  从比特币WIFC私钥到地址
-</h1>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/04/10/从比特币WIFC私钥到地址/" class="article-date">
-  <time datetime="2020-04-10T05:43:39.000Z" itemprop="datePublished">2020-04-10</time>
-</a>
-      
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Startseite
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archiv
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Kategorie
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Etiketten
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Über mich
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    
+  </div>
+</nav>
 
-    
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="从比特币WIFC私钥到地址">
+              
+            </span>
 
-    <div class="article-entry" itemprop="articleBody">
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-04-10 13:43" pubdate="">
+        April 10, 2020 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
       
       
+      26
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-      <blockquote>
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">从比特币WIFC私钥到地址</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
 <p>最近学校课程作业遇到了该问题,即如何将WIFC私钥转化为地址,因此就做了一番学习,在这做一下记录,因为也是初次接触相关内容,如果文中有错误的地方敬请斧正</p>
 </blockquote>
-<h1 id="借鉴的网站"><a href="#借鉴的网站" class="headerlink" title="借鉴的网站"></a>借鉴的网站</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https://aaron67.cc/2019/01/04/bitcoin-address/</span><br><span class="line">https://steemit.com/cn/@oflyhigh/bitcoin-base58-and-base58check-private-key-public-key-address</span><br><span class="line">https://zhuanlan.zhihu.com/p/82093348</span><br><span class="line">https://zhuanlan.zhihu.com/p/30290735</span><br></pre></td></tr></table></figure>
+<h1 id="借鉴的网站"><a href="#借鉴的网站" class="headerlink" title="借鉴的网站"></a>借鉴的网站</h1><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs undefined">http<span class="hljs-variable">s:</span>//aaron67.<span class="hljs-keyword">cc</span>/<span class="hljs-number">2019</span>/<span class="hljs-number">01</span>/<span class="hljs-number">04</span>/bitcoin-address/<br>http<span class="hljs-variable">s:</span>//steemit.<span class="hljs-keyword">com</span>/<span class="hljs-keyword">cn</span>/@oflyhigh/bitcoin-base58-<span class="hljs-built_in">and</span>-base58check-private-key-public-key-address<br>http<span class="hljs-variable">s:</span>//zhuanlan.zhihu.<span class="hljs-keyword">com</span>/<span class="hljs-keyword">p</span>/<span class="hljs-number">82093348</span><br>http<span class="hljs-variable">s:</span>//zhuanlan.zhihu.<span class="hljs-keyword">com</span>/<span class="hljs-keyword">p</span>/<span class="hljs-number">30290735</span><br></code></pre></td></tr></table></figure>
 <h1 id="什么是比特币地址？"><a href="#什么是比特币地址？" class="headerlink" title="什么是比特币地址？"></a>什么是比特币地址？</h1><p>我们所称的比特币地址可以通俗的理解为我们的银行卡号，我们可以同时拥有多个地址，与此同时，通过区块链也可以查明每个地址的所有的转账记录</p>
 <p>一般来说我们的比特币地址有多种形式，其中最常用的两种一个是以1开头的P2PKH地址，即通过一对私钥和公钥控制的钱包地址</p>
 <p>那么另一个就是以3开头的P2SH地址</p>
@@ -80,18 +241,18 @@
 <p>首先我们拿一个WIFC私钥为例:’Kwa6hgpEfzwcsvcTCetNjfkPtcCgVt9suVo4zjtBp7At17GAQZUi’</p>
 <p>看到其以K开头就知道是我们的WIFC私钥,然后我们先对其进行一次base58check的解码</p>
 <p>我们就可以得到:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from binascii import hexlify, unhexlify</span><br><span class="line">from pwn import *</span><br><span class="line">import base58</span><br><span class="line"></span><br><span class="line">compressedWIF=&apos;Kwa6hgpEfzwcsvcTCetNjfkPtcCgVt9suVo4zjtBp7At17GAQZUi&apos;</span><br><span class="line"></span><br><span class="line">private_salt=hexlify(base58.b58decode_check(compressedWIF))</span><br><span class="line">log.success(&apos;private_salt:&apos;+(private_salt))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">运行结果:</span><br><span class="line">[+] private_salt:800a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d601</span><br></pre></td></tr></table></figure>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs undefined">from binascii <span class="hljs-keyword">import</span> hexlify, unhexlify<br>from pwn <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> base58<br><br>compressedWIF=<span class="hljs-string">'Kwa6hgpEfzwcsvcTCetNjfkPtcCgVt9suVo4zjtBp7At17GAQZUi'</span><br><br>private_salt=hexlify(base58.b58decode_check(compressedWIF))<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">'private_salt:'</span>+(private_salt))<br><br><br>运行结果:<br>[+] private_salt:<span class="hljs-number">800</span>a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d601<br></code></pre></td></tr></table></figure>
 <p>那么先不向下进行,我们先做一次base58的解码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from binascii import hexlify, unhexlify</span><br><span class="line">from pwn import *</span><br><span class="line">import base58</span><br><span class="line"></span><br><span class="line">compressedWIF=&apos;Kwa6hgpEfzwcsvcTCetNjfkPtcCgVt9suVo4zjtBp7At17GAQZUi&apos;</span><br><span class="line"></span><br><span class="line">private_salt=hexlify(base58.b58decode(compressedWIF))</span><br><span class="line">log.success(&apos;private_salt:&apos;+(private_salt))</span><br><span class="line"></span><br><span class="line">运行结果:</span><br><span class="line">[+] private_salt:800a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d601325f50cf</span><br></pre></td></tr></table></figure>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs undefined">from binascii <span class="hljs-keyword">import</span> hexlify, unhexlify<br>from pwn <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> base58<br><br>compressedWIF=<span class="hljs-string">'Kwa6hgpEfzwcsvcTCetNjfkPtcCgVt9suVo4zjtBp7At17GAQZUi'</span><br><br>private_salt=hexlify(base58.b58decode(compressedWIF))<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">'private_salt:'</span>+(private_salt))<br><br>运行结果:<br>[+] private_salt:<span class="hljs-number">800</span>a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d601325f50cf<br></code></pre></td></tr></table></figure>
 <p>从这里我们就能看出我们base58_check解码和base58解码得到结果的一个区别了</p>
 <p>我们的base58_check会自动去除我们的校验位,而base58则不会</p>
 <p>那么到了这里,我们只需要去除我们的80前缀和01压缩后缀即可得到我们的私钥</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">from binascii import hexlify, unhexlify</span><br><span class="line">from pwn import *</span><br><span class="line">import base58</span><br><span class="line"></span><br><span class="line">compressedWIF=&apos;Kwa6hgpEfzwcsvcTCetNjfkPtcCgVt9suVo4zjtBp7At17GAQZUi&apos;</span><br><span class="line"></span><br><span class="line">private_salt=hexlify(base58.b58decode(compressedWIF))</span><br><span class="line">log.success(&apos;private_salt:&apos;+(private_salt))</span><br><span class="line"></span><br><span class="line">private_key=private_salt[2:len(private_salt)-10]</span><br><span class="line">log.success(&apos;private_key:&apos;+(private_key))</span><br><span class="line"></span><br><span class="line">运行结果:</span><br><span class="line">[+] private_salt:800a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d601325f50cf</span><br><span class="line">[+] private_key:0a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d6</span><br></pre></td></tr></table></figure>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs undefined">from binascii <span class="hljs-keyword">import</span> hexlify, unhexlify<br>from pwn <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> base58<br><br>compressedWIF=<span class="hljs-string">'Kwa6hgpEfzwcsvcTCetNjfkPtcCgVt9suVo4zjtBp7At17GAQZUi'</span><br><br>private_salt=hexlify(base58.b58decode(compressedWIF))<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">'private_salt:'</span>+(private_salt))<br><br>private_key=private_salt[<span class="hljs-number">2</span>:len(private_salt)-<span class="hljs-number">10</span>]<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">'private_key:'</span>+(private_key))<br><br>运行结果:<br>[+] private_salt:<span class="hljs-number">800</span>a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d601325f50cf<br>[+] private_key:<span class="hljs-number">0</span>a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d6<br></code></pre></td></tr></table></figure>
 <h2 id="从private-key-gt-public-key"><a href="#从private-key-gt-public-key" class="headerlink" title="从private key -&gt; public key"></a>从private key -&gt; public key</h2><p>那么到此我们就得到了我们的private_key,现在需要转化为我们的公钥了</p>
 <p>那么我们如何通过私钥转化为公钥呢?这里就不得不说椭圆曲线了</p>
 <p>椭圆曲线的具体实现流程我就在这里不用大篇幅来讲,他主要依靠于我们解决椭圆曲线离散对数问题十分困难这一点,详情可以从<a href="https://zh.wikipedia.org/wiki/%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E5%AD%A6" target="_blank" rel="noopener">wiki</a>上查看</p>
 <p>这里我们使用的是比特币使用的一条椭圆曲线,即</p>
-<p><img src="https://s1.ax1x.com/2020/04/10/GTMhOs.png" alt="GTMhOs.png"></p>
+<p><img src="https://s1.ax1x.com/2020/04/10/GTMhOs.png" srcset="/img/loading.gif" lazyload="" alt="GTMhOs.png"></p>
 <p>它由我们的secp256k1标准来定义,其中p为一个很大的素数</p>
 <p>而我们的公钥,是这条椭圆曲线上的一个点:</p>
 <p>K=k*G</p>
@@ -109,150 +270,220 @@
 <p>那么我们压缩公钥的格式就为:</p>
 <p>前缀(0x03||0x02) + K.x</p>
 <p>这里我们就来计算我们的公钥的值吧</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">from secp256k1 import PrivateKey</span><br><span class="line">from binascii import hexlify, unhexlify</span><br><span class="line">from pwn import *</span><br><span class="line">import base58</span><br><span class="line"></span><br><span class="line">compressedWIF=&apos;Kwa6hgpEfzwcsvcTCetNjfkPtcCgVt9suVo4zjtBp7At17GAQZUi&apos;</span><br><span class="line"></span><br><span class="line">private_salt=hexlify(base58.b58decode(compressedWIF))</span><br><span class="line">log.success(&apos;private_salt:&apos;+(private_salt))</span><br><span class="line"></span><br><span class="line">private_key=private_salt[2:len(private_salt)-10]</span><br><span class="line">log.success(&apos;private_key:&apos;+(private_key))</span><br><span class="line"></span><br><span class="line">privkey=PrivateKey(unhexlify(private_key))</span><br><span class="line">uncompressed_public_key = hexlify(privkey.pubkey.serialize(compressed=False)).decode(&apos;ascii&apos;)</span><br><span class="line">log.success(&apos;uncompressed public_key:&apos;+(uncompressed_public_key))</span><br><span class="line"></span><br><span class="line">compressed_public_key=hexlify(privkey.pubkey.serialize()).decode(&apos;ascii&apos;)</span><br><span class="line">log.success(&apos;compressed public_key:&apos;+(compressed_public_key))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">运行结果:</span><br><span class="line">[+] private_salt:800a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d601325f50cf</span><br><span class="line">[+] private_key:0a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d6</span><br><span class="line">[+] uncompressed public_key:041decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef13160cfafec08b79973f519843ec8f724302f454dba89224389c42e8fb3b4444148b</span><br><span class="line">[+] compressed public_key:031decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef1316</span><br></pre></td></tr></table></figure>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs undefined">from secp256k1 <span class="hljs-keyword">import</span> PrivateKey<br>from binascii <span class="hljs-keyword">import</span> hexlify, unhexlify<br>from pwn <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> base58<br><br>compressedWIF=<span class="hljs-string">'Kwa6hgpEfzwcsvcTCetNjfkPtcCgVt9suVo4zjtBp7At17GAQZUi'</span><br><br>private_salt=hexlify(base58.b58decode(compressedWIF))<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">'private_salt:'</span>+(private_salt))<br><br>private_key=private_salt[<span class="hljs-number">2</span>:len(private_salt)-<span class="hljs-number">10</span>]<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">'private_key:'</span>+(private_key))<br><br>privkey=PrivateKey(unhexlify(private_key))<br>uncompressed_public_key = hexlify(privkey.pubkey.serialize(compressed=False)).decode(<span class="hljs-string">'ascii'</span>)<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">'uncompressed public_key:'</span>+(uncompressed_public_key))<br><br>compressed_public_key=hexlify(privkey.pubkey.serialize()).decode(<span class="hljs-string">'ascii'</span>)<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">'compressed public_key:'</span>+(compressed_public_key))<br><br><br>运行结果:<br>[+] private_salt:<span class="hljs-number">800</span>a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d601325f50cf<br>[+] private_key:<span class="hljs-number">0</span>a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d6<br>[+] uncompressed public_key:<span class="hljs-number">041</span>decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef13160cfafec08b79973f519843ec8f724302f454dba89224389c42e8fb3b4444148b<br>[+] compressed public_key:<span class="hljs-number">031</span>decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef1316<br></code></pre></td></tr></table></figure>
 <h2 id="public-key-gt-public-key-hash"><a href="#public-key-gt-public-key-hash" class="headerlink" title="public_key-&gt;public_key_hash"></a>public_key-&gt;public_key_hash</h2><p>得到了我们的public_key,我们就可以来计算我们的public_key_hash了</p>
 <p>计算public_key_hash需要我们的压缩密钥,也就是我们前面计算出来的</p>
 <p>031decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef1316</p>
 <p>那么我们首先需要对他做一次hash256,并对结果做一次RIPEMD160的计算,这样得出来的值就是我们的public_key_hash了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">from secp256k1 import PrivateKey</span><br><span class="line">from binascii import hexlify, unhexlify</span><br><span class="line">from pwn import *</span><br><span class="line">import hashlib</span><br><span class="line">import base58</span><br><span class="line"></span><br><span class="line">compressedWIF=&apos;Kwa6hgpEfzwcsvcTCetNjfkPtcCgVt9suVo4zjtBp7At17GAQZUi&apos;</span><br><span class="line"></span><br><span class="line">private_salt=hexlify(base58.b58decode(compressedWIF))</span><br><span class="line">log.success(&apos;private_salt:&apos;+(private_salt))</span><br><span class="line"></span><br><span class="line">private_key=private_salt[2:len(private_salt)-10]</span><br><span class="line">log.success(&apos;private_key:&apos;+(private_key))</span><br><span class="line"></span><br><span class="line">privkey=PrivateKey(unhexlify(private_key))</span><br><span class="line">uncompressed_public_key = hexlify(privkey.pubkey.serialize(compressed=False)).decode(&apos;ascii&apos;)</span><br><span class="line">log.success(&apos;uncompressed public_key:&apos;+(uncompressed_public_key))</span><br><span class="line"></span><br><span class="line">compressed_public_key=hexlify(privkey.pubkey.serialize()).decode(&apos;ascii&apos;)</span><br><span class="line">log.success(&apos;compressed public_key:&apos;+(compressed_public_key))</span><br><span class="line"></span><br><span class="line">#first hash256</span><br><span class="line">hash256=hashlib.sha256()</span><br><span class="line">hash256.update(unhexlify(compressed_public_key))</span><br><span class="line">Cpublic_hash256=hash256.hexdigest()</span><br><span class="line">log.success(&apos;compressed public_key hash256 :&apos;+(Cpublic_hash256))</span><br><span class="line"></span><br><span class="line">#ripemd160(hash256())</span><br><span class="line">ripemd=hashlib.new(&apos;ripemd160&apos;)</span><br><span class="line">ripemd.update(unhexlify(Cpublic_hash256))</span><br><span class="line">Cpublic_ripemd=ripemd.hexdigest()</span><br><span class="line">log.success(&apos;compressed public_key hash &amp; ripmed :&apos;+(Cpublic_ripemd))</span><br><span class="line"></span><br><span class="line">运行结果:</span><br><span class="line">[+] private_salt:800a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d601325f50cf</span><br><span class="line">[+] private_key:0a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d6</span><br><span class="line">[+] uncompressed public_key:041decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef13160cfafec08b79973f519843ec8f724302f454dba89224389c42e8fb3b4444148b</span><br><span class="line">[+] compressed public_key:031decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef1316</span><br><span class="line">[+] compressed public_key hash256 :08fdc7cea4b50c4280e33bfe7ba7a0d19d8235cbc94a78e1e977bdd13ffbc5db</span><br><span class="line">[+] compressed public_key hash &amp; ripmed :ff452ce82e7b9e157e0f7abd188d75ab698c74cf</span><br></pre></td></tr></table></figure>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs undefined">from secp256k1 <span class="hljs-keyword">import</span> PrivateKey<br>from binascii <span class="hljs-keyword">import</span> hexlify, unhexlify<br>from pwn <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> hashlib<br><span class="hljs-keyword">import</span> base58<br><br>compressedWIF=<span class="hljs-string">'Kwa6hgpEfzwcsvcTCetNjfkPtcCgVt9suVo4zjtBp7At17GAQZUi'</span><br><br>private_salt=hexlify(base58.b58decode(compressedWIF))<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">'private_salt:'</span>+(private_salt))<br><br>private_key=private_salt[<span class="hljs-number">2</span>:len(private_salt)-<span class="hljs-number">10</span>]<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">'private_key:'</span>+(private_key))<br><br>privkey=PrivateKey(unhexlify(private_key))<br>uncompressed_public_key = hexlify(privkey.pubkey.serialize(compressed=False)).decode(<span class="hljs-string">'ascii'</span>)<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">'uncompressed public_key:'</span>+(uncompressed_public_key))<br><br>compressed_public_key=hexlify(privkey.pubkey.serialize()).decode(<span class="hljs-string">'ascii'</span>)<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">'compressed public_key:'</span>+(compressed_public_key))<br><br>#first hash256<br>hash256=hashlib.sha256()<br>hash256.update(unhexlify(compressed_public_key))<br>Cpublic_hash256=hash256.hexdigest()<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">'compressed public_key hash256 :'</span>+(Cpublic_hash256))<br><br>#ripemd160(hash256())<br>ripemd=hashlib.new(<span class="hljs-string">'ripemd160'</span>)<br>ripemd.update(unhexlify(Cpublic_hash256))<br>Cpublic_ripemd=ripemd.hexdigest()<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">'compressed public_key hash &amp; ripmed :'</span>+(Cpublic_ripemd))<br><br>运行结果:<br>[+] private_salt:<span class="hljs-number">800</span>a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d601325f50cf<br>[+] private_key:<span class="hljs-number">0</span>a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d6<br>[+] uncompressed public_key:<span class="hljs-number">041</span>decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef13160cfafec08b79973f519843ec8f724302f454dba89224389c42e8fb3b4444148b<br>[+] compressed public_key:<span class="hljs-number">031</span>decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef1316<br>[+] compressed public_key hash256 :<span class="hljs-number">08</span>fdc7cea4b50c4280e33bfe7ba7a0d19d8235cbc94a78e1e977bdd13ffbc5db<br>[+] compressed public_key hash &amp; ripmed :ff452ce82e7b9e157e0f7abd188d75ab698c74cf<br></code></pre></td></tr></table></figure>
 <h2 id="从public-key-hash-gt-Address"><a href="#从public-key-hash-gt-Address" class="headerlink" title="从public_key_hash-&gt;Address"></a>从public_key_hash-&gt;Address</h2><p>有了我们的哈希值,现在就是最后一步了,即计算我们的地址,我们将我们的哈希值记为H</p>
 <p>下面就先给我们的H加一个前缀0x00,然后对这个结果做两次sha256的运算</p>
 <p>取这个运算结果的前8个字节作为校验码，最后得到的格式即为：</p>
 <p>0x00 + H +校验码</p>
 <p>此时再对该校验码做一个base58的计算即可得出我们的地址啦</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">from secp256k1 import PrivateKey </span><br><span class="line">from binascii import hexlify, unhexlify</span><br><span class="line">from pwn import *</span><br><span class="line">import hashlib</span><br><span class="line">import base58</span><br><span class="line"></span><br><span class="line">compressedWIF=&apos;Kwa6hgpEfzwcsvcTCetNjfkPtcCgVt9suVo4zjtBp7At17GAQZUi&apos;</span><br><span class="line"></span><br><span class="line">private_salt=hexlify(base58.b58decode(compressedWIF))</span><br><span class="line">log.success(&apos;private_salt:&apos;+(private_salt))</span><br><span class="line"></span><br><span class="line">private_key=private_salt[2:len(private_salt)-10]</span><br><span class="line">log.success(&apos;private_key:&apos;+(private_key))</span><br><span class="line"></span><br><span class="line">privkey=PrivateKey(unhexlify(private_key))</span><br><span class="line">uncompressed_public_key = hexlify(privkey.pubkey.serialize(compressed=False)).decode(&apos;ascii&apos;)</span><br><span class="line">log.success(&apos;uncompressed public_key:&apos;+(uncompressed_public_key))</span><br><span class="line"></span><br><span class="line">compressed_public_key=hexlify(privkey.pubkey.serialize()).decode(&apos;ascii&apos;)</span><br><span class="line">log.success(&apos;compressed public_key:&apos;+(compressed_public_key))</span><br><span class="line"></span><br><span class="line">#first hash256</span><br><span class="line">hash256=hashlib.sha256()</span><br><span class="line">hash256.update(unhexlify(compressed_public_key))</span><br><span class="line">Cpublic_hash256=hash256.hexdigest()</span><br><span class="line">log.success(&apos;compressed public_key hash256 :&apos;+(Cpublic_hash256))</span><br><span class="line"></span><br><span class="line">#ripemd160(hash256())</span><br><span class="line">ripemd=hashlib.new(&apos;ripemd160&apos;)</span><br><span class="line">ripemd.update(unhexlify(Cpublic_hash256))</span><br><span class="line">Cpublic_ripemd=ripemd.hexdigest()</span><br><span class="line">log.success(&apos;compressed public_key hash &amp; ripmed :&apos;+(Cpublic_ripemd))</span><br><span class="line"></span><br><span class="line">#hash256</span><br><span class="line">Cpublic_ripemd=b&apos;\x00&apos;+unhexlify(Cpublic_ripemd)</span><br><span class="line">log.success(&apos;add &quot;\x00&quot;: &apos;+hexlify(Cpublic_ripemd))</span><br><span class="line">hash256=hashlib.sha256()</span><br><span class="line">hash256.update(Cpublic_ripemd)</span><br><span class="line">has1=hash256.hexdigest()</span><br><span class="line">log.success(&apos;hash256 1st :&apos;+(has1))</span><br><span class="line"></span><br><span class="line">#hash256</span><br><span class="line">hash256=hashlib.sha256()</span><br><span class="line">hash256.update(unhexlify(has1))</span><br><span class="line">has2=hash256.hexdigest()</span><br><span class="line">log.success(&apos;hash256 2nd :&apos;+has2)</span><br><span class="line"></span><br><span class="line">Cpublic_ripemd=Cpublic_ripemd+unhexlify(has2[:8])</span><br><span class="line">log.success(&apos;modified value : &apos;+hexlify(Cpublic_ripemd))</span><br><span class="line"></span><br><span class="line">address=base58.b58encode(Cpublic_ripemd)</span><br><span class="line">log.success(&apos;Address : &apos;+(address))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">运行结果:</span><br><span class="line">[+] private_salt:800a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d601325f50cf</span><br><span class="line">[+] private_key:0a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d6</span><br><span class="line">[+] uncompressed public_key:041decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef13160cfafec08b79973f519843ec8f724302f454dba89224389c42e8fb3b4444148b</span><br><span class="line">[+] compressed public_key:031decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef1316</span><br><span class="line">[+] compressed public_key hash256 :08fdc7cea4b50c4280e33bfe7ba7a0d19d8235cbc94a78e1e977bdd13ffbc5db</span><br><span class="line">[+] compressed public_key hash &amp; ripmed :ff452ce82e7b9e157e0f7abd188d75ab698c74cf</span><br><span class="line">[+] add &quot;\x00&quot;: 00ff452ce82e7b9e157e0f7abd188d75ab698c74cf</span><br><span class="line">[+] hash256 1st :ecfc308eb6cb6f444711fe9d16d35713e46a2dda0c2185e550c6fee0a9587e96</span><br><span class="line">[+] hash256 2nd :597599af8a17b0e24787ba83210b8636a7abe91814eb6b24568d09f3c324fa19</span><br><span class="line">[+] modified value : 00ff452ce82e7b9e157e0f7abd188d75ab698c74cf597599af</span><br><span class="line">[+] Address : 1QGkBJve12oY6CQTKfvoTZv26YvUi6ZL4e</span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs undefined">from secp256k1 import PrivateKey <br>from binascii import hexlify, unhexlify<br>from pwn import *<br>import hashlib<br>import base58<br><br>compressedWIF='Kwa6hgpEfzwcsvcTCetNjfkPtcCgVt9suVo4zjtBp7At17GAQZUi'<br><br>private_salt=hexlify(base58.b58decode(compressedWIF))<br><span class="hljs-section">log.success('private_salt:'+(private_salt))</span><br><br>private_key=private_salt[2:len(private_salt)-10]<br><span class="hljs-section">log.success('private_key:'+(private_key))</span><br><br>privkey=PrivateKey(unhexlify(private_key))<br>uncompressed_public_key = hexlify(privkey.pubkey.serialize(compressed=False)).decode('ascii')<br>log.success('uncompressed public_key:'+(uncompressed_public_key))<br><br>compressed_public_key=hexlify(privkey.pubkey.serialize()).decode('ascii')<br>log.success('compressed public_key:'+(compressed_public_key))<br><br><span class="hljs-comment">#first hash256</span><br>hash256=hashlib.sha256()<br>hash256.update(unhexlify(compressed_public_key))<br>Cpublic_hash256=hash256.hexdigest()<br>log.success('compressed public_key hash256 :'+(Cpublic_hash256))<br><br><span class="hljs-comment">#ripemd160(hash256())</span><br>ripemd=hashlib.new('ripemd160')<br>ripemd.update(unhexlify(Cpublic_hash256))<br>Cpublic_ripemd=ripemd.hexdigest()<br>log.success('compressed public_key hash &amp; ripmed :'+(Cpublic_ripemd))<br><br><span class="hljs-comment">#hash256</span><br>Cpublic_ripemd=b'\x00'+unhexlify(Cpublic_ripemd)<br>log.success('add <span class="hljs-string">"\x00"</span>: '+hexlify(Cpublic_ripemd))<br>hash256=hashlib.sha256()<br>hash256.update(Cpublic_ripemd)<br>has1=hash256.hexdigest()<br>log.success('hash256 1st :'+(has1))<br><br><span class="hljs-comment">#hash256</span><br>hash256=hashlib.sha256()<br>hash256.update(unhexlify(has1))<br>has2=hash256.hexdigest()<br>log.success('hash256 2nd :'+has2)<br><br>Cpublic_ripemd=Cpublic_ripemd+unhexlify(has2[:8])<br>log.success('modified value : '+hexlify(Cpublic_ripemd))<br><br>address=base58.b58encode(Cpublic_ripemd)<br>log.success('Address : '+(address))<br><br><br><span class="hljs-section">运行结果:</span><br>[+] private_salt:800a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d601325f50cf<br>[+] private_key:0a7d0d1b60ebe37292229505ca8f36a9ab78bee9ce03a2e43ebfd8fb905947d6<br>[+] uncompressed public_key:041decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef13160cfafec08b79973f519843ec8f724302f454dba89224389c42e8fb3b4444148b<br>[+] compressed public_key:031decbd8ff0c1b8e328bab5ea9794ebcffbcba7f8e8c1e604a193bea543ef1316<br>[+] compressed public_key hash256 :08fdc7cea4b50c4280e33bfe7ba7a0d19d8235cbc94a78e1e977bdd13ffbc5db<br>[+] compressed public_key hash &amp; ripmed :ff452ce82e7b9e157e0f7abd188d75ab698c74cf<br>[+] add <span class="hljs-string">"\x00"</span>: 00ff452ce82e7b9e157e0f7abd188d75ab698c74cf<br>[+] hash256 1st :ecfc308eb6cb6f444711fe9d16d35713e46a2dda0c2185e550c6fee0a9587e96<br>[+] hash256 2nd :597599af8a17b0e24787ba83210b8636a7abe91814eb6b24568d09f3c324fa19<br>[+] modified value : 00ff452ce82e7b9e157e0f7abd188d75ab698c74cf597599af<br>[+] Address : 1QGkBJve12oY6CQTKfvoTZv26YvUi6ZL4e<br></code></pre></td></tr></table></figure>
 <p>至此我们的计算就结束啦,:)</p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/16/随记/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">随记</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/02/25/DIR-859-RCE分析-CVE-2019–17621/">
+                        <span class="hidden-mobile">DIR_859_RCE分析(CVE-2019–17621复现)</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
     </div>
-    <footer class="article-footer">
-      <a data-url="https://nightRainy.github.io/2020/04/10/从比特币WIFC私钥到地址/" data-id="ckmk33067000k7gjdh3z017tx" class="article-share-link">
-        Share
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-      
-    </footer>
+    
 
-  </div>
-
-  
-  
-<nav class="article-nav">
-  
-  <a href="/2021/01/16/随记/" class="article-nav-link">
-    <strong class="article-nav-caption">Newer</strong>
-    <div class="article-nav-title">
-      
-      随记
-      
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </a>
-  
-  
-  <a href="/2020/02/25/DIR-859-RCE分析-CVE-2019–17621/" class="article-nav-link">
-    <strong class="article-nav-caption">Older</strong>
-    <div class="article-nav-title">DIR_859_RCE分析(CVE-2019–17621复现)</div>
-  </a>
-  
-</nav>
-
-  
-
-  
-  
-  
-  
-
-</article>
-</section>
-    <footer class="footer">
-  <div class="outer">
-    <div class="float-right">
-      <ul class="list-inline">
-  
-  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
-  
-  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
-  
-</ul>
-    </div>
-    <ul class="list-inline">
-      <li>知世の小屋 &copy; 2021</li>
-      
-      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
-    </ul>
   </div>
-</footer>
+</div>
+    
+
+    
   </main>
-  <aside class="sidebar">
-    <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-  <div class="logo">
-    <a href="/"><img src="/images/hexo.svg" alt="知世の小屋"></a>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
   
-  <ul class="nav nav-main">
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/">主页</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">归档</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/gallery">相册</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/about">关于</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link nav-item-search" title="Search">
-        <i class="fe fe-search"></i>
-        Search
-      </a>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      <div class="totop" id="totop">
-  <i class="fe fe-rocket"></i>
-</div>
-    </li>
-    <li class="nav-item">
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css">
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<script src="/js/debouncer.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
+
+<!-- Plugins -->
+
+
+  
+    <script src="/js/img-lazyload.js"></script>
+  
+
+
+
+  
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js"></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
       
-      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
-        <i class="fe fe-feed"></i>
-      </a>
+      typing(title)
       
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
-</div>
-</div>
-  </aside>
-  <script src="/js/jquery-2.0.3.min.js"></script>
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-<script src="/js/lazyload.min.js"></script>
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    })(window, document);
+  </script>
 
 
 
+  <script src="/js/local-search.js"></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
 
 
-<script src="/js/ocean.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script src="/js/boot.js"></script>
+
+
 </body>
-
 </html>

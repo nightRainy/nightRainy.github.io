@@ -1,87 +1,248 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="" data-default-color-scheme=&#34;auto&#34;>
+
+
 
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  
-  
+  <meta name="theme-color" content="#2f4154">
   <meta name="description" content="my blogs">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>
-    ret2_dl_runtime_resolve |
+  <title>ret2_dl_runtime_resolve - 知世の小屋</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/hint/hint.min.css">
+
+  
     
-    知世の小屋</title>
+    
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css">
+    
   
-  <link rel="shortcut icon" href="/favicon.ico">
+
   
-  <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
   
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-  
-  <script src="/js/pace.min.js"></script>
-</head></html>
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
+</head>
+
 
 <body>
-  <main class="content">
-    <section class="outer">
-  <article id="post-ret2-dl-runtime-resolve" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
 
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-<h1 class="article-title" itemprop="name">
-  ret2_dl_runtime_resolve
-</h1>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/07/17/ret2-dl-runtime-resolve/" class="article-date">
-  <time datetime="2019-07-17T15:46:55.000Z" itemprop="datePublished">2019-07-17</time>
-</a>
-      
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Startseite
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archiv
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Kategorie
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Etiketten
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Über mich
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    
+  </div>
+</nav>
 
-    
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="ret2_dl_runtime_resolve">
+              
+            </span>
 
-    <div class="article-entry" itemprop="articleBody">
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-07-17 23:46" pubdate="">
+        July 17, 2019 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
       
       
+      25
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-      <blockquote>
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ret2_dl_runtime_resolve</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
 <p>遇到无法leak的题目的时候..日常roputils一把梭..这次就打算从原理学习一下”Return_to_dl_resolve“这项技术。可能写的会有些杂乱 </p>
 </blockquote>
-<h1 id="借鉴和参考学习的师傅们的文章"><a href="#借鉴和参考学习的师傅们的文章" class="headerlink" title="借鉴和参考学习的师傅们的文章"></a>借鉴和参考学习的师傅们的文章</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">https://veritas501.space/2017/10/07/ret2dl_resolve%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</span><br><span class="line">http://pwn4.fun/2016/11/09/Return-to-dl-resolve/</span><br><span class="line">https://www.hirworld.xyz/posts/3bfd0449/</span><br><span class="line">https://www.anquanke.com/post/id/177450#h3-7</span><br><span class="line">http://www.reversing.win/2017/08/29/%E4%BA%8C%E6%A0%88%E6%BA%A2%E5%87%BA%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8-ret2resolve/</span><br><span class="line">https://xz.aliyun.com/t/5111#toc-2</span><br></pre></td></tr></table></figure>
+<h1 id="借鉴和参考学习的师傅们的文章"><a href="#借鉴和参考学习的师傅们的文章" class="headerlink" title="借鉴和参考学习的师傅们的文章"></a>借鉴和参考学习的师傅们的文章</h1><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs undefined">https://veritas<span class="hljs-number">501</span>.space/<span class="hljs-number">2017</span>/<span class="hljs-number">10</span>/<span class="hljs-number">07</span>/<span class="hljs-keyword">ret</span><span class="hljs-number">2</span>dl_resolve<span class="hljs-symbol">%E5</span><span class="hljs-symbol">%AD</span><span class="hljs-symbol">%A6</span><span class="hljs-symbol">%E4</span><span class="hljs-symbol">%B9</span><span class="hljs-symbol">%A0</span><span class="hljs-symbol">%E7</span><span class="hljs-symbol">%AC</span><span class="hljs-symbol">%94</span><span class="hljs-symbol">%E8</span><span class="hljs-symbol">%AE</span><span class="hljs-symbol">%B0</span>/<br>http://pwn<span class="hljs-number">4</span>.fun/<span class="hljs-number">2016</span>/<span class="hljs-number">11</span>/<span class="hljs-number">09</span>/Return-<span class="hljs-keyword">to</span>-dl-resolve/<br>https://www.hirworld.xyz/posts/<span class="hljs-number">3</span>bfd<span class="hljs-number">0449</span>/<br>https://www.anquanke.com/post/id/<span class="hljs-number">177450</span>#h<span class="hljs-number">3</span><span class="hljs-number">-7</span><br>http://www.reversing.win/<span class="hljs-number">2017</span>/<span class="hljs-number">08</span>/<span class="hljs-number">29</span>/<span class="hljs-symbol">%E4</span><span class="hljs-symbol">%BA</span><span class="hljs-symbol">%8</span>C<span class="hljs-symbol">%E6</span><span class="hljs-symbol">%A0</span><span class="hljs-symbol">%88</span><span class="hljs-symbol">%E6</span><span class="hljs-symbol">%BA</span><span class="hljs-symbol">%A2</span><span class="hljs-symbol">%E5</span><span class="hljs-symbol">%87</span><span class="hljs-symbol">%BA</span><span class="hljs-symbol">%E6</span><span class="hljs-symbol">%BC</span><span class="hljs-symbol">%8</span>F<span class="hljs-symbol">%E6</span><span class="hljs-symbol">%B4</span><span class="hljs-symbol">%9</span>E<span class="hljs-symbol">%E5</span><span class="hljs-symbol">%88</span><span class="hljs-symbol">%A9</span><span class="hljs-symbol">%E7</span><span class="hljs-symbol">%94</span><span class="hljs-symbol">%A8-ret2resolve</span>/<br>https://xz.aliyun.com/t/<span class="hljs-number">5111</span>#toc<span class="hljs-number">-2</span><br></code></pre></td></tr></table></figure>
 <p>看了这么多才看懂。。实在是tcl…</p>
 <h1 id="原理部分"><a href="#原理部分" class="headerlink" title="原理部分"></a>原理部分</h1><p>ret2_dl技术利用了函数的延迟绑定机制</p>
 <h2 id="动态链接"><a href="#动态链接" class="headerlink" title="动态链接"></a>动态链接</h2><p>ELF将GOT表拆成了两个表，一个是“.got”（保存变量）,”.got.plt”（保存函数）<br>而.got.plt表的前三项为：</p>
 <ol>
 <li><p>.dynamic 段的地址</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">.dynamic段：</span><br><span class="line">Elf32_Dyn由一个类型值加上一个附加的数值或指针。</span><br><span class="line">/*typedef struct &#123;</span><br><span class="line">    Elf32_Sword d_tag;</span><br><span class="line">    union &#123;</span><br><span class="line">        Elf32_Word d_val;</span><br><span class="line">        Elf32_Addr d_ptr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; Elf32_Dyn*/</span><br><span class="line">DT_SYMTAB，动态链接符号表的地址，d_ptr表示.dynsym的地址</span><br><span class="line">DT_STRTAB，动态链接字符串表地址，d_ptr表示.dynstr的地址</span><br><span class="line">DT_HASH，动态链接哈希表大小，d_val表示大小</span><br><span class="line">DT_SONAME，本共享对象的SO-NAME</span><br><span class="line">DT_RPATH，动态链接共享对象搜索路径</span><br><span class="line">DT_INIT，初始化代码地址</span><br><span class="line">DT_FINIT，结束代码地址</span><br><span class="line">DT_NEED，依赖的共享对象文件，d_ptr表示依赖的共享对象文件名</span><br><span class="line">DT_REL，动态链接重定位表地址</span><br><span class="line">DT_RELA，</span><br><span class="line">DT_RELENT，动态重读位表入口数量</span><br><span class="line">DT_RELANET</span><br></pre></td></tr></table></figure>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs undefined">.dynamic段：<br><span class="hljs-type">Elf32_Dyn</span>由一个类型值加上一个附加的数值或指针。<br>/*typedef struct &#123;<br>    <span class="hljs-type">Elf32_Sword</span> d_tag;<br>    union &#123;<br>        <span class="hljs-type">Elf32_Word</span> d_val;<br>        <span class="hljs-type">Elf32_Addr</span> d_ptr;<br>    &#125;<br>&#125; <span class="hljs-type">Elf32_Dyn</span>*/<br><span class="hljs-type">DT_SYMTAB</span>，动态链接符号表的地址，d_ptr表示.dynsym的地址<br><span class="hljs-type">DT_STRTAB</span>，动态链接字符串表地址，d_ptr表示.dynstr的地址<br><span class="hljs-type">DT_HASH</span>，动态链接哈希表大小，d_val表示大小<br><span class="hljs-type">DT_SONAME</span>，本共享对象的<span class="hljs-type">SO</span>-<span class="hljs-type">NAME</span><br><span class="hljs-type">DT_RPATH</span>，动态链接共享对象搜索路径<br><span class="hljs-type">DT_INIT</span>，初始化代码地址<br><span class="hljs-type">DT_FINIT</span>，结束代码地址<br><span class="hljs-type">DT_NEED</span>，依赖的共享对象文件，d_ptr表示依赖的共享对象文件名<br><span class="hljs-type">DT_REL</span>，动态链接重定位表地址<br><span class="hljs-type">DT_RELA</span>，<br><span class="hljs-type">DT_RELENT</span>，动态重读位表入口数量<br><span class="hljs-type">DT_RELANET</span><br></code></pre></td></tr></table></figure>
 </li>
 <li><p>本模块的 ID</p>
 </li>
 <li><p>_dl_runtime_resolve()的地址</p>
 </li>
 </ol>
-<p>我们可以查看任意程序的节区：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">Section Headers:</span><br><span class="line">  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al</span><br><span class="line">  [ 0]                   NULL            00000000 000000 000000 00      0   0  0</span><br><span class="line">  [ 1] .interp           PROGBITS        08048154 000154 000013 00   A  0   0  1</span><br><span class="line">  [ 2] .note.ABI-tag     NOTE            08048168 000168 000020 00   A  0   0  4</span><br><span class="line">  [ 3] .note.gnu.build-i NOTE            08048188 000188 000024 00   A  0   0  4</span><br><span class="line">  [ 4] .gnu.hash         GNU_HASH        080481ac 0001ac 00002c 04   A  5   0  4</span><br><span class="line">  [ 5] .dynsym           DYNSYM          080481d8 0001d8 0000a0 10   A  6   1  4</span><br><span class="line">  [ 6] .dynstr           STRTAB          08048278 000278 00006b 00   A  0   0  1</span><br><span class="line">  [ 7] .gnu.version      VERSYM          080482e4 0002e4 000014 02   A  5   0  2</span><br><span class="line">  [ 8] .gnu.version_r    VERNEED         080482f8 0002f8 000020 00   A  6   1  4</span><br><span class="line">  [ 9] .rel.dyn          REL             08048318 000318 000018 08   A  5   0  4</span><br><span class="line">  [10] .rel.plt          REL             08048330 000330 000028 08  AI  5  24  4</span><br><span class="line">  [11] .init             PROGBITS        08048358 000358 000023 00  AX  0   0  4</span><br><span class="line">  [12] .plt              PROGBITS        08048380 000380 000060 04  AX  0   0 16</span><br><span class="line">  [13] .plt.got          PROGBITS        080483e0 0003e0 000008 00  AX  0   0  8</span><br><span class="line">  [14] .text             PROGBITS        080483f0 0003f0 000232 00  AX  0   0 16</span><br><span class="line">  [15] .fini             PROGBITS        08048624 000624 000014 00  AX  0   0  4</span><br><span class="line">  [16] .rodata           PROGBITS        08048638 000638 000008 00   A  0   0  4</span><br><span class="line">  [17] .eh_frame_hdr     PROGBITS        08048640 000640 000034 00   A  0   0  4</span><br><span class="line">  [18] .eh_frame         PROGBITS        08048674 000674 0000f4 00   A  0   0  4</span><br><span class="line">  [19] .init_array       INIT_ARRAY      08049f08 000f08 000004 00  WA  0   0  4</span><br><span class="line">  [20] .fini_array       FINI_ARRAY      08049f0c 000f0c 000004 00  WA  0   0  4</span><br><span class="line">  [21] .jcr              PROGBITS        08049f10 000f10 000004 00  WA  0   0  4</span><br><span class="line">  [22] .dynamic          DYNAMIC         08049f14 000f14 0000e8 08  WA  6   0  4</span><br><span class="line">  [23] .got              PROGBITS        08049ffc 000ffc 000004 04  WA  0   0  4</span><br><span class="line">  [24] .got.plt          PROGBITS        0804a000 001000 000020 04  WA  0   0  4</span><br><span class="line">  [25] .data             PROGBITS        0804a020 001020 000008 00  WA  0   0  4</span><br><span class="line">  [26] .bss              NOBITS          0804a040 001028 00000c 00  WA  0   0 32</span><br><span class="line">  [27] .comment          PROGBITS        00000000 001028 000035 01  MS  0   0  1</span><br><span class="line">  [28] .shstrtab         STRTAB          00000000 001798 00010a 00      0   0  1</span><br><span class="line">  [29] .symtab           SYMTAB          00000000 001060 0004b0 10     30  47  4</span><br><span class="line">  [30] .strtab           STRTAB          00000000 001510 000288 00      0   0  1</span><br></pre></td></tr></table></figure></p>
+<p>我们可以查看任意程序的节区：<br><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs undefined">Section Headers:<br>  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al<br>  [ 0]                   NULL           <span class="hljs-number"> 00000000 </span>000000<span class="hljs-number"> 000000 </span>00     <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 0<br>  [ 1] .interp           PROGBITS       <span class="hljs-number"> 08048154 </span>000154<span class="hljs-number"> 000013 </span>00   A <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 1<br>  [ 2] .note.ABI-tag     NOTE           <span class="hljs-number"> 08048168 </span>000168<span class="hljs-number"> 000020 </span>00   A <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [ 3] .note.gnu.build-i NOTE           <span class="hljs-number"> 08048188 </span>000188<span class="hljs-number"> 000024 </span>00   A <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [ 4] .gnu.hash         GNU_HASH        080481ac 0001ac 00002c<span class="hljs-number"> 04 </span>  A <span class="hljs-number"> 5 </span> <span class="hljs-number"> 0 </span> 4<br>  [ 5] .dynsym           DYNSYM          080481d8 0001d8 0000a0<span class="hljs-number"> 10 </span>  A <span class="hljs-number"> 6 </span> <span class="hljs-number"> 1 </span> 4<br>  [ 6] .dynstr           STRTAB         <span class="hljs-number"> 08048278 </span>000278 00006b<span class="hljs-number"> 00 </span>  A <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 1<br>  [ 7] .gnu.version      VERSYM          080482e4 0002e4<span class="hljs-number"> 000014 </span>02   A <span class="hljs-number"> 5 </span> <span class="hljs-number"> 0 </span> 2<br>  [ 8] .gnu.version_r    VERNEED         080482f8 0002f8<span class="hljs-number"> 000020 </span>00   A <span class="hljs-number"> 6 </span> <span class="hljs-number"> 1 </span> 4<br>  [ 9] .rel.dyn          REL            <span class="hljs-number"> 08048318 </span>000318<span class="hljs-number"> 000018 </span>08   A <span class="hljs-number"> 5 </span> <span class="hljs-number"> 0 </span> 4<br>  [10] .rel.plt          REL            <span class="hljs-number"> 08048330 </span>000330<span class="hljs-number"> 000028 </span>08  AI <span class="hljs-number"> 5 </span><span class="hljs-number"> 24 </span> 4<br>  [11] .init             PROGBITS       <span class="hljs-number"> 08048358 </span>000358<span class="hljs-number"> 000023 </span>00  AX <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [12] .plt              PROGBITS       <span class="hljs-number"> 08048380 </span>000380<span class="hljs-number"> 000060 </span>04  AX <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span>16<br>  [13] .plt.got          PROGBITS        080483e0 0003e0<span class="hljs-number"> 000008 </span>00  AX <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 8<br>  [14] .text             PROGBITS        080483f0 0003f0<span class="hljs-number"> 000232 </span>00  AX <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span>16<br>  [15] .fini             PROGBITS       <span class="hljs-number"> 08048624 </span>000624<span class="hljs-number"> 000014 </span>00  AX <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [16] .rodata           PROGBITS       <span class="hljs-number"> 08048638 </span>000638<span class="hljs-number"> 000008 </span>00   A <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [17] .eh_frame_hdr     PROGBITS       <span class="hljs-number"> 08048640 </span>000640<span class="hljs-number"> 000034 </span>00   A <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [18] .eh_frame         PROGBITS       <span class="hljs-number"> 08048674 </span>000674 0000f4<span class="hljs-number"> 00 </span>  A <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [19] .init_array       INIT_ARRAY      08049f08 000f08<span class="hljs-number"> 000004 </span>00  WA <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [20] .fini_array       FINI_ARRAY      08049f0c 000f0c<span class="hljs-number"> 000004 </span>00  WA <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [21] .jcr              PROGBITS        08049f10 000f10<span class="hljs-number"> 000004 </span>00  WA <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [22] .dynamic          DYNAMIC         08049f14 000f14 0000e8<span class="hljs-number"> 08 </span> WA <span class="hljs-number"> 6 </span> <span class="hljs-number"> 0 </span> 4<br>  [23] .got              PROGBITS        08049ffc 000ffc<span class="hljs-number"> 000004 </span>04  WA <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [24] .got.plt          PROGBITS        0804a000<span class="hljs-number"> 001000 </span>000020<span class="hljs-number"> 04 </span> WA <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [25] .data             PROGBITS        0804a020<span class="hljs-number"> 001020 </span>000008<span class="hljs-number"> 00 </span> WA <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [26] .bss              NOBITS          0804a040<span class="hljs-number"> 001028 </span>00000c<span class="hljs-number"> 00 </span> WA <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span>32<br>  [27] .comment          PROGBITS       <span class="hljs-number"> 00000000 </span>001028<span class="hljs-number"> 000035 </span>01  MS <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 1<br>  [28] .shstrtab         STRTAB         <span class="hljs-number"> 00000000 </span>001798 00010a<span class="hljs-number"> 00 </span>    <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 1<br>  [29] .symtab           SYMTAB         <span class="hljs-number"> 00000000 </span>001060 0004b0<span class="hljs-number"> 10 </span>   <span class="hljs-number"> 30 </span><span class="hljs-number"> 47 </span> 4<br>  [30] .strtab           STRTAB         <span class="hljs-number"> 00000000 </span>001510<span class="hljs-number"> 000288 </span>00     <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 1<br></code></pre></td></tr></table></figure></p>
 <ul>
-<li>其中.rel.plt是用于函数重定位的<br>其结构体定义如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">typedef struct &#123;</span><br><span class="line">    Elf32_Addr r_offset;    // 对于可执行文件，此值为虚拟地址</span><br><span class="line">    Elf32_Word r_info;      // 符号表索引</span><br><span class="line">&#125; Elf32_Rel;</span><br><span class="line"></span><br><span class="line">#define ELF32_R_SYM(info) ((info)&gt;&gt;8)</span><br><span class="line">#define ELF32_R_TYPE(info) ((unsigned char)(info))</span><br><span class="line">#define ELF32_R_INFO(sym, type) (((sym)&lt;&lt;8)+(unsigned char)(type))</span><br></pre></td></tr></table></figure>
+<li>其中.rel.plt是用于函数重定位的<br>其结构体定义如下：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span><br>    Elf32_Addr r_offset;    <span class="hljs-comment">// 对于可执行文件，此值为虚拟地址</span><br>    Elf32_Word r_info;      <span class="hljs-comment">// 符号表索引</span><br>&#125; Elf32_Rel;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ELF32_R_SYM(info) ((info)&gt;&gt;8)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ELF32_R_TYPE(info) ((unsigned char)(info))</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ELF32_R_INFO(sym, type) (((sym)&lt;&lt;8)+(unsigned char)(type))</span><br></code></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>而在最前面我们也提及过got.plt中保存了函数偏移，而这个正好对应的是Rel结构体中的r_offset，而LF32_R_TYPE=7,这也是R_386_JUMP_SLOT的值</p>
 <ul>
 <li><p>.dynsym节包含了动态链接符号表<br>其结构体定义如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typedef struct</span><br><span class="line">&#123;</span><br><span class="line">    Elf32_Word st_name;     // Symbol name(string tbl index)</span><br><span class="line">    Elf32_Addr st_value;    // Symbol value</span><br><span class="line">    Elf32_Word st_size;     // Symbol size</span><br><span class="line">    unsigned char st_info;  // Symbol type and binding</span><br><span class="line">    unsigned char st_other; // Symbol visibility under glibc&gt;=2.2</span><br><span class="line">    Elf32_Section st_shndx; // Section index</span><br><span class="line">&#125; Elf32_Sym;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span><br>&#123;</span><br>    Elf32_Word st_name;     <span class="hljs-comment">// Symbol name(string tbl index)</span><br>    Elf32_Addr st_value;    <span class="hljs-comment">// Symbol value</span><br>    Elf32_Word st_size;     <span class="hljs-comment">// Symbol size</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> st_info;  <span class="hljs-comment">// Symbol type and binding</span><br>    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> st_other; <span class="hljs-comment">// Symbol visibility under glibc&gt;=2.2</span><br>    Elf32_Section st_shndx; <span class="hljs-comment">// Section index</span><br>&#125; Elf32_Sym;<br></code></pre></td></tr></table></figure>
 </li>
 <li><p>.dynstr节则包含了字符串,其以\x00为开头结尾<br>Elf32_Sym[num]-&gt;st_name=.dynsym + Elf32_Sym_size * num<br>而字符串的地址就在:Elf32_Sym[num]-&gt;st_name+.dynstr的地方</p>
 </li>
@@ -94,9 +255,9 @@
 <li>PLT[0]将link_map压入栈中</li>
 <li>调用_dl_runtime_resolve(link_map, reloc_arg)函数,将函数的绝对地址写入GOT表中,从而完成调用</li>
 </ol>
-<p>这其中还调用了_dl_fixup函数,这里引用师傅的函数解释<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">_dl_fixup(struct link_map *l, ElfW(Word) reloc_arg)</span><br><span class="line">&#123;</span><br><span class="line">    // 首先通过参数reloc_arg计算重定位入口，这里的JMPREL即.rel.plt，reloc_offset即reloc_arg</span><br><span class="line">    const PLTREL *const reloc = (const void *) (D_PTR (l, l_info[DT_JMPREL]) + reloc_offset);</span><br><span class="line">    // 然后通过reloc-&gt;r_info找到.dynsym中对应的条目</span><br><span class="line">    const ElfW(Sym) *sym = &amp;symtab[ELFW(R_SYM) (reloc-&gt;r_info)];</span><br><span class="line">    // 这里还会检查reloc-&gt;r_info的最低位是不是R_386_JUMP_SLOT=7</span><br><span class="line">    assert (ELFW(R_TYPE)(reloc-&gt;r_info) == ELF_MACHINE_JMP_SLOT);</span><br><span class="line">    // 接着通过strtab+sym-&gt;st_name找到符号表字符串，result为libc基地址</span><br><span class="line">    result = _dl_lookup_symbol_x (strtab + sym-&gt;st_name, l, &amp;sym, l-&gt;l_scope, version, ELF_RTYPE_CLASS_PLT, flags, NULL);</span><br><span class="line">    // value为libc基址加上要解析函数的偏移地址，也即实际地址</span><br><span class="line">    value = DL_FIXUP_MAKE_VALUE (result, sym ? (LOOKUP_VALUE_ADDRESS (result) + sym-&gt;st_value) : 0);</span><br><span class="line">    // 最后把value写入相应的GOT表条目中</span><br><span class="line">    return elf_machine_fixup_plt (l, result, reloc, rel_addr, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这其中还调用了_dl_fixup函数,这里引用师傅的函数解释<br><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs undefined">_dl_fixup(<span class="hljs-name">struct</span> link_map *l, ElfW(Word) reloc_arg)<br>&#123;<br>    // 首先通过参数reloc_arg计算重定位入口，这里的JMPREL即.rel.plt，reloc_offset即reloc_arg<br>    const PLTREL *const reloc = (<span class="hljs-name">const</span> void *) (D_PTR (l, l_info[DT_JMPREL]) + reloc_offset);<br>    // 然后通过reloc-&gt;r_info找到.dynsym中对应的条目<br>    const ElfW(Sym) *sym = <span class="hljs-symbol">&amp;symtab</span>[ELFW(<span class="hljs-name">R_SYM</span>) (<span class="hljs-name">reloc-&gt;r_info</span>)]<span class="hljs-comment">;</span><br>    // 这里还会检查reloc-&gt;r_info的最低位是不是R_386_JUMP_SLOT=7<br>    assert (<span class="hljs-name">ELFW</span>(<span class="hljs-name">R_TYPE</span>)(<span class="hljs-name">reloc-&gt;r_info</span>) == ELF_MACHINE_JMP_SLOT)<span class="hljs-comment">;</span><br>    // 接着通过strtab+sym-&gt;st_name找到符号表字符串，result为libc基地址<br>    result = _dl_lookup_symbol_x (<span class="hljs-name">strtab</span> + sym-&gt;st_name, l, <span class="hljs-symbol">&amp;sym</span>, l-&gt;l_scope, version, ELF_RTYPE_CLASS_PLT, flags, NULL)<span class="hljs-comment">;</span><br>    // value为libc基址加上要解析函数的偏移地址，也即实际地址<br>    value = DL_FIXUP_MAKE_VALUE (<span class="hljs-name">result</span>, sym ? (<span class="hljs-name">LOOKUP_VALUE_ADDRESS</span> (<span class="hljs-name">result</span>) + sym-&gt;st_value) : <span class="hljs-number">0</span>)<span class="hljs-comment">;</span><br>    // 最后把value写入相应的GOT表条目中<br>    return elf_machine_fixup_plt (<span class="hljs-name">l</span>, result, reloc, rel_addr, value)<span class="hljs-comment">;</span><br>&#125;<br></code></pre></td></tr></table></figure></p>
 <p>到这里动态链接的过程就结束了</p>
-<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>在上面的链接过程中我们了解到<br>在.dynsym里第一个是name的地址,而这个地址加上.dynstr就是字符串的位置,如我的示例程序中.dynsym地址为:0x80481d8,.dynstr为0x08048278:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; x/32x 0x80481d8</span><br><span class="line">0x80481d8:      0x00000000      0x00000000      0x00000000      0x00000000</span><br><span class="line">0x80481e8:      0x00000033      0x00000000      0x00000000      0x00000012</span><br><span class="line">0x80481f8:      0x00000027      0x00000000      0x00000000      0x00000012</span><br><span class="line">0x8048208:      0x00000052      0x00000000      0x00000000      0x00000020</span><br><span class="line">0x8048218:      0x00000020      0x00000000      0x00000000      0x00000012</span><br><span class="line">0x8048228:      0x0000003a      0x00000000      0x00000000      0x00000012</span><br><span class="line">0x8048238:      0x0000004c      0x00000000      0x00000000      0x00000012</span><br><span class="line">0x8048248:      0x0000002c      0x0804a044      0x00000004      0x001a0011</span><br><span class="line">pwndbg&gt; x/s 0x08048278 +0x33</span><br><span class="line">0x80482ab:      &quot;setbuf&quot;</span><br><span class="line">pwndbg&gt; x/s 0x08048278 +0x27</span><br><span class="line">0x804829f:      &quot;read&quot;</span><br></pre></td></tr></table></figure></p>
+<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>在上面的链接过程中我们了解到<br>在.dynsym里第一个是name的地址,而这个地址加上.dynstr就是字符串的位置,如我的示例程序中.dynsym地址为:0x80481d8,.dynstr为0x08048278:<br><figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs undefined">pwndbg&gt; x/<span class="hljs-number">32</span>x <span class="hljs-number">0x80481d8</span><br><span class="hljs-number">0x80481d8</span>:      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span><br><span class="hljs-number">0x80481e8</span>:      <span class="hljs-number">0x00000033</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000012</span><br><span class="hljs-number">0x80481f8</span>:      <span class="hljs-number">0x00000027</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000012</span><br><span class="hljs-number">0x8048208</span>:      <span class="hljs-number">0x00000052</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000020</span><br><span class="hljs-number">0x8048218</span>:      <span class="hljs-number">0x00000020</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000012</span><br><span class="hljs-number">0x8048228</span>:      <span class="hljs-number">0</span>x0000003a      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000012</span><br><span class="hljs-number">0x8048238</span>:      <span class="hljs-number">0</span>x0000004c      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000000</span>      <span class="hljs-number">0x00000012</span><br><span class="hljs-number">0x8048248</span>:      <span class="hljs-number">0</span>x0000002c      <span class="hljs-number">0</span>x<span class="hljs-number">0804a044</span>      <span class="hljs-number">0x00000004</span>      <span class="hljs-number">0</span>x<span class="hljs-number">001a0011</span><br>pwndbg&gt; x/s <span class="hljs-number">0x08048278</span> +<span class="hljs-number">0</span>x33<br><span class="hljs-number">0</span>x80482ab:      "setbuf"<br>pwndbg&gt; x/s <span class="hljs-number">0x08048278</span> +<span class="hljs-number">0</span>x27<br><span class="hljs-number">0</span>x804829f:      "read"<br></code></pre></td></tr></table></figure></p>
 <p>综上,我们可以得到一个利用的思路(这里调整综合了一些师傅的思路):</p>
 <ul>
 <li><p>根据.dynamic段是否可写分为两种:</p>
@@ -122,136 +283,206 @@
 </li>
 </ul>
 
-      
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/19/unlink-study/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">unlink_study</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/11/tcache机制利用学习/">
+                        <span class="hidden-mobile">tcache.md</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
     </div>
-    <footer class="article-footer">
-      <a data-url="https://nightRainy.github.io/2019/07/17/ret2-dl-runtime-resolve/" data-id="ckmk33063000i7gjdmgw8fonv" class="article-share-link">
-        Share
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-      
-    </footer>
+    
 
-  </div>
-
-  
-  
-<nav class="article-nav">
-  
-  <a href="/2019/07/19/unlink-study/" class="article-nav-link">
-    <strong class="article-nav-caption">Newer</strong>
-    <div class="article-nav-title">
-      
-      unlink_study
-      
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </a>
-  
-  
-  <a href="/2019/07/11/tcache机制利用学习/" class="article-nav-link">
-    <strong class="article-nav-caption">Older</strong>
-    <div class="article-nav-title">tcache.md</div>
-  </a>
-  
-</nav>
-
-  
-
-  
-  
-  
-  
-
-</article>
-</section>
-    <footer class="footer">
-  <div class="outer">
-    <div class="float-right">
-      <ul class="list-inline">
-  
-  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
-  
-  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
-  
-</ul>
-    </div>
-    <ul class="list-inline">
-      <li>知世の小屋 &copy; 2021</li>
-      
-      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
-    </ul>
   </div>
-</footer>
+</div>
+    
+
+    
   </main>
-  <aside class="sidebar">
-    <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-  <div class="logo">
-    <a href="/"><img src="/images/hexo.svg" alt="知世の小屋"></a>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
   
-  <ul class="nav nav-main">
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/">主页</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">归档</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/gallery">相册</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/about">关于</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link nav-item-search" title="Search">
-        <i class="fe fe-search"></i>
-        Search
-      </a>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      <div class="totop" id="totop">
-  <i class="fe fe-rocket"></i>
-</div>
-    </li>
-    <li class="nav-item">
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css">
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<script src="/js/debouncer.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
+
+<!-- Plugins -->
+
+
+  
+    <script src="/js/img-lazyload.js"></script>
+  
+
+
+
+  
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js"></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
       
-      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
-        <i class="fe fe-feed"></i>
-      </a>
+      typing(title)
       
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
-</div>
-</div>
-  </aside>
-  <script src="/js/jquery-2.0.3.min.js"></script>
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-<script src="/js/lazyload.min.js"></script>
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    })(window, document);
+  </script>
 
 
 
+  <script src="/js/local-search.js"></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
 
 
-<script src="/js/ocean.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script src="/js/boot.js"></script>
+
+
 </body>
-
 </html>

