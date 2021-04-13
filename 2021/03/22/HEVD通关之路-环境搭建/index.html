@@ -175,7 +175,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      859 字
     </span>
   
 
@@ -185,7 +185,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      9
        分钟
     </span>
   
@@ -218,12 +218,50 @@
             <h1 style="display: none">HEVD通关之路_环境搭建</h1>
             
             <div class="markdown-body">
-              
+              <blockquote>
+<p>向来是对操作系统的攻防有着好奇与向往的，趁着返校做毕设的闲余时间就来看看吧，俗话说工欲善其事，必先利其器，先从环境搭建开始摸起吧，本来是写给自己看的，因为写的比较简易，但不知道哪天手欠穿了个空题目上去，所以还是发出来吧。。。</p>
+</blockquote>
+<h1 id="HEVD简要介绍"><a href="#HEVD简要介绍" class="headerlink" title="HEVD简要介绍"></a>HEVD简要介绍</h1><p>首先先贴出HEVD的官方链接：<a href="https://github.com/hacksysteam/HackSysExtremeVulnerableDriver" target="_blank" rel="noopener">https://github.com/hacksysteam/HackSysExtremeVulnerableDriver</a></p>
+<p>下面是HEVD官方的一个介绍：</p>
+<p>HackSys Extreme Vulnerable Driver is intentionally vulnerable Windows driver developed for security enthusiasts to learn and polish their exploitation skills at Kernel level.</p>
+<p>简单来讲，HEVD就是一个包含了许多漏洞的windows内核驱动，可以让我们借此来修炼对windows内核的攻击技巧，其中具体的漏洞就一边学习一边介绍吧</p>
+<h1 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h1><h2 id="镜像选择"><a href="#镜像选择" class="headerlink" title="镜像选择"></a>镜像选择</h2><p>这里其实我是有一些纠结的，我在考虑是直接使用windows 10镜像一步到位，还是先使用防御机制并不完善的windows 7率先学习一下windows内核的一些知识，最后鉴于自己对windows内核并不熟悉，因此还是决定先采用windows 7(x86) -&gt; windwos 7(x64) -&gt; windows 10的顺序进行学习</p>
+<p>镜像的下载地址如下:<a href="https://msdn.itellyou.cn/" target="_blank" rel="noopener">https://msdn.itellyou.cn/</a></p>
+<p>这里由于vm tools需要windows 7版本在sp1以上，因此我下载了如下两个镜像：</p>
+<ol>
+<li>Windows 7 Professional with Service Pack 1 (x64) - DVD (Chinese-Simplified) </li>
+<li>Windows 7 Professional with Service Pack 1 (x86) - DVD (Chinese-Simplified) </li>
+</ol>
+<h2 id="工具安装"><a href="#工具安装" class="headerlink" title="工具安装"></a>工具安装</h2><p>下载完镜像就该对环境进行配置了，镜像的安装就不多说了，工具的安装我们可以简单分成两项，驱动加载程序和调试工具</p>
+<h3 id="驱动加载程序"><a href="#驱动加载程序" class="headerlink" title="驱动加载程序"></a>驱动加载程序</h3><p>首先我们知道HEVD是一个驱动程序，因此我们需要下载一个加载驱动的工具，这里我选择使用的是<a href="https://www.osronline.com/article.cfm%5earticle=157.htm" target="_blank" rel="noopener">osloader</a></p>
+<p>那么加载HEVD驱动呢，我们需要关闭对签名的强制校验，这里有两种方法，一种是启动时F8，另一种是管理员权限下的cmd，输入命令：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">bcdedit /<span class="hljs-keyword">set</span> TESTSIGNING <span class="hljs-keyword">ON</span><br></code></pre></td></tr></table></figure>
+<p>重启即可，在osloader的选取上，这里列一个使用的表：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs undefined"><span class="hljs-symbol">w2k:</span> windows <span class="hljs-number">2000</span><br><span class="hljs-symbol">WLH:</span> windows vista<br><span class="hljs-symbol">WNET:</span> windows <span class="hljs-number">7</span> 及以上<br><span class="hljs-symbol">WXP:</span> windows XP<br></code></pre></td></tr></table></figure>
+<h3 id="调试工具"><a href="#调试工具" class="headerlink" title="调试工具"></a>调试工具</h3><p>调试一直是pwn的灵魂，因此调试工具肯定是不可缺失的一部分</p>
+<p>在最开始的时候，人们调试windows驱动是通过虚拟串口来进行操作的，但这种方式效率低下，非常的慢，因此我们选择更先进的通过windbg + virtualkd的方式来进行调试</p>
+<h4 id="windbg"><a href="#windbg" class="headerlink" title="windbg"></a>windbg</h4><p>windbg的话我选择的是windbg preview，毕竟颜值即正义嘛，我这里是直接从微软应用商店下载的。</p>
+<h4 id="virtualkd"><a href="#virtualkd" class="headerlink" title="virtualkd"></a>virtualkd</h4><blockquote>
+<p>这里需要注意：如果使用virtualkd的话就不用像传统双机调试那样设置串口了</p>
+</blockquote>
+<p>所谓的virtualkd即虚拟机数据传输加速，利用该工具我们可以大幅提升传统虚拟串口调试时数据传输的速度。</p>
+<p>下载地址：<a href="http://virtualkd.sysprogs.org/" target="_blank" rel="noopener">http://virtualkd.sysprogs.org/</a></p>
+<p>这里我遇到了一些问题，由于我使用的是vm15，会有一些兼容性的问题，最后使用<a href="https://github.com/4d61726b/VirtualKD-Redux/releases" target="_blank" rel="noopener">VirtualKD-Redux</a>解决。</p>
+<p>在试错过程中Install了一堆乱七八糟的启动项，最后用MSConfig.exe清理了一下也算是比较舒爽了。</p>
+<p>至此，所有的安装就结束了</p>
+
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/windows-HEVD-环境搭建/">windows HEVD 环境搭建</a>
+                    
+                  </div>
                 
               </div>
               
