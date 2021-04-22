@@ -175,7 +175,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1k 字
+      1.3k 字
     </span>
   
 
@@ -185,7 +185,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      14
+      16
        分钟
     </span>
   
@@ -256,6 +256,12 @@
 </ul>
 <p>之后我们就可以使用我们的镜像了,运行的时候记得加特权模式:-)<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs undefined">docker <span class="hljs-built_in">run</span> -i -t <span class="hljs-comment">--privileged zhihsi/dockerpwn:2.27 bash</span><br></code></pre></td></tr></table></figure></p>
 <p>over~</p>
+<hr>
+<p>2021/4/23日注</p>
+<p>这地方一直是我想改的地方,但是因为懒狗一直没改,想了想还是应该说明白不然会引起误导总是不好的</p>
+<p>上面说到运行镜像的时候需要加特权模式其实也不一定,可以直接赋予调试权限(ptrace),这是由于linux的capbilities安全机制,我们在启动docker的时候docker出于安全考虑是没有给我们调试权限的,因此需要我们自己加上sys_ptrace权限才可以进行调试,而特权模式相当于给予了docker所有的能力</p>
+<p>个人一般喜欢使用特权模式,一个是因为我并不将他映射到主机端口上对外开放使用,权限高自然是最好,另一个就是传文件很方便,随意传到哪个文件夹都可以,至此</p>
+<p>对capbilities机制感兴趣的童鞋们可以自己研究一下,我这里就不多说了,单纯的埋一下坑hh</p>
 
             </div>
             <hr>
