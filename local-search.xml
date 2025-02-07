@@ -4,19 +4,6 @@
   
   
   <entry>
-    <title>windows堆机制</title>
-    <link href="/2021/05/23/windows%E5%A0%86%E6%9C%BA%E5%88%B6/"/>
-    <url>/2021/05/23/windows%E5%A0%86%E6%9C%BA%E5%88%B6/</url>
-    
-    <content type="html"><![CDATA[<blockquote><p>本文借鉴于angleboy大佬的<a href="https://www.slideshare.net/AngelBoy1/windows-10-nt-heap-exploitation-chinese-version">paper</a><br>系统版本为Win 10(1809)，OS build -17763.379</p></blockquote><p>平时一直关注于glibc的实现原理,没怎么关注过windows的堆结构,在写完初稿的gap里就借鉴着angleboy大神的ppt做一个学习吧,这篇文章算是对ppt的一个小总结,后续有时间会做一个结构更好的文章</p><h1 id="堆分配"><a href="#堆分配" class="headerlink" title="堆分配"></a>堆分配</h1><p>首先堆分配机制大致分为两种:</p><ul><li>NT Heap</li><li>SegmentHeap</li></ul><p>其中NT Heap是默认使用的分配机制,而SegmentHeap是最新的分配机制,会被部分系统程序和UWP使用</p><h2 id="NT-Heap"><a href="#NT-Heap" class="headerlink" title="NT Heap"></a>NT Heap</h2><p>NT Heap被分为了Front-End和Back-End两种,其中Front-End是在启用了LowFragmentationHeap(LFH)模式时使用的</p><p>Front-End:</p><ul><li>不让堆内存碎片太多,相同大小的内存分配到一定数量后就会使用(连续分配相同内存18次)</li><li>Size&lt;&#x3D;0x4000</li></ul>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>DLL随笔</title>
     <link href="/2021/04/16/DLL%E9%9A%8F%E7%AC%94/"/>
     <url>/2021/04/16/DLL%E9%9A%8F%E7%AC%94/</url>
