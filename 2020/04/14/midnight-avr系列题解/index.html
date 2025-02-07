@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>midnight_avr系列题解 - 知世の小屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="知世,"> 
+    <meta name="description" content="my blogs,
+上个月midnightctf出了3道avr系列的题目,之前虽然用过arduino开发程序,但也只是拿arduino套装用传感器弄些小玩意(雾,没研究过底层的东西,比赛时因为有别的事,尝试了一会也很,"> 
+    <meta name="author" content="知世"> 
+    <link rel="alternative" href="atom.xml" title="知世の小屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">知世の小屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://nightRainy.github.io"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">midnight_avr系列题解</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">midnight_avr系列题解</h1>
+        <div class="stuff">
+            <span>四月 14, 2020</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>上个月midnightctf出了3道avr系列的题目,之前虽然用过arduino开发程序,但也只是拿arduino套装用传感器弄些小玩意(雾,没研究过底层的东西,比赛时因为有别的事,尝试了一会也很遗憾没能做出,最近稍微空闲了一些,就做了一下相关的复现</p>
+</blockquote>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https://ctf.harrisongreen.me/2020/midnightsunctf/avr/</span><br><span class="line">http://ww1.microchip.com/downloads/en/devicedoc/atmel-0856-avr-instruction-set-manual.pdf</span><br></pre></td></tr></table></figure>
+<h1 id="调试环境搭建"><a href="#调试环境搭建" class="headerlink" title="调试环境搭建"></a>调试环境搭建</h1><p>遇到这类题目最麻烦的就是如何搭建调试环境了,这里简单记录一下</p>
+<p>模拟程序运行的软件-&gt; <code>simavr</code></p>
+<p>这个工具可以完美模拟我们的arduino板子</p>
+<p>在安装的时候,readme上说可以直接apt-get install simavr,我在安装的时候没有这个软件包,于是就直接编译了一下,下面是我的编译过程(因为没有直接用安装包来安装,因此直接安装会不会有出入这里我也不好说</p>
+<p>首先安装一系列依赖和小工具</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install libelf-dev -y</span><br><span class="line">sudo apt-get install freeglut3-dev -y</span><br><span class="line">sudo apt-get install libncurses5-dev libncursesw5-dev -y</span><br><span class="line">sudo apt-get install avr-libc gcc-avr -y</span><br><span class="line">sudo apt-get install picocom -y</span><br><span class="line">sudo apt-get install gdb-avr -y</span><br></pre></td></tr></table></figure>
+<p>然后我这里先在主目录中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo make -j8</span><br><span class="line">sudo make install RELEASE=1</span><br></pre></td></tr></table></figure>
+<p>然后在 <code>simavr/examples/board_simduino/</code> 目录下又做了一次编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo make -j8</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<p>本质上应该只用编译这个即可</p>
+<p>之后就可以开启快乐的调试啦,方法如下:</p>
+<ol>
+<li>挂起调试</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./simavr/examples/board_simduino/obj-x86_64-linux-gnu/simduino.elf -d challenge.hex</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>连接到模拟的UART调试串口</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">picocom /tmp/simavr-uart0</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>连接调试</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">avr-gdb</span><br><span class="line"></span><br><span class="line">target remote 0.0.0.0:1234</span><br></pre></td></tr></table></figure>
+<h1 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h1><h2 id="avr-rev"><a href="#avr-rev" class="headerlink" title="avr-rev"></a>avr-rev</h2><p>首先先将我们的chellenge.hex转化成我们的bin文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objcopy -I ihex challenge.hex -O binary challenge.bin</span><br></pre></td></tr></table></figure>
+<p>首先根据题目描述和名字可以知道这个是一个avr的程序,那么用IDA加载时就选择我们的avr架构即可(注:Atmel AVR[AVR])</p>
+<p>载入之后该选择片型了,这里就很懵,我之前用来玩的板子是arduino uno,这里猜测使用的是atmega,因此载入在设备处后选择了ATmega32_L</p>
+<p>但是IDA表示出来的地址居然每次+1???(黑人问号脸)后来发现真实地址会显示在下面..</p>
+<p>这里给出wp的师傅用的是binary ninja,但是我手里没有这个反编译软件,因此就先用IDA凑合了hh,毕竟即使有教育特惠学校也不会因为啥奇奇怪怪的原因就批量买一批这东西</p>
+<p>那么下面就来简要分析下程序</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="" data-cs="" data-r="" data-o="" data-a="" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

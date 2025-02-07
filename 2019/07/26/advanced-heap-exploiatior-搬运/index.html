@@ -1,0 +1,745 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fox.jpg">
+  <link rel="icon" href="/img/fox.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="在学习chunk extended的是时候google到的,就果断搬运过来了多图预警  搬运自https:&#x2F;&#x2F;www.slideshare.net&#x2F;AngelBoy1&#x2F;advanced-heap-exploitaionadvancede heap exploiator环境 glibc-2.19 kernel-4.2 64bit  目录 Fastbin corruption Shrink the">
+<meta property="og:type" content="article">
+<meta property="og:title" content="advanced heap exploiatior(搬运)">
+<meta property="og:url" content="https://nightrainy.github.io/2019/07/26/advanced-heap-exploiatior-%E6%90%AC%E8%BF%90/index.html">
+<meta property="og:site_name" content="知世の小屋">
+<meta property="og:description" content="在学习chunk extended的是时候google到的,就果断搬运过来了多图预警  搬运自https:&#x2F;&#x2F;www.slideshare.net&#x2F;AngelBoy1&#x2F;advanced-heap-exploitaionadvancede heap exploiator环境 glibc-2.19 kernel-4.2 64bit  目录 Fastbin corruption Shrink the">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nightrainy.github.io/img/shrink/p1.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/shrink/p2.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/shrink/p3.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/shrink/p4.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/shrink/p5.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/shrink/p6.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/shrink/p7.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/shrink/p8.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/shrink/p9.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/shrink/p10.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/shrink/p11.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/shrink/p12.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/shrink/p13.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/shrink/p14.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/extend/p1.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/extend/p2.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/extend/p3.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/extend/p4.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/extend/p5.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/extend/p6.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/extend/p7.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/extend/p8.png">
+<meta property="og:image" content="https://nightrainy.github.io/img/extend/p9.png">
+<meta property="article:published_time" content="2019-07-26T03:56:36.000Z">
+<meta property="article:modified_time" content="2019-08-11T13:53:28.000Z">
+<meta property="article:author" content="知世">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nightrainy.github.io/img/shrink/p1.png">
+  
+  
+  
+  <title>advanced heap exploiatior(搬运) - 知世の小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>知世</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/rick.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="advanced heap exploiatior(搬运)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-07-26 11:56" pubdate>
+          2019年7月26日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">advanced heap exploiatior(搬运)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>在学习chunk extended的是时候google到的,就果断搬运过来了<br>多图预警</p>
+</blockquote>
+<h1 id="搬运自https-www-slideshare-net-AngelBoy1-advanced-heap-exploitaion"><a href="#搬运自https-www-slideshare-net-AngelBoy1-advanced-heap-exploitaion" class="headerlink" title="搬运自https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion"></a>搬运自<a target="_blank" rel="noopener" href="https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion">https://www.slideshare.net/AngelBoy1/advanced-heap-exploitaion</a></h1><h1 id="advancede-heap-exploiator"><a href="#advancede-heap-exploiator" class="headerlink" title="advancede heap exploiator"></a>advancede heap exploiator</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>glibc-2.19</li>
+<li>kernel-4.2</li>
+<li>64bit</li>
+</ul>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>Fastbin corruption</li>
+<li>Shrink the chunk</li>
+<li>Extend the chunk</li>
+</ul>
+<h1 id="Fastbin-corruption"><a href="#Fastbin-corruption" class="headerlink" title="Fastbin corruption"></a>Fastbin corruption</h1><h2 id="假设程序有double-free的漏洞"><a href="#假设程序有double-free的漏洞" class="headerlink" title="假设程序有double free的漏洞"></a>假设程序有double free的漏洞</h2><ul>
+<li>目的<ul>
+<li>我们可以利用fastin chunk改掉fd使得下下次malloc该chunk时可以取得自己想要的位置</li>
+</ul>
+</li>
+<li>为了利用double free的楼哦对那个来改比那fee chunk中的fd,我们可以利用一些fastbin的特性达到我们的目的,但我们也必须通过一些chunk的检查</li>
+</ul>
+<h2 id="fastbin的检查"><a href="#fastbin的检查" class="headerlink" title="fastbin的检查"></a>fastbin的检查</h2><h3 id="in-free-p"><a href="#in-free-p" class="headerlink" title="in free(p):"></a>in free(p):</h3><ul>
+<li>chunk address &lt;-size 且alignment</li>
+<li>chunk size &gt; &#x3D;MINSIZE(0X20)且为0x10的倍数</li>
+<li>nextchunk-&gt; size<ul>
+<li>大于MINSIZE(0X20)</li>
+<li>小于system_mem(0x21000)<br>  <strong>检查属于该size的fastbin中的第一块chunk与p是否不同</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="in-malloc-bytes"><a href="#in-malloc-bytes" class="headerlink" title="in malloc(bytes):"></a>in malloc(bytes):</h3><ul>
+<li>根据size大小取得index之后,到对应的fastbin中找,取出后检查该chunk的(unsigned lond)size事发后属于该fastbin</li>
+<li>但实际比较的时候是先以fastbin中第一块size取得fastbin的index,再去用这个index跟刚刚算的Index是否想用,不过这取index的方式是用unsigned in(4 byte)</li>
+</ul>
+<h3 id="fast-bin"><a href="#fast-bin" class="headerlink" title="fast bin"></a>fast bin</h3><ul>
+<li>一个单链表</li>
+<li>chunk size&lt;&#x3D;0x80 byte</li>
+<li>不取消inuse flag</li>
+<li>依据bin中所存的chunk大小.再分为10个fastbin 分别为0x20,0x30…</li>
+</ul>
+<h3 id="LIFO"><a href="#LIFO" class="headerlink" title="LIFO"></a>LIFO</h3><p>当下次malloc大小与这次free大小相同时,会从相同的bin取出,也就是会取到相同位置的chunk</p>
+<h3 id="fastbin-layout"><a href="#fastbin-layout" class="headerlink" title="fastbin layout"></a>fastbin layout</h3><p>布局我就不多阐述了,之前的文章有写过很多次</p>
+<h3 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h3><ul>
+<li>我们可以利用fastbin的chunk再free的时候只检查属于该size的fastbin中的第一块chunk与p是否不同的特性来创造overlaps chunk</li>
+<li>创造一个circle的singly linked list,这样就可以达到类似UAF的效果</li>
+<li>fd只要符和size是或否属于该chunk就可以通过Malloc检测,因此只要想写入的位置附近有属于该bin的size就可以让malloc分配到该位置<ul>
+<li>根据bytes大小取得index后,到对应的fastbin找,取出后检查该chunk的size事发后属于该fastbin</li>
+<li>但实际比较的时候先是以fatbin中第一块size取得fastbin的index,再去比index和刚刚算的index是否相同,不过这取index的方式是哟个unsigned int(4byte),所以伪造是不用满足8byte</li>
+</ul>
+</li>
+<li>因此没有检查alognment所以不一定要以8的倍数作为chunk的address</li>
+</ul>
+<h1 id="Shrink-the-chunk"><a href="#Shrink-the-chunk" class="headerlink" title="Shrink the chunk"></a>Shrink the chunk</h1><h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>假设存在一个和off-by-one的漏洞</p>
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>创造出overlap chunk,进而更改其他chunk中的内容</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>主要利用Unsortedbin ,small bin会Unlink做合并的特性来达到我们的目的</p>
+<h2 id="过程-看图食用最佳"><a href="#过程-看图食用最佳" class="headerlink" title="过程(看图食用最佳)"></a>过程(看图食用最佳)</h2><ol>
+<li>一开始先malloc 3 块chunk(A,B,C)到heap段,且fastbin是空的<br><img src="/img/shrink/p1.png" srcset="/img/loading.gif" lazyload alt="p1"></li>
+<li>free(B)<br><img src="/img/shrink/p2.png" srcset="/img/loading.gif" lazyload alt="p2"></li>
+<li>free(A)<br><img src="/img/shrink/p3.png" srcset="/img/loading.gif" lazyload alt="p3"></li>
+<li>malloc(0x38)<br><img src="/img/shrink/p4.png" srcset="/img/loading.gif" lazyload alt="p4"></li>
+<li>往A中写数据触发off-by-one来覆盖size<br><img src="/img/shrink/p5.png" srcset="/img/loading.gif" lazyload alt="p5"></li>
+<li>malloc(0x80)<br><img src="/img/shrink/p6.png" srcset="/img/loading.gif" lazyload alt="p6"></li>
+<li>malloc(0x30)<br><img src="/img/shrink/p7.png" srcset="/img/loading.gif" lazyload alt="p7"></li>
+<li>free(B)<br><img src="/img/shrink/p8.png" srcset="/img/loading.gif" lazyload alt="p8"></li>
+<li>free(C)<br><img src="/img/shrink/p9.png" srcset="/img/loading.gif" lazyload alt="p9"><br>此时会因为C是SMALL BIN的大小的缘故,所以会检测上一块是否inused<br><img src="/img/shrink/p10.png" srcset="/img/loading.gif" lazyload alt="p10"><br>如果上一块是freed就会根据prev_size去找上一块chunk的header做合并及unlink<br><img src="/img/shrink/p11.png" srcset="/img/loading.gif" lazyload alt="p11"><br>此时unsortbin村这块大的chunk,所以下次malloc会用这一块先分配给user<br><img src="/img/shrink/p12.png" srcset="/img/loading.gif" lazyload alt="p12"></li>
+<li>malloc(0x260)<br><img src="/img/shrink/p13.png" srcset="/img/loading.gif" lazyload alt="p13"><br>此时即可任意修改D<br><img src="/img/shrink/p14.png" srcset="/img/loading.gif" lazyload alt="p14"></li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>如果中间overlap部分有function pointer或者是其他有用的struct可简介控制程序流程</li>
+<li>也可以配合fastbin freed chunk更改fd</li>
+</ul>
+<h1 id="extend-the-chunk"><a href="#extend-the-chunk" class="headerlink" title="extend the chunk"></a>extend the chunk</h1><h2 id="前提-1"><a href="#前提-1" class="headerlink" title="前提"></a>前提</h2><p>假设存在一个off-by-one的漏洞</p>
+<h2 id="目的-1"><a href="#目的-1" class="headerlink" title="目的"></a>目的</h2><p>造出overlap chunk,进而更改其他chunk中的内容</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>跟shrink很像,但主要是加大size直接覆盖后面的chunk,只要前面的 chunk header有对上的就行</p>
+<h2 id="过程-配合图食用最佳"><a href="#过程-配合图食用最佳" class="headerlink" title="过程(配合图食用最佳)"></a>过程(配合图食用最佳)</h2><ol>
+<li>一开始先malloc 3 块chunk 到heap段<br><img src="/img/extend/p1.png" srcset="/img/loading.gif" lazyload alt="p1"></li>
+<li>free(A)<br><img src="/img/extend/p2.png" srcset="/img/loading.gif" lazyload alt="p1"></li>
+<li>malloc(0x38)<br><img src="/img/extend/p3.png" srcset="/img/loading.gif" lazyload alt="p1"></li>
+<li>往A中写数据以构造off-by-one<br><img src="/img/extend/p4.png" srcset="/img/loading.gif" lazyload alt="p1"></li>
+<li>free(B)<br>0x1b1&#x3D;0x171+0x40<br>为了之后可以覆盖c(把c吃进去)<br><img src="/img/extend/p5.png" srcset="/img/loading.gif" lazyload alt="p1"></li>
+<li>此时会根据B的size去找下一块chunk的hader<br><img src="/img/extend/p6.png" srcset="/img/loading.gif" lazyload alt="p1"></li>
+<li>此时这块chunk会被合并到top(如果c后面是top)或者加入到unsortbin中<br><img src="/img/extend/p7.png" srcset="/img/loading.gif" lazyload alt="p1"></li>
+<li>malloc(0x1a0)<br><img src="/img/extend/p8.png" srcset="/img/loading.gif" lazyload alt="p1"></li>
+<li>此时可以任意更改c<br><img src="/img/extend/p9.png" srcset="/img/loading.gif" lazyload alt="p1"></li>
+</ol>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>和shrink比起来extend the chunk的限制多了一些,必须要可控off-by-one的那个byte,Shrink只要是null byte即可,相对比较常见但是也不太好发现</p>
+<h1 id="大总结"><a href="#大总结" class="headerlink" title="大总结"></a>大总结</h1><ul>
+<li><p>堆的漏洞利用起来虽然会难一点,但是常常在Full mitigation的情况下都可以利用,毕竟针对heap来说相对应的保护比较少,也较难实现</p>
+</li>
+<li><p>Heap是门艺术(真的是门艺术…爆肝调试就完了</p>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>advanced heap exploiatior(搬运)</div>
+      <div>https://nightrainy.github.io/2019/07/26/advanced-heap-exploiatior-搬运/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>知世</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年7月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-cc-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/08/01/%E5%A0%86%E6%B3%84%E9%9C%B2/" title="堆泄露">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">堆泄露</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/25/chunk-extend-and-overlapping/" title="chunk extend and overlapping">
+                        <span class="hidden-mobile">chunk extend and overlapping</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

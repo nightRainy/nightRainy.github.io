@@ -1,0 +1,791 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fox.jpg">
+  <link rel="icon" href="/img/fox.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="pwn_learning&amp;&amp;FUZZ This project is used to collect learning materials!And I will synchronous update it on my github!   tools be used in the pwn IDA pro反编译神器 推荐书籍：《IDA PRO 权威指南》   gdb : Linux&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pwn_learning&amp;&amp;FUZZ">
+<meta property="og:url" content="https://nightrainy.github.io/2019/03/09/pwn-learning-FUZZ/index.html">
+<meta property="og:site_name" content="知世の小屋">
+<meta property="og:description" content="pwn_learning&amp;&amp;FUZZ This project is used to collect learning materials!And I will synchronous update it on my github!   tools be used in the pwn IDA pro反编译神器 推荐书籍：《IDA PRO 权威指南》   gdb : Linux&amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-03-09T05:16:14.000Z">
+<meta property="article:modified_time" content="2019-03-09T05:18:32.000Z">
+<meta property="article:author" content="知世">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>pwn_learning&amp;&amp;FUZZ - 知世の小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>知世</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/rick.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="pwn_learning&amp;&amp;FUZZ"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-03-09 13:16" pubdate>
+          2019年3月9日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          595 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          5 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">pwn_learning&amp;&amp;FUZZ</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="pwn-learning-FUZZ"><a href="#pwn-learning-FUZZ" class="headerlink" title="pwn_learning&amp;&amp;FUZZ"></a>pwn_learning&amp;&amp;FUZZ</h1><blockquote>
+<p>This project is used to collect learning materials!And I will synchronous update it on my github!</p>
+</blockquote>
+<hr>
+<h2 id="tools-be-used-in-the-pwn"><a href="#tools-be-used-in-the-pwn" class="headerlink" title="tools be used in the pwn"></a>tools be used in the pwn</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.hex-rays.com/products/ida/">IDA pro反编译神器 推荐书籍：《IDA PRO 权威指南》</a> </p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.gnu.org/software/gdb/">gdb : Linux&#x2F;Unix下的动态调试利器 
+</a>	</p>
+<p>  推荐插件：<br>  1. <a target="_blank" rel="noopener" href="https://github.com/longld/peda">pead</a> ;   2. <a target="_blank" rel="noopener" href="https://github.com/hugsy/gef">gef</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://docs.pwntools.com/en/stable/">pwntools:一个强大的pwn辅助库</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/niklasb/libc-database">ibc_database:收录了很多的libc库</a></p>
+</li>
+<li><p><a href="htts://github.com/david942j/one_gadget">one_gadget:用以寻找调用系统函数的gadget并输出满足条件</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/lieanu/LibcSearcher">libcSearch : 用以搜索libc的版本</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/JonathanSalwan/ROPgadget">ROPgadget : 用于在程序中寻找我们所需要的东西</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/angr/angr.git">angr:具有动静态分析的二进制分析工具</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://www.ollydbg.de/version2.html">ollyDbg : 逆向破解利器</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/radare/radare2.git">radare2: 强大的逆向工程和二进制分析框架</a></p>
+</li>
+</ul>
+<hr>
+<h2 id="NEWS"><a href="#NEWS" class="headerlink" title="NEWS"></a>NEWS</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://thehackernews.com/">Thehackernews</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.freebuf.com/">Freebuf</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.anquanke.com/">安全客</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.secfree.com/">指尖安全</a></li>
+</ul>
+<hr>
+<h2 id="BBS"><a href="#BBS" class="headerlink" title="BBS"></a>BBS</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://offensivecommunity.net/">Offensive Community</a></li>
+<li><a target="_blank" rel="noopener" href="https://cracking.org/forums/cracking-tools.16/">Cracking</a></li>
+</ul>
+<hr>
+<h2 id="Online-course"><a href="#Online-course" class="headerlink" title="Online course"></a>Online course</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLhixgUqwRTjxglIswKp9mpkfPNfHkzyeN">二进制入门</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/results?sp=EgIQAw%253D%253D&search_query=reverse+engineering"> 逆向工程</a></li>
+<li><a target="_blank" rel="noopener" href="http://security.cs.rpi.edu/courses/binexp-spring2015/">Modern Binary Exploitation</a></li>
+<li><a target="_blank" rel="noopener" href="https://sploitfun.wordpress.com/2015/06/26/linux-x86-exploit-development-tutorial-series/">inux (x86) Exploit Development Series</a></li>
+<li><a target="_blank" rel="noopener" href="http://liveoverflow.com/binary_hacking/index.html">liveoverflow: Binary Hacking Course</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.fuzzysecurity.com/tutorials.html">Lots of Tutorials</a></li>
+</ul>
+<hr>
+<h2 id="Learning-materials"><a href="#Learning-materials" class="headerlink" title="Learning materials"></a>Learning materials</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://ctf-wiki.github.io/">ctf-wiki</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/aemperor/article/details/47310593">堆溢出攻击原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/rookie/182894.html">溢出之retlibc2详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/firmianay/CTF-All-In-One">ctf all in one</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/jmpews/pwn2exploit">pwn &amp; exploit</a></li>
+</ul>
+<hr>
+<h2 id="stackoverflow"><a href="#stackoverflow" class="headerlink" title="stackoverflow"></a>stackoverflow</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="http://bobao.360.cn/learning/detail/3717.html">手把手教你栈溢出从入门到放弃（上）</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://bobao.360.cn/learning/detail/3718.html">手把手教你栈溢出从入门到放弃（下）</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://bestwing.me/2017/03/18/stack-overflow-one/">Swing: 基础栈溢出复习 之基础</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://bbs.ichunqiu.com/thread-45542-1-1.html">pwn入门之栈溢出练习</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://0x48.pw/2016/11/03/0x26/">Hcamael: PWN学习总结之基础栈溢出</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://0x48.pw/2016/11/21/0x27/">Hcamael: PWN学习总结之基础栈溢出2</a></p>
+<h3 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h3></li>
+<li><p>.<a target="_blank" rel="noopener" href="http://drops.xmd5.com/static/drops/tips-6597.html">一步一步学ROP之linux_x86篇</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://cb.drops.wiki/drops/binary-10638.html">一步一步学ROP之gadgets和2free篇</a></p>
+</li>
+<li><p>.<a target="_blank" rel="noopener" href="http://cb.drops.wiki/drops/papers-11390.html">一步一步学ROP之Android ARM 32位篇</a></p>
+</li>
+<li><p>.<a target="_blank" rel="noopener" href="http://www.freebuf.com/articles/network/87447.html">Sigreturn Oriented Programming (SROP) Attack攻击原理</a></p>
+</li>
+<li><p>.<a target="_blank" rel="noopener" href="http://bestwing.me/2017/03/20/stack-overflow-three-SROP/">Swing: 基础栈溢出复习 三 之 SROP</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://www.freebuf.com/articles/system/149214.html">如何在32位系统中使用ROP+Return-to-dl来绕过ASLR+DEP</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://www.evil0x.com/posts/19226.html">通过ELF动态装载构造ROP链 （ Return-to-dl-resolve）</a></p>
+</li>
+</ul>
+<hr>
+<h2 id="堆漏洞"><a href="#堆漏洞" class="headerlink" title="堆漏洞"></a>堆漏洞</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://heap-exploitation.dhavalkapil.com/introduction.html">Heap Exploitation</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/shellphish/">how2heap</a></li>
+<li><a target="_blank" rel="noopener" href="https://sploitfun.wordpress.com/2015/02/26/heap-overflow-using-unlink/?spm=a313e.7916648.0.0.x4nzYZ">Heap overflow using unlink</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tuicool.com/articles/E3Ezu2u">堆溢出的unlink利用方法</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.freebuf.com/articles/system/151372.html">Dance In Heap</a></li>
+<li><a target="_blank" rel="noopener" href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/introduction/">堆利用简介</a></li>
+</ul>
+<hr>
+<h2 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="格式化字符串漏洞"></a>格式化字符串漏洞</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/fmtstr/fmtstr_intro/">原理简介</a></li>
+<li><a target="_blank" rel="noopener" href="http://cb.drops.wiki/drops/binary-6259.html">二进制漏洞之——邪恶的printf</a></li>
+<li><a target="_blank" rel="noopener" href="http://bobao.360.cn/learning/detail/3654.html">格式化字符串漏洞利用小结</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/Ox9A82/p/5429099.html">Linux下的格式化字符串漏洞利用姿势</a></li>
+</ul>
+<hr>
+<h2 id="IO-FILE利用"><a href="#IO-FILE利用" class="headerlink" title="IO_FILE利用"></a>IO_FILE利用</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/introduction/">FILE 文件结构介绍</a></li>
+<li><a target="_blank" rel="noopener" href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/fake-vtable-exploit/">伪造 vtable 劫持程序流程</a></li>
+<li><a target="_blank" rel="noopener" href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/fsop/">FSOP</a></li>
+<li><a target="_blank" rel="noopener" href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/io_file/exploit-in-libc2.24/">新版本 libc 下 IO_FILE 的利用</a></li>
+</ul>
+<hr>
+<h2 id="条件竞争"><a href="#条件竞争" class="headerlink" title="条件竞争"></a>条件竞争</h2><p>*<a target="_blank" rel="noopener" href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/race-condition/introduction/">条件竞争介绍</a></p>
+<hr>
+<h2 id="整数溢出"><a href="#整数溢出" class="headerlink" title="整数溢出"></a>整数溢出</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/integeroverflow/intof/">整数溢出原理介绍</a></li>
+</ul>
+<hr>
+<h2 id="沙箱逃逸"><a href="#沙箱逃逸" class="headerlink" title="沙箱逃逸"></a>沙箱逃逸</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/sandbox/python-sandbox-escape/">Python 沙箱逃逸</a></li>
+</ul>
+<hr>
+<h2 id="TIPS"><a href="#TIPS" class="headerlink" title="TIPS"></a>TIPS</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://bobao.360.cn/learning/detail/3298.html?utm_source=tuicool&utm_medium=referral">借助DynELF实现无libc的漏洞利用小结</a></li>
+<li><a target="_blank" rel="noopener" href="http://uaf.io/exploitation/misc/2016/04/02/Finding-Functions.html">Finding Function’s Load Address</a></li>
+<li><a target="_blank" rel="noopener" href="http://skysider.com/?p=223">pwn tips</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Naetw/CTF-pwn-tips">CTF-pwn-tips</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.angelwhu.com/blog/?p=460">pwn 学习总结</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/Ox9A82/p/5559167.html">CTF中做Linux下漏洞利用的一些心得</a></li>
+<li><a target="_blank" rel="noopener" href="http://drops.xmd5.com/static/drops/binary-6521.html">linux常见漏洞利用技术实践</a></li>
+</ul>
+<hr>
+<h1 id="FUZZ"><a href="#FUZZ" class="headerlink" title="FUZZ"></a>FUZZ</h1><h2 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.freebuf.com/sectool/89001.html">从零开始学Fuzzing系列：浏览器挖掘框架Morph诞生记</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.nsfocus.net/peach-fuzz/">浅析Peach Fuzz</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.techorganic.com/2014/05/14/from-fuzzing-to-0-day/">From fuzzing to 0-day</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.fuzzing.org/">Fuzzing: Brute Force Vulnerability Discovery</a></li>
+<li><a target="_blank" rel="noopener" href="https://foxglovesecurity.com/2016/03/15/fuzzing-workflows-a-fuzz-job-from-start-to-finish/">Fuzzing workflows; a fuzz job from start to finish</a></li>
+<li><a target="_blank" rel="noopener" href="http://j00ru.vexillium.org/slides/2016/blackhat.pdf">有效的文件格式Fuzzing</a></li>
+<li><a target="_blank" rel="noopener" href="https://googleprojectzero.blogspot.in/2016/06/a-year-of-windows-kernel-font-fuzzing-1_27.html">过去一年的Windows内核字体fuzzing第一部分成果</a></li>
+<li><a target="_blank" rel="noopener" href="https://googleprojectzero.blogspot.in/2016/07/a-year-of-windows-kernel-font-fuzzing-2.html">过去一年的Windows内核字体fuzzing第二部分技术</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.fuzzing-project.org/">fuzzing项目中有趣的bug和资源</a></li>
+<li><a target="_blank" rel="noopener" href="https://foxglovesecurity.com/2016/03/15/fuzzing-workflows-a-fuzz-job-from-start-to-finish/">Fuzzing工作流程； fuzz工作从开始到结束</a></li>
+<li><a target="_blank" rel="noopener" href="http://jefftrull.github.io/c++/clang/llvm/fuzzing/sanitizer/2015/11/27/fuzzing-with-sanitizers.html">用AFL和libFuzzer轻松介绍C++代码fuzzing </a></li>
+<li><a target="_blank" rel="noopener" href="https://www.mwrinfosecurity.com/our-thinking/15-minute-guide-to-fuzzing/">15分钟fuzzing介绍 </a></li>
+</ul>
+<hr>
+<h2 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.amazon.com/Fuzzing-Brute-Force-Vulnerability-Discovery/dp/0321446119">《模糊测试-强制性安全漏洞发掘》</a></li>
+</ul>
+<hr>
+<h2 id="课程"><a href="#课程" class="headerlink" title="课程"></a>课程</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://vimeo.com/5236104">Fuzzing 101 </a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/">YouTube</a></li>
+</ul>
+<hr>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://lcamtuf.coredump.cx/afl/">AFL Fuzzer</a></li>
+<li><a target="_blank" rel="noopener" href="https://llvm.org/docs/LibFuzzer.html">libFuzzer Fuzzer</a></li>
+<li><a target="_blank" rel="noopener" href="https://resources.infosecinstitute.com/intro-to-fuzzing/#gref">Spike Fuzzer</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.asm64.com/">EasyFuzzer</a></li>
+</ul>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>pwn_learning&amp;&amp;FUZZ</div>
+      <div>https://nightrainy.github.io/2019/03/09/pwn-learning-FUZZ/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>知世</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年3月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-cc-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/05/06/glic%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="glic内存管理学习笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">glic内存管理学习笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/03/02/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E6%B1%87%E6%80%BB%E7%AC%94%E8%AE%B0/" title="格式化字符串漏洞学习汇总笔记">
+                        <span class="hidden-mobile">格式化字符串漏洞学习汇总笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

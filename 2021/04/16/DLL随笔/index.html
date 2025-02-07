@@ -1,0 +1,881 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fox.jpg">
+  <link rel="icon" href="/img/fox.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="简要记了一下《程序员的自我修养》第九章的笔记,之前读的时候跳过了windows的内容,现在重新捡起简要记一下,做了不必要的删减和自作聪明的增添  DLL简介windows下的dll和exe文件都是有PE格式的二进制文件，但其不同在于PE文件头中有一个符号位表示其是EXE还是DLL，并且DLL文件的后缀也不一定是.dll，还有可能是.ocx(OCX控件包含ActiveX控制的库)或者.CPL(控制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DLL随笔">
+<meta property="og:url" content="https://nightrainy.github.io/2021/04/16/DLL%E9%9A%8F%E7%AC%94/index.html">
+<meta property="og:site_name" content="知世の小屋">
+<meta property="og:description" content="简要记了一下《程序员的自我修养》第九章的笔记,之前读的时候跳过了windows的内容,现在重新捡起简要记一下,做了不必要的删减和自作聪明的增添  DLL简介windows下的dll和exe文件都是有PE格式的二进制文件，但其不同在于PE文件头中有一个符号位表示其是EXE还是DLL，并且DLL文件的后缀也不一定是.dll，还有可能是.ocx(OCX控件包含ActiveX控制的库)或者.CPL(控制">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-16T02:02:24.000Z">
+<meta property="article:modified_time" content="2021-04-22T16:31:14.000Z">
+<meta property="article:author" content="知世">
+<meta property="article:tag" content="windows">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>DLL随笔 - 知世の小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>知世</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/rick.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="DLL随笔"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-04-16 10:02" pubdate>
+          2021年4月16日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          64 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">DLL随笔</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>简要记了一下《程序员的自我修养》第九章的笔记,之前读的时候跳过了windows的内容,现在重新捡起简要记一下,做了不必要的删减和自作聪明的增添</p>
+</blockquote>
+<h1 id="DLL简介"><a href="#DLL简介" class="headerlink" title="DLL简介"></a>DLL简介</h1><p>windows下的dll和exe文件都是有PE格式的二进制文件，但其不同在于PE文件头中有一个符号位表示其是EXE还是DLL，并且DLL文件的后缀也不一定是.dll，还有可能是.ocx(OCX控件包含ActiveX控制的库)或者.CPL(控制面板程序),.DRV（旧式的系统驱动程序）。</p>
+<p>ELF文件可以实现运行时加载动态链接,在windows下也有类似的机制,比如ActiveX技术就基于此</p>
+<h2 id="进程地址空间和内存管理"><a href="#进程地址空间和内存管理" class="headerlink" title="进程地址空间和内存管理"></a>进程地址空间和内存管理</h2><p>在远古的windows版本下,程序运行方式还不能被称为进程,所有的应用程序共享同一个地址空间,也就是可以随意访问DLL的内容,不过太过久远就随笔一记即可</p>
+<p>后来32位windows开始支持进程拥有独立的地址空间,一个DLL在不同的进程中拥有不同的私有数据副本,类似ELF的共享对象,但ELF中是地址无关代码机制,因此可以多进程共享一份代码,但DLL代码并非代码无关,因此只在某些情况下可以被多进程间共享</p>
+<h2 id="基地址和RVA"><a href="#基地址和RVA" class="headerlink" title="基地址和RVA"></a>基地址和RVA</h2><p>PE中有两个较为常见的概念:基地址(Base Address),相对地址(RVA,Relative Virtual Address)</p>
+<p>所谓基地址,就是当PE文件被装载时,进程地址空间的起始地址,而对于PE文件来说,他都有一个优先装载的基地址,即PE文件头的Image Base</p>
+<p>常见的EXE文件,Image Base一般值是:0x400000,对于DLL而言,该值一般为: 0x10000000</p>
+<p>windows在装在DLL时,会尝试把它装载到由Image Base指定的虚拟地址,而若改地址区域已被其他模块占用,那么PE装载器会选用其他空闲地址,而相对地址是一个地址相对改地址的偏移,即offset<br>如PE被装进0x1000000,那么RVA为0x1000的地址就是0x1001000</p>
+<p><em>Address &#x3D; Base Address + RVA(offset)</em></p>
+<h2 id="DLL共享数据段"><a href="#DLL共享数据段" class="headerlink" title="DLL共享数据段"></a>DLL共享数据段</h2><p>在win32下,windows系统提供了一系列API实现进程间通信(IPC),其中有一种方法是使用DLL来实现进程间通信</p>
+<p>正常情况下,每个DLL的数据段在各个进程中都是独立的,每个进程都拥有自己的副本,但是windows允许DLL的数据段设置成共享的,任何进程都可以共享该DLL的同一份数据段,而有一个常见的做法是将一些需要进程间共享的变量分离出来,放到另一个数据段中,然后将该段设置成进程间可共享的,即一部分私有,一部分共享,但这也是极其危险的</p>
+<blockquote>
+<p>下面的内容可能会大量采取书上的原文,文字内容较多</p>
+</blockquote>
+<h2 id="DLL的简单例子"><a href="#DLL的简单例子" class="headerlink" title="DLL的简单例子"></a>DLL的简单例子</h2><p>对于DLL的创建和使用而言,最基本的概念是导出(Export)表。在ELF中是默认导出共享库所有的全局符号的,也就是说默认共享库中所有的全局函数和变量在默认情况下都可以被其他模块使用,但在DLL中,我们需要显式的导入我们需要的符号,否则其默认不导出所有符号,而我们在程序中使用导出的符号时,这个过程被称为导入。</p>
+<p>MSVC(Microsoft Visual C++)提供了一系列的C&#x2F;C++拓展来指定符号的导入导出,对于一些支持windows平台的编译器,比如Intel C++,GCC windows版等都支持这种拓展</p>
+<p>我们可以通过<code>&quot;__declspec&quot;</code>属性关键字来修饰某个函数或变量,当我们使用<code>&quot;__delspec(dllexport)&quot;</code>时就表示该符号是从本DLL导出的符号,而如果使用的是<code>&quot;__declspec(dllimport)&quot;</code>则表示其似从别的DLL中导入的符号</p>
+<blockquote>
+<p>在c++中,如果希望导入或导出的符号符号C语言的符号修饰规则,则必须在前面加上<code>external &quot;c&quot;</code>来防止C++对其进行符号修饰</p>
+</blockquote>
+<p>除了使用<code>&quot;__declspec&quot;</code>属性关键字来指定导入导出符号之后,我们也可以使用”.def”文件来生命导入导出符号,该拓展名的文件类似于ld链接器的链接叫本文件,可以当作link链接器的输入文件,用以控制链接过程,其中的IMPORT或EXPORTS段可以用来声明导入导出符号,该方法不止适用于C&#x2F;C++,还适用于其他语言。</p>
+<h2 id="创建DLL"><a href="#创建DLL" class="headerlink" title="创建DLL"></a>创建DLL</h2><p>简单写一下例子即可:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c">__declspec(dllexport) Add(<span class="hljs-type">double</span> a, <span class="hljs-type">double</span> b)<br>&#123;<br>        <span class="hljs-keyword">return</span> a+b;<br>&#125;<br>__declspec(dllexport) Sub(<span class="hljs-type">double</span> a, <span class="hljs-type">double</span> b)<br>&#123;<br>        <span class="hljs-keyword">return</span> a-b;<br>&#125;<br>__declspec(dllexport) Mul(<span class="hljs-type">double</span> a, <span class="hljs-type">double</span> b)<br>&#123;<br>        <span class="hljs-keyword">return</span> a*b;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>编译可以使用vs(MSCV)自带的cl,加&#x2F;LDd参数表示Debug版,不加参数就生成EXE文件,而使用&#x2F;LD则表示生成RELEASE版的DLL</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash">D:\0000tttteeesstt&gt;cl /LDd test.c<br>用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.27.29111 版<br>版权所有(C) Microsoft Corporation。保留所有权利。<br><br>test.c<br>Microsoft (R) Incremental Linker Version 14.27.29111.0<br>Copyright (C) Microsoft Corporation.  All rights reserved.<br><br>/out:test.dll<br>/dll<br>/implib:test.lib<br>test.obj<br>  正在创建库 test.lib 和对象 test.exp<br></code></pre></td></tr></table></figure>
+
+<p>可以看到一共生成了四个文件:test.dll,test.obj.test.exp,test.lib文件</p>
+<ul>
+<li>test.obj是编译的目标文件</li>
+<li>test.dll就是我们用的dll文件</li>
+<li>test.lib是一组目标文件的集合</li>
+<li>test.exp文件为链接器在创建DLL文件时的临时文件</li>
+</ul>
+<p>然后用dumpbin工具来查看生成的DLL文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ &gt;dumpbin /EXPORTS test.dll<br>Microsoft (R) COFF/PE Dumper Version 14.27.29111.0<br>Copyright (C) Microsoft Corporation.  All rights reserved.<br><br><br>Dump of file test.dll<br><br>File Type: DLL<br><br>  Section contains the following exports <span class="hljs-keyword">for</span> test.dll<br><br>    00000000 characteristics<br>    FFFFFFFF <span class="hljs-keyword">time</span> <span class="hljs-built_in">date</span> stamp<br>        0.00 version<br>           1 ordinal base<br>           3 number of <span class="hljs-built_in">functions</span><br>           3 number of names<br><br>    ordinal hint RVA      name<br><br>          1    0 00001000 Add<br>          2    1 00001060 Mul<br>          3    2 00001030 Sub<br><br>  Summary<br><br>        3000 .data<br>        3000 .pdata<br>       13000 .rdata<br>        1000 .reloc<br>       37000 .text<br>        1000 _RDATA<br><br></code></pre></td></tr></table></figure>
+
+<p>可以看到该DLL中有三个导出函数并且可以看到他们的相对地址</p>
+<h2 id="使用DLL"><a href="#使用DLL" class="headerlink" title="使用DLL"></a>使用DLL</h2><p>程序使用DLL的过程其实就是引入DLL中的导出函数和符号的过程,即导入过程</p>
+<p>对于从其他DLL导入的符号,我们需要使用<code>&quot;__declspec(dllimport)&quot;</code>显式的声明某个符号为导入符号</p>
+<p>例如:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/*myTest.c*/</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br>__declspec(dllimport)  <span class="hljs-type">double</span> <span class="hljs-title function_">Sub</span><span class="hljs-params">(<span class="hljs-type">double</span> a,<span class="hljs-type">double</span> b)</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> **argv)</span><br>&#123;<br>    <span class="hljs-type">double</span> result =Sub(<span class="hljs-number">3.0</span>,<span class="hljs-number">2.0</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result=%f\n&quot;</span>,result);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>编译时我们可以使用如下命令编译</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">cl /c myTest.c<br><span class="hljs-built_in">link</span> myTest.obj test.lib<br></code></pre></td></tr></table></figure>
+
+<p>lib文件中并不真正包含dll的代码和数据,他被用来描述dll的到处符号,包含了myTest.o链接test.dll时所需要的导入符号以及一部分”桩代码”,也被称为”胶水代码”,以便将程序与DLL黏在一起,而我们的test.lib这样的文件也被称为导入库</p>
+<p>如下为MSVC静态库链接过程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br>test.c -&gt; cl -&gt; test.dll + test.exp + test.lib<br><br>myTest.c -&gt; cl -&gt; myTest.obj<br><br>myTest.obj + test.lib -&gt; <span class="hljs-built_in">link</span> -&gt; myTest.exe<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="使用模块定义文件"><a href="#使用模块定义文件" class="headerlink" title="使用模块定义文件"></a>使用模块定义文件</h2><p>声明DLL中某个函数是导出函数的办法有两种,除了之前使用的<code>&quot;__declspec(dllexport)&quot;</code>,另一种是采用模块定义(.def)文件声明</p>
+<p>.def文件在MSVC链接过程中与链接脚本(link script)文件在ld连接过程中的作用类似,用于控制链接过程,为链接器提供有关链接程序的到处符号,属性以及一些其他信息</p>
+<p>假设我们删除了test.c中所有的<code>&quot;__declspec(dllexport)&quot;</code>,创建一个 test.def文件,内容如下:</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">LIBRARY <span class="hljs-keyword">test</span><br>EXPORTS<br><span class="hljs-keyword">Add</span><br><span class="hljs-keyword">Sub</span><br><span class="hljs-keyword">Mul</span><br></code></pre></td></tr></table></figure>
+
+<p>然后用如下方式编译test.c</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ cl test.c /LD /DEF test.def<br><br>D:\0000tttteeesstt&gt;dumpbin /EXPORTS math.dll<br>...<br><br>          1    0 00001000 Add<br>          2    1 00001040 Mul<br>          3    2 00001020 Sub<br>...<br></code></pre></td></tr></table></figure>
+
+<p>用这种方法也有一些在编译上的优势,比如MSCV默认对C语言的函数代码使用<code>&quot;_cdecl&quot;</code>调用规范,而这种情况下对函数不做任何符号修饰,但是一旦我们使用其他的函数调用规范,MSCV就会对符号名进行修饰,比如使用<code>&quot;_stdcall&quot;</code>调用的函数Add就会被修饰成”_Add@16”,前面以<code>&quot;_&quot;</code>开头,后面以<code>&quot;@n&quot;</code>结尾,n表示函数调用时参数所占堆栈空间的大小。使用.def文件可以将导出函数重新命名,比如当Add函数采用<code>&quot;__stdcall&quot;</code>时,我们可以使用如下的.def文件:</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs avrasm">LIBRARY test<br>EXPORTS<br><span class="hljs-keyword">Add</span>=_<span class="hljs-keyword">Add</span><span class="hljs-subst">@16</span><br><span class="hljs-keyword">Sub</span><br><span class="hljs-keyword">Mul</span><br></code></pre></td></tr></table></figure>
+
+<p>我们使用这个.def生成.dll文件时,可以看到</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">看到个屁<br></code></pre></td></tr></table></figure>
+
+<p>这种方式相当于起了一个别名,由于Windows的API经常采用<code>&quot;WINAPI&quot;</code>这种方式进行声明,但其本质是一个被定义为<code>&quot;__stdcall&quot;</code>的宏。</p>
+<p>微软以DLL的形式提供windows的API,而每个API的导出函数又以<code>&quot;__stdcall&quot;</code>的形式被声明,但我们并未在windows的API中看到过_Add@16这种形式的命名方式,由此可见其也是采取了这种导出函数重命名的方式。</p>
+<p>关于DLL导出还有如此一篇文章可以作参考:<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1af030b26bb2">https://www.jianshu.com/p/1af030b26bb2</a></p>
+<h2 id="DLL显式运行时链接"><a href="#DLL显式运行时链接" class="headerlink" title="DLL显式运行时链接"></a>DLL显式运行时链接</h2><p>与ELF类似,DLL也是支持运行时加载的,Windows提供了3个API:</p>
+<ul>
+<li><code>LoadLibrary</code>(或者<code>LoadLibraryEx</code>),该函数用于装载一个DLL到进程的地址空间,其功能与<code>dlopen</code>类似</li>
+<li><code>GetProcAddress</code> 用于查找某个符号的地址,与dlsym类似</li>
+<li><code>FreeLibrary</code> 用于卸载某个已加载的模块,与dclose类似</li>
+</ul>
+<p>如以下的例子:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;windows.h&gt;</span></span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-title function_">double</span> <span class="hljs-params">(*Func)</span><span class="hljs-params">(<span class="hljs-type">double</span>,<span class="hljs-type">double</span>)</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>        Func func;<br>        <span class="hljs-type">double</span> result;<br><br>        <span class="hljs-comment">//Load DLL</span><br>        HINSTANCE hinstLib=LoadLibrary(<span class="hljs-string">&quot;test.dll&quot;</span>);<br>        <span class="hljs-keyword">if</span> (!hinstLib)<br>        &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Error,Load lib failed!\n&quot;</span>);<br>                <span class="hljs-built_in">exit</span>(<span class="hljs-number">-1</span>);<br>        &#125;<br><br>        <span class="hljs-comment">//Get func address</span><br>        func=(Func)GetProcAddress(hinstLib,<span class="hljs-string">&quot;Add&quot;</span>);<br>        <span class="hljs-keyword">if</span>(!func)<br>        &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Error,find func failed!\n&quot;</span>);<br>                FreeLibrary(hinstLib);<br>                <span class="hljs-built_in">exit</span>(<span class="hljs-number">-1</span>);<br>        &#125;<br><br>        <span class="hljs-comment">//call func</span><br>        result=func(<span class="hljs-number">1.0</span>,<span class="hljs-number">2.0</span>);<br>        FreeLibrary(histLib);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Result is %f !\n&quot;</span>,result);<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h1 id="符号导出导入表"><a href="#符号导出导入表" class="headerlink" title="符号导出导入表"></a>符号导出导入表</h1><h2 id="导出表"><a href="#导出表" class="headerlink" title="导出表"></a>导出表</h2><p>当一个PE需要将一些函数或变量提供给其他PE文件使用时,我们就将这种行为称为符号导出(Symbol Exporting)</p>
+<p>ELF导出的符号保存在<code>&quot;.dynsym&quot;</code>段中,而Windows下,其导出的概念也是类似的,所遇到处的符号被击中存放在了被称为<code>导出表(Export Table)</code>的结构中.,也可以简单的将其理解为一个符号名与符号地址的映射关系</p>
+<p>PE头中有一个叫做<code>DataDirectory</code>的结构数组,他一共有十六个元素,每一个元素中保存的是一个地址和长度,其中第一个元素就是导出表的结构的地址和长度</p>
+<p>导出表为定义在<code>&quot;winnt.h&quot;</code>的一个叫<code>IMAGE_EXPORT_DIRECTORY</code>的结构体</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> IMAGE_EXPORT_DIRECTORY STRUCT<span class="hljs-comment">//【导出表，共40字节】</span><br>&#123;<br>+<span class="hljs-number">00</span> h DWORD Characteristics ; <span class="hljs-comment">//未使用，总是定义为0</span><br>+<span class="hljs-number">04</span> h DWORD TimeDateStamp ; <span class="hljs-comment">//文件生成时间</span><br>+<span class="hljs-number">08</span> h WORD MajorVersion     ; <span class="hljs-comment">//未使用，总是定义为0</span><br>+<span class="hljs-number">0</span>A h WORD MinorVersion ; <span class="hljs-comment">//未使用，总是定义为0</span><br>+<span class="hljs-number">0</span>C h DWORD Name     ; <span class="hljs-comment">//模块的真实名称</span><br>+<span class="hljs-number">10</span> h DWORD Base     ; <span class="hljs-comment">//基数，加上序数就是函数地址数组的索引值,一般为1</span><br>+<span class="hljs-number">14</span> h DWORD NumberOfFunctions ; <span class="hljs-comment">//导出函数的总数</span><br>+<span class="hljs-number">18</span> h DWORD NumberOfNames ; <span class="hljs-comment">//以名称方式导出的函数的总数</span><br>+<span class="hljs-number">1</span>C h DWORD AddressOfFunctions ; <span class="hljs-comment">//指向输出函数地址的RVA</span><br>+<span class="hljs-number">20</span> h DWORD AddressOfNames ; <span class="hljs-comment">//指向输出函数名字的RVA</span><br>+<span class="hljs-number">24</span> h DWORD AddressOfNameOrdinals ; <span class="hljs-comment">//指向输出函数序号的RVA</span><br>&#125;;IMAGE_EXPORT_DIRECTORY ENDS<br><br></code></pre></td></tr></table></figure>
+
+<p>我们重点关注的是最后三个变量,<code>AddressOfFunctions</code>,<code>AddressOfNames</code>,以及<code>AddressOfNameOrdinals</code></p>
+<ul>
+<li>AddressOfFunctions: <code>导出地址表EAT</code>,存放了各个导出函数的RVA</li>
+<li>AddressOfNames: <code>函数名表</code>,保存了导出函数的名字,其内以ASCII值排序,以便动态采用二分查找的方式</li>
+<li>AddressOfOrdinals: <code>序号对应表</code>,具体在下面介绍</li>
+</ul>
+<h3 id="序号"><a href="#序号" class="headerlink" title="序号"></a>序号</h3><p>这也是一个来自远古的遗物,由于最原始的windows内存太小了,如果存储名字的话实在是太大了,因此人们采用序号的形式来导出函数</p>
+<p>那么什么是序号呢? </p>
+<p>一个导出函数的序号就是函数在EAT中的地址下标加一个Base值(也就是IMAGE_EXPORT_DIRECTORY中的Base,默认该值为1)</p>
+<p>比如Mul的RVA是0x1040s,他在EAT中的下标为1,加一个Base值其序号就是2了,那么导入的时候也是同理,只需要减一个Base值然后按下标寻找就好了</p>
+<p>但是由于我们的DLL经常改变,序号的形式就会有着诸多的不便,因此如今基本都不使用序号来导入函数了,而是直接使用函数名即可,而由于Windows是向后兼容的,因此序号也并未被抛弃,导出函数可以没有名字,但是一定会有一个序号</p>
+<p>那么系统如何确定符号名表和EAT表的关系呢,这就需要通过第三个表即序号对应表来做映射了,比如程序导入了Add函数,那么首先链接器在函数名表中二分查找Add函数,然后在名字序号对应表中找到其序号,减去Image值,最后去EAT中按下标取出地址即可</p>
+<blockquote>
+<p>link链接器也提供了一种导出符号的方式,比如:</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">link <span class="hljs-keyword">test</span>.obj /DLL /<span class="hljs-keyword">EXPORT</span>:_Add<br></code></pre></td></tr></table></figure></blockquote>
+<p>而如果是使用<code>&quot;__declspec(dllexport)&quot;</code>扩展,其实际是用目标文件的编译器指示来实现的(PE目标文件的”.drectve”段),对于之前的例子而言,它其实保存了3个<code>&quot;/EXPORT&quot;</code>参数    </p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">D:\0000tttteeesstt&gt;dumpbin <span class="hljs-string">/DIRECTIVES</span> test.obj<br>Microsoft <span class="hljs-params">(R)</span> COFF/PE Dumper Version 14.27.29111.0<br>Copyright <span class="hljs-params">(C)</span> Microsoft Corporation.  All rights reserved.<br><br><br>Dump of file test.obj<br><br>File Type: COFF OBJECT<br><br>   Linker Directives<br>   <span class="hljs-params">-----------------</span><br>   <span class="hljs-string">/DEFAULTLIB</span><span class="hljs-function">:LIBCMTD</span><br>   <span class="hljs-string">/DEFAULTLIB</span><span class="hljs-function">:OLDNAMES</span><br>   <span class="hljs-string">/EXPORT</span><span class="hljs-function">:Add</span><br>   <span class="hljs-string">/EXPORT</span><span class="hljs-function">:Sub</span><br>   <span class="hljs-string">/EXPORT</span><span class="hljs-function">:Mul</span><br><br>  Summary<br><br>          20 <span class="hljs-string">.chks64</span><br>          6C <span class="hljs-string">.debug</span>$S<br>          54 <span class="hljs-string">.drectve</span><br>          59 <span class="hljs-string">.text</span>$mn<br></code></pre></td></tr></table></figure>
+
+<h2 id="EXP文件-下面内容几乎完全摘抄于原文"><a href="#EXP文件-下面内容几乎完全摘抄于原文" class="headerlink" title="EXP文件(下面内容几乎完全摘抄于原文)"></a>EXP文件(下面内容几乎完全摘抄于原文)</h2><p>在创建DLL的同时我们也会得到一个EXP文件,它其实是链接器创建DLL时的临时文件,链接器在创建DLL时与静态链接一样采用两遍扫描过程,DLL一般都有到处符号,链接器在第一遍时遍历所有的目标文件并且收集所有导出符号信息并且创建DLL的导出表</p>
+<p>为了方便起见,链接器会把这个导出表放到一个临时的目标文件叫做<code>&quot;.edata&quot;</code>的段中,这个目标文件就是EXP文件,也就是说它其实是PE&#x2F;COFF的目标文件,只不过其后缀不是.obj而是.exp而已</p>
+<p>第二遍时他就会把这个EXP文件当做普通目标文件一样,与其他输入的目标文件连接在一起并输出DLL,此时EXP文件中的<code>&quot;.edata&quot;</code>段就会被输出到DLL文件中并称为导出表,不过一般不会保留<code>&quot;.edata&quot;</code>段而是将其存在<code>&quot;.rdata&quot;</code>中</p>
+<h2 id="导出重定向"><a href="#导出重定向" class="headerlink" title="导出重定向"></a>导出重定向</h2><p>DLL有被称为导出重定向(Export Forwarding)的机制,也就是将某个导出符号重定向到另一个DLL中</p>
+<p>比如XP系统中,<code>&quot;KERNEL32.DLL&quot;</code>的<code>HeapAlloc</code>函数被重新定向到了<code>&quot;NTDLL.DLL&quot;</code>中的<code>RtlAllocHeap</code>函数,重定向也可以使用.def模块定义文件,比如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs def">EXPORTS<br>    HeapAlloc = NTDLL.RtlAllocHeap<br></code></pre></td></tr></table></figure>
+
+<p>其机制就是如果发现导出表中的RVA指向了一个导出表,那么就意味着该符号呗重定向了</p>
+<h2 id="导入表"><a href="#导入表" class="headerlink" title="导入表"></a>导入表</h2><p>程序中使用来自DLL的函数和变量就被称为符号导入</p>
+<p>在ELF中,<code>&quot;.rel.dyn&quot;</code>和<code>&quot;.rel.plt&quot;</code>两个段分别保存了该模块所需要导入的变量和函数的符号以及所在的模块等信息<br>而<code>&quot;.got&quot;</code>和<code>&quot;.got.plt&quot;</code>则保存着这些变量和函数的真正地址</p>
+<p>而Windows下也有类似延迟绑定的机制,他的名字更为直接,他被称为导入表(Import Table)<br>当某个PE文件被加载时,Windows加载器的其中一个任务就是将所有需要导入的函数地址确定并将导入表中的元素调整到正确的地址,以实现动态链接的过程 </p>
+<p>dumpbin也可以查看导入表</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs bash">D:\0000tttteeesstt&gt;dumpbin /IMPORTS test.dll<br>Microsoft (R) COFF/PE Dumper Version 14.27.29111.0<br>Copyright (C) Microsoft Corporation.  All rights reserved.<br><br>Dump of file test.dll<br><br>File Type: DLL<br><br>  Section contains the following imports:<br><br>    KERNEL32.dll<br>             180038000 Import Address Table<br>             180049AB8 Import Name Table<br>                     0 <span class="hljs-keyword">time</span> <span class="hljs-built_in">date</span> stamp<br>                     0 Index of first forwarder reference<br><br>                         450 QueryPerformanceCounter<br>                         21E GetCurrentProcessId<br>                         222 GetCurrentThreadId<br>                         2F0 GetSystemTimeAsFileTime<br>                         36C InitializeSListHead<br>                         4D3 RtlCaptureContext<br>                         4DA RtlLookupFunctionEntry<br>                         4E1 RtlVirtualUnwind<br>                         382 IsDebuggerPresent<br>                         5BC UnhandledExceptionFilter<br>                         57B SetUnhandledExceptionFilter<br>                         2D7 GetStartupInfoW<br>                         389 IsProcessorFeaturePresent<br>                         27E GetModuleHandleW<br>                         21D GetCurrentProcess<br>                         59A TerminateProcess<br>                         ...<br></code></pre></td></tr></table></figure>
+
+<p>上面显示的一部分函数是由于在构建Windows DLL时,还链接了支持DLL运行的基本运行库,而这个需要Kernel32.dll,所有就有了这些函数</p>
+<p>在Windows下,系统的足昂再起会确保任何一个模块的依赖条件都被得到满足,比如Windows程序都会依赖于KERNEL32.DLL,而KERNEL32.DLL又会依赖于NTDLL.DLL<br>那么Windows加载时就会确保这两个都被加载,以此类推,如果动态链接过程中某个被依赖的模块无法正确加载,那么系统将会提示错误(比如缺少某个DLL)</p>
+<p>在PE文件中,导入表的结构是IMAGE_IMPORT_DESCRIPTOR的结构体数组,而每一个该结构都对应一个被导入的DLL,该结构体也被定义在<code>&quot;Winnt.h&quot;</code>中:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span>&#123;</span><br>        DWORD OriginalFirstThunk; <span class="hljs-comment">//INT</span><br>        DWORD TimeDateStamp;<br>        DWORD ForwaderChain;<br>        DWORD Name;<br>        DWORD FirstThunk; <span class="hljs-comment">//IAT</span><br>&#125; IMAGE_IMPORT_DESCRIPTOR;<br><br></code></pre></td></tr></table></figure>
+
+<p>结构体中的<code>FirstThunk</code>指向一个导入地址数组(Import Address Table),IAT是导入表中最重要的结构,IAT中每个元素对应一个被导入的符号,元素的值在不同的情况下有不同的含义。</p>
+<p>在动态链接器刚完成映射还没有开始重定位和符号解析时,IAT中的元素值表示相对应的导入符号的序号或者是符号名。</p>
+<p>当Windows的动态链接器在完成该模块的链接时,元素值会被动态链接器改写成该符号的真正地址,从这一点看,导入地址数组与ELF中的GOT表非常类似。</p>
+<p>我们可以通过看导入地址数组的元素最高位来判断其中包含的是导入符号的序号还是符号的名字,比如32位的PE文件,如果最高位被置为1,那么低32位就是导入符号的序号值,如果没有,那么元素的值是指向一个叫做<code>IMAGE_IMPORT_BY_NAME</code>结构的RVA。</p>
+<p><code>IMAGE_IMPORT_BY_NAME</code>由一个<code>WORD值</code>和一个<code>字符串</code>组成,这个WORD值被称为<code>&quot;Hint&quot;</code>值,所谓<code>&quot;Hint&quot;</code>值,其实就是导入符号中最有可能的序号值,而后面的字符串是符号名,当使用符号名导入时,动态链接器会先使用<code>&quot;Hint&quot;</code>值的提示去定位该符号在目标导出表中的位置,如果刚好是需要的符号,那么就直接命中,而如果没有,就使用二分法来进行符号查找。</p>
+<p>在<code>IMAGE_IMPORT_DESCRIPTOR</code>结构中,还有一个指针OriginalFirstThrunk指向一个叫做导入名称表(Import Name Table),简称<code>INT</code>表,这个表与<code>IAT</code>表一样,但<code>INT</code>被用于<code>DLL绑定</code>,它用来存放绑定符号的地址。</p>
+<p>Windows的动态链接器会在装载模块的时候,改写导入表中的IAT,但PE的导入表一般是只读的,往往位于<code>&quot;.rdata&quot;</code>这样的段中,他可以改写的原因是动态链接库也是内核的一部分,因此可以修改PE装载以后的任意一个部分,包括其内容和页面属性,Windows的做法是在装载的时候将导入表所在的位置的页改为可读写,而一旦IAT被改写完成,再将这些页面设置回只读属性.</p>
+<h3 id="延迟载入-Delayed-Load"><a href="#延迟载入-Delayed-Load" class="headerlink" title="延迟载入(Delayed Load)"></a>延迟载入(Delayed Load)</h3><p>这种载入方式有点像隐式装载和显式装载的混合体,当我们链接一个支持延迟载入的DLL时,链接器会产生与浦普通DLL非常类似的数据,但操作系统会忽略这些数据</p>
+<p>当延迟载入的API第一次被调用时,由链接器添加的特殊的桩代码就会启动,这个桩代码负责对DLL的装载工作,然后这个桩代码通过调用<code>GetProcAddress</code>来找到被调用的API的地址,MSVC也做了一些优化使得该方式与普通方式载入的DLL速度相差无几</p>
+<h2 id="导入函数的调用"><a href="#导入函数的调用" class="headerlink" title="导入函数的调用"></a>导入函数的调用</h2><p>如果在PE的模块中需要调用一个导入函数,如果使用ELF GOT机制就是使用一个简介调用指令,比如:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asm">CALL DWORD PTR [0X0040D11C]<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>PE DLL的地址无关性</p>
+</blockquote>
+<p>如果ELF调用者本身的模块是地址无关的,那么通过GOT跳转之前,需要计算目标函数地址在GOT表中的位置,然后再间接跳转,以此来实现地址无关</p>
+<p><code>但PE DLL 的代码段并不是地址无关的</code></p>
+<p>PE使用一种叫做重定基地址的方法来解决进程空间中地址冲突的问题</p>
+<p>但这种方式也有一定的问题,因为编译器无法判断一个函数是本模块内部的,还是从外部导入的</p>
+<p><strong>因为PE没有类似ELF的共享对象有全局符号介入的问题,所以对于模块内部的全局函数调用,编译器产生的都是直接调用指令</strong></p>
+<p>为了使编译器可以区分函数从内部导入还是该模块内部定义的,MSVC引入了拓展属性<code>&quot;__declspec(dllimport)&quot;</code>,也就意味着一旦一个函数被如此声明了,编译器就会知道他是从外部导入的,来以此产生相应的指令形式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs ASM">内部:<br>CALL XXXXX<br><br>外部:<br>CALL DWORD PTR [0xXXXXXXXX]<br></code></pre></td></tr></table></figure>
+
+<p>而在<code>&quot;__declspec&quot;</code>关键字引入之前,对于导入函数的调用,编译器并不区分导入函数和导出函数,统一的产生直接调用的指令,但链接器会将导入函数的目标地址导向一小段桩代码(Stub),由桩代码在将控制权交给IAT中的真正地址,实现如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs asm">CALL 0X00400100C<br>...<br>0x00400100C:<br>JMP DWORD PTR [0x0040D11C]<br></code></pre></td></tr></table></figure>
+
+<p>对于调用函数而言,其只是产生一般形式的指令<code>&quot;CALL XXXX&quot;</code>,直到链接时才会将这个地址重定位到一段桩代码,即那条JMP指令处,然后这条JMP指令才通过IAT间接跳转到导入函数</p>
+<p>但链接器一般是不会产生指令的,因此刚刚所说的桩代码其实是存在产生DLL文件时的LIB文件(导入库)中的</p>
+<p>编译器在产生导入库时,同一个导出函数会产生两个符号的定义,比如<code>foo</code>函数会有<code>foo</code>和<code>__imp_foo</code>两个符号,而这两个符号的区别在于,<code>foo</code>指向<code>foo</code>函数的桩代码,而<code>__imp_foo</code>指向<code>foo</code>函数在IAT中的位置,因此当我们使用<code>&quot;__declspec(dllimport)&quot;</code>来声明foo导入函数时,编译器就会在该倒入函数前加上前缀<code>&quot;__imp__&quot;</code>,以确保跟导入库中的<code>&quot;__imp__foo&quot;</code>能够正确链接;如果不使用<code>&quot;__declsepc(dllimport)&quot;</code>,编译器就会产生一个正常的foo符号引用一遍和导入库中的foo符号定义相链接。</p>
+<p>如今的编译器两种导入方式都支持,但最好使用<code>&quot;__declspec(dllimport)&quot;</code>来声明导入符号</p>
+<h1 id="DLL-优化"><a href="#DLL-优化" class="headerlink" title="DLL 优化"></a>DLL 优化</h1><blockquote>
+<p>由于DLL的代码段和数据段不是地址无关的,那么就意味着它默认需要被装载到由ImageBase指定的目标地址中,如果目标地址被占用就会Rebase,而频繁的重定位也会使得程序启动速度太慢</p>
+<p>而且动态链接过程中导入函数的符号在运行时需要被逐个解析,这个过程中不可避免的是符号字符串的比较和查找过程,而这个过程仍然是非常耗时的,这也是影响DLL性能的一个原因之一。</p>
+</blockquote>
+<p>太长不看版,符号查找和Rebase会使得程序启动时间巨长</p>
+<h2 id="重定基地址-Rebasing"><a href="#重定基地址-Rebasing" class="headerlink" title="重定基地址(Rebasing)"></a>重定基地址(Rebasing)</h2><p>Windwos PE采用 <strong>装载时重定位</strong> 的方法来解决地址冲突问题,在DLL模块装载时,如果目标地址被占用操作系统就会分配一块新的内存,而因为DLL代码段不是地址无关的,DLL中所有涉及到绝对地址的引用也都进行重定位.</p>
+<p>但这样的重定位也有一点特殊,因为只需要加一个和固定值的差值即可,比如一个DLL的基地址是0X1000,而如果其代码中有如此的指令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asm">MOV DWORD PTR [0X1100] 0X100<br></code></pre></td></tr></table></figure>
+
+<p>那么假设0x1100是该模块中一个变量foo的地址,也就意味着该变量的RVA是0x100,但装载时如果0x1000被占用了,那么就会重定一个新的基地址,比如0x2000,因此此时foo的地址其实是0x2100,所以指令应该被改为:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asm">MOV DWORD PTR [0X2100] 0X100<br></code></pre></td></tr></table></figure>
+
+<p>也就是说所有的需要重定位的地方只需要加上一个原基地址和现在加载的基地址的差值即可,这种方式速度比一般的重定位要快</p>
+<p>PE文件的重定位信息被放在了<code>&quot;.reloc&quot;</code>段,我们可以从PE文件头中的<code>DataDirectory</code>里得到重定位段的信息,但EXE文件默认不会有重定位段,因为EXE是进程运行时第一个被装载进虚拟内存的,这也就意味着它不会被人抢占基地址,但DLL虽然可以使用<code>&quot;/FIEXED&quot;</code>来禁止产生重定位信息,但可能会导致装载失败</p>
+<p>缺点:</p>
+<p>用空间换时间</p>
+<p>因为一个DLL被多个进程共享时该DLL会被进程装载到不同的位置,因此每一个进程都会有一个单独的DLL代码段的副本,而且当需要被重定基地址的代码段需要被换出时,需要被写到交换空间中</p>
+<h3 id="改变默认基地址"><a href="#改变默认基地址" class="headerlink" title="改变默认基地址"></a>改变默认基地址</h3><p>这里直接拿书上的例子了</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>起始地址</th>
+<th>结束地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>main.exe</td>
+<td>0x00400000</td>
+<td>0x00410000</td>
+</tr>
+<tr>
+<td>foo.dll</td>
+<td>0x10000000</td>
+<td>0x10010000</td>
+</tr>
+<tr>
+<td>bar.dll</td>
+<td>0x10010000</td>
+<td>0x10020000</td>
+</tr>
+</tbody></table>
+<p>bar.dll的基地址被重定位到了0x10010000,那么为了优化速度,我们可以采取改变默认基地址的方式,将其基地址修改成<code>0x10010000</code></p>
+<p>MSCV的链接器就提供了这样的修改功能:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">link</span> /BASE:0X10010000,0X10000  /DLL bar.obj<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>要注意的是我们改变默认基地址需要时64K的倍数,上面参数中的0X10000是限定DLL可以占用空间的最大长度</p>
+</blockquote>
+<p>除了链接时可以修改意外,MSCV也提供一个叫<code>editbin</code>的工具(早期为rebase.exe),该工具可以修改已有的DLL的基地址,如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">editbin /REBASE:BASE=0x10020000 basr.dll<br></code></pre></td></tr></table></figure>
+
+<h3 id="系统DLL"><a href="#系统DLL" class="headerlink" title="系统DLL"></a>系统DLL</h3><p>由于windwos内部会有很多系统的DLL,比如<code>&quot;kernel.dll&quot;</code>,<code>&quot;ntdll.dll&quot;</code>,<code>&quot;shell32.dll&quot;</code>,<code>&quot;user32.dll&quot;</code>,<code>&quot;msvcrt.dll&quot;</code>等,系统会在进程空间中专门划出一块0x70000000~0x80000000的区域,以此映射系统DLL,Windows在安装的时候就会把地址分配给这些DLL,从而在装载时就不需要进行过重定基址了</p>
+<h2 id="序号-1"><a href="#序号-1" class="headerlink" title="序号"></a>序号</h2><p>序号标示被导出函数地址在DLL导出表的位置</p>
+<p>一般而言仅供内部使用的导出函数只有序号没有函数名,这也外部使用者就无法推测他的含义和使用方法</p>
+<p>Windwos API的函数名虽然是不变的,但他的序号却在各个windows版本中不停变化,也就意味着我们导入windows api的时候不能使用序号的方式来导入</p>
+<h2 id="导入函数绑定"><a href="#导入函数绑定" class="headerlink" title="导入函数绑定"></a>导入函数绑定</h2><p>当程序运行时,所有被依赖的DLL都会被装载,而且一系列的导入导出符号依赖关系都会被重新解析,大多数情况下,这些DLL都会以同样的顺序被装在到同样的内存地址,也就意味着他们的导出符号地址不变,因此我们可以通过绑定导入函数的方法来优化DLL的性能,这种方式被称为 <strong>DLL绑定(DLL Binding)</strong></p>
+<p>我们可以使用MSCV提供的工具来达到我们想要达到的目的:</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs fortran">editbin /<span class="hljs-keyword">BIND</span> xxx.exe<br></code></pre></td></tr></table></figure>
+
+<p>其实现方法就是editbin对被绑定的程序的导入符号进行遍历查找,找到之后就把符号的运行时的目标地址写入到被绑定程序的导入表内,我们之前所说的INT表就是用于此,它用于存放绑定符号的地址。</p>
+<h2 id="C-与动态链接"><a href="#C-与动态链接" class="headerlink" title="C++与动态链接"></a>C++与动态链接</h2><p>这一部分就暂时省略了</p>
+<p>推荐阅读:&lt;&lt;COM本质论&gt;&gt;&gt;</p>
+<p>COM即组件对象模型</p>
+<h1 id="DLL-HELL"><a href="#DLL-HELL" class="headerlink" title="DLL HELL"></a>DLL HELL</h1><p>早期的时候,由于Windows缺乏一种有效的DLL版本控制机制,而频繁的更新导致经常发生兼容性的问题,因此人们将其称其为DLL噩梦(DLL HELL)</p>
+<h3 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因:"></a>产生原因:</h3><ol>
+<li>旧版本的DLL替代新版本的DLL引起的</li>
+<li>新版的DLL中的函数无意发生改变时引起的(因为完全的”向下”兼容并不可能)</li>
+<li>新版DLL的安装引入一个新BUG</li>
+</ol>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ul>
+<li><p>静态链接(Static linking)</p>
+<p>终极方法,但会丧失使用动态链接的好处</p>
+</li>
+<li><p>防止DLL覆盖</p>
+<p>windows下可以使用windows文件保护(Windows File Protection简称WFP)技术来缓解,他可以阻止未经授权的应用程序覆盖系统DLL</p>
+<p>第三方应用程序不能覆盖操作系统DLL文件,除非他们的安装程序捆绑了Windows更新包,或者他们的安装程序运行时禁止了WFP服务</p>
+</li>
+<li><p>避免DLL冲突</p>
+<p>解决不同的程序依赖相同DLL不同版本的方法就是让每一个程序有自己的一份DLL,并且将不同版本放到应用程序的文件夹中</p>
+</li>
+<li><p>.NET下DLL HELL的解决方法</p>
+<p>.NET框架中,一个程序集(Assembly)有两种类型:应用程序程序(EXE可执行文件)集以及库程序(DLL动态链接库)集,一个程序集包括一个或多个文件,所以需要一个<code>清单文件</code>来描述程序集,这个清单文件被称为<code>Manifest文件</code></p>
+<p><code>Manifest</code>描述了程序集的名字,版本号以及程序集的各种资源,同时也描述了该程序集的运行所依赖的资源,包括DLL以及其他资源文件</p>
+<p><code>Manifest</code>是一个XML的描述文件,每个DLL有自己的manifest文件,每个应用程序也有自己的Manifest,对于应用程序而言,manifest文件可以和可执行文件在同一目录下,也可以作为资源嵌入到可执行文件的内部(Embed Manifest)</p>
+<p>XP以前不考虑该文件,直接去system32目录下查找该可执行文件所依赖的DLL,而XP以后会先读取程序集的清单文件,获得该可执行文件需要调用的DLL列表,操作系统再根据DLL的清单文件去寻找对应的DLL来调用</p>
+<blockquote>
+<p>至此做了一个简单的记录,其中大段文字直接摘抄于原书,每一次看这本书都有不同的惊喜,真是深感自己太弱了</p>
+</blockquote>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/windows/" class="print-no-link">#windows</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>DLL随笔</div>
+      <div>https://nightrainy.github.io/2021/04/16/DLL随笔/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>知世</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年4月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-cc-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/05/23/windows%E5%A0%86%E6%9C%BA%E5%88%B6/" title="windows堆机制">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">windows堆机制</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/03/22/HEVD%E9%80%9A%E5%85%B3%E4%B9%8B%E8%B7%AF-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="HEVD通关之路_环境搭建">
+                        <span class="hidden-mobile">HEVD通关之路_环境搭建</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

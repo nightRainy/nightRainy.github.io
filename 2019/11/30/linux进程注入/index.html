@@ -1,0 +1,738 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fox.jpg">
+  <link rel="icon" href="/img/fox.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="最近在开发一些东西的时候遇到了一些比较奇特的需求用到了该姿势,就顺势学习了一波,在一些情景下,我们需要无进程启动一些程序,此时线程注入就非常好用了,此处介绍下linux下的简单线程注入姿势  适用场景 无进程运行程序 动态打补丁(替换函数) 调试器,逆向软件开发 程序辅助器?可能dll注入更多些2333  一般目标 常驻服务程序 特定目标文件  Tips 在没有特殊手段的情况下,我们是无法用两个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux进程注入">
+<meta property="og:url" content="https://nightrainy.github.io/2019/11/30/linux%E8%BF%9B%E7%A8%8B%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="知世の小屋">
+<meta property="og:description" content="最近在开发一些东西的时候遇到了一些比较奇特的需求用到了该姿势,就顺势学习了一波,在一些情景下,我们需要无进程启动一些程序,此时线程注入就非常好用了,此处介绍下linux下的简单线程注入姿势  适用场景 无进程运行程序 动态打补丁(替换函数) 调试器,逆向软件开发 程序辅助器?可能dll注入更多些2333  一般目标 常驻服务程序 特定目标文件  Tips 在没有特殊手段的情况下,我们是无法用两个">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-11-30T07:18:35.000Z">
+<meta property="article:modified_time" content="2019-11-30T07:19:28.000Z">
+<meta property="article:author" content="知世">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>linux进程注入 - 知世の小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>知世</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/rick.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="linux进程注入"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-11-30 15:18" pubdate>
+          2019年11月30日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">linux进程注入</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>最近在开发一些东西的时候遇到了一些比较奇特的需求用到了该姿势,就顺势学习了一波,在一些情景下,我们需要无进程启动一些程序,此时线程注入就非常好用了,此处介绍下linux下的简单线程注入姿势</p>
+</blockquote>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><ul>
+<li>无进程运行程序</li>
+<li>动态打补丁(替换函数)</li>
+<li>调试器,逆向软件开发</li>
+<li>程序辅助器?可能dll注入更多些2333</li>
+</ul>
+<h2 id="一般目标"><a href="#一般目标" class="headerlink" title="一般目标"></a>一般目标</h2><ul>
+<li>常驻服务程序</li>
+<li>特定目标文件</li>
+</ul>
+<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ul>
+<li>在没有特殊手段的情况下,我们是无法用两个调试器同时调试同一个进程的</li>
+<li>我们只有在拥有对该进程的相应权限的时候才可以注入进程</li>
+</ul>
+<h2 id="注入手法"><a href="#注入手法" class="headerlink" title="注入手法"></a>注入手法</h2><p>我们都知道在windows下我们可以用dll注入来进行线程注入,那么在Linux下,我们也可以用类似dll注入的方法,即共享库so注入来实现功能</p>
+<p>那么我们在linux下该如何进行so注入呢?</p>
+<h3 id="0x00-LD-PRELOAD"><a href="#0x00-LD-PRELOAD" class="headerlink" title="0x00 LD_PRELOAD"></a>0x00 LD_PRELOAD</h3><p>在载入so文件的时候,_init_初始化是先于main函数运行的,因此我们可以通过LD_PRELOAD来载入一个写有_init_的.so库文件<br>例如</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//myso.so</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;dlfcn.h&gt;</span></span><br><br><span class="hljs-type">void</span> _init()<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;inject success!\n&quot;</span>);<br>&#125;<br><span class="hljs-comment">/*gcc -fPIC -shared myso.c -c -o myso.o</span><br><span class="hljs-comment">ld -shared -ldl myso.o -o myso.so*/</span><br><br></code></pre></td></tr></table></figure>
+<p>和我们想要注入的程序</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//test.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;This is my program!&quot;</span>);<br>&#125;<br><span class="hljs-comment">//gcc test.c -o test</span><br></code></pre></td></tr></table></figure>
+<p>然后我们编译一下</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus">gcc -fPIC -shared myso<span class="hljs-selector-class">.c</span> -c -o myso<span class="hljs-selector-class">.o</span><br>ld -shared -ldl myso<span class="hljs-selector-class">.o</span> -o myso<span class="hljs-selector-class">.so</span><br>gcc test<span class="hljs-selector-class">.c</span> -o test<br></code></pre></td></tr></table></figure>
+<p>之后再运行程序时输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">LD_PRELOAD=./myso.so ./test<br></code></pre></td></tr></table></figure>
+<p>结果:</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gradle"> ~<span class="hljs-regexp">/inject/</span>Ld : LD_PRELOAD=.<span class="hljs-regexp">/myso.so ./</span>test<br><span class="hljs-keyword">inject</span> success!<br><span class="hljs-keyword">This</span> is my program!<br></code></pre></td></tr></table></figure>
+<p>想要取消也很简单</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">unset</span> LD_PRELOAD<br></code></pre></td></tr></table></figure>
+
+<h3 id="0x01-ld-so-preload"><a href="#0x01-ld-so-preload" class="headerlink" title="0x01 ld.so.preload"></a>0x01 ld.so.preload</h3><p>我们通过篡改预处理文件就可以达到我们想要的效果</p>
+<p>我们将我们的恶意so文件写入ld.so.preload即可</p>
+<h3 id="0x02-strace"><a href="#0x02-strace" class="headerlink" title="0x02 strace"></a>0x02 strace</h3><p>strace常用来跟踪进程执行时的系统调用和所接收的信号,因此我们也可以通过strace来注入进程,举个例子:</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">strace -f -p pid -o /tmp/.<span class="hljs-built_in">log</span> -e trace=<span class="hljs-built_in">read</span>,<span class="hljs-built_in">write</span> -s <span class="hljs-number">1024</span><br></code></pre></td></tr></table></figure>
+<p>这里也解释一下所用到参数的意思<br>-f 指可以追踪进程fork出来的进程<br>-p 指定进程pid号<br>-o 将strace的输出写入指定文件<br>-e trace&#x3D;read,write 跟踪进程读写的系统调用<br>-s 指定输出的字符串的最大长度.默认为32</p>
+<p>关于更多参数,可以到<a target="_blank" rel="noopener" href="https://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/strace.html">strace 跟踪进程中的系统调用处查询</a></p>
+<h3 id="0x2-ptrace"><a href="#0x2-ptrace" class="headerlink" title="0x2 ptrace"></a>0x2 ptrace</h3><p>利用ptrace注入的过程总结一下就是:</p>
+<ol>
+<li>获取内存读写权限</li>
+<li>使用dlopen(<em>libc_dlopen_mode</em>)函数载入so文件</li>
+<li>调用so中的函数</li>
+</ol>
+<h4 id="获取进程内存读写权限"><a href="#获取进程内存读写权限" class="headerlink" title="获取进程内存读写权限"></a>获取进程内存读写权限</h4><p>ptrace提供了一种使父进程得以监视和控制其它进程的方式，它还能够改变子进程中的寄存器和内核映像，因而可以实现断点调试和系统调用的跟踪(我们的注入就是基于这个</p>
+<p>ptrace函数定义如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/ptrace.h&gt;</span></span><br><br>       <span class="hljs-function"><span class="hljs-type">long</span> <span class="hljs-title">ptrace</span><span class="hljs-params">(<span class="hljs-keyword">enum</span> __ptrace_request request, <span class="hljs-type">pid_t</span> pid,</span></span><br><span class="hljs-params"><span class="hljs-function">                   <span class="hljs-type">void</span> *addr, <span class="hljs-type">void</span> *data)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>其中第一个参数可以选择</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">PTRACE_TRACEME</span>,<br><span class="hljs-attribute">PTRACE_ATTACH</span>,<br><span class="hljs-attribute">PTRACE_SEIZE</span>,<br><span class="hljs-attribute">PTRACE_INTERRUPT</span>,<br><span class="hljs-attribute">PTRACE_KILL</span>,<br><span class="hljs-attribute">PTRACE_PEEKTEXT</span>,PTRACE_PEEKDATA<br><span class="hljs-attribute">PTRACE_PEEKUSER</span>     <br><span class="hljs-attribute">PTRACE_POKETEXT</span> ,PTRACE_POKEDATA<br><span class="hljs-attribute">PTRACE_POKEUSER</span><br><span class="hljs-attribute">PTRACE_GETREGS</span>,PTRACE_GETFPREGS, <br><span class="hljs-attribute">PTRACE_SETREGS</span>,PTRACE_SETFPREGS<br><span class="hljs-attribute">PTRACE_SETREGSET</span> (since Linux <span class="hljs-number">2</span>.<span class="hljs-number">6</span>.<span class="hljs-number">34</span>)<br><span class="hljs-attribute">PTRACE_GETSIGINFO</span> (since Linux <span class="hljs-number">2</span>.<span class="hljs-number">3</span>.<span class="hljs-number">99</span>-pre6)<br><span class="hljs-attribute">PTRACE_SETSIGINFO</span> (since Linux <span class="hljs-number">2</span>.<span class="hljs-number">3</span>.<span class="hljs-number">99</span>-pre6)<br><span class="hljs-attribute">PTRACE_PEEKSIGINFO</span> (since Linux <span class="hljs-number">3</span>.<span class="hljs-number">10</span>)<br><span class="hljs-attribute">PTRACE_GETSIGMASK</span> (since Linux <span class="hljs-number">3</span>.<span class="hljs-number">11</span>)<br><span class="hljs-attribute">PTRACE_SETSIGMASK</span> (since Linux <span class="hljs-number">3</span>.<span class="hljs-number">11</span>)<br><span class="hljs-attribute">PTRACE_CONT</span><br><span class="hljs-attribute">PTRACE_SYSCALL</span>,<br><span class="hljs-attribute">PTRACE_SINGLESTEP</span><br><span class="hljs-attribute">PTRACE_DETACH</span><br><span class="hljs-attribute">etc</span>.<br></code></pre></td></tr></table></figure>
+<p>更详细的内容可以在<a target="_blank" rel="noopener" href="http://man7.org/linux/man-pages/man2/ptrace.2.html">这里</a><br>或者<a target="_blank" rel="noopener" href="https://linux.die.net/man/2/ptrace">这里</a> 查询</p>
+<p>当然我们也可以直接打开我们的terminal,然后 man ptrace</p>
+<p>这里我们只举例几个我们会用到的几个参数</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs 1c">PTRACE_ATTACH<span class="hljs-punctuation">,</span>PTRACE_TRACEME  <span class="hljs-comment">//关联到进程</span><br>PTRACE_CONT <span class="hljs-comment">//让子程序继续运行</span><br>PTRACE_PEEKTEXT<span class="hljs-punctuation">,</span> PTRACE_PEEKDATA<span class="hljs-punctuation">,</span> PTRACE_PEEKUSR <span class="hljs-comment">//读取指定进程的内存</span><br>PTRACE_POKETEXT<span class="hljs-punctuation">,</span>PTRACE_POKEDATA<span class="hljs-punctuation">,</span> PTRACE_POKEUSR <span class="hljs-comment">//写进指定进程的内存</span><br>PTRACE_GETREGS <span class="hljs-comment">//读取寄存器详细信息</span><br>PTRACE_SETREGS <span class="hljs-comment">//设置当前进程的一组处理器寄存器值</span><br>PTRACE_DETACH<span class="hljs-punctuation">,</span> PTRACE_KILL   <span class="hljs-comment">//脱离进程</span><br></code></pre></td></tr></table></figure>
+
+<p>那么我们现在暂时拥有了内存的读写权限,现在就该向我们的进程中注入代码了</p>
+<h4 id="获得libc-dlopen-mode函数地址"><a href="#获得libc-dlopen-mode函数地址" class="headerlink" title="获得libc_dlopen_mode函数地址"></a>获得libc_dlopen_mode函数地址</h4><p>首先我们需要了解两个个函数,dlopen()和dlsym(),函数定义如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;dlfcn.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-type">void</span> * <span class="hljs-title">dlopen</span><span class="hljs-params">( <span class="hljs-type">const</span> <span class="hljs-type">char</span> * pathname, <span class="hljs-type">int</span> mode)</span></span>;<br><span class="hljs-function"><span class="hljs-type">void</span>* <span class="hljs-title">dlsym</span><span class="hljs-params">(<span class="hljs-type">void</span>* handler, <span class="hljs-type">const</span> <span class="hljs-type">char</span>* symbol)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>这个函数的作用就是打开一个动态链接库,并且返回动态链接库的句柄</p>
+<p>mode参数是so文件的打开方式我们这里只用到RTLD_LAZY,即在dlopen返回前，对于动态库中的未定义的符号不执行解析,也就是延迟绑定,关于其他的参数各位师傅感兴趣的话可以自行了解</p>
+<p>而通过dlsym()函数我们可以从句柄中取出我们所需要用的函数来调用</p>
+<p>那么即然我们已经获取了进程内存的读写权限,那么我们现在就直接开始调用dlopen函数搞事吧:)</p>
+<p>这里要提及一句,dlopen并不是每一个进程都有的,但是_libc_dlopen_mode是默认包含的,所以在dlopen不能使用的时候,我们可以选择调用_libc_dlopen_mode</p>
+<p>该函数定义如下:</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-type">void</span> * __libc_dlopen_mode (<span class="hljs-type">const</span> <span class="hljs-type">char</span> *name, <span class="hljs-type">int</span> mode)<br></code></pre></td></tr></table></figure>
+
+<p>为便于通用性,这里我们就拿_libc_dlopen_mode作为实例来进行进程注入</p>
+<p>那么现在我们确定了需要使用的函数,下一步要做的就是确定该函数在进程中的内存地址,这里有两种方法,这里都介绍一下</p>
+<ol>
+<li><p>cat &#x2F;proc&#x2F;$pid&#x2F;maps 得到基址之后根据偏移来得到</p>
+</li>
+<li><p>用类似于pwn中常用的ret2dl-resolve技巧来寻找</p>
+</li>
+</ol>
+<p>我们再来看一下elf是如何通过重定位来找到函数地址的,<br>这里贴一段来自一个师傅对最核心的代码和分析(具体来源有点找不到了)</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs rust">_dl_fixup(<span class="hljs-keyword">struct</span> <span class="hljs-title class_">link_map</span> *l, <span class="hljs-title function_ invoke__">ElfW</span>(Word) reloc_arg)<br>&#123;<br>    <span class="hljs-comment">// 首先通过参数reloc_arg计算重定位入口，这里的JMPREL即.rel.plt，reloc_offset即reloc_arg</span><br>    <span class="hljs-keyword">const</span> PLTREL *<span class="hljs-keyword">const</span> reloc = (<span class="hljs-keyword">const</span> void *) (<span class="hljs-title function_ invoke__">D_PTR</span> (l, l_info[DT_JMPREL]) + reloc_offset);<br>    <span class="hljs-comment">// 然后通过reloc-&gt;r_info找到.dynsym中对应的条目</span><br>    <span class="hljs-keyword">const</span> <span class="hljs-title function_ invoke__">ElfW</span>(Sym) *sym = &amp;symtab[<span class="hljs-title function_ invoke__">ELFW</span>(R_SYM) (reloc<span class="hljs-punctuation">-&gt;</span>r_info)];<br>    <span class="hljs-comment">// 这里还会检查reloc-&gt;r_info的最低位是不是R_386_JUMP_SLOT=7</span><br>    <span class="hljs-title function_ invoke__">assert</span> (<span class="hljs-title function_ invoke__">ELFW</span>(R_TYPE)(reloc<span class="hljs-punctuation">-&gt;</span>r_info) == ELF_MACHINE_JMP_SLOT);<br>    <span class="hljs-comment">// 接着通过strtab+sym-&gt;st_name找到符号表字符串，result为libc基地址</span><br>    result = _dl_lookup_symbol_x (strtab + sym<span class="hljs-punctuation">-&gt;</span>st_name, l, &amp;sym, l<span class="hljs-punctuation">-&gt;</span>l_scope, version, ELF_RTYPE_CLASS_PLT, flags, NULL);<br>    <span class="hljs-comment">// value为libc基址加上要解析函数的偏移地址，也即实际地址</span><br>    value = <span class="hljs-title function_ invoke__">DL_FIXUP_MAKE_VALUE</span> (result, sym ? (<span class="hljs-title function_ invoke__">LOOKUP_VALUE_ADDRESS</span> (result) + sym<span class="hljs-punctuation">-&gt;</span>st_value) : <span class="hljs-number">0</span>);<br>    <span class="hljs-comment">// 最后把value写入相应的GOT表条目中</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">elf_machine_fixup_plt</span> (l, result, reloc, rel_addr, value);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>具体实现过程师傅们可以看一下我之前的<a href="https://nightrainy.github.io/2019/07/17/ret2-dl-runtime-resolve/">关于ret2dl的文章</a>或者其他师傅的一些文章</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">https:</span><span class="hljs-comment">//bbs.pediy.com/thread-227034.htm</span><br><span class="hljs-symbol">https:</span><span class="hljs-comment">//xz.aliyun.com/t/6471</span><br><span class="hljs-symbol">https:</span><span class="hljs-comment">//xz.aliyun.com/t/4473</span><br></code></pre></td></tr></table></figure>
+<p>当然,此处安利&lt;&lt;程序员的自我修养—链接、装载与库&gt;&gt;</p>
+<p>那么现在我们就可以通过类似的方法来获取__libc_dlopen_mode的地址啦</p>
+<p>因为不是pwn题,所以我们需要做的并不是那么麻烦,在可以获得进程的内存读写权限的时候,我们只需要遍历一下link_map和相关链表就可以完成_libc_dlopen_mode的符号解析从而获取地址</p>
+<p>此时我们需要的就是调用了</p>
+<h4 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h4><p>那么我们该如何调用函数呢?<br>如果直接修改eip指针有可能会导致程序崩坏,因此我们在这里可以寻找一片nop内存进行注入,</p>
+<p>我们可以选择调用mmap函数来将我们的文件写入到进程中,之后通过干扰重定位或者注入eip指针来调用我们所需要的函数,这里看一下mmap函数的定义:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/mman.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-type">void</span> *<span class="hljs-title">mmap</span><span class="hljs-params">(<span class="hljs-type">void</span> *start, <span class="hljs-type">size_t</span> length, <span class="hljs-type">int</span> prot, <span class="hljs-type">int</span> flags, <span class="hljs-type">int</span> fd, <span class="hljs-type">off_t</span> offset)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>其他的参数想必大家都很熟悉,因此这里我只列出prot的一些参数选择</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs 1c">PROT_EXEC <span class="hljs-comment">//页内容可以被执行</span><br>PROT_READ <span class="hljs-comment">//页内容可以被读取</span><br>PROT_WRITE <span class="hljs-comment">//页可以被写入</span><br>PROT_NONE <span class="hljs-comment">//页不可访问</span><br></code></pre></td></tr></table></figure>
+<p>而这个是可以通过or符号来组合选择的</p>
+<p>比如 “PROT_READ | PROT_EXEC | PROT_WRITE”,可以    弄出一块可读可写可执行的区域,之后完成我们所需要做的操作即可</p>
+<p>比如调用某个函数,或者替换某个函数</p>
+<p>但是如果没有特殊需求(比如某某触发条件时),只需要执行我们想要执行的程序时,更简单的方法是通过共享对象构造函数来完成,也就是</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs delphi">__attribute __（（<span class="hljs-function"><span class="hljs-keyword">constructor</span>））装饰器</span><br></code></pre></td></tr></table></figure>
+
+<p>在c++中,对于一个类我们可以通过编写构造函数来完成类中某些元素的初始化,在写好构造函数后,我们所创建的每一个对象都会自动调用构造函数来做一些初始化的操作,而共享对象构造函数也十分类似<br>共享库可以在加载时自动调用__attribute __（（constructor））装饰器来加载我们所写的代码,如:</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs delphi"><span class="hljs-comment">//库文件:myso.so</span><br>#include &lt;stdio.h&gt;<br>#include &lt;system&gt;<br>void __attribute__((<span class="hljs-function"><span class="hljs-keyword">constructor</span>)) <span class="hljs-title">test</span><span class="hljs-params">(void)</span> <span class="hljs-comment">&#123;</span></span><br><span class="hljs-comment"><span class="hljs-function">    system(&quot;date&quot;);</span></span><br><span class="hljs-comment"><span class="hljs-function">&#125;</span></span><br><span class="hljs-function">/* <span class="hljs-title">gcc</span> -<span class="hljs-title">fPIC</span> -<span class="hljs-title">shared</span> <span class="hljs-title">myso</span>.<span class="hljs-title">c</span> -<span class="hljs-title">c</span> -<span class="hljs-title">o</span> <span class="hljs-title">myso</span>.<span class="hljs-title">o</span></span><br><span class="hljs-function">   <span class="hljs-title">ld</span> -<span class="hljs-title">shared</span> -<span class="hljs-title">ldl</span> <span class="hljs-title">myso</span>.<span class="hljs-title">o</span> -<span class="hljs-title">o</span> <span class="hljs-title">myso</span>.<span class="hljs-title">so</span> */</span><br></code></pre></td></tr></table></figure>
+<p>so文件的构造函数效果是输出时间,那么便于观看效果,我们写一个程序来检测效果(因为注入的线程会中断原本的程序流畅,因此建议另起一个线程来调用</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//测试文件 :test.c</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;dlfcn.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>   <span class="hljs-built_in">dlopen</span>(<span class="hljs-string">&quot;./myso.so&quot;</span>, RTLD_LAZY);<br>&#125;<br><span class="hljs-comment">// gcc test.c -o test -ldl</span><br><br></code></pre></td></tr></table></figure>
+
+<p>然后运行一下,运行结果:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"> ~/inject/attribute  ./test <br>Tue Nov 19 07:41:11 PST 2019<br></code></pre></td></tr></table></figure>
+<p>成功:)</p>
+<p>这时如果有人测试<br>LD_PRELOAD&#x3D;.&#x2F;myso.so .&#x2F;test<br>的话,那么恭喜你,效果十分显著,具体效果师傅们可以自己试试(手动滑稽  </p>
+<p>另起线程的示例代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//myso.so pthread版</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pthread.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-type">void</span>* <span class="hljs-title">test</span><span class="hljs-params">(<span class="hljs-type">void</span>* a)</span> </span>&#123;<br>    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-built_in">system</span>(<span class="hljs-string">&quot;date&quot;</span>);<br>        <span class="hljs-built_in">sleep</span>(<span class="hljs-number">2</span>);<br>    &#125;<br>&#125;<br><span class="hljs-type">void</span> __attribute__((constructor)) <span class="hljs-built_in">pthread_test</span>(<span class="hljs-type">void</span>) &#123;<br>    <span class="hljs-type">pthread_t</span> my_pthread;<br>    <span class="hljs-built_in">pthread_create</span>(&amp;my_pthread, <span class="hljs-literal">NULL</span>, test, <span class="hljs-literal">NULL</span>);<br>&#125;<br><span class="hljs-comment">/* gcc -fPIC -shared myso.c -c -o myso.o</span><br><span class="hljs-comment">   ld -shared -ldl -lpthread myso.o -o myso.so */</span><br></code></pre></td></tr></table></figure>
+<p>而如果想替换函数,这有一篇文章讲的很好,虽然有些老了</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>www.freebuf.com<span class="hljs-regexp">/articles/</span>system/<span class="hljs-number">6388</span>.html<br></code></pre></td></tr></table></figure>
+
+<p>最后的最后,向大家推荐几款比较好用的进程注入工具:</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/gaffe23/linux-inject/">linux-inject</a><br>, <a target="_blank" rel="noopener" href="https://github.com/kevien/saruman">saruman</a><br>, <a target="_blank" rel="noopener" href="https://github.com/Screetsec/Vegile/blob/master/Vegile#L112">vegule</a><br>, <a target="_blank" rel="noopener" href="https://github.com/mempodippy/cub3">cub3</a><br>, <a target="_blank" rel="noopener" href="https://github.com/mempodippy/vlany">vlany</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>linux进程注入</div>
+      <div>https://nightrainy.github.io/2019/11/30/linux进程注入/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>知世</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年11月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-cc-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/01/07/pwn%E7%8E%AF%E5%A2%83docker%E5%8C%96/" title="pwn环境docker化">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">pwn环境docker化</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/11/26/%E8%B7%AF%E7%94%B1%E5%99%A8%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E4%B9%8B%E6%A0%88%E6%BA%A2%E5%87%BA/" title="路由器漏洞利用之栈溢出">
+                        <span class="hidden-mobile">路由器漏洞利用之栈溢出</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

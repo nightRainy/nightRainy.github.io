@@ -1,0 +1,702 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fox.jpg">
+  <link rel="icon" href="/img/fox.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="遇到无法leak的题目的时候..日常roputils一把梭..这次就打算从原理学习一下”Return_to_dl_resolve“这项技术。可能写的会有些杂乱   借鉴和参考学习的师傅们的文章123456https:&#x2F;&#x2F;veritas501.space&#x2F;2017&#x2F;10&#x2F;07&#x2F;ret2dl_resolve%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0&#x2F;http:&#x2F;&#x2F;pwn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ret2_dl_runtime_resolve">
+<meta property="og:url" content="https://nightrainy.github.io/2019/07/17/ret2-dl-runtime-resolve/index.html">
+<meta property="og:site_name" content="知世の小屋">
+<meta property="og:description" content="遇到无法leak的题目的时候..日常roputils一把梭..这次就打算从原理学习一下”Return_to_dl_resolve“这项技术。可能写的会有些杂乱   借鉴和参考学习的师傅们的文章123456https:&#x2F;&#x2F;veritas501.space&#x2F;2017&#x2F;10&#x2F;07&#x2F;ret2dl_resolve%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0&#x2F;http:&#x2F;&#x2F;pwn">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-07-17T15:46:55.000Z">
+<meta property="article:modified_time" content="2019-10-30T15:52:12.000Z">
+<meta property="article:author" content="知世">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>ret2_dl_runtime_resolve - 知世の小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>知世</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/rick.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ret2_dl_runtime_resolve"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-07-17 23:46" pubdate>
+          2019年7月17日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ret2_dl_runtime_resolve</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>遇到无法leak的题目的时候..日常roputils一把梭..这次就打算从原理学习一下”Return_to_dl_resolve“这项技术。可能写的会有些杂乱 </p>
+</blockquote>
+<h1 id="借鉴和参考学习的师傅们的文章"><a href="#借鉴和参考学习的师傅们的文章" class="headerlink" title="借鉴和参考学习的师傅们的文章"></a>借鉴和参考学习的师傅们的文章</h1><figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-symbol">https:</span>//veritas<span class="hljs-number">501</span>.space/<span class="hljs-number">2017</span>/<span class="hljs-number">10</span>/<span class="hljs-number">07</span>/<span class="hljs-keyword">ret</span><span class="hljs-number">2</span>dl_resolve<span class="hljs-variable">%E5</span><span class="hljs-variable">%AD</span><span class="hljs-variable">%A6</span><span class="hljs-variable">%E4</span><span class="hljs-variable">%B9</span><span class="hljs-variable">%A0</span><span class="hljs-variable">%E7</span><span class="hljs-variable">%AC</span><span class="hljs-variable">%94</span><span class="hljs-variable">%E8</span><span class="hljs-variable">%AE</span><span class="hljs-variable">%B0</span>/<br><span class="hljs-symbol">http:</span>//pwn<span class="hljs-number">4</span>.fun/<span class="hljs-number">2016</span>/<span class="hljs-number">11</span>/<span class="hljs-number">09</span>/Return-<span class="hljs-keyword">to</span>-dl-resolve/<br><span class="hljs-symbol">https:</span>//www.hirworld.xyz/posts/<span class="hljs-number">3</span>bfd<span class="hljs-number">0449</span>/<br><span class="hljs-symbol">https:</span>//www.anquanke.com/post/id/<span class="hljs-number">177450</span>#h<span class="hljs-number">3</span><span class="hljs-number">-7</span><br><span class="hljs-symbol">http:</span>//www.reversing.win/<span class="hljs-number">2017</span>/<span class="hljs-number">08</span>/<span class="hljs-number">29</span>/<span class="hljs-variable">%E4</span><span class="hljs-variable">%BA</span><span class="hljs-variable">%8</span>C<span class="hljs-variable">%E6</span><span class="hljs-variable">%A0</span><span class="hljs-variable">%88</span><span class="hljs-variable">%E6</span><span class="hljs-variable">%BA</span><span class="hljs-variable">%A2</span><span class="hljs-variable">%E5</span><span class="hljs-variable">%87</span><span class="hljs-variable">%BA</span><span class="hljs-variable">%E6</span><span class="hljs-variable">%BC</span><span class="hljs-variable">%8</span>F<span class="hljs-variable">%E6</span><span class="hljs-variable">%B4</span><span class="hljs-variable">%9</span>E<span class="hljs-variable">%E5</span><span class="hljs-variable">%88</span><span class="hljs-variable">%A9</span><span class="hljs-variable">%E7</span><span class="hljs-variable">%94</span><span class="hljs-variable">%A8-ret2resolve</span>/<br><span class="hljs-symbol">https:</span>//xz.aliyun.com/t/<span class="hljs-number">5111</span>#toc<span class="hljs-number">-2</span><br></code></pre></td></tr></table></figure>
+<p>看了这么多才看懂。。实在是tcl…</p>
+<h1 id="原理部分"><a href="#原理部分" class="headerlink" title="原理部分"></a>原理部分</h1><p>ret2_dl技术利用了函数的延迟绑定机制</p>
+<h2 id="动态链接"><a href="#动态链接" class="headerlink" title="动态链接"></a>动态链接</h2><p>ELF将GOT表拆成了两个表，一个是“.got”（保存变量）,”.got.plt”（保存函数）<br>而.got.plt表的前三项为：</p>
+<ol>
+<li>.dynamic 段的地址</li>
+</ol>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs elm">.dynamic段：<br><span class="hljs-type">Elf32_Dyn</span>由一个类型值加上一个附加的数值或指针。<br>/*typedef struct &#123;<br>    <span class="hljs-type">Elf32_Sword</span> d_tag;<br>    union &#123;<br>        <span class="hljs-type">Elf32_Word</span> d_val;<br>        <span class="hljs-type">Elf32_Addr</span> d_ptr;<br>    &#125;<br>&#125; <span class="hljs-type">Elf32_Dyn</span>*/<br><span class="hljs-type">DT_SYMTAB</span>，动态链接符号表的地址，d_ptr表示.dynsym的地址<br><span class="hljs-type">DT_STRTAB</span>，动态链接字符串表地址，d_ptr表示.dynstr的地址<br><span class="hljs-type">DT_HASH</span>，动态链接哈希表大小，d_val表示大小<br><span class="hljs-type">DT_SONAME</span>，本共享对象的<span class="hljs-type">SO</span>-<span class="hljs-type">NAME</span><br><span class="hljs-type">DT_RPATH</span>，动态链接共享对象搜索路径<br><span class="hljs-type">DT_INIT</span>，初始化代码地址<br><span class="hljs-type">DT_FINIT</span>，结束代码地址<br><span class="hljs-type">DT_NEED</span>，依赖的共享对象文件，d_ptr表示依赖的共享对象文件名<br><span class="hljs-type">DT_REL</span>，动态链接重定位表地址<br><span class="hljs-type">DT_RELA</span>，<br><span class="hljs-type">DT_RELENT</span>，动态重读位表入口数量<br><span class="hljs-type">DT_RELANET</span><br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>本模块的 ID</p>
+</li>
+<li><p>_dl_runtime_resolve()的地址</p>
+</li>
+</ol>
+<p>我们可以查看任意程序的节区：</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs tap">Section Headers:<br>  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al<br>  [ 0]                   NULL           <span class="hljs-number"> 00000000 </span>000000<span class="hljs-number"> 000000 </span>00     <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 0<br>  [ 1] .interp           PROGBITS       <span class="hljs-number"> 08048154 </span>000154<span class="hljs-number"> 000013 </span>00   A <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 1<br>  [ 2] .note.ABI-tag     NOTE           <span class="hljs-number"> 08048168 </span>000168<span class="hljs-number"> 000020 </span>00   A <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [ 3] .note.gnu.build-i NOTE           <span class="hljs-number"> 08048188 </span>000188<span class="hljs-number"> 000024 </span>00   A <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [ 4] .gnu.hash         GNU_HASH        080481ac 0001ac 00002c<span class="hljs-number"> 04 </span>  A <span class="hljs-number"> 5 </span> <span class="hljs-number"> 0 </span> 4<br>  [ 5] .dynsym           DYNSYM          080481d8 0001d8 0000a0<span class="hljs-number"> 10 </span>  A <span class="hljs-number"> 6 </span> <span class="hljs-number"> 1 </span> 4<br>  [ 6] .dynstr           STRTAB         <span class="hljs-number"> 08048278 </span>000278 00006b<span class="hljs-number"> 00 </span>  A <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 1<br>  [ 7] .gnu.version      VERSYM          080482e4 0002e4<span class="hljs-number"> 000014 </span>02   A <span class="hljs-number"> 5 </span> <span class="hljs-number"> 0 </span> 2<br>  [ 8] .gnu.version_r    VERNEED         080482f8 0002f8<span class="hljs-number"> 000020 </span>00   A <span class="hljs-number"> 6 </span> <span class="hljs-number"> 1 </span> 4<br>  [ 9] .rel.dyn          REL            <span class="hljs-number"> 08048318 </span>000318<span class="hljs-number"> 000018 </span>08   A <span class="hljs-number"> 5 </span> <span class="hljs-number"> 0 </span> 4<br>  [10] .rel.plt          REL            <span class="hljs-number"> 08048330 </span>000330<span class="hljs-number"> 000028 </span>08  AI <span class="hljs-number"> 5 </span><span class="hljs-number"> 24 </span> 4<br>  [11] .init             PROGBITS       <span class="hljs-number"> 08048358 </span>000358<span class="hljs-number"> 000023 </span>00  AX <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [12] .plt              PROGBITS       <span class="hljs-number"> 08048380 </span>000380<span class="hljs-number"> 000060 </span>04  AX <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span>16<br>  [13] .plt.got          PROGBITS        080483e0 0003e0<span class="hljs-number"> 000008 </span>00  AX <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 8<br>  [14] .text             PROGBITS        080483f0 0003f0<span class="hljs-number"> 000232 </span>00  AX <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span>16<br>  [15] .fini             PROGBITS       <span class="hljs-number"> 08048624 </span>000624<span class="hljs-number"> 000014 </span>00  AX <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [16] .rodata           PROGBITS       <span class="hljs-number"> 08048638 </span>000638<span class="hljs-number"> 000008 </span>00   A <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [17] .eh_frame_hdr     PROGBITS       <span class="hljs-number"> 08048640 </span>000640<span class="hljs-number"> 000034 </span>00   A <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [18] .eh_frame         PROGBITS       <span class="hljs-number"> 08048674 </span>000674 0000f4<span class="hljs-number"> 00 </span>  A <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [19] .init_array       INIT_ARRAY      08049f08 000f08<span class="hljs-number"> 000004 </span>00  WA <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [20] .fini_array       FINI_ARRAY      08049f0c 000f0c<span class="hljs-number"> 000004 </span>00  WA <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [21] .jcr              PROGBITS        08049f10 000f10<span class="hljs-number"> 000004 </span>00  WA <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [22] .dynamic          DYNAMIC         08049f14 000f14 0000e8<span class="hljs-number"> 08 </span> WA <span class="hljs-number"> 6 </span> <span class="hljs-number"> 0 </span> 4<br>  [23] .got              PROGBITS        08049ffc 000ffc<span class="hljs-number"> 000004 </span>04  WA <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [24] .got.plt          PROGBITS        0804a000<span class="hljs-number"> 001000 </span>000020<span class="hljs-number"> 04 </span> WA <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [25] .data             PROGBITS        0804a020<span class="hljs-number"> 001020 </span>000008<span class="hljs-number"> 00 </span> WA <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 4<br>  [26] .bss              NOBITS          0804a040<span class="hljs-number"> 001028 </span>00000c<span class="hljs-number"> 00 </span> WA <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span>32<br>  [27] .comment          PROGBITS       <span class="hljs-number"> 00000000 </span>001028<span class="hljs-number"> 000035 </span>01  MS <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 1<br>  [28] .shstrtab         STRTAB         <span class="hljs-number"> 00000000 </span>001798 00010a<span class="hljs-number"> 00 </span>    <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 1<br>  [29] .symtab           SYMTAB         <span class="hljs-number"> 00000000 </span>001060 0004b0<span class="hljs-number"> 10 </span>   <span class="hljs-number"> 30 </span><span class="hljs-number"> 47 </span> 4<br>  [30] .strtab           STRTAB         <span class="hljs-number"> 00000000 </span>001510<span class="hljs-number"> 000288 </span>00     <span class="hljs-number"> 0 </span> <span class="hljs-number"> 0 </span> 1<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>其中.rel.plt是用于函数重定位的<br>其结构体定义如下：</li>
+</ul>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs scss">typedef struct &#123;<br>    Elf32_Addr r_offset;    <span class="hljs-comment">// 对于可执行文件，此值为虚拟地址</span><br>    Elf32_Word r_info;      <span class="hljs-comment">// 符号表索引</span><br>&#125; Elf32_Rel;<br><br><span class="hljs-selector-id">#define</span> <span class="hljs-built_in">ELF32_R_SYM</span>(info) ((info)&gt;&gt;<span class="hljs-number">8</span>)<br><span class="hljs-selector-id">#define</span> <span class="hljs-built_in">ELF32_R_TYPE</span>(info) ((unsigned char)(info))<br><span class="hljs-selector-id">#define</span> <span class="hljs-built_in">ELF32_R_INFO</span>(sym, type) (((sym)&lt;&lt;<span class="hljs-number">8</span>)+(unsigned char)(type))<br></code></pre></td></tr></table></figure>
+<p>而在最前面我们也提及过got.plt中保存了函数偏移，而这个正好对应的是Rel结构体中的r_offset，而LF32_R_TYPE&#x3D;7,这也是R_386_JUMP_SLOT的值</p>
+<ul>
+<li>.dynsym节包含了动态链接符号表<br>其结构体定义如下：</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span><br>&#123;<br>    Elf32_Word st_name;     <span class="hljs-comment">// Symbol name(string tbl index)</span><br>    Elf32_Addr st_value;    <span class="hljs-comment">// Symbol value</span><br>    Elf32_Word st_size;     <span class="hljs-comment">// Symbol size</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> st_info;  <span class="hljs-comment">// Symbol type and binding</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> st_other; <span class="hljs-comment">// Symbol visibility under glibc&gt;=2.2</span><br>    Elf32_Section st_shndx; <span class="hljs-comment">// Section index</span><br>&#125; Elf32_Sym;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><p>.dynstr节则包含了字符串,其以\x00为开头结尾<br>Elf32_Sym[num]-&gt;st_name&#x3D;.dynsym + Elf32_Sym_size * num<br>而字符串的地址就在:Elf32_Sym[num]-&gt;st_name+.dynstr的地方</p>
+</li>
+<li><p>.plt节为过程链接表<br>用来确定函数的绝对地址</p>
+</li>
+</ul>
+<p>而动态链接的过程即为:</p>
+<ol>
+<li>第一次调用函数时,将rel_arg压入栈中然后跳转到函数的PLT[0]位置</li>
+<li>PLT[0]将link_map压入栈中</li>
+<li>调用_dl_runtime_resolve(link_map, reloc_arg)函数,将函数的绝对地址写入GOT表中,从而完成调用</li>
+</ol>
+<p>这其中还调用了_dl_fixup函数,这里引用师傅的函数解释</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs rust">_dl_fixup(<span class="hljs-keyword">struct</span> <span class="hljs-title class_">link_map</span> *l, <span class="hljs-title function_ invoke__">ElfW</span>(Word) reloc_arg)<br>&#123;<br>    <span class="hljs-comment">// 首先通过参数reloc_arg计算重定位入口，这里的JMPREL即.rel.plt，reloc_offset即reloc_arg</span><br>    <span class="hljs-keyword">const</span> PLTREL *<span class="hljs-keyword">const</span> reloc = (<span class="hljs-keyword">const</span> void *) (<span class="hljs-title function_ invoke__">D_PTR</span> (l, l_info[DT_JMPREL]) + reloc_offset);<br>    <span class="hljs-comment">// 然后通过reloc-&gt;r_info找到.dynsym中对应的条目</span><br>    <span class="hljs-keyword">const</span> <span class="hljs-title function_ invoke__">ElfW</span>(Sym) *sym = &amp;symtab[<span class="hljs-title function_ invoke__">ELFW</span>(R_SYM) (reloc<span class="hljs-punctuation">-&gt;</span>r_info)];<br>    <span class="hljs-comment">// 这里还会检查reloc-&gt;r_info的最低位是不是R_386_JUMP_SLOT=7</span><br>    <span class="hljs-title function_ invoke__">assert</span> (<span class="hljs-title function_ invoke__">ELFW</span>(R_TYPE)(reloc<span class="hljs-punctuation">-&gt;</span>r_info) == ELF_MACHINE_JMP_SLOT);<br>    <span class="hljs-comment">// 接着通过strtab+sym-&gt;st_name找到符号表字符串，result为libc基地址</span><br>    result = _dl_lookup_symbol_x (strtab + sym<span class="hljs-punctuation">-&gt;</span>st_name, l, &amp;sym, l<span class="hljs-punctuation">-&gt;</span>l_scope, version, ELF_RTYPE_CLASS_PLT, flags, NULL);<br>    <span class="hljs-comment">// value为libc基址加上要解析函数的偏移地址，也即实际地址</span><br>    value = <span class="hljs-title function_ invoke__">DL_FIXUP_MAKE_VALUE</span> (result, sym ? (<span class="hljs-title function_ invoke__">LOOKUP_VALUE_ADDRESS</span> (result) + sym<span class="hljs-punctuation">-&gt;</span>st_value) : <span class="hljs-number">0</span>);<br>    <span class="hljs-comment">// 最后把value写入相应的GOT表条目中</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">elf_machine_fixup_plt</span> (l, result, reloc, rel_addr, value);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>到这里动态链接的过程就结束了</p>
+<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>在上面的链接过程中我们了解到<br>在.dynsym里第一个是name的地址,而这个地址加上.dynstr就是字符串的位置,如我的示例程序中.dynsym地址为:0x80481d8,.dynstr为0x08048278:</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">pwndbg</span>&gt; x/<span class="hljs-number">32</span>x <span class="hljs-number">0</span>x80481d8<br><span class="hljs-attribute">0x80481d8</span>:      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000000<br><span class="hljs-attribute">0x80481e8</span>:      <span class="hljs-number">0</span>x00000033      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000012<br><span class="hljs-attribute">0x80481f8</span>:      <span class="hljs-number">0</span>x00000027      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000012<br><span class="hljs-attribute">0x8048208</span>:      <span class="hljs-number">0</span>x00000052      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000020<br><span class="hljs-attribute">0x8048218</span>:      <span class="hljs-number">0</span>x00000020      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000012<br><span class="hljs-attribute">0x8048228</span>:      <span class="hljs-number">0</span>x0000003a      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000012<br><span class="hljs-attribute">0x8048238</span>:      <span class="hljs-number">0</span>x0000004c      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000000      <span class="hljs-number">0</span>x00000012<br><span class="hljs-attribute">0x8048248</span>:      <span class="hljs-number">0</span>x0000002c      <span class="hljs-number">0</span>x0804a044      <span class="hljs-number">0</span>x00000004      <span class="hljs-number">0</span>x001a0011<br><span class="hljs-attribute">pwndbg</span>&gt; x/s <span class="hljs-number">0</span>x08048278 +<span class="hljs-number">0</span>x33<br><span class="hljs-attribute">0x80482ab</span>:      <span class="hljs-string">&quot;setbuf&quot;</span><br><span class="hljs-attribute">pwndbg</span>&gt; x/s <span class="hljs-number">0</span>x08048278 +<span class="hljs-number">0</span>x27<br><span class="hljs-attribute">0x804829f</span>:      <span class="hljs-string">&quot;read&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>综上,我们可以得到一个利用的思路(这里调整综合了一些师傅的思路):</p>
+<ul>
+<li><p>根据.dynamic段是否可写分为两种:</p>
+<ul>
+<li><p>当.dynamic段可写时,我们可以把.dynstr段劫持到.bss段,而在.bss段里伪造目标字符串</p>
+</li>
+<li><p>当.dynamic不可写时,我们可以把传入的rel_offset改为目标函数的偏移大小.</p>
+</li>
+</ul>
+</li>
+<li><p>因为.rel.plt段中不一定存在我们需要的函数,所以我们可以将rel_offset修改为一个比较大的值,然后伪造一个.rel.plt段</p>
+</li>
+<li><p>因为程序是根据r_info来找到.dynsym[num]的,所以我们可以伪造Elf32_Sym -&gt; st_name,使.dynstr + st_name可控,指向我们伪造的函数字符串(函数名)</p>
+</li>
+<li><p>假设从bss + 0×80处伪造.rel.plt项,rel_offset &#x3D; bss_address + 0x80 - Addr[.rel.plt].</p>
+</li>
+<li><p>r_offset为函数对应.got.plt项的地址.r_info保存了对应.dynsym中的index和flag.可以在这段数据后伪造.dynsym,例如:</p>
+<ul>
+<li>bss + 0x100处,即index &#x3D; (bss + 0×100 - Addr[.dynsym]) &#x2F; 0×10(SYMENT为16字节),类型必须为7(LF32_R_TYPE)</li>
+<li>r_info &#x3D; (index &lt;&lt; 8 ) | 0x7.</li>
+<li>因为.dynsym包含四个字段,而我们只需要更改st_name部分即可,其余的值完全可以不更改,因为st_name表示了字符串相对strtab的偏移,所以我们可以将字符串写在这段数据后.</li>
+</ul>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ret2_dl_runtime_resolve</div>
+      <div>https://nightrainy.github.io/2019/07/17/ret2-dl-runtime-resolve/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>知世</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年7月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-cc-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/19/unlink-study/" title="unlink_study">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">unlink_study</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/11/tcache%E6%9C%BA%E5%88%B6%E5%88%A9%E7%94%A8%E5%AD%A6%E4%B9%A0/" title="tcache.md">
+                        <span class="hidden-mobile">tcache.md</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

